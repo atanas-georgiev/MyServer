@@ -1,0 +1,27 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 14
+VisualStudioVersion = 14.0.25123.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Web", "Web", "{91D766A5-F247-432F-97FE-4BEC8CC74038}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MyServer.Web.Main", "Web\MyServer.Web.Main\MyServer.Web.Main.csproj", "{1DEFF9C4-36EF-447D-8F5E-BB02D1788AD4}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{1DEFF9C4-36EF-447D-8F5E-BB02D1788AD4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1DEFF9C4-36EF-447D-8F5E-BB02D1788AD4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1DEFF9C4-36EF-447D-8F5E-BB02D1788AD4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1DEFF9C4-36EF-447D-8F5E-BB02D1788AD4}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{1DEFF9C4-36EF-447D-8F5E-BB02D1788AD4} = {91D766A5-F247-432F-97FE-4BEC8CC74038}
+	EndGlobalSection
+EndGlobal
