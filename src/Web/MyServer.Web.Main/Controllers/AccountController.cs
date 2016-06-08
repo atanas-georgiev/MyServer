@@ -12,6 +12,8 @@ using MyServer.Web.Main.Models;
 
 namespace MyServer.Web.Main.Controllers
 {
+    using ImageGallery.Data.Models;
+
     [Authorize]
     public class AccountController : Controller
     {
@@ -151,7 +153,7 @@ namespace MyServer.Web.Main.Controllers
         {
             if (ModelState.IsValid)
             {
-                var user = new ApplicationUser { UserName = model.Email, Email = model.Email };
+                var user = new User { UserName = model.Email, Email = model.Email, CreatedOn = DateTime.UtcNow };
                 var result = await UserManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
                 {
@@ -367,7 +369,7 @@ namespace MyServer.Web.Main.Controllers
                 {
                     return View("ExternalLoginFailure");
                 }
-                var user = new ApplicationUser { UserName = model.Email, Email = model.Email };
+                var user = new User { UserName = model.Email, Email = model.Email, CreatedOn = DateTime.UtcNow };
                 var result = await UserManager.CreateAsync(user);
                 if (result.Succeeded)
                 {
