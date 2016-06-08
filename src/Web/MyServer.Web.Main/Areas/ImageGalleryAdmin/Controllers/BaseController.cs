@@ -1,12 +1,13 @@
-﻿namespace ImageGallery.Web.Areas.Admin.Controllers
+﻿namespace MyServer.Web.Main.Areas.ImageGalleryAdmin.Controllers
 {
     using System;
     using System.Linq;
     using System.Web.Mvc;
     using System.Web.Routing;
 
-    using ImageGallery.Data.Models;
-    using ImageGallery.Services.User;
+    using global::ImageGallery.Data.Models;
+
+    using MyServer.Services.Users;
 
     // [Authorize(Roles = "Manager")]
     public class BaseController : Controller

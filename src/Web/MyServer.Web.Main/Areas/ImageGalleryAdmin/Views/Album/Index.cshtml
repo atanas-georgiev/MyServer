@@ -1,0 +1,172 @@
+﻿@using Kendo.Mvc.UI
+@model IEnumerable<MyServer.Web.Main.Areas.ImageGalleryAdmin.Models.Album.AlbumListViewModel>
+
+@{
+    ViewBag.Title = "Albums";
+}
+
+<br/>
+<br/><br/>
+<br />
+@*<div class="well k-content">*@
+@*    <h3 class="well-title">Albums</h3>*@
+@*    <hr/>*@
+@*    <div>*@
+@*        @Html.ActionLink("Add", "Add", "", new { @class = "k-button" })*@
+@*    </div>*@
+@*    <br/>*@
+@*    @(Html.Kendo().Grid<AlbumListViewModel>().Name("grid").Columns(columns =>*@
+@*          {*@
+@*              columns.Template(@<text></text>).ClientTemplate("<a href='" + Url.Action("Details", "Album", new { id = "#=Id#" }) + "'>" + "View" + "</a>");*@
+@*              columns.Bound(c => c.Title);*@
+@*              columns.Bound(c => c.Date);*@
+@*          }).ColumnMenu().Pageable(p => p.PageSizes(true)).Navigatable().Sortable(sortable => { sortable.SortMode(GridSortMode.SingleColumn); }).Filterable().Scrollable().DataSource(dataSource => dataSource.Ajax().Model(model => model.Id(p => p.Id)).Read(read => read.Action("ReadAllAlbums", "Json")))*@
+@*          )*@
+@*</div>*@
+
+<div class="demo-section k-content wide">
+    @Html.ActionLink("Add", "Add", "", new { @class = "k-button" })
+    <br/>
+    <br />
+    @(Html.Kendo().ListView(Model)
+    .Name("listAlbums")
+    .TagName("div")
+    .ClientTemplateId("template")
+    .DataSource(dataSource => dataSource
+        .Model(model => model.Id("Id"))
+        .PageSize(10)
+        .Read(read => read.Action("Albums_Read", "Json"))
+    )
+    .Pageable()
+    )
+</div>
+
+
+<script type="text/x-kendo-tmpl" id="template">
+
+    <div class="product-view k-widget">
+        <dl>
+            <dt>Title</dt>
+            <dd>#:Title#</dd>
+            <dt>Description</dt>
+            <dd>#:Description#</dd>
+            <dt>Date</dt>
+            <dd>#:Date#</dd>
+        </dl>
+        <div class="edit-buttons">
+            <a href="/ImageGalleryAdmin/Album/Details/#:Id#">
+                <h4>#:Title#</h4>
+            </a>
+            
+@*            <a class="k-button k-edit-button" href="\\#"><span class="k-icon k-edit"></span></a>*@
+@*            <a class="k-button k-delete-button" href="\\#"><span class="k-icon k-delete"></span></a>*@
+        </div>
+    </div>
+
+
+</script>
+
+<script>
+    $(function () {
+        var listView = $("#listView").data("kendoListView");
+
+        $(".k-add-button").click(function (e) {
+            listView.add();
+            e.preventDefault();
+        });
+    });
+</script>
+
+<style>
+    .product-view {
+        float: left;
+        width: 50%;
+        height: 300px;
+        box-sizing: border-box;
+        border-top: 0;
+        position: relative;
+    }
+
+        .product-view:nth-child(even) {
+            border-left-width: 0;
+        }
+
+        .product-view dl {
+            margin: 10px 10px 0;
+            padding: 0;
+            overflow: hidden;
+        }
+
+        .product-view dt, dd {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            line-height: 24px;
+            font-size: 18px;
+        }
+
+        .product-view dt {
+            font-size: 11px;
+            height: 16px;
+            line-height: 16px;
+            text-transform: uppercase;
+            opacity: 0.5;
+        }
+
+        .product-view dd {
+            height: 46px;
+            overflow: hidden;
+            white-space: nowrap;
+            text-overflow: ellipsis;
+        }
+
+            .product-view dd .k-widget,
+            .product-view dd .k-textbox {
+                font-size: 14px;
+            }
+
+    .k-listview {
+        border-width: 1px 0 0;
+        padding: 0;
+        overflow: hidden;
+        min-height: 298px;
+    }
+
+    .edit-buttons {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        text-align: left;
+        padding: 5px;
+        background-color: rgba(0, 0, 0, 0.1);
+    }
+
+    .k-pager-wrap {
+        border-top: 0;
+    }
+
+    span.k-invalid-msg {
+        position: absolute;
+        margin-left: 6px;
+    }
+
+    .k-add-button {
+        margin-bottom: 2em;
+    }
+
+    @@media only screen and (max-width: 620px) {
+
+        .product-view {
+            width: 100%;
+        }
+
+            .product-view:nth-child(even) {
+                border-left-width: 1px;
+            }
+    }
+</style>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

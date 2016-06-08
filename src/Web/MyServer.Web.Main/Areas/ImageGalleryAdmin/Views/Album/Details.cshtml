@@ -1,0 +1,85 @@
+﻿@using Kendo.Mvc.UI
+@using MyServer.Common.ImageGallery
+@using MyServer.Web.Main.Areas.ImageGalleryAdmin.Models.Image
+@model MyServer.Web.Main.Areas.ImageGalleryAdmin.Models.Album.AlbumDetailsViewModel
+
+@{
+    ViewBag.Title = "title";
+}
+
+<h2>title</h2>
+
+<div class="well k-content">
+    <h3 class="well-title">"Details"</h3>
+    <hr />
+    @using (Html.BeginForm())
+    {
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+        @Html.ValidationSummary(false, string.Empty, new { @class = "text-danger" })
+        <div class="form-group">
+            @Html.LabelFor(model => model.Title, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Title)
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(model => model.Description, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Description)
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(model => model.Date, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Date)
+            </div>
+        </div>
+
+        <div class="demo-section k-content">
+            @(Html.Kendo().Upload().Name("files").Async(a => a.Save("Save", "Upload").Remove("Remove", "Upload").AutoUpload(true))
+            )
+        </div>
+    </div>
+    }
+
+    @(Html.Kendo().Grid<ImageDetailsViewModel>()
+          .Name("ImagesGrid")
+          .Columns(columns =>
+          {
+              columns.Bound(p => p.Id).Title("Select").ClientTemplate("<input type='checkbox'/>");
+              columns.Bound(c => c.FileName).ClientTemplate(
+                  @"<div class='customer-photo'>
+                    <img src=' " + Url.Content(Constants.MainContentFolder + "\\" + Model.Id + "\\" + Constants.ImageFolderLow + "\\") + @"#:FileName#' style='width: 162px'></div>");
+              columns.Bound(p => p.Title);
+              columns.Bound(p => p.Description);
+              columns.Bound(p => p.LocationName);
+              columns.Command(command => command.Destroy());
+          })
+          .ToolBar(toolbar =>
+          {
+              //            toolbar.Create();
+              toolbar.Save();
+          })
+          .Editable(editable => editable.Mode(GridEditMode.InCell))
+
+          //        .Pageable()
+          //.Navigatable()
+          //        .Sortable()
+          //        .Scrollable()
+          .DataSource(dataSource => dataSource
+              .Ajax()
+              .Batch(true)
+              //       .PageSize(20)
+              .ServerOperation(false)
+              //.Events(events => events.Error("error_handler"))
+              .Model(model => model.Id(p => p.Id))
+              //.Create("ImagesGrid_Create", "Json")
+              .Read("ImagesGrid_Read", "Json")
+              .Update("ImagesGrid_Update", "Json")
+              .Destroy("ImagesGrid_Destroy", "Json")
+          )
+    )
+
+</div>

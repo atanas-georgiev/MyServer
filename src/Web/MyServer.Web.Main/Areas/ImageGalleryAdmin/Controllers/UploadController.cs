@@ -1,4 +1,4 @@
-﻿namespace ImageGallery.Web.Areas.Admin.Controllers
+﻿namespace MyServer.Web.Main.Areas.ImageGalleryAdmin.Controllers
 {
     using System;
     using System.Collections.Generic;
@@ -6,9 +6,8 @@
     using System.Web;
     using System.Web.Mvc;
 
-    using ImageGallery.Services.Album;
-    using ImageGallery.Services.Image;
-    using ImageGallery.Services.User;
+    using MyServer.Services.ImageGallery;
+    using MyServer.Services.Users;
 
     public class UploadController : BaseController
     {

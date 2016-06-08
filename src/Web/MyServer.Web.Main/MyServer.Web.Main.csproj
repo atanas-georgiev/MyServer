@@ -205,11 +205,15 @@
     <Compile Include="App_Start\IdentityConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
+    <Compile Include="Areas\ImageGalleryAdmin\Controllers\AlbumController.cs" />
+    <Compile Include="Areas\ImageGalleryAdmin\Controllers\BaseController.cs" />
+    <Compile Include="Areas\ImageGalleryAdmin\Controllers\JsonController.cs" />
+    <Compile Include="Areas\ImageGalleryAdmin\Controllers\UploadController.cs" />
     <Compile Include="Areas\ImageGalleryAdmin\ImageGalleryAdminAreaRegistration.cs" />
-    <Compile Include="Areas\ImageGallery\Controllers\AlbumController.cs" />
-    <Compile Include="Areas\ImageGallery\Controllers\BaseController.cs" />
-    <Compile Include="Areas\ImageGallery\Controllers\JsonController.cs" />
-    <Compile Include="Areas\ImageGallery\ImageGalleryAreaRegistration.cs" />
+    <Compile Include="Areas\ImageGalleryAdmin\Models\Album\AddAlbumViewModel.cs" />
+    <Compile Include="Areas\ImageGalleryAdmin\Models\Album\AlbumDetailsViewModel.cs" />
+    <Compile Include="Areas\ImageGalleryAdmin\Models\Album\AlbumListViewModel.cs" />
+    <Compile Include="Areas\ImageGalleryAdmin\Models\Image\ImageDetailsViewModel.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
@@ -573,7 +577,6 @@
     <Content Include="Content\bootstrap.css.map" />
     <Content Include="Content\bootstrap-theme.min.css.map" />
     <Content Include="Content\bootstrap-theme.css.map" />
-    <Content Include="Areas\ImageGallery\Views\web.config" />
     <Content Include="Content\Kendo\fonts\DejaVu\DejaVuSans-Bold.ttf" />
     <Content Include="Content\Kendo\fonts\DejaVu\DejaVuSans-BoldOblique.ttf" />
     <Content Include="Content\Kendo\fonts\DejaVu\DejaVuSans-ExtraLight.ttf" />
@@ -668,6 +671,10 @@
     <Content Include="Content\Kendo\kendo.uniform.min.css.map" />
     <Content Include="Content\Kendo\kendo.uniform.mobile.min.css.map" />
     <Content Include="Areas\ImageGalleryAdmin\Views\web.config" />
+    <Content Include="Areas\ImageGalleryAdmin\Views\_ViewStart.cshtml" />
+    <Content Include="Areas\ImageGalleryAdmin\Views\Album\Add.cshtml" />
+    <Content Include="Areas\ImageGalleryAdmin\Views\Album\Details.cshtml" />
+    <Content Include="Areas\ImageGalleryAdmin\Views\Album\Index.cshtml" />
     <None Include="Scripts\jquery-2.2.3.intellisense.js" />
     <Content Include="Libraries\Kendo.Mvc.dll" />
     <Content Include="Libraries\Kendo.Mvc.resources.dll" />
@@ -755,13 +762,10 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Areas\ImageGalleryAdmin\Models\" />
+    <Folder Include="Areas\ImageGalleryAdmin\Views\Base\" />
+    <Folder Include="Areas\ImageGalleryAdmin\Views\JSon\" />
     <Folder Include="Areas\ImageGalleryAdmin\Views\Shared\" />
-    <Folder Include="Areas\ImageGallery\Models\" />
-    <Folder Include="Areas\ImageGallery\Views\Album\" />
-    <Folder Include="Areas\ImageGallery\Views\Base\" />
-    <Folder Include="Areas\ImageGallery\Views\JSon\" />
-    <Folder Include="Areas\ImageGallery\Views\Shared\" />
+    <Folder Include="Areas\ImageGalleryAdmin\Views\Upload\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />
@@ -769,14 +773,13 @@
     <Content Include="Scripts\jquery-2.2.3.min.map" />
   </ItemGroup>
   <ItemGroup>
-    <Analyzer Include="..\..\packages\StyleCop.Analyzers.1.0.0\analyzers\dotnet\cs\Newtonsoft.Json.dll" />
-    <Analyzer Include="..\..\packages\StyleCop.Analyzers.1.0.0\analyzers\dotnet\cs\StyleCop.Analyzers.CodeFixes.dll" />
-    <Analyzer Include="..\..\packages\StyleCop.Analyzers.1.0.0\analyzers\dotnet\cs\StyleCop.Analyzers.dll" />
-  </ItemGroup>
-  <ItemGroup>
     <ProjectReference Include="..\..\Data\MyServer.Data.Common\MyServer.Data.Common.csproj">
       <Project>{c20b56b9-f6f0-45e3-9190-59da786442d2}</Project>
       <Name>MyServer.Data.Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Data\MyServer.Data.Models.ImageGallery\MyServer.Data.Models.ImageGallery.csproj">
+      <Project>{7abab9f0-0a08-4101-a506-a9caffecc939}</Project>
+      <Name>MyServer.Data.Models.ImageGallery</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\Data\MyServer.Data.Models.Users\MyServer.Data.Models.Users.csproj">
       <Project>{1c3abbbd-dc7b-4413-ad5f-c42bcd2aea03}</Project>
@@ -785,6 +788,14 @@
     <ProjectReference Include="..\..\Data\MyServer.Data\MyServer.Data.csproj">
       <Project>{b5fdc857-c720-4f1e-a9b0-32975b81e03b}</Project>
       <Name>MyServer.Data</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Services\MyServer.Services.ImageGallery\MyServer.Services.ImageGallery.csproj">
+      <Project>{d1d34271-b231-4b19-ba75-01908a6cc4fe}</Project>
+      <Name>MyServer.Services.ImageGallery</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Services\MyServer.Services.Users\MyServer.Services.Users.csproj">
+      <Project>{dd43f561-e999-4d5d-b63f-d6274b29b90a}</Project>
+      <Name>MyServer.Services.Users</Name>
     </ProjectReference>
     <ProjectReference Include="..\MyServer.Web.Infrastructure\MyServer.Web.Infrastructure.csproj">
       <Project>{d0d0fd38-4dfb-455c-b968-2979a4f4b7f1}</Project>
@@ -825,9 +836,9 @@
     </PropertyGroup>
     <Error Condition="!Exists('..\..\packages\Microsoft.Net.Compilers.1.2.2\build\Microsoft.Net.Compilers.props')" Text="$([System.String]::Format('$(ErrorText)', '..\..\packages\Microsoft.Net.Compilers.1.2.2\build\Microsoft.Net.Compilers.props'))" />
     <Error Condition="!Exists('..\..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.1\build\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props')" Text="$([System.String]::Format('$(ErrorText)', '..\..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.1\build\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props'))" />
-    <Error Condition="!Exists('..\..\packages\StyleCop.MSBuild.4.7.49.0\build\StyleCop.MSBuild.Targets')" Text="$([System.String]::Format('$(ErrorText)', '..\..\packages\StyleCop.MSBuild.4.7.49.0\build\StyleCop.MSBuild.Targets'))" />
+    <Error Condition="!Exists('..\..\packages\StyleCop.MSBuild.4.7.54.0\build\StyleCop.MSBuild.Targets')" Text="$([System.String]::Format('$(ErrorText)', '..\..\packages\StyleCop.MSBuild.4.7.54.0\build\StyleCop.MSBuild.Targets'))" />
   </Target>
-  <Import Project="..\..\packages\StyleCop.MSBuild.4.7.49.0\build\StyleCop.MSBuild.Targets" Condition="Exists('..\..\packages\StyleCop.MSBuild.4.7.49.0\build\StyleCop.MSBuild.Targets')" />
+  <Import Project="..\..\packages\StyleCop.MSBuild.4.7.54.0\build\StyleCop.MSBuild.Targets" Condition="Exists('..\..\packages\StyleCop.MSBuild.4.7.54.0\build\StyleCop.MSBuild.Targets')" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it.
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">

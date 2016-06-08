@@ -1,20 +1,18 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using ImageGallery.Web.Areas.Admin.Models.Image;
-
-namespace ImageGallery.Web.Areas.Admin.Controllers
+﻿namespace MyServer.Web.Main.Areas.ImageGalleryAdmin.Controllers
 {
     using System;
+    using System.Collections.Generic;
+    using System.Linq;
     using System.Web.Mvc;
-
-    using ImageGallery.Services.Album;
-    using ImageGallery.Services.Image;
-    using ImageGallery.Services.User;
-    using ImageGallery.Web.Areas.Admin.Models.Album;
-    using ImageGallery.Web.Infrastructure.Mappings;
 
     using Kendo.Mvc.Extensions;
     using Kendo.Mvc.UI;
+
+    using MyServer.Services.ImageGallery;
+    using MyServer.Services.Users;
+    using MyServer.Web.Infrastructure.Mappings;
+    using MyServer.Web.Main.Areas.ImageGalleryAdmin.Models.Album;
+    using MyServer.Web.Main.Areas.ImageGalleryAdmin.Models.Image;
 
     public class JsonController : BaseController
     {
@@ -39,13 +37,13 @@ namespace ImageGallery.Web.Areas.Admin.Controllers
         {
             var id = Guid.Parse(this.Session["AlbumId"].ToString());
             var result = this.imageService.GetAll().Where(x => x.Album.Id == id).To<ImageDetailsViewModel>(); 
-            return Json(result.ToDataSourceResult(request));
+            return this.Json(result.ToDataSourceResult(request));
         }
 
         [AcceptVerbs(HttpVerbs.Post)]
         public ActionResult ImagesGrid_Update([DataSourceRequest] DataSourceRequest request, [Bind(Prefix = "models")]IEnumerable<ImageDetailsViewModel> images)
         {
-            if (images != null && ModelState.IsValid)
+            if (images != null && this.ModelState.IsValid)
             {
                 foreach (var image in images)
                 {
@@ -56,7 +54,7 @@ namespace ImageGallery.Web.Areas.Admin.Controllers
                 }
             }
 
-            return Json(images.ToDataSourceResult(request, ModelState));
+            return this.Json(images.ToDataSourceResult(request, this.ModelState));
         }
 
         [AcceptVerbs(HttpVerbs.Post)]
@@ -70,7 +68,7 @@ namespace ImageGallery.Web.Areas.Admin.Controllers
                 }
             }
 
-            return Json(images.ToDataSourceResult(request, ModelState));
+            return this.Json(images.ToDataSourceResult(request, this.ModelState));
         }
     }
 }

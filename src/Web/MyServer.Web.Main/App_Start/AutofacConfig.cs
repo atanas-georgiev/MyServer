@@ -9,11 +9,9 @@
 
     using MyServer.Data;
     using MyServer.Data.Common;
+    using MyServer.Services.ImageGallery;
+    using MyServer.Services.Users;
     using MyServer.Web.Main;
-
-    //using ImageGallery.Data;
-    //using ImageGallery.Data.Common;
-    //using ImageGallery.Services.Album;
 
     public static class AutofacConfig
     {
@@ -49,9 +47,14 @@
         {
             builder.Register(x => new MyServerDbContext()).As<DbContext>().InstancePerRequest();
 
-            //builder.RegisterAssemblyTypes(Assembly.GetAssembly(typeof(IAlbumService)))
-            //    .AsImplementedInterfaces()
-            //    .InstancePerRequest();
+            builder.RegisterAssemblyTypes(Assembly.GetAssembly(typeof(IAlbumService)))
+                .AsImplementedInterfaces()
+                .InstancePerRequest();
+
+            builder.RegisterAssemblyTypes(Assembly.GetAssembly(typeof(IUserService)))
+                .AsImplementedInterfaces()
+                .InstancePerRequest();
+
 
             builder.RegisterGeneric(typeof(Repository<>)).As(typeof(IRepository<>)).InstancePerRequest();
             builder.RegisterGeneric(typeof(Repository<,>)).As(typeof(IRepository<,>)).InstancePerRequest();

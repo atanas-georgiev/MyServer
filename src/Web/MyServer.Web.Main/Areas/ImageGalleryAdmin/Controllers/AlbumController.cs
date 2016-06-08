@@ -1,14 +1,14 @@
-﻿namespace ImageGallery.Web.Areas.Admin.Controllers
+﻿namespace MyServer.Web.Main.Areas.ImageGalleryAdmin.Controllers
 {
     using System;
     using System.Linq;
     using System.Web.Mvc;
 
-    using ImageGallery.Data.Models;
-    using ImageGallery.Services.Album;
-    using ImageGallery.Services.User;
-    using ImageGallery.Web.Areas.Admin.Models.Album;
-    using ImageGallery.Web.Infrastructure.Mappings;
+    using MyServer.Data.Models.ImageGallery;
+    using MyServer.Services.ImageGallery;
+    using MyServer.Services.Users;
+    using MyServer.Web.Infrastructure.Mappings;
+    using MyServer.Web.Main.Areas.ImageGalleryAdmin.Models.Album;
 
     public class AlbumController : BaseController
     {

@@ -46,7 +46,7 @@
 
             bundles.Add(new ScriptBundle("~/bundles/jquery").Include("~/Scripts/kendo/jquery.min.js"));
 
-            bundles.Add(new ScriptBundle("~/bundles/bootstrap").Include("~/Scripts/kendo/jquery.min.js"));
+            bundles.Add(new ScriptBundle("~/bundles/bootstrap").Include("~/Scripts/kendo/bootstrap.min.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/jqueryajax").Include("~/Scripts/kendo/bootstrap.min.js"));
 

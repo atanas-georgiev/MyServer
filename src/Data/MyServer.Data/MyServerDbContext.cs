@@ -9,6 +9,7 @@
     using Microsoft.AspNet.Identity.EntityFramework;
 
     using MyServer.Data.Common.Models;
+    using MyServer.Data.Models.ImageGallery;
 
     public class MyServerDbContext : IdentityDbContext<User>
     {
@@ -17,11 +18,12 @@
         {
         }
 
-        // public virtual IDbSet<Album> Albums { get; set; }
+        public virtual IDbSet<Album> Albums { get; set; }
 
-        // public virtual IDbSet<ImageGpsData> ImageGpsDatas { get; set; }
+        public virtual IDbSet<ImageGpsData> ImageGpsDatas { get; set; }
 
-        // public virtual IDbSet<MediaTypeNames.Image> Images { get; set; }
+        public virtual IDbSet<Image> Images { get; set; }
+
         public static MyServerDbContext Create()
         {
             return new MyServerDbContext();
