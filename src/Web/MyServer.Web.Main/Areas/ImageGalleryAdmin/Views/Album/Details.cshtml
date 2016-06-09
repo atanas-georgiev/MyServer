@@ -48,9 +48,6 @@
           .Columns(columns =>
           {
               columns.Bound(p => p.Id).Title("Select").ClientTemplate("<input type='checkbox'/>");
-              columns.Bound(c => c.FileName).ClientTemplate(
-                  @"<div class='customer-photo'>
-                    <img src=' " + Url.Content(MyServer.Common.ImageGallery.Constants.MainContentFolder + "\\" + Model.Id + "\\" + MyServer.Common.ImageGallery.Constants.ImageFolderLow + "\\") + @"#:FileName#' style='width: 162px'></div>");
               columns.Bound(p => p.Title);
               columns.Bound(p => p.Description);
               columns.Bound(p => p.LocationName);
