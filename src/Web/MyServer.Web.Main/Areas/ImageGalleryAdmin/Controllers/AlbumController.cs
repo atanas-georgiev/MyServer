@@ -50,6 +50,12 @@
             this.Session["AlbumId"] = id;
             var intId = Guid.Parse(id);
             var result = this.albumService.GetAll().Where(x => x.Id == intId).To<AlbumDetailsViewModel>().FirstOrDefault();
+
+            if (result == null)
+            {
+                return this.HttpNotFound("Album not found");
+            }
+
             return this.View(result);
         }
 
