@@ -10,7 +10,7 @@
     using MyServer.Services.Users;
 
     // [Authorize(Roles = "Manager")]
-    [RequireHttps]
+    // [RequireHttps]
     public class BaseController : Controller
     {
         public BaseController(IUserService userService)

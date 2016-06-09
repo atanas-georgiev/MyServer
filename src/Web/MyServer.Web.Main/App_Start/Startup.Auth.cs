@@ -62,11 +62,11 @@ namespace MyServer.Web.Main
             //   appId: "",
             //   appSecret: "");
 
-            //app.UseGoogleAuthentication(new GoogleOAuth2AuthenticationOptions()
-            //{
-            //    ClientId = "",
-            //    ClientSecret = ""
-            //});
+            app.UseGoogleAuthentication(new GoogleOAuth2AuthenticationOptions()
+            {
+                ClientId = "591197337520-ua2k3fpfdcg0fj1qheiil0qrecjggm0b.apps.googleusercontent.com",
+                ClientSecret = "FRJ2xDek4UeR-nSkVV8uquP7"
+            });
         }
     }
 }
