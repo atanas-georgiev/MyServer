@@ -6,7 +6,6 @@ using System.Web.Mvc;
 
 namespace MyServer.Web.Main.Controllers
 {
-    [RequireHttps]
     public class HomeController : Controller
     {
         public ActionResult Index()
