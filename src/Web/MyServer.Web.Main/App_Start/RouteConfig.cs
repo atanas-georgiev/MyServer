@@ -11,7 +11,7 @@ namespace MyServer.Web.Main
     {
         public static void RegisterRoutes(RouteCollection routes)
         {
-            routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
+            routes.IgnoreRoute("");
 
             routes.MapRoute(
                 name: "Default",
