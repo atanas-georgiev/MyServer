@@ -58,9 +58,9 @@ namespace MyServer.Web.Main
             //   consumerKey: "",
             //   consumerSecret: "");
 
-            //app.UseFacebookAuthentication(
-            //   appId: "",
-            //   appSecret: "");
+            app.UseFacebookAuthentication(
+               appId: "521558431365642",
+               appSecret: "af05f969147e202f1e8c76c4cfd31a79");
 
             app.UseGoogleAuthentication(new GoogleOAuth2AuthenticationOptions()
             {
