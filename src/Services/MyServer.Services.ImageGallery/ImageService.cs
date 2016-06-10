@@ -224,7 +224,7 @@
                     {
                         imageFactory.Load(inputStream)
                             .Resize(new ResizeLayer(new Size(Constants.ImageLowMaxSize, Constants.ImageLowMaxSize), ResizeMode.Max))
-                            .Format(new JpegFormat { Quality = 70 })
+                            .Format(new JpegFormat { Quality = 90 })
                             .Save(outStream);
                         this.lowwidth = imageFactory.Load(outStream).Image.Width;
                         this.lowheight = imageFactory.Load(outStream).Image.Height;
@@ -233,7 +233,7 @@
                     {
                         imageFactory.Load(inputStream)
                             .Resize(new ResizeLayer(new Size(Constants.ImageMiddleMaxSize, Constants.ImageMiddleMaxSize), ResizeMode.Max))
-                            .Format(new JpegFormat { Quality = 70 })
+                            .Format(new JpegFormat { Quality = 90 })
                             .Save(outStream);
                         this.midwidth = imageFactory.Load(outStream).Image.Width;
                         this.midheight = imageFactory.Load(outStream).Image.Height;

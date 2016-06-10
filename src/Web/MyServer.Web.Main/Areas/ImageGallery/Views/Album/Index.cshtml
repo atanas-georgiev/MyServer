@@ -1,0 +1,13 @@
+﻿@model IEnumerable<MyServer.Web.Main.Areas.ImageGallery.Models.Album.AlbumViewModel>
+
+<h2>Albums</h2>
+
+@foreach (var album in Model)
+{
+    <hr/>
+    <a href="/Albums/Details/@album.Id"><h3>@album.Title</h3></a>
+    <br/>
+    <p>@album.StartDate - @album.EndDate</p>
+    <p>@album.ItemsCount images</p>
+    <img src='@Url.Content(album.FullLowFileFolder + album.CoverImage)'/>
+}
