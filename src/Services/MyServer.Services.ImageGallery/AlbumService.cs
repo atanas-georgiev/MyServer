@@ -34,5 +34,12 @@
         {
             this.albums.Update(album);
         }
+
+        public void UpdateCoverImage(Guid album, Guid image)
+        {
+            var albumDb = this.GetById(album);
+            albumDb.CoverId = image;
+            this.Update(albumDb);
+        }
     }
 }

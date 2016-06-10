@@ -77,6 +77,14 @@
             image.MidWidth = this.midwidth;
            
             this.images.Add(image);            
+
+            // check if first image, if so, make album cover
+            var album = this.albums.GetById(albumId);
+            if (album.Images.Count == 1)
+            {
+                album.CoverId = image.Id;
+                this.albums.Update(album);
+            }
         }
 
         private Image ExtractExifData(Stream inputStream)

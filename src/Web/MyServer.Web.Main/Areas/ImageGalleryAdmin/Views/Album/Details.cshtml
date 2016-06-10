@@ -53,6 +53,7 @@
         @"<div class='customer-photo'>
         <img src=' " + Url.Content(Model.FullLowFileFolder) + @"#:FileName#' style='width: 162px'></div>");
     columns.Bound(p => p.Title);
+    columns.Template(@<text></text>).ClientTemplate("<a class='k-button' href='" + Url.Action("UpdateAlbumCover", "Album") + @"/#:Id#'>Cover</a>");
     columns.Command(command => command.Destroy()).Width(150);
 }).ToolBar(toolbar =>
 {
@@ -65,6 +66,6 @@
                                         .Read("ImagesGridRead", "Json")
                                         .Update("ImagesGridUpdate", "Json")
                                         .Destroy("ImagesGridDestroy", "Json"))
-          )
+    )
 
 </div>

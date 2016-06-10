@@ -59,6 +59,16 @@
             return this.View(result);
         }
 
+        public ActionResult UpdateAlbumCover(string id)
+        {
+            var albumId = Guid.Parse(this.Session["AlbumId"].ToString());
+            var coverId = Guid.Parse(id);
+
+            this.albumService.UpdateCoverImage(albumId, coverId);
+
+            return this.RedirectToAction("Details", new { Id = albumId });
+        }
+
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Details(AlbumDetailsViewModel model)

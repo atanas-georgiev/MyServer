@@ -14,5 +14,7 @@
         Album GetById(Guid id);
 
         void Update(Album album);
+
+        void UpdateCoverImage(Guid album, Guid image);
     }
 }
