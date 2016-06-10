@@ -575,6 +575,11 @@
     <Content Include="Content\Kendo\Uniform\sprite_2x.png" />
     <Content Include="Content\Kendo\Uniform\sprite_kpi.png" />
     <Content Include="Content\Kendo\Uniform\sprite_kpi_2x.png" />
+    <Content Include="Content\Photoswipe\default-skin\default-skin.css" />
+    <Content Include="Content\Photoswipe\default-skin\default-skin.png" />
+    <Content Include="Content\Photoswipe\default-skin\default-skin.svg" />
+    <Content Include="Content\Photoswipe\default-skin\preloader.gif" />
+    <Content Include="Content\Photoswipe\photoswipe.css" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
@@ -688,6 +693,7 @@
     <Content Include="Areas\ImageGallery\Views\web.config" />
     <Content Include="Areas\ImageGallery\Views\Album\Index.cshtml" />
     <Content Include="Areas\ImageGallery\Views\_ViewStart.cshtml" />
+    <Content Include="Areas\ImageGallery\Views\Album\Details.cshtml" />
     <None Include="Scripts\jquery-2.2.3.intellisense.js" />
     <Content Include="Libraries\Kendo.Mvc.dll" />
     <Content Include="Libraries\Kendo.Mvc.resources.dll" />
@@ -729,6 +735,10 @@
     <Content Include="Scripts\Kendo\respond.js" />
     <Content Include="Scripts\Kendo\respond.min.js" />
     <None Include="Scripts\Kendo\_references.js" />
+    <Content Include="Scripts\Photoswipe\photoswipe-ui-default.js" />
+    <Content Include="Scripts\Photoswipe\photoswipe-ui-default.min.js" />
+    <Content Include="Scripts\Photoswipe\photoswipe.js" />
+    <Content Include="Scripts\Photoswipe\photoswipe.min.js" />
     <Content Include="Scripts\respond.js" />
     <Content Include="Scripts\respond.matchmedia.addListener.js" />
     <Content Include="Scripts\respond.matchmedia.addListener.min.js" />

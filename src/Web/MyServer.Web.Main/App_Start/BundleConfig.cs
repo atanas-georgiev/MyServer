@@ -33,9 +33,9 @@
             //        "http://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/css/toastr.min.css").Include(
             //            "~/Content/toastr.min.css"));
 
-            //bundles.Add(new StyleBundle("~/Content/custom").Include("~/Content/site.css"));
+            bundles.Add(new StyleBundle("~/Content/custom").Include("~/Content/site.css"));
 
-            //bundles.Add(new StyleBundle("~/Content/photoswipe").Include("~/Content/Photoswipe/photoswipe.css", "~/Content/Photoswipe/default-skin/default-skin.css"));
+            bundles.Add(new StyleBundle("~/Content/photoswipe").Include("~/Content/Photoswipe/photoswipe.css", "~/Content/Photoswipe/default-skin/default-skin.css"));
         }
 
         private static void RegisterScriptBundles(BundleCollection bundles)
@@ -66,7 +66,7 @@
             //bundles.Add(
             //    new ScriptBundle("~/bundles/bootstrap").Include("~/Scripts/bootstrap.js", "~/Scripts/respond.js"));
 
-            //bundles.Add(new ScriptBundle("~/bundles/photoswipe").Include("~/Scripts/Photoswipe/*.js"));
+            bundles.Add(new ScriptBundle("~/bundles/photoswipe").Include("~/Scripts/Photoswipe/*.js"));
         }
     }
 }

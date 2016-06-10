@@ -1,13 +1,17 @@
-﻿@model IEnumerable<MyServer.Web.Main.Areas.ImageGallery.Models.Album.AlbumViewModel>
+﻿@using MyServer.Web.Main.Areas.ImageGallery.Controllers.Album
+@model IEnumerable<MyServer.Web.Main.Areas.ImageGallery.Models.Album.AlbumViewModel>
 
-<h2>Albums</h2>
-
-@foreach (var album in Model)
-{
-    <hr/>
-    <a href="/Albums/Details/@album.Id"><h3>@album.Title</h3></a>
-    <br/>
-    <p>@album.StartDate - @album.EndDate</p>
-    <p>@album.ItemsCount images</p>
-    <img src='@Url.Content(album.FullLowFileFolder + album.CoverImage)'/>
-}
+<br/>
+<br/>
+<br />
+<div class="well k-content">
+    <h4 class="well-title">Albums</h4>
+    @foreach (var album in Model)
+    {
+        <hr />
+        <h2>@Html.ActionLink(@album.Title, nameof(AlbumController.Details), new { Id = @album.Id })</h2>
+        <p>@album.StartDate - @album.EndDate</p>
+        <p>@album.ItemsCount images</p>
+        <img src='@Url.Content(album.FullLowFileFolder + album.CoverImage)' />
+    }
+</div>

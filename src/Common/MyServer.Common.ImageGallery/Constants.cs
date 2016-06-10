@@ -8,7 +8,7 @@
 
         public const string ImageFolderOriginal = "Original";
 
-        public const int ImageLowMaxSize = 250;
+        public const int ImageLowMaxSize = 400;
 
         public const int ImageMiddleMaxSize = 1600;
 

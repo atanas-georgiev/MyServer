@@ -25,17 +25,17 @@
             return this.View(albums);
         }
 
-        //public ActionResult Details(string id)
-        //{
-        //    var images = this.albumService.GetById(Guid.Parse(id));
-        //    var images2 = images.Images.AsQueryable().To<ImageViewModel>().ToList();
-        //    foreach (var image in images2)
-        //    {
-        //        image.src = VirtualPathUtility.ToAbsolute(image.src);
-        //        image.tumbsrc = VirtualPathUtility.ToAbsolute(image.tumbsrc);
-        //       // image.msrc = VirtualPathUtility.ToAbsolute(image.msrc);
-        //    }
-        //    return View(images2);
-        //}
+        public ActionResult Details(string id)
+        {
+            var images = this.albumService.GetById(Guid.Parse(id));
+            var images2 = images.Images.AsQueryable().To<ImageViewModel>().ToList();
+            foreach (var image in images2)
+            {
+                image.src = VirtualPathUtility.ToAbsolute(image.src);
+                image.tumbsrc = VirtualPathUtility.ToAbsolute(image.tumbsrc);
+               // image.msrc = VirtualPathUtility.ToAbsolute(image.msrc);
+            }
+            return this.View(images2);
+        }
     }
 }

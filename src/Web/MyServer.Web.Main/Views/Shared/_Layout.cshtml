@@ -6,7 +6,8 @@
     <title>@ViewBag.Title</title>
     @Styles.Render("~/Content/css")
     @Styles.Render("~/Content/kendo")
-
+    @Styles.Render("~/Content/photoswipe")
+    @Styles.Render("~/Content/custom")
 </head>
 <body>
 @Scripts.Render("~/bundles/jquery")
@@ -34,6 +35,7 @@
 <div class="container body-content">
 
     @Scripts.Render("~/bundles/kendo")
+    @Scripts.Render("~/bundles/photoswipe")
     @RenderSection("scripts", required: false)
     @RenderBody()
     <hr/>
