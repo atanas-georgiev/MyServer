@@ -28,7 +28,7 @@
         public ActionResult Details(string id)
         {
             var images = this.albumService.GetById(Guid.Parse(id));
-            var images2 = images.Images.Where(i => i.IsDeleted == false).AsQueryable().To<ImageViewModel>().ToList();
+            var images2 = images.Images.AsQueryable().To<ImageViewModel>().ToList();
             foreach (var image in images2)
             {
                 image.src = VirtualPathUtility.ToAbsolute(image.src);

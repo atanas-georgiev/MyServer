@@ -34,7 +34,7 @@
             configuration.CreateMap<Album, AlbumViewModel>(string.Empty)
                 .ForMember(m => m.StartDate, opt => opt.MapFrom(c => c.Images.OrderBy(x => x.DateTaken).FirstOrDefault().DateTaken))
                 .ForMember(m => m.EndDate, opt => opt.MapFrom(c => c.Images.OrderByDescending(x => x.DateTaken).FirstOrDefault().DateTaken))
-                .ForMember(m => m.ItemsCount, opt => opt.MapFrom(c => c.Images.Count(i => i.IsDeleted == false)))
+                .ForMember(m => m.ItemsCount, opt => opt.MapFrom(c => c.Images.Count))
                 .ForMember(m => m.CoverImage, opt => opt.MapFrom(c => c.Images.FirstOrDefault(i => i.Id == c.CoverId).FileName))
                 .ForMember(m => m.FullLowFileFolder, opt => opt.MapFrom(c => Constants.MainContentFolder + "\\" + c.Id + "\\" + Constants.ImageFolderLow + "\\"));
         }
