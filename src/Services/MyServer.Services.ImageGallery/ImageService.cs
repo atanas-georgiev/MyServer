@@ -47,15 +47,12 @@
                 return;
             }
 
-            Image image = this.ExtractExifData(file.InputStream);
+            if (file.ContentType != "image/jpeg")
+            {
+                return;
+            }
 
-//            string test = "";
-//
-//            while (test == "")
-//            {
-//                test = TestGeo.RetrieveFormatedAddress("42.697626", "23.322284");
-//                Thread.Sleep(500);
-//            }
+            Image image = this.ExtractExifData(file.InputStream);
 
             if (image.FileName != null)
             {
@@ -73,8 +70,7 @@
             GC.Collect();
 
             image.AlbumId = albumId;
-            image.Title = "aaaaaaaaaaaaaaaaaa";
-            image.Description = "aaaaaaaaaaaaaaaa";
+            image.Title = "";
             image.LowHeight = this.lowheight;
             image.LowWidth = this.lowwidth;
             image.MidHeight = this.midheight;
@@ -111,6 +107,7 @@
                 }
                 catch
                 {
+                    // ignored
                 }
 
                 try
@@ -128,6 +125,7 @@
                 }
                 catch
                 {
+                    // ignored
                 }
 
                 try
@@ -136,6 +134,7 @@
                 }
                 catch
                 {
+                    // ignored
                 }
 
                 try
@@ -144,6 +143,7 @@
                 }
                 catch
                 {
+                    // ignored
                 }
 
                 try
@@ -152,6 +152,7 @@
                 }
                 catch
                 {
+                    // ignored
                 }
 
                 try
@@ -160,6 +161,7 @@
                 }
                 catch
                 {
+                    // ignored
                 }
 
                 try
@@ -168,6 +170,7 @@
                 }
                 catch
                 {
+                    // ignored
                 }
 
                 try
@@ -176,6 +179,7 @@
                 }
                 catch
                 {
+                    // ignored
                 }
 
                 try
@@ -184,6 +188,7 @@
                 }
                 catch
                 {
+                    // ignored
                 }
 
                 try
@@ -192,6 +197,7 @@
                 }
                 catch
                 {
+                    // ignored
                 }
             }
 

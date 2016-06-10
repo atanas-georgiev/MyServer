@@ -1,0 +1,8 @@
+﻿@using Kendo.Mvc.UI
+@model string
+
+@Html.Kendo().TextBoxFor(model => model).HtmlAttributes(new { @class = "location-input" })
+
+<script>
+   $(".location-input").geocomplete();
+</script>

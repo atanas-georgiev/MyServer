@@ -22,7 +22,7 @@
 
         public ActionResult Add()
         {
-            return this.View(new AddAlbumViewModel() { Date = DateTime.Today, Title = string.Empty });
+            return this.View(new AddAlbumViewModel());
         }
 
         [HttpPost]
@@ -57,6 +57,30 @@
             }
 
             return this.View(result);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Details(AlbumDetailsViewModel model)
+        {
+            if (this.ModelState.IsValid && model != null)
+            {
+                var album = this.albumService.GetById(model.Id);
+
+                if (album == null)
+                {
+                    return this.HttpNotFound();
+                }
+
+                album.Title = model.Title;
+                album.Description = model.Description;
+
+                this.albumService.Update(album);
+
+                return this.RedirectToAction("Details", album.Id);
+            }
+
+            return this.View(model);
         }
 
         public ActionResult Index()

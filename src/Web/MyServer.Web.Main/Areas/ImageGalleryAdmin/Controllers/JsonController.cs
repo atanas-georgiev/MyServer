@@ -49,7 +49,6 @@
                 {
                     var itemToUpdate = this.imageService.GetById(image.Id);
                     itemToUpdate.Title = image.Title;
-                    itemToUpdate.Description = image.Description;
                     this.imageService.Update(itemToUpdate);
                 }
             }

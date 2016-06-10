@@ -12,5 +12,7 @@
         IQueryable<Album> GetAll();
 
         Album GetById(Guid id);
+
+        void Update(Album album);
     }
 }

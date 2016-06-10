@@ -1,0 +1,4 @@
+﻿@using Kendo.Mvc.UI
+@model string
+
+@Html.Kendo().EditorFor(model => model).HtmlAttributes(new { @class = "form-control" }).Encode(false)

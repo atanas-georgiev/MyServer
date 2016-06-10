@@ -9,10 +9,6 @@
 
     public class AddAlbumViewModel : IMapFrom<Album>
     {
-        [Required]
-        [UIHint("DateTime")]
-        public DateTime Date { get; set; }
-
         [MaxLength(3000)]
         [UIHint("Editor")]
         [AllowHtml]

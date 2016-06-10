@@ -765,6 +765,10 @@
     <Content Include="Scripts\Kendo\jquery.min.map" />
     <Content Include="Scripts\Kendo\kendo.aspnetmvc.min.js.map" />
     <Content Include="Scripts\Kendo\kendo.web.min.js.map" />
+    <Content Include="Views\Shared\EditorTemplates\DateTime.cshtml" />
+    <Content Include="Views\Shared\EditorTemplates\Editor.cshtml" />
+    <Content Include="Views\Shared\EditorTemplates\LocationEditor.cshtml" />
+    <Content Include="Views\Shared\EditorTemplates\String.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -779,6 +783,10 @@
     <Content Include="Scripts\jquery-2.2.3.min.map" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\Common\MyServer.Common.ImageGallery\MyServer.Common.ImageGallery.csproj">
+      <Project>{52ffc9f2-6ad6-4aea-9ef6-e2daf6c60636}</Project>
+      <Name>MyServer.Common.ImageGallery</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\Data\MyServer.Data.Common\MyServer.Data.Common.csproj">
       <Project>{c20b56b9-f6f0-45e3-9190-59da786442d2}</Project>
       <Name>MyServer.Data.Common</Name>

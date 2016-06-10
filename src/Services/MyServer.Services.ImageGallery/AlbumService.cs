@@ -29,5 +29,10 @@
         {
             return this.GetAll().FirstOrDefault(x => x.Id == id);
         }
+
+        public void Update(Album album)
+        {
+            this.albums.Update(album);
+        }
     }
 }
