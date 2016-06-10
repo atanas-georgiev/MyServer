@@ -33,7 +33,7 @@
             return this.Json(tasks.ToDataSourceResult(request));
         }
 
-        public ActionResult ImagesGrid_Read([DataSourceRequest] DataSourceRequest request)
+        public ActionResult ImagesGridRead([DataSourceRequest] DataSourceRequest request)
         {
             var id = Guid.Parse(this.Session["AlbumId"].ToString());
             var result = this.imageService.GetAll().Where(x => x.Album.Id == id).To<ImageDetailsViewModel>(); 
@@ -41,7 +41,7 @@
         }
 
         [AcceptVerbs(HttpVerbs.Post)]
-        public ActionResult ImagesGrid_Update([DataSourceRequest] DataSourceRequest request, [Bind(Prefix = "models")]IEnumerable<ImageDetailsViewModel> images)
+        public ActionResult ImagesGridUpdate([DataSourceRequest] DataSourceRequest request, [Bind(Prefix = "models")]IEnumerable<ImageDetailsViewModel> images)
         {
             if (images != null && this.ModelState.IsValid)
             {
@@ -57,7 +57,7 @@
         }
 
         [AcceptVerbs(HttpVerbs.Post)]
-        public ActionResult ImagesGrid_Destroy([DataSourceRequest] DataSourceRequest request, [Bind(Prefix = "models")]IEnumerable<ImageDetailsViewModel> images)
+        public ActionResult ImagesGridDestroy([DataSourceRequest] DataSourceRequest request, [Bind(Prefix = "models")]IEnumerable<ImageDetailsViewModel> images)
         {
             if (images.Any())
             {
