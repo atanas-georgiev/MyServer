@@ -699,6 +699,8 @@
     <Content Include="Libraries\Kendo.Mvc.resources.dll" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
+    <Content Include="Scripts\GeoComplete\jquery.geocomplete.js" />
+    <Content Include="Scripts\GeoComplete\jquery.geocomplete.min.js" />
     <Content Include="Scripts\jquery-2.2.3.js" />
     <Content Include="Scripts\jquery-2.2.3.min.js" />
     <None Include="Scripts\jquery.validate-vsdoc.js" />

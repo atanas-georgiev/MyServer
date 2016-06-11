@@ -91,6 +91,7 @@
 <script>
 
     $(document).ready(function () {
+        $(".editor-gps").geocomplete();
         $(".editor-gps-button").click(function () {
             var grid = $("#ImagesGrid").data("kendoGrid");
             var value = $(".editor-gps").val();

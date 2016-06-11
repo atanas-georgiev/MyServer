@@ -40,6 +40,8 @@
 
         private static void RegisterScriptBundles(BundleCollection bundles)
         {
+            bundles.UseCdn = true;
+
             bundles.Add(
                 new ScriptBundle("~/bundles/kendo").Include(
                     "~/Scripts/kendo/kendo.web.min.js",
@@ -53,7 +55,8 @@
 
             bundles.Add(new ScriptBundle("~/bundles/jqueryval").Include("~/Scripts/jquery.validate*"));
 
-            //bundles.Add(new ScriptBundle("~/bundles/geocomplete").Include("~/Scripts/Geocomplete/*.js"));
+            bundles.Add(
+                new ScriptBundle("~/bundles/geocomplete").Include("~/Scripts/GeoComplete/jquery.geocomplete.min.js"));
 
             //bundles.Add(new ScriptBundle("~/bundles/montage").Include("~/Scripts/Montage/*.js"));
 
