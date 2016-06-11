@@ -71,11 +71,11 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="DelegateDecompiler, Version=1.0.0.0, Culture=neutral, PublicKeyToken=93b26a10a04705bd, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\DelegateDecompiler.0.17.0\lib\net40-Client\DelegateDecompiler.dll</HintPath>
+      <HintPath>..\..\packages\DelegateDecompiler.0.18.1\lib\net40-Client\DelegateDecompiler.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="DelegateDecompiler.EntityFramework, Version=1.0.0.0, Culture=neutral, PublicKeyToken=93b26a10a04705bd, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\DelegateDecompiler.EntityFramework.0.17.0\lib\net45\DelegateDecompiler.EntityFramework.dll</HintPath>
+      <HintPath>..\..\packages\DelegateDecompiler.EntityFramework.0.18.1\lib\net45\DelegateDecompiler.EntityFramework.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Elmah, Version=1.2.14706.0, Culture=neutral, processorArchitecture=MSIL">
@@ -95,8 +95,8 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
-    <Reference Include="Mono.Reflection, Version=1.0.0.0, Culture=neutral, PublicKeyToken=0738eb9f132ed756, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\Mono.Reflection.1.0.0.0\lib\Mono.Reflection.dll</HintPath>
+    <Reference Include="Mono.Reflection, Version=1.1.0.0, Culture=neutral, PublicKeyToken=0738eb9f132ed756, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Mono.Reflection.1.1.0.0\lib\Mono.Reflection.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Newtonsoft.Json, Version=8.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
