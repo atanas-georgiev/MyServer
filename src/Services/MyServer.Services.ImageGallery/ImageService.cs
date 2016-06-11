@@ -24,8 +24,6 @@
     {
         private IRepository<Album, Guid> albums;
 
-        private DateTime dateTaken;
-
         private IRepository<Image, Guid> images;
 
         private ILocationService locationService;

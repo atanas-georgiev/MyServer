@@ -38,18 +38,11 @@
 
         public override int SaveChanges()
         {
-            try
-            {
-                this.ApplyAuditInfoRules();
+            this.ApplyAuditInfoRules();
 
-                foreach (var entry in this.ChangeTracker.Entries().Where(p => p.State == EntityState.Deleted)) this.SoftDelete(entry);
+            foreach (var entry in this.ChangeTracker.Entries().Where(p => p.State == EntityState.Deleted)) this.SoftDelete(entry);
 
-                return base.SaveChanges();
-            }
-            catch (Exception ex)
-            {
-                return base.SaveChanges();
-            }
+            return base.SaveChanges();
         }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)

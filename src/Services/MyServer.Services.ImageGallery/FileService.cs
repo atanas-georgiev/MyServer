@@ -7,8 +7,29 @@
     using MyServer.Common.ImageGallery;
     using MyServer.Data.Models.ImageGallery;
 
-    static class FileService
+    public static class FileService
     {
+        public static string GetImageFolder(Guid albumId, ImageType type, HttpServerUtility server)
+        {
+            switch (type)
+            {
+                case ImageType.Low:
+                    return
+                        server.MapPath(
+                            Constants.MainContentFolder + "\\" + albumId + "\\" + Constants.ImageFolderLow + "\\");
+                case ImageType.Medium:
+                    return
+                        server.MapPath(
+                            Constants.MainContentFolder + "\\" + albumId + "\\" + Constants.ImageFolderMiddle + "\\");
+                case ImageType.Original:
+                    return
+                        server.MapPath(
+                            Constants.MainContentFolder + "\\" + albumId + "\\" + Constants.ImageFolderOriginal + "\\");
+            }
+
+            return string.Empty;
+        }
+
         internal static void CreateInitialFolders(Guid albumId, HttpServerUtility server)
         {
             if (!Directory.Exists(server.MapPath(Constants.MainContentFolder)))
@@ -59,27 +80,6 @@
                 inputStream.CopyTo(fileStream);
                 fileStream.Close();
             }
-        }
-
-        static string GetImageFolder(Guid albumId, ImageType type, HttpServerUtility server)
-        {
-            switch (type)
-            {
-                case ImageType.Low:
-                    return
-                        server.MapPath(
-                            Constants.MainContentFolder + "\\" + albumId + "\\" + Constants.ImageFolderLow + "\\");
-                case ImageType.Medium:
-                    return
-                        server.MapPath(
-                            Constants.MainContentFolder + "\\" + albumId + "\\" + Constants.ImageFolderMiddle + "\\");
-                case ImageType.Original:
-                    return
-                        server.MapPath(
-                            Constants.MainContentFolder + "\\" + albumId + "\\" + Constants.ImageFolderOriginal + "\\");
-            }
-
-            return string.Empty;
         }
     }
 }
