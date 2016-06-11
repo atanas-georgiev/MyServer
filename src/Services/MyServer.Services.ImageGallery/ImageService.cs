@@ -112,6 +112,17 @@
             this.images.Update(image);
         }
 
+        public void AddGpsDataToImage(Guid id, ImageGpsData gpsData)
+        {
+            var image = this.GetById(id);
+
+            if (image != null)
+            {
+                image.ImageGpsData = gpsData;
+                this.Update(image);
+            }
+        }
+
         private Image ExtractExifData(Stream inputStream)
         {
             var newImage = new Image();

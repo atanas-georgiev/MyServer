@@ -1,6 +1,7 @@
 ﻿namespace MyServer.Web.Main.Areas.ImageGalleryAdmin.Controllers
 {
     using System;
+    using System.Collections.Generic;
     using System.Linq;
     using System.Web.Mvc;
 
@@ -10,14 +11,22 @@
     using MyServer.Web.Infrastructure.Mappings;
     using MyServer.Web.Main.Areas.ImageGalleryAdmin.Models.Album;
 
+    using Newtonsoft.Json;
+
     public class AlbumController : BaseController
     {
         private readonly IAlbumService albumService;
 
-        public AlbumController(IUserService userService, IAlbumService albumService)
+        private readonly ILocationService locationService;
+
+        private readonly IImageService imageService;
+
+        public AlbumController(IUserService userService, IAlbumService albumService, ILocationService locationService, IImageService imageService)
             : base(userService)
         {
             this.albumService = albumService;
+            this.locationService = locationService;
+            this.imageService = imageService;
         }
 
         public ActionResult Add()
@@ -96,6 +105,23 @@
         public ActionResult Index()
         {
             return this.View();
+        }
+
+        [HttpPost]
+        public ActionResult UpdateGpsData(string items, string location)
+        {
+            var ids = JsonConvert.DeserializeObject<IEnumerable<Guid>>(items);
+            var gpsData = this.locationService.GetGpsData(location);
+
+            if (gpsData != null)
+            {
+                foreach (var id in ids)
+                {
+                    this.imageService.AddGpsDataToImage(id, gpsData);
+                }
+            }
+
+            return this.Content(string.Empty);
         }
     }
 }

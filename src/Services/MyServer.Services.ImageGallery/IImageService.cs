@@ -17,5 +17,7 @@
         void Remove(Guid id);
 
         void Update(Image image);
+
+        void AddGpsDataToImage(Guid id, ImageGpsData gpsData);
     }
 }

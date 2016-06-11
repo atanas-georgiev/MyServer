@@ -31,12 +31,29 @@
             <div class="form-group">
                 <div class="col-md-2"></div>
                 <div class="col-md-10">
-                    <input type="submit" value="Update" class="k-edit-buttons" />
+                    <input type="submit" value="Update" class="k-edit-buttons"/>
                 </div>
             </div>
         </div>
     }
 
+</div>
+
+<div class="well k-content">
+    <div class="form-horizontal">
+        <div class="form-group">
+            @Html.Label("Location", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                <input type="text" class="editor-gps form-control"/>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-md-2"></div>
+            <div class="col-md-10">
+                <input type="button" value="Update" class="editor-gps-button editor-gps-button" />
+            </div>
+        </div>
+    </div>
 </div>
 
 <div class="well k-content">
@@ -48,11 +65,12 @@
 
     @(Html.Kendo().Grid<ImageDetailsViewModel>().Name("ImagesGrid").ColumnResizeHandleWidth(100).Columns(columns =>
 {
-    //columns.Bound(p => p.Id).Title("Select").ClientTemplate("<input type='checkbox'/>");
+    columns.Bound(p => p.Id).ClientTemplate("<input type=\"checkbox\" />");
     columns.Bound(c => c.FileName).Title("Image").ClientTemplate(
         @"<div class='customer-photo'>
         <img src=' " + Url.Content(Model.FullLowFileFolder) + @"#:FileName#' style='width: 162px'></div>");
     columns.Bound(p => p.Title);
+    columns.Bound(p => p.LocationName);
     columns.Template(@<text></text>).ClientTemplate("<a class='k-button' href='" + Url.Action("UpdateAlbumCover", "Album") + @"/#:Id#'>Cover</a>");
     columns.Command(command => command.Destroy()).Width(150);
 }).ToolBar(toolbar =>
@@ -69,3 +87,44 @@
     )
 
 </div>
+
+<script>
+
+    $(document).ready(function () {
+        $(".editor-gps-button").click(function () {
+            var grid = $("#ImagesGrid").data("kendoGrid");
+            var value = $(".editor-gps").val();
+            var models = [];
+
+            //find the selected models
+            grid.tbody
+                .find(":checked")
+                .closest("tr")
+                .each(function () {
+                    models.push(grid.dataItem(this).Id);
+                });
+
+
+
+            var url = '@Url.Action("UpdateGpsData")';
+
+            $.ajax({
+                type: "POST",
+                url: url,
+                data: JSON.stringify( { "items": JSON.stringify(models), "location": value }),
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function(data) {
+                    alert(data);
+                    //submit the value to the server
+                    grid.dataSource.sync();
+                    
+                },
+                failure: function (errMsg) {
+                    alert(errMsg);
+                }
+            });
+
+        });
+    });
+</script>

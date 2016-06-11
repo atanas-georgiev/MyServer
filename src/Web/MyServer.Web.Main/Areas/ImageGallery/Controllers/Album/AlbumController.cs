@@ -1,6 +1,7 @@
 ﻿namespace MyServer.Web.Main.Areas.ImageGallery.Controllers.Album
 {
     using System;
+    using System.Collections.Generic;
     using System.Linq;
     using System.Web;
     using System.Web.Mvc;
@@ -9,6 +10,7 @@
     using MyServer.Web.Infrastructure.Mappings;
     using MyServer.Web.Main.Areas.ImageGallery.Models.Album;
     using MyServer.Web.Main.Areas.ImageGallery.Models.Image;
+    using MyServer.Web.Main.Areas.ImageGalleryAdmin.Models.Album;
 
     public class AlbumController : Controller
     {

@@ -9,7 +9,7 @@ namespace MyServer.Web.Main
         {
             filters.Add(new HandleErrorAttribute());
             //filters.Add(new CustomHandleErrorAttribute());
-            filters.Add(new AuthorizeAttribute());
+            //filters.Add(new AuthorizeAttribute());
         }
     }
 }
