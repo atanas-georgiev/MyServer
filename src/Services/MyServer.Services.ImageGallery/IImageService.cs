@@ -14,8 +14,8 @@
 
         Image GetById(Guid id);
 
-        void Update(Image image);
-
         void Remove(Guid id);
+
+        void Update(Image image);
     }
 }

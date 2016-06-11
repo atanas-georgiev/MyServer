@@ -6,8 +6,17 @@ using System.Web.Mvc;
 
 namespace MyServer.Web.Main.Controllers
 {
+    using MyServer.Services.ImageGallery;
+
     public class HomeController : Controller
     {
+        private ILocationService locationService;
+
+        public HomeController(ILocationService locationService)
+        {
+            this.locationService = locationService;
+        }
+
         public ActionResult Index()
         {
             return View();

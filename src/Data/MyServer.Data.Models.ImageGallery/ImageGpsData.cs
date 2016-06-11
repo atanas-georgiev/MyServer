@@ -9,13 +9,13 @@
     public class ImageGpsData : BaseModel<Guid>, IHavePrimaryKey<Guid>
     {
         [Required]
-        public double Latitude { get; set; }
+        public double? Latitude { get; set; }
 
         [Required]
         [MaxLength(200)]
         public string LocationName { get; set; }
 
         [Required]
-        public double Longitude { get; set; }
+        public double? Longitude { get; set; }
     }
 }

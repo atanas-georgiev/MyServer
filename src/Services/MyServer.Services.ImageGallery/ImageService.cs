@@ -24,20 +24,25 @@
     {
         private IRepository<Album, Guid> albums;
 
-        private IRepository<Image, Guid> images;
-        
-        private int midwidth;
-        private int midheight;
-
-        private int lowwidth;
-        private int lowheight;
-
         private DateTime dateTaken;
 
-        public ImageService(IRepository<Image, Guid> images, IRepository<Album, Guid> albums)
+        private IRepository<Image, Guid> images;
+
+        private ILocationService locationService;
+
+        private int lowheight;
+
+        private int lowwidth;
+
+        private int midheight;
+
+        private int midwidth;
+
+        public ImageService(IRepository<Image, Guid> images, IRepository<Album, Guid> albums, ILocationService locationService)
         {
             this.images = images;
             this.albums = albums;
+            this.locationService = locationService;
         }
 
         public void Add(Guid albumId, HttpPostedFileBase file, HttpServerUtility server)
@@ -60,7 +65,7 @@
             }
 
             image.OriginalFileName = Path.GetFileName(file.FileName);
-                   
+
             // Create initial folders if not available
             FileService.CreateInitialFolders(albumId, server);
             FileService.Save(file.InputStream, ImageType.Original, image.FileName, albumId, server);
@@ -70,13 +75,13 @@
             GC.Collect();
 
             image.AlbumId = albumId;
-            image.Title = "";
+            image.Title = string.Empty;
             image.LowHeight = this.lowheight;
             image.LowWidth = this.lowwidth;
             image.MidHeight = this.midheight;
             image.MidWidth = this.midwidth;
-           
-            this.images.Add(image);            
+
+            this.images.Add(image);
 
             // check if first image, if so, make album cover
             var album = this.albums.GetById(albumId);
@@ -85,6 +90,26 @@
                 album.CoverId = image.Id;
                 this.albums.Update(album);
             }
+        }
+
+        public IQueryable<Image> GetAll()
+        {
+            return this.images.All();
+        }
+
+        public Image GetById(Guid id)
+        {
+            return this.GetAll().FirstOrDefault(x => x.Id == id);
+        }
+
+        public void Remove(Guid id)
+        {
+            this.images.Delete(id);
+        }
+
+        public void Update(Image image)
+        {
+            this.images.Update(image);
         }
 
         private Image ExtractExifData(Stream inputStream)
@@ -96,6 +121,19 @@
                 var imageFactoryStream = ImageMetadataReader.ReadMetadata(inputStream);
                 var subIfdDirectory = imageFactoryStream.OfType<ExifSubIfdDirectory>().FirstOrDefault();
                 var subIfdDirectory2 = imageFactoryStream.OfType<ExifIfd0Directory>().FirstOrDefault();
+                var gpsDirectory = imageFactoryStream.OfType<GpsDirectory>().FirstOrDefault();
+                
+                var gps = gpsDirectory?.GetGeoLocation();
+
+                if (gps != null && !gps.IsZero)
+                {
+                    var gpsData = this.locationService.GetGpsData(gps.Latitude, gps.Longitude);
+
+                    if (gpsData != null)
+                    {
+                        newImage.ImageGpsData = gpsData;
+                    }
+                }
 
                 try
                 {
@@ -110,8 +148,8 @@
                 {
                     newImage.FileName =
                         subIfdDirectory?.GetDateTime(ExifDirectoryBase.TagDateTimeOriginal)
-                            .ToString("yyyy-MM-dd-HH-mm-ss-", CultureInfo.CreateSpecificCulture("en-US")) +
-                        Guid.NewGuid();
+                            .ToString("yyyy-MM-dd-HH-mm-ss-", CultureInfo.CreateSpecificCulture("en-US"))
+                        + Guid.NewGuid();
                 }
                 catch
                 {
@@ -212,18 +250,26 @@
             return newImage;
         }
 
-        private void Resize(Stream inputStream, ImageType type, Guid albumId, string originalFilename, HttpServerUtility server)
+        private void Resize(
+            Stream inputStream, 
+            ImageType type, 
+            Guid albumId, 
+            string originalFilename, 
+            HttpServerUtility server)
         {
             inputStream.Seek(0, SeekOrigin.Begin);
 
             using (MemoryStream outStream = new MemoryStream())
-            {                
+            {
                 using (ImageFactory imageFactory = new ImageFactory(preserveExifData: true))
                 {
                     if (type == ImageType.Low)
                     {
                         imageFactory.Load(inputStream)
-                            .Resize(new ResizeLayer(new Size(Constants.ImageLowMaxSize, Constants.ImageLowMaxSize), ResizeMode.Max))
+                            .Resize(
+                                new ResizeLayer(
+                                    new Size(Constants.ImageLowMaxSize, Constants.ImageLowMaxSize), 
+                                    ResizeMode.Max))
                             .Format(new JpegFormat { Quality = 75 })
                             .Save(outStream);
                         this.lowwidth = imageFactory.Load(outStream).Image.Width;
@@ -232,36 +278,19 @@
                     else if (type == ImageType.Medium)
                     {
                         imageFactory.Load(inputStream)
-                            .Resize(new ResizeLayer(new Size(Constants.ImageMiddleMaxSize, Constants.ImageMiddleMaxSize), ResizeMode.Max))
+                            .Resize(
+                                new ResizeLayer(
+                                    new Size(Constants.ImageMiddleMaxSize, Constants.ImageMiddleMaxSize), 
+                                    ResizeMode.Max))
                             .Format(new JpegFormat { Quality = 75 })
                             .Save(outStream);
                         this.midwidth = imageFactory.Load(outStream).Image.Width;
                         this.midheight = imageFactory.Load(outStream).Image.Height;
                     }
-                    
+
                     FileService.Save(outStream, type, originalFilename, albumId, server);
                 }
             }
-        }
-
-        public IQueryable<Image> GetAll()
-        {
-            return this.images.All();
-        }
-
-        public Image GetById(Guid id)
-        {
-            return this.GetAll().FirstOrDefault(x => x.Id == id);
-        }
-
-        public void Update(Image image)
-        {
-            this.images.Update(image);
-        }
-
-        public void Remove(Guid id)
-        {
-            this.images.Delete(id);
         }
     }
 }
