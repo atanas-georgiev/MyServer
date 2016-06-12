@@ -35,6 +35,8 @@
 
             bundles.Add(new StyleBundle("~/Content/custom").Include("~/Content/site.css"));
 
+            bundles.Add(new StyleBundle("~/Content/justifiedGallery").Include("~/Content/JustifiedGallery/justifiedGallery.min.css"));
+
             bundles.Add(new StyleBundle("~/Content/photoswipe").Include("~/Content/Photoswipe/photoswipe.css", "~/Content/Photoswipe/default-skin/default-skin.css"));
         }
 
@@ -58,7 +60,7 @@
             bundles.Add(
                 new ScriptBundle("~/bundles/geocomplete").Include("~/Scripts/GeoComplete/jquery.geocomplete.min.js"));
 
-            //bundles.Add(new ScriptBundle("~/bundles/montage").Include("~/Scripts/Montage/*.js"));
+            bundles.Add(new ScriptBundle("~/bundles/justifiedGallery").Include("~/Scripts/JustifiedGallery/jquery.justifiedGallery.min.js"));
 
             //bundles.Add(
             //    new ScriptBundle(
