@@ -6,7 +6,7 @@
     <title>@ViewBag.Title</title>
     @Styles.Render("~/Content/css")
     @Styles.Render("~/Content/kendo")
-    @Styles.Render("~/Content/photoswipe")
+    <link type="text/css" rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/lightgallery/1.2.19/css/lightgallery.min.css"/> 
     @Styles.Render("~/Content/justifiedGallery")
     @Styles.Render("~/Content/custom")
 </head>
@@ -36,7 +36,8 @@
 <div class="container body-content">
 
     @Scripts.Render("~/bundles/kendo")
-    @Scripts.Render("~/bundles/photoswipe")
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-mousewheel/3.1.13/jquery.mousewheel.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/lightgallery/1.2.19/js/lightgallery-all.min.js"></script>
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAJOGz_xyAi_2CdRPW4HX-g5E1WcTwQMSY&libraries=places"></script>
     @Scripts.Render("~/bundles/geocomplete")
     @Scripts.Render("~/bundles/justifiedGallery")
