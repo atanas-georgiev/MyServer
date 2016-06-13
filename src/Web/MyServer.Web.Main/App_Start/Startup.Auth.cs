@@ -62,8 +62,8 @@ namespace MyServer.Web.Main
 
             app.UseGoogleAuthentication(new GoogleOAuth2AuthenticationOptions()
             {
-                ClientId = "591197337520-ua2k3fpfdcg0fj1qheiil0qrecjggm0b.apps.googleusercontent.com",
-                ClientSecret = "FRJ2xDek4UeR-nSkVV8uquP7"
+                ClientId = "18361776506-dphsr6a6eamnjcb5b144j5offcn3tndq.apps.googleusercontent.com",
+                ClientSecret = "PdTUR7GxKo40AV93WlvpcMQ7"
             });
 
             var facebookAuthenticationOptions = new FacebookAuthenticationOptions();
