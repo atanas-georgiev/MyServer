@@ -1,6 +1,7 @@
 ﻿namespace ImageGallery.Data.Models
 {
     using System;
+    using System.ComponentModel.DataAnnotations;
     using System.Security.Claims;
     using System.Threading.Tasks;
 
@@ -19,6 +20,16 @@
         public bool IsDeleted { get; set; }
 
         public DateTime? ModifiedOn { get; set; }
+
+        [Required]
+        [MinLength(2)]
+        [MaxLength(50)]
+        public string FirstName { get; set; }
+
+        [Required]
+        [MinLength(2)]
+        [MaxLength(50)]
+        public string LastName { get; set; }
 
         public async Task<ClaimsIdentity> GenerateUserIdentityAsync(UserManager<User> manager)
         {

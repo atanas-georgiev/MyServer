@@ -210,6 +210,14 @@
     <Compile Include="App_Start\IdentityConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
+    <Compile Include="Areas\Account\AccountAreaRegistration.cs" />
+    <Compile Include="Areas\Account\Controllers\BaseController.cs" />
+    <Compile Include="Areas\Account\Controllers\LoginController.cs" />
+    <Compile Include="Areas\Account\Controllers\RegisterController.cs" />
+    <Compile Include="Areas\Account\Models\AccountExternalLoginConfirmationViewModel.cs" />
+    <Compile Include="Areas\Account\Models\AccountLoginViewModel.cs" />
+    <Compile Include="Areas\Account\Models\AccountRegisterViewModel.cs" />
+    <Compile Include="Areas\Account\Models\ChallengeResult.cs" />
     <Compile Include="Areas\ImageGalleryAdmin\Controllers\AlbumController.cs" />
     <Compile Include="Areas\ImageGalleryAdmin\Controllers\BaseController.cs" />
     <Compile Include="Areas\ImageGalleryAdmin\Controllers\JsonController.cs" />
@@ -223,7 +231,7 @@
     <Compile Include="Areas\ImageGallery\ImageGalleryAreaRegistration.cs" />
     <Compile Include="Areas\ImageGallery\Models\Album\AlbumViewModel.cs" />
     <Compile Include="Areas\ImageGallery\Models\Image\ImageViewModel.cs" />
-    <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\AccounttController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Global.asax.cs">
@@ -695,6 +703,13 @@
     <Content Include="Areas\ImageGallery\Views\Album\Index.cshtml" />
     <Content Include="Areas\ImageGallery\Views\_ViewStart.cshtml" />
     <Content Include="Areas\ImageGallery\Views\Album\Details.cshtml" />
+    <Content Include="Areas\Account\Views\web.config" />
+    <Content Include="Areas\Account\Views\Register\Index.cshtml" />
+    <Content Include="Areas\Account\Views\_ViewStart.cshtml" />
+    <Content Include="Areas\Account\Views\Login\Index.cshtml" />
+    <Content Include="Areas\Account\Views\Shared\_ExternalLoginsListPartial.cshtml" />
+    <Content Include="Areas\Account\Views\Login\ExternalLoginConfirmation.cshtml" />
+    <Content Include="Areas\Account\Views\Login\ExternalLoginFailure.cshtml" />
     <None Include="Scripts\jquery-2.2.3.intellisense.js" />
     <Content Include="Libraries\Kendo.Mvc.dll" />
     <Content Include="Libraries\Kendo.Mvc.resources.dll" />
@@ -808,6 +823,10 @@
     <ProjectReference Include="..\..\Common\MyServer.Common.ImageGallery\MyServer.Common.ImageGallery.csproj">
       <Project>{52ffc9f2-6ad6-4aea-9ef6-e2daf6c60636}</Project>
       <Name>MyServer.Common.ImageGallery</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Common\MyServer.Common\MyServer.Common.csproj">
+      <Project>{185cc628-b3b7-4063-bbaa-bae78e137bcc}</Project>
+      <Name>MyServer.Common</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\Data\MyServer.Data.Common\MyServer.Data.Common.csproj">
       <Project>{c20b56b9-f6f0-45e3-9190-59da786442d2}</Project>

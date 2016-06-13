@@ -15,16 +15,16 @@ namespace MyServer.Web.Main.Controllers
     using ImageGallery.Data.Models;
 
     [Authorize]
-    public class AccountController : Controller
+    public class AccounttController : Controller
     {
         private ApplicationSignInManager _signInManager;
         private ApplicationUserManager _userManager;
 
-        public AccountController()
+        public AccounttController()
         {
         }
 
-        public AccountController(ApplicationUserManager userManager, ApplicationSignInManager signInManager )
+        public AccounttController(ApplicationUserManager userManager, ApplicationSignInManager signInManager )
         {
             UserManager = userManager;
             SignInManager = signInManager;

@@ -11,6 +11,8 @@ namespace MyServer.Web.Main
 {
     using ImageGallery.Data.Models;
 
+    using Microsoft.Owin.Security.Facebook;
+
     using MyServer.Data;
 
     public partial class Startup
@@ -58,15 +60,35 @@ namespace MyServer.Web.Main
             //   consumerKey: "",
             //   consumerSecret: "");
 
-            app.UseFacebookAuthentication(
-               appId: "521558431365642",
-               appSecret: "af05f969147e202f1e8c76c4cfd31a79");
-
             app.UseGoogleAuthentication(new GoogleOAuth2AuthenticationOptions()
             {
                 ClientId = "591197337520-ua2k3fpfdcg0fj1qheiil0qrecjggm0b.apps.googleusercontent.com",
                 ClientSecret = "FRJ2xDek4UeR-nSkVV8uquP7"
             });
+
+            var facebookAuthenticationOptions = new FacebookAuthenticationOptions();
+            facebookAuthenticationOptions.Scope.Add("email");
+            facebookAuthenticationOptions.AppId = "521558431365642";
+            facebookAuthenticationOptions.AppSecret = "af05f969147e202f1e8c76c4cfd31a79";
+            facebookAuthenticationOptions.Provider = new FacebookAuthenticationProvider()
+            {
+                OnAuthenticated = async context =>
+                {
+                    context.Identity.AddClaim(new System.Security.Claims.Claim("FacebookAccessToken", context.AccessToken));
+                    foreach (var claim in context.User)
+                    {
+                        var claimType = string.Format("urn:facebook:{0}", claim.Key);
+                        string claimValue = claim.Value.ToString();
+                        if (!context.Identity.HasClaim(claimType, claimValue))
+                            context.Identity.AddClaim(new System.Security.Claims.Claim(claimType, claimValue, "XmlSchemaString", "Facebook"));
+                    }
+                }
+            };
+
+            facebookAuthenticationOptions.SignInAsAuthenticationType = DefaultAuthenticationTypes.ExternalCookie;
+            app.UseFacebookAuthentication(facebookAuthenticationOptions);
+
+            //app.UseFacebookAuthentication(appId: "521558431365642", appSecret: "af05f969147e202f1e8c76c4cfd31a79");
         }
     }
 }
