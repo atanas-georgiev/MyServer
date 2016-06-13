@@ -13,6 +13,8 @@
 
     using MetadataExtractor;
     using MetadataExtractor.Formats.Exif;
+    using MetadataExtractor.Formats.FileSystem;
+    using MetadataExtractor.Formats.Jpeg;
 
     using MyServer.Common.ImageGallery;
     using MyServer.Data.Common;
@@ -146,11 +148,11 @@
 
                 try
                 {
-                    newImage.DateTaken = subIfdDirectory?.GetDateTime(ExifDirectoryBase.TagDateTimeOriginal);
+                    newImage.DateTaken = subIfdDirectory.GetDateTime(ExifDirectoryBase.TagDateTimeOriginal);
                 }
                 catch
                 {
-                    newImage.DateTaken = subIfdDirectory?.GetDateTime(ExifDirectoryBase.TagDateTime);
+                    // ignored
                 }
 
                 try

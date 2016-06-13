@@ -8,8 +8,8 @@
 <div class="container mygallery lightgallery">
     @foreach (var image in Model)
     {
-        <a class="caption" href='@image.src'>
-            <img class="caption__media" alt="@image.title" src='@image.tumbsrc' />
+        <a class="caption" href='@image.MiddleImageSource'>
+            <img class="caption__media" alt="@image.Info" src='@image.LowImageSource' />
         </a>
     }
 </div>
