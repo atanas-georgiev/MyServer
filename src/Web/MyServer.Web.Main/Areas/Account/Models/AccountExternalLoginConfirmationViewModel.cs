@@ -20,6 +20,5 @@
         [MaxLength(50)]
         [Display(Name = "Last Name")]
         public string LastName { get; set; }
-
     }
 }

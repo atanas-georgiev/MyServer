@@ -11,6 +11,7 @@
     using Microsoft.AspNet.Identity.Owin;
     using Microsoft.Owin.Security;
 
+    using MyServer.Common;
     using MyServer.Services.Users;
     using MyServer.Web.Main.Areas.Account.Models;
 
@@ -104,8 +105,10 @@
                 if (result.Succeeded)
                 {
                     result = await this.UserManager.AddLoginAsync(user.Id, info.Login);
+
                     if (result.Succeeded)
                     {
+                        this.UserManager.AddToRole(user.Id, MyServerRoles.User);
                         await this.SignInManager.SignInAsync(user, isPersistent: true, rememberBrowser: false);
                         return this.RedirectToLocal(returnUrl);
                     }

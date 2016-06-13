@@ -1,4 +1,4 @@
-﻿@using MyServer.Web.Main.Models
+﻿@using MyServer.Web.Main.Areas.Account.Models
 @model MyServer.Web.Main.Areas.Account.Models.AccountLoginViewModel
 
 @{
@@ -54,7 +54,7 @@
     </div>
     <div class="col-md-4">
         <section id="socialLoginForm">
-            @Html.Partial("_ExternalLoginsListPartial", new ExternalLoginListViewModel { ReturnUrl = ViewBag.ReturnUrl })
+            @Html.Partial("_ExternalLoginsListPartial", new AccountExternalLoginListViewModel { ReturnUrl = ViewBag.ReturnUrl })
         </section>
     </div>
 </div>

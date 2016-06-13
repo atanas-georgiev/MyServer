@@ -1,11 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using System.Web.Mvc;
-
-namespace MyServer.Web.Main.Controllers
+﻿namespace MyServer.Web.Main.Controllers
 {
+    using System.Web.Mvc;
+
     using MyServer.Services.ImageGallery;
 
     public class HomeController : Controller
@@ -19,21 +15,14 @@ namespace MyServer.Web.Main.Controllers
 
         public ActionResult Index()
         {
-            return View();
-        }
-
-        public ActionResult About()
-        {
-            ViewBag.Message = "Your application description page.";
-
-            return View();
-        }
-
-        public ActionResult Contact()
-        {
-            ViewBag.Message = "Your contact page.";
-
-            return View();
+            // System.Net.Mail.MailMessage message = new System.Net.Mail.MailMessage();
+            // message.To.Add("atanasgeorgiev83@gmail.com");
+            // message.Subject = "This is the Subject line";
+            ////message.From = new System.Net.Mail.MailAddress("From@online.microsoft.com");
+            // message.Body = "This is the message body";
+            // System.Net.Mail.SmtpClient smtp = new System.Net.Mail.SmtpClient();
+            // smtp.Send(message);
+            return this.View();
         }
     }
 }

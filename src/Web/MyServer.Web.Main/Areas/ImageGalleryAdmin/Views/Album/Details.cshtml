@@ -59,7 +59,12 @@
 <div class="well k-content">
     <h4 class="well-title">Images</h4>
     <div class="demo-section k-content">
-        @(Html.Kendo().Upload().Name("files").Async(a => a.Save("Save", "Upload").AutoUpload(true)))
+        @(Html.Kendo()
+            .Upload()
+            .Name("files")
+            .Async(a => a.Save("Save", "Upload")
+            .AutoUpload(true))
+            .Events(ev => ev.Complete(@"function(e){setTimeout(function(){$('#ImagesGrid').data('kendoGrid').dataSource.read();$('#ImagesGrid').data('kendoGrid').refresh()})}")))
     </div>
     <hr />
 

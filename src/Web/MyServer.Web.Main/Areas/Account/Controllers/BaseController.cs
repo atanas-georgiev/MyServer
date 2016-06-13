@@ -21,11 +21,11 @@
             this.UserService = userService;
         }
 
+        protected IAuthenticationManager AuthenticationManager { get; private set; }
+
         protected ApplicationSignInManager SignInManager { get; private set; }
 
         protected ApplicationUserManager UserManager { get; private set; }
-
-        protected IAuthenticationManager AuthenticationManager { get; private set; }
 
         protected User UserProfile { get; private set; }
 

@@ -11,7 +11,6 @@
     using MyServer.Common;
     using MyServer.Services.Users;
     using MyServer.Web.Main.Areas.Account.Models;
-    using MyServer.Web.Main.Controllers;
 
     public class RegisterController : BaseController
     {
@@ -35,11 +34,11 @@
             {
                 var user = new User
                                {
-                                    UserName = model.Email,
-                                    Email = model.Email,
-                                    FirstName = model.FirstName,
-                                    LastName = model.LastName,
-                                    CreatedOn = DateTime.UtcNow
+                                   UserName = model.Email, 
+                                   Email = model.Email, 
+                                   FirstName = model.FirstName, 
+                                   LastName = model.LastName, 
+                                   CreatedOn = DateTime.UtcNow
                                };
 
                 var result = await this.UserManager.CreateAsync(user, model.Password);
