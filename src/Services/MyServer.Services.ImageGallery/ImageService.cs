@@ -285,7 +285,7 @@
                         imageFactory.Load(inputStream)
                             .Resize(
                                 new ResizeLayer(
-                                    new Size(Constants.ImageMiddleMaxSize, Constants.ImageLowMaxSize),
+                                    new Size(Constants.ImageMiddleMaxSize, Constants.ImageMiddleMaxSize),
                                     ResizeMode.Max))
                             .Format(new JpegFormat { Quality = 75 })
                             .Save(outStream);
