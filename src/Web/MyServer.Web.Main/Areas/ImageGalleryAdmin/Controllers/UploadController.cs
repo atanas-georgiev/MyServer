@@ -4,10 +4,12 @@
     using System.Collections.Generic;
     using System.Web;
     using System.Web.Mvc;
+    using System.Web.SessionState;
 
     using MyServer.Services.ImageGallery;
     using MyServer.Services.Users;
 
+    [SessionState(SessionStateBehavior.ReadOnly)]
     public class UploadController : BaseController
     {
         private readonly IImageService imageService;

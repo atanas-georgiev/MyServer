@@ -256,37 +256,45 @@
         {
             inputStream.Seek(0, SeekOrigin.Begin);
 
-            using (MemoryStream outStream = new MemoryStream())
+            if (type == ImageType.Low)
             {
-                using (ImageFactory imageFactory = new ImageFactory(preserveExifData: true))
+                using (MemoryStream outStream = new MemoryStream())
                 {
-                    if (type == ImageType.Low)
+                    using (ImageFactory imageFactory = new ImageFactory(preserveExifData: true))
                     {
                         imageFactory.Load(inputStream)
                             .Resize(
                                 new ResizeLayer(
-                                    new Size(Constants.ImageLowMaxSize, Constants.ImageLowMaxSize), 
+                                    new Size(Constants.ImageLowMaxSize, Constants.ImageLowMaxSize),
                                     ResizeMode.Max))
                             .Format(new JpegFormat { Quality = 75 })
                             .Save(outStream);
                         this.lowwidth = imageFactory.Load(outStream).Image.Width;
                         this.lowheight = imageFactory.Load(outStream).Image.Height;
+                        FileService.Save(outStream, type, originalFilename, albumId, server);
                     }
-                    else if (type == ImageType.Medium)
+                }
+                GC.Collect();
+            }
+            else if (type == ImageType.Medium)
+            {
+                using (MemoryStream outStream = new MemoryStream())
+                {
+                    using (ImageFactory imageFactory = new ImageFactory(preserveExifData: true))
                     {
                         imageFactory.Load(inputStream)
                             .Resize(
                                 new ResizeLayer(
-                                    new Size(Constants.ImageMiddleMaxSize, Constants.ImageMiddleMaxSize), 
+                                    new Size(Constants.ImageMiddleMaxSize, Constants.ImageLowMaxSize),
                                     ResizeMode.Max))
                             .Format(new JpegFormat { Quality = 75 })
                             .Save(outStream);
                         this.midwidth = imageFactory.Load(outStream).Image.Width;
                         this.midheight = imageFactory.Load(outStream).Image.Height;
+                        FileService.Save(outStream, type, originalFilename, albumId, server);
                     }
-
-                    FileService.Save(outStream, type, originalFilename, albumId, server);
                 }
+                GC.Collect();
             }
         }
     }

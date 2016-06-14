@@ -4,6 +4,7 @@
     using System.Collections.Generic;
     using System.Linq;
     using System.Web.Mvc;
+    using System.Web.SessionState;
 
     using Kendo.Mvc.Extensions;
     using Kendo.Mvc.UI;
@@ -14,6 +15,7 @@
     using MyServer.Web.Main.Areas.ImageGalleryAdmin.Models.Album;
     using MyServer.Web.Main.Areas.ImageGalleryAdmin.Models.Image;
 
+    [SessionState(SessionStateBehavior.ReadOnly)]
     public class JsonController : BaseController
     {
         private readonly IAlbumService albumService;
