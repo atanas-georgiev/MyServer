@@ -2,6 +2,7 @@
 {
     using System;
     using System.Collections.Generic;
+    using System.Globalization;
     using System.Linq;
     using System.Web;
 
@@ -30,14 +31,64 @@
         }
 
         [Computed]
-        public string Date => "12 Mar 2015";
+        public string Date
+        {
+            get
+            {
+                var dates = this.Images.Where(x => x.DateTaken != null).Select(x => x.DateTaken).ToList();
+
+                if (dates.Count == 0)
+                {
+                    return string.Empty;
+                }
+                else
+                {
+                    var firstDate = dates.OrderBy(x => x.Value).Select(x => x.Value).First();
+                    var lastDate = dates.OrderBy(x => x.Value).Select(x => x.Value).Last();
+
+                    if (firstDate.Date == lastDate.Date)
+                    {
+                        return firstDate.ToString("dd MMM yyyy", CultureInfo.CreateSpecificCulture("en-US"));
+                    }
+                    else if (firstDate.Year == lastDate.Year && firstDate.Month == lastDate.Month)
+                    {
+                        return firstDate.Day + "-" + lastDate.Day + " " + firstDate.ToString("MMM yyyy", CultureInfo.CreateSpecificCulture("en-US"));
+                    }
+                    else if (firstDate.Year == lastDate.Year)
+                    {
+                        return firstDate.ToString("dd MMM", CultureInfo.CreateSpecificCulture("en-US")) + "-" +
+                               lastDate.ToString("dd MMM", CultureInfo.CreateSpecificCulture("en-US")) + " " +
+                               lastDate.ToString("yyyy", CultureInfo.CreateSpecificCulture("en-US"));
+                    }
+                    else
+                    {
+                        return firstDate.ToString("dd MMM yyyy", CultureInfo.CreateSpecificCulture("en-US")) + "-"
+                               + lastDate.ToString("dd MMM yyyy", CultureInfo.CreateSpecificCulture("en-US"));
+                    }
+                }
+            }
+        }
 
         public Guid Id { get; set; }
 
         public virtual ICollection<ImageViewModel> Images { get; set; }
 
         [Computed]
-        public string ImagesCountCover => "1 image";
+        public string ImagesCountCover
+        {
+            get
+            {
+                switch (this.Images.Count)
+                {
+                    case 0:
+                        return "No items";
+                    case 1:
+                        return "1 item";
+                    default:
+                        return this.Images.Count + " items";
+                }
+            }
+        }
 
         public string Title { get; set; }
     }

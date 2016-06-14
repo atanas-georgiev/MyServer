@@ -37,6 +37,11 @@
                 Directory.CreateDirectory(server.MapPath(Constants.MainContentFolder));
             }
 
+            if (!Directory.Exists(server.MapPath(Constants.TempContentFolder)))
+            {
+                Directory.CreateDirectory(server.MapPath(Constants.TempContentFolder));
+            }
+
             if (!Directory.Exists(server.MapPath(Constants.MainContentFolder + "\\" + albumId)))
             {
                 Directory.CreateDirectory(server.MapPath(Constants.MainContentFolder + "\\" + albumId));

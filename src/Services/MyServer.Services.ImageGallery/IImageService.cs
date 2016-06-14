@@ -1,7 +1,9 @@
 ﻿namespace MyServer.Services.ImageGallery
 {
     using System;
+    using System.IO;
     using System.Linq;
+    using System.Threading.Tasks;
     using System.Web;
 
     using MyServer.Data.Models.ImageGallery;
@@ -19,5 +21,7 @@
         void Update(Image image);
 
         void AddGpsDataToImage(Guid id, ImageGpsData gpsData);
+
+        void PrepareFileForDownload(Guid id, HttpServerUtilityBase server);
     }
 }

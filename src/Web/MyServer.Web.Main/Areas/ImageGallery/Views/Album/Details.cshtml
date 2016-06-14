@@ -1,4 +1,5 @@
-﻿@using Newtonsoft.Json
+﻿@using MyServer.Web.Main.Areas.ImageGallery.Controllers.Album
+@using Newtonsoft.Json
 @model MyServer.Web.Main.Areas.ImageGallery.Models.Album.AlbumViewModel
 
 <h2>@Model.Title</h2>
@@ -8,7 +9,7 @@
     <div class="overlay-album mygallery lightgallery">
         @foreach (var image in Model.Images)
         {
-            <a href='@image.MiddleImageSource'>
+            <a href='@image.MiddleImageSource' data-download-url="@image.OriginalDownloadPath">
                 <img alt="@image.Info" src='@image.LowImageSource'/>
             </a>
         }
@@ -17,23 +18,22 @@
 
 <script>
     $(document).ready(function () {
-        $(".lightgallery").lightGallery();
+        $('.mygallery').lightGallery({
+            speed: 400,
+            hideBarsDelay: 2000,
+            controls: false,
+            thumbnail: false,
+            pause: 3000
+        }); 
+
         $(".mygallery").justifiedGallery({
             rowHeight: 200,
             maxRowHeight: 2000,
-            sizeRangeSuffixes:
-                {
-                    'lt100': '_t',
-                    'lt240': '_m',
-                    'lt320': '_n',
-                    'lt500': '',
-                    'lt640': '_z',
-                    'lt1024': '_b'
-                },
             fixedHeight: false,
             margins: 3,
             lastRow: 'nojustify',
             captions: false,
+            border: 0,
             thumbnailPath: function (currentPath, width, height) {
                 if (Math.max(width, height) < 200) {
                     return currentPath.replace(/(.*)(_[a-z]+)(\..*)/, "$1low$2");

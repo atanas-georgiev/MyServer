@@ -13,5 +13,7 @@
         public const int ImageMiddleMaxSize = 1600;
 
         public const string MainContentFolder = "~/Content/Images";
+
+        public const string TempContentFolder = "~/Content/Images/Temp";
     }
 }

@@ -229,6 +229,7 @@
     <Compile Include="Areas\ImageGalleryAdmin\Models\Album\AlbumListViewModel.cs" />
     <Compile Include="Areas\ImageGalleryAdmin\Models\Image\ImageDetailsViewModel.cs" />
     <Compile Include="Areas\ImageGallery\Controllers\Album\AlbumController.cs" />
+    <Compile Include="Areas\ImageGallery\Controllers\Album\ImageController.cs" />
     <Compile Include="Areas\ImageGallery\ImageGalleryAreaRegistration.cs" />
     <Compile Include="Areas\ImageGallery\Models\Album\AlbumViewModel.cs" />
     <Compile Include="Areas\ImageGallery\Models\Image\ImageViewModel.cs" />
@@ -789,6 +790,7 @@
     <Folder Include="Areas\ImageGalleryAdmin\Views\JSon\" />
     <Folder Include="Areas\ImageGalleryAdmin\Views\Shared\" />
     <Folder Include="Areas\ImageGalleryAdmin\Views\Upload\" />
+    <Folder Include="Areas\ImageGallery\Views\Image\" />
     <Folder Include="Areas\ImageGallery\Views\Shared\" />
     <Folder Include="Models\" />
   </ItemGroup>

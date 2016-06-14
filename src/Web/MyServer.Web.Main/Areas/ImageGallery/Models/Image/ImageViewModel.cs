@@ -14,8 +14,6 @@
 
     public class ImageViewModel : IMapFrom<Image>
     {
-        public Guid Id { get; set; }
-
         public Guid? AlbumId { get; set; }
 
         public string Aperture { get; set; }
@@ -33,6 +31,10 @@
         public string FocusLen { get; set; }
 
         public int Height { get; set; }
+
+        public Guid Id { get; set; }
+
+        public string OriginalDownloadPath => VirtualPathUtility.ToAbsolute(Constants.TempContentFolder + "\\" + this.Id + "\\" + this.OriginalFileName);
 
         [Computed]
         public string Info
@@ -93,8 +95,7 @@
                 if (this.DateTaken != null)
                 {
                     result.Append(
-                        "<br/>"
-                        + this.DateTaken.Value.ToString("dd-MMM-yy", CultureInfo.CreateSpecificCulture("en-US")));
+                        "<br/>" + this.DateTaken.Value.ToString("dd-MMM-yy", CultureInfo.CreateSpecificCulture("en-US")));
                 }
 
                 result.Append("</small>");

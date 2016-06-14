@@ -5,6 +5,7 @@
     using System.Globalization;
     using System.IO;
     using System.Linq;
+    using System.Threading.Tasks;
     using System.Web;
 
     using ImageProcessor;
@@ -13,13 +14,12 @@
 
     using MetadataExtractor;
     using MetadataExtractor.Formats.Exif;
-    using MetadataExtractor.Formats.FileSystem;
-    using MetadataExtractor.Formats.Jpeg;
 
     using MyServer.Common.ImageGallery;
     using MyServer.Data.Common;
     using MyServer.Data.Models.ImageGallery;
 
+    using Directory = System.IO.Directory;
     using Image = MyServer.Data.Models.ImageGallery.Image;
 
     public class ImageService : IImageService
@@ -121,6 +121,33 @@
                 image.ImageGpsData = gpsData;
                 this.Update(image);
             }
+        }
+
+        private void EmptyTempFolder(HttpServerUtilityBase server)
+        {
+            var di = new DirectoryInfo(server.MapPath(Constants.TempContentFolder));
+
+            foreach (var dir in di.GetDirectories())
+            {
+                foreach (var file in dir.GetFiles())
+                {
+                    file.Delete();
+                }
+
+                dir.Delete(true);
+            }
+        }            
+
+        public void PrepareFileForDownload(Guid id, HttpServerUtilityBase server)
+        {
+            var image = this.GetById(id);
+            var filePathServer = server.MapPath(Constants.MainContentFolder + "\\" + image.AlbumId + "\\" + Constants.ImageFolderOriginal + "\\" + image.FileName);
+            var filePathTemp = server.MapPath(Constants.TempContentFolder + "\\" + id + "\\" + image.OriginalFileName);
+
+            this.EmptyTempFolder(server);
+            Directory.CreateDirectory(server.MapPath(Constants.TempContentFolder + "\\" + id));
+            
+            File.Copy(filePathServer, filePathTemp);
         }
 
         private Image ExtractExifData(Stream inputStream, string originalFileName)

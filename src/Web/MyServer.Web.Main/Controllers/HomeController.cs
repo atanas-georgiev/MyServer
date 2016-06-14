@@ -1,16 +1,21 @@
 ﻿namespace MyServer.Web.Main.Controllers
 {
+    using System;
     using System.Web.Mvc;
+    using System.Web.Routing;
 
     using MyServer.Services.ImageGallery;
 
     public class HomeController : Controller
     {
-        private ILocationService locationService;
+        private readonly IImageService imageService;
 
-        public HomeController(ILocationService locationService)
+        private readonly ILocationService locationService;
+
+        public HomeController(ILocationService locationService, IImageService imageService)
         {
             this.locationService = locationService;
+            this.imageService = imageService;
         }
 
         public ActionResult Index()
@@ -23,6 +28,18 @@
             // System.Net.Mail.SmtpClient smtp = new System.Net.Mail.SmtpClient();
             // smtp.Send(message);
             return this.View();
+        }
+
+        protected override IAsyncResult BeginExecute(RequestContext requestContext, AsyncCallback callback, object state)
+        {
+            var routes = requestContext.RouteData.Values;
+
+            if (routes.ContainsKey("file"))
+            {
+                this.imageService.PrepareFileForDownload(Guid.Parse(routes["id"].ToString()), requestContext.HttpContext.Server);
+            }
+
+            return base.BeginExecute(requestContext, callback, state);
         }
     }
 }
