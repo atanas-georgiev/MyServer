@@ -14,7 +14,9 @@
 
     public class ImageViewModel : IMapFrom<Image>
     {
-        public virtual Guid? AlbumId { get; set; }
+        public Guid Id { get; set; }
+
+        public Guid? AlbumId { get; set; }
 
         public string Aperture { get; set; }
 

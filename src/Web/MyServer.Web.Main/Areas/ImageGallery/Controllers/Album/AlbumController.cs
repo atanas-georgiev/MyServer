@@ -33,10 +33,9 @@
 
         public ActionResult Details(string id)
         {
-            var images = this.albumService.GetById(Guid.Parse(id));
-            var images2 = images.Images.AsQueryable().To<ImageViewModel>().ToList();
-
-            return this.View(images2);
+            var album =
+                this.albumService.GetAll().Where(x => x.Id.ToString() == id).To<AlbumViewModel>().FirstOrDefault();
+            return this.View(album);
         }
     }
 }
