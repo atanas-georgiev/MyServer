@@ -22,7 +22,7 @@
 
         public ActionResult Save(IEnumerable<HttpPostedFileBase> files)
         {
-            var albumId = Guid.Parse(this.Session["AlbumId"].ToString());
+            var albumId = Guid.Parse(this.Request.Cookies["AlbumId"].Value);
 
             // The Name of the Upload component is "files"
             if (files != null)

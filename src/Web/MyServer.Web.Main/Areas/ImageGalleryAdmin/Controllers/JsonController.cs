@@ -4,7 +4,6 @@
     using System.Collections.Generic;
     using System.Linq;
     using System.Web.Mvc;
-    using System.Web.SessionState;
 
     using Kendo.Mvc.Extensions;
     using Kendo.Mvc.UI;
@@ -15,7 +14,6 @@
     using MyServer.Web.Main.Areas.ImageGalleryAdmin.Models.Album;
     using MyServer.Web.Main.Areas.ImageGalleryAdmin.Models.Image;
 
-    [SessionState(SessionStateBehavior.ReadOnly)]
     public class JsonController : BaseController
     {
         private readonly IAlbumService albumService;
@@ -37,7 +35,7 @@
 
         public ActionResult ImagesGridRead([DataSourceRequest] DataSourceRequest request)
         {
-            var id = Guid.Parse(this.Session["AlbumId"].ToString());
+            var id = Guid.Parse(this.Request.Cookies["AlbumId"].Value);
             var result = this.imageService.GetAll().Where(x => x.Album.Id == id).To<ImageDetailsViewModel>(); 
             return this.Json(result.ToDataSourceResult(request));
         }

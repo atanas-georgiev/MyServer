@@ -3,6 +3,7 @@
     using System;
     using System.Collections.Generic;
     using System.Linq;
+    using System.Web;
     using System.Web.Mvc;
 
     using MyServer.Data.Models.ImageGallery;
@@ -56,7 +57,7 @@
 
         public ActionResult Details(string id)
         {
-            this.Session["AlbumId"] = id;
+            this.Response.SetCookie(new HttpCookie("AlbumId", id));
             var intId = Guid.Parse(id);
             var result = this.albumService.GetAll().Where(x => x.Id == intId).To<AlbumDetailsViewModel>().FirstOrDefault();
 
@@ -70,7 +71,7 @@
 
         public ActionResult UpdateAlbumCover(string id)
         {
-            var albumId = Guid.Parse(this.Session["AlbumId"].ToString());
+            var albumId = Guid.Parse(this.Request.Cookies["AlbumId"].Value);
             var coverId = Guid.Parse(id);
 
             this.albumService.UpdateCoverImage(albumId, coverId);
