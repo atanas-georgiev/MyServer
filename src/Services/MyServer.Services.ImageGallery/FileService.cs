@@ -9,6 +9,29 @@
 
     public static class FileService
     {
+        public static string MakeValidFileName(string name)
+        {
+            var invalidChars = System.Text.RegularExpressions.Regex.Escape(new string(System.IO.Path.GetInvalidFileNameChars()));
+            var invalidRegStr = string.Format(@"([{0}]*\.+$)|([{0}]+)", invalidChars);
+
+            return System.Text.RegularExpressions.Regex.Replace(name, invalidRegStr, "_");
+        }
+
+        public static void EmptyTempFolder(HttpServerUtilityBase server)
+        {
+            var di = new DirectoryInfo(server.MapPath(Constants.TempContentFolder));
+
+            foreach (var dir in di.GetDirectories())
+            {
+                foreach (var file in dir.GetFiles())
+                {
+                    file.Delete();
+                }
+
+                dir.Delete(true);
+            }
+        }
+
         public static string GetImageFolder(Guid albumId, ImageType type, HttpServerUtility server)
         {
             switch (type)

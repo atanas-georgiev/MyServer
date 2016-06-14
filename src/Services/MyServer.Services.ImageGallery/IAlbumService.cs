@@ -2,6 +2,7 @@
 {
     using System;
     using System.Linq;
+    using System.Web;
 
     using MyServer.Data.Models.ImageGallery;
 
@@ -16,5 +17,7 @@
         void Update(Album album);
 
         void UpdateCoverImage(Guid album, Guid image);
+
+        string GenerateZipArchive(Guid id, HttpServerUtilityBase server);
     }
 }

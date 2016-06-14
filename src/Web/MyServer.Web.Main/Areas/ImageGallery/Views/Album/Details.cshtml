@@ -2,10 +2,23 @@
 @using Newtonsoft.Json
 @model MyServer.Web.Main.Areas.ImageGallery.Models.Album.AlbumViewModel
 
+
 <h2>@Model.Title</h2>
+@Ajax.ActionLink("Download",
+    nameof(AlbumController.Download),
+    new { id = @Model.Id },
+    new AjaxOptions()
+    {
+        HttpMethod = "GET",
+        LoadingElementId = "loading",
+        OnSuccess = "window.location.href = data;"
+    },
+    new {@class = "btn btn-primary"})
+<span id="loading" style="display: none">
+    <img src="~/Content/ajax-loader.gif" alt=""/>
+</span>
 <hr />
 <div class="row">
-
     <div class="overlay-album mygallery lightgallery">
         @foreach (var image in Model.Images)
         {

@@ -123,20 +123,7 @@
             }
         }
 
-        private void EmptyTempFolder(HttpServerUtilityBase server)
-        {
-            var di = new DirectoryInfo(server.MapPath(Constants.TempContentFolder));
-
-            foreach (var dir in di.GetDirectories())
-            {
-                foreach (var file in dir.GetFiles())
-                {
-                    file.Delete();
-                }
-
-                dir.Delete(true);
-            }
-        }            
+                    
 
         public void PrepareFileForDownload(Guid id, HttpServerUtilityBase server)
         {
@@ -144,7 +131,7 @@
             var filePathServer = server.MapPath(Constants.MainContentFolder + "\\" + image.AlbumId + "\\" + Constants.ImageFolderOriginal + "\\" + image.FileName);
             var filePathTemp = server.MapPath(Constants.TempContentFolder + "\\" + id + "\\" + image.OriginalFileName);
 
-            this.EmptyTempFolder(server);
+            FileService.EmptyTempFolder(server);
             Directory.CreateDirectory(server.MapPath(Constants.TempContentFolder + "\\" + id));
             
             File.Copy(filePathServer, filePathTemp);
