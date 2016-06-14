@@ -13,12 +13,12 @@ body {
 
 h1, p {
     margin: 0;
-    padding: 0 0 .5em;
+    /*padding: 0 0 .5em;*/
     text-shadow: 2px 2px 4px #000000;
 }
 
 .container {
-    /*margin: 0 auto;*/
+    padding: 0;
 }
 
 /*
@@ -121,18 +121,12 @@ h1, p {
     $(document).ready(function () {
         $("#mygallery").justifiedGallery({
             rowHeight: 300,
-            maxRowHeight: 400,
-            sizeRangeSuffixes: 
-                {'lt100':'_t', 
-                'lt240':'_m', 
-                'lt320':'_n', 
-                'lt500':'', 
-                'lt640':'_z', 
-                'lt1024':'_b'},
+            maxRowHeight: 2000,
             fixedHeight: false,
             margins: 3,
             lastRow: 'nojustify',
-            captions: false,
+            captions: true,
+            border: 0,
             thumbnailPath: function (currentPath, width, height) {
                 if (Math.max(width, height) < 300) {
                     return currentPath.replace(/(.*)(_[a-z]+)(\..*)/, "$1low$2");
@@ -140,7 +134,6 @@ h1, p {
                     return currentPath.replace(/(.*)(_[a-z]+)(\..*)/, "$1medium$2");
                 }
             }
-
         });
     });
 </script>

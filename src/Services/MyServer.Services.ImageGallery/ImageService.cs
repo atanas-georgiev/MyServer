@@ -57,7 +57,7 @@
                 return;
             }
 
-            Image image = this.ExtractExifData(file.InputStream);
+            Image image = this.ExtractExifData(file.InputStream, Path.GetFileName(file.FileName));
 
             if (image.FileName != null)
             {
@@ -123,7 +123,7 @@
             }
         }
 
-        private Image ExtractExifData(Stream inputStream)
+        private Image ExtractExifData(Stream inputStream, string originalFileName)
         {
             var newImage = new Image();
 
@@ -213,7 +213,7 @@
                 }
                 else
                 {
-                    newImage.FileName = Guid.NewGuid().ToString();
+                    newImage.FileName = Path.GetFileNameWithoutExtension(originalFileName) + Guid.NewGuid();
                 }
             }
 

@@ -80,19 +80,19 @@
 
                 if (this.Iso != null)
                 {
-                    result.Append("ISO" + this.FocusLen + " ");
+                    result.Append("ISO " + this.Iso + " ");
                 }
 
                 if (this.ExposureBiasStep != null)
                 {
-                    result.Append(this.ExposureBiasStep + " ");
+                    result.Append(this.ExposureBiasStep);
                 }
 
                 if (this.DateTaken != null)
                 {
                     result.Append(
                         "<br/>"
-                        + this.DateTaken.Value.ToString("yyyy-MMM-dd", CultureInfo.CreateSpecificCulture("en-US")));
+                        + this.DateTaken.Value.ToString("dd-MMM-yy", CultureInfo.CreateSpecificCulture("en-US")));
                 }
 
                 result.Append("</small>");

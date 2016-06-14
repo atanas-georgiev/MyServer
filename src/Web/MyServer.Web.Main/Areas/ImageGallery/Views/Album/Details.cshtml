@@ -5,6 +5,13 @@
 <br />
 <br/>
 
+<style>
+
+    .container {
+        padding: 0;
+    }
+
+</style>
 <div class="container mygallery lightgallery">
     @foreach (var image in Model)
     {
@@ -19,7 +26,7 @@
         $(".lightgallery").lightGallery();
         $(".mygallery").justifiedGallery({
             rowHeight: 200,
-            maxRowHeight: 300,
+            maxRowHeight: 2000,
             sizeRangeSuffixes:
                 {'lt100':'_t',
                 'lt240':'_m',
