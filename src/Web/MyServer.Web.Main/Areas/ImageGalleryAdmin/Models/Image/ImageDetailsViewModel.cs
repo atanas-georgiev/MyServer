@@ -59,11 +59,11 @@
 
         public string ShutterSpeed { get; set; }
 
-        public int? Iso { get; set; }
+        public string Iso { get; set; }
 
-        public double? ExposureBiasStep { get; set; }
+        public string ExposureBiasStep { get; set; }
 
-        public double? FocusLen { get; set; }
+        public string FocusLen { get; set; }
 
         public void CreateMappings(IConfiguration configuration)
         {

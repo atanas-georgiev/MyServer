@@ -25,12 +25,12 @@
 
         public DateTime? DateTaken { get; set; }
 
-        public double? ExposureBiasStep { get; set; }
+        public string ExposureBiasStep { get; set; }
 
         [MaxLength(100)]
         public string FileName { get; set; }
 
-        public double? FocusLen { get; set; }
+        public string FocusLen { get; set; }
 
         public int Height { get; set; }
 
@@ -39,7 +39,7 @@
 
         public virtual Guid? ImageGpsDataId { get; set; }
 
-        public int? Iso { get; set; }
+        public string Iso { get; set; }
 
         [MaxLength(50)]
         public string Lenses { get; set; }

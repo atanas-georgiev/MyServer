@@ -2,16 +2,20 @@
 {
     using System;
     using System.ComponentModel.DataAnnotations;
-    using System.ComponentModel.DataAnnotations.Schema;
+    using System.Globalization;
+    using System.Text;
+    using System.Web;
 
-    using AutoMapper;
+    using DelegateDecompiler;
 
     using MyServer.Common.ImageGallery;
     using MyServer.Data.Models.ImageGallery;
     using MyServer.Web.Infrastructure.Mappings;
 
-    public class ImageViewModel : IMapFrom<Image>, IHaveCustomMappings
+    public class ImageViewModel : IMapFrom<Image>
     {
+        public virtual Guid? AlbumId { get; set; }
+
         public string Aperture { get; set; }
 
         public string CameraMaker { get; set; }
@@ -20,27 +24,109 @@
 
         public DateTime? DateTaken { get; set; }
 
-        public double? ExposureBiasStep { get; set; }
+        public string ExposureBiasStep { get; set; }
 
         public string FileName { get; set; }
 
-        public double? FocusLen { get; set; }
+        public string FocusLen { get; set; }
 
         public int Height { get; set; }
 
-        //public string ImageGpsDataLocationName { get; set; }
+        [Computed]
+        public string Info
+        {
+            get
+            {
+                var result = new StringBuilder();
 
-        //public double? ImageGpsDataLatitude { get; set; }
+                if (!string.IsNullOrEmpty(this.Title))
+                {
+                    result.Append(this.Title + "<br/>");
+                }
 
-        //public double? ImageGpsDataLongitude { get; set; }
+                result.Append("<small>");
 
-        public int? Iso { get; set; }
+                if (!string.IsNullOrEmpty(this.CameraMaker))
+                {
+                    result.Append(this.CameraMaker + " ");
+                }
+
+                if (!string.IsNullOrEmpty(this.CameraModel))
+                {
+                    result.Append(this.CameraModel + " ");
+                }
+
+                if (!string.IsNullOrEmpty(this.Lenses))
+                {
+                    result.Append(this.Lenses + " ");
+                }
+
+                result.Append("<br/>");
+
+                if (!string.IsNullOrEmpty(this.Aperture))
+                {
+                    result.Append(this.Aperture + " ");
+                }
+
+                if (!string.IsNullOrEmpty(this.ShutterSpeed))
+                {
+                    result.Append(this.ShutterSpeed + " ");
+                }
+
+                if (this.FocusLen != null)
+                {
+                    result.Append(this.FocusLen + " ");
+                }
+
+                if (this.Iso != null)
+                {
+                    result.Append("ISO" + this.FocusLen + " ");
+                }
+
+                if (this.ExposureBiasStep != null)
+                {
+                    result.Append(this.ExposureBiasStep + " ");
+                }
+
+                if (this.DateTaken != null)
+                {
+                    result.Append(
+                        "<br/>"
+                        + this.DateTaken.Value.ToString("yyyy-MMM-dd", CultureInfo.CreateSpecificCulture("en-US")));
+                }
+
+                result.Append("</small>");
+
+                return result.ToString();
+            }
+        }
+
+        // public string ImageGpsDataLocationName { get; set; }
+
+        // public double? ImageGpsDataLatitude { get; set; }
+
+        // public double? ImageGpsDataLongitude { get; set; }
+        public string Iso { get; set; }
 
         public string Lenses { get; set; }
 
         public int LowHeight { get; set; }
 
+        [Computed]
+        public string LowImageSource
+            =>
+                VirtualPathUtility.ToAbsolute(
+                    Constants.MainContentFolder + "\\" + this.AlbumId + "\\" + Constants.ImageFolderLow + "\\"
+                    + this.FileName);
+
         public int LowWidth { get; set; }
+
+        [Computed]
+        public string MiddleImageSource
+            =>
+                VirtualPathUtility.ToAbsolute(
+                    Constants.MainContentFolder + "\\" + this.AlbumId + "\\" + Constants.ImageFolderMiddle + "\\"
+                    + this.FileName);
 
         public int MidHeight { get; set; }
 
@@ -54,30 +140,5 @@
         public string Title { get; set; }
 
         public int Width { get; set; }
-
-        public string LowImageSource { get; set; }
-
-        public string MiddleImageSource { get; set; }
-
-        public string Info { get; set; }
-
-        public void CreateMappings(IConfiguration configuration)
-        {
-            configuration.CreateMap<Image, ImageViewModel>(string.Empty)
-                .ForMember(
-                    m => m.LowImageSource,
-                    opt =>
-                    opt.MapFrom(
-                        c =>
-                        Constants.MainContentFolder + "\\" + c.Album.Id + "\\" + Constants.ImageFolderLow + "\\"
-                        + c.FileName))
-                .ForMember(
-                    m => m.MiddleImageSource,
-                    opt =>
-                    opt.MapFrom(
-                        c =>
-                        Constants.MainContentFolder + "\\" + c.Album.Id + "\\" + Constants.ImageFolderMiddle + "\\"
-                        + c.FileName));
-        }
     }
 }

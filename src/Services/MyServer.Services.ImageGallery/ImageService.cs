@@ -130,11 +130,11 @@
             using (ImageFactory imageFactory = new ImageFactory(preserveExifData: true))
             {
                 var imageFactoryStream = ImageMetadataReader.ReadMetadata(inputStream);
-                var subIfdDirectory = imageFactoryStream.OfType<ExifSubIfdDirectory>().FirstOrDefault();
-                var subIfdDirectory2 = imageFactoryStream.OfType<ExifIfd0Directory>().FirstOrDefault();
-                var gpsDirectory = imageFactoryStream.OfType<GpsDirectory>().FirstOrDefault();
+                var exifMain = imageFactoryStream.OfType<ExifSubIfdDirectory>().FirstOrDefault();
+                var exifExtended = imageFactoryStream.OfType<ExifIfd0Directory>().FirstOrDefault();
+                var exifGps = imageFactoryStream.OfType<GpsDirectory>().FirstOrDefault();
                 
-                var gps = gpsDirectory?.GetGeoLocation();
+                var gps = exifGps?.GetGeoLocation();
 
                 if (gps != null && !gps.IsZero)
                 {
@@ -146,115 +146,74 @@
                     }
                 }
 
-                try
+                if (exifExtended != null)
                 {
-                    newImage.DateTaken = subIfdDirectory.GetDateTime(ExifDirectoryBase.TagDateTimeOriginal);
-                }
-                catch
-                {
-                    // ignored
+                    if (exifExtended.ContainsTag(ExifDirectoryBase.TagMake))
+                    {
+                        newImage.CameraMaker = exifExtended.GetDescription(ExifDirectoryBase.TagMake);
+                    }
+
+                    if (exifExtended.ContainsTag(ExifDirectoryBase.TagModel))
+                    {
+                        newImage.CameraModel = exifExtended.GetDescription(ExifDirectoryBase.TagModel);
+                    }
                 }
 
-                try
+                if (exifMain != null)
                 {
-                    newImage.FileName =
-                        subIfdDirectory?.GetDateTime(ExifDirectoryBase.TagDateTimeOriginal)
-                            .ToString("yyyy-MM-dd-HH-mm-ss-", CultureInfo.CreateSpecificCulture("en-US"))
-                        + Guid.NewGuid();
-                }
-                catch
-                {
-                    // ignored
+                    if (exifMain.ContainsTag(ExifDirectoryBase.TagDateTimeOriginal))
+                    {
+                        newImage.DateTaken = exifMain.GetDateTime(ExifDirectoryBase.TagDateTimeOriginal);
+                    }
+
+                    if (exifMain.ContainsTag(ExifDirectoryBase.TagIsoEquivalent))
+                    {
+                        newImage.Iso = exifMain.GetDescription(ExifDirectoryBase.TagIsoEquivalent);
+                    }
+
+                    if (exifMain.ContainsTag(ExifDirectoryBase.TagExposureTime))
+                    {
+                        newImage.ShutterSpeed = exifMain.GetDescription(ExifDirectoryBase.TagExposureTime);
+                    }
+
+                    if (exifMain.ContainsTag(ExifDirectoryBase.TagFNumber))
+                    {
+                        newImage.Aperture = exifMain.GetDescription(ExifDirectoryBase.TagFNumber);
+                    }
+
+                    if (exifMain.ContainsTag(ExifDirectoryBase.TagFocalLength))
+                    {
+                        newImage.FocusLen = exifMain.GetDescription(ExifDirectoryBase.TagFocalLength);
+                    }
+
+                    if (exifMain.ContainsTag(ExifDirectoryBase.TagExposureBias))
+                    {
+                        newImage.ExposureBiasStep = exifMain.GetDescription(ExifDirectoryBase.TagExposureBias);
+                    }
+
+                    if (exifMain.ContainsTag(ExifDirectoryBase.TagLensModel))
+                    {
+                        newImage.Lenses = exifMain.GetDescription(ExifDirectoryBase.TagLensModel);
+                    }
+
+                    if (exifMain.ContainsTag(ExifDirectoryBase.TagExifImageWidth))
+                    {
+                        newImage.Width = exifMain.GetInt32(ExifDirectoryBase.TagExifImageWidth);
+                    }
+
+                    if (exifMain.ContainsTag(ExifDirectoryBase.TagExifImageHeight))
+                    {
+                        newImage.Height = exifMain.GetInt32(ExifDirectoryBase.TagExifImageHeight);
+                    }
                 }
 
-                try
+                if (newImage.DateTaken != null)
                 {
-                    newImage.Iso = subIfdDirectory?.GetInt32(ExifDirectoryBase.TagIsoEquivalent);
+                    newImage.FileName = newImage.DateTaken.Value.ToString("yyyy-MM-dd-HH-mm-ss-", CultureInfo.CreateSpecificCulture("en-US")) + Guid.NewGuid();
                 }
-                catch
+                else
                 {
-                    // ignored
-                }
-
-                try
-                {
-                    newImage.ShutterSpeed = subIfdDirectory?.GetDescription(ExifDirectoryBase.TagShutterSpeed);
-                }
-                catch
-                {
-                    // ignored
-                }
-
-                try
-                {
-                    newImage.Aperture = subIfdDirectory?.GetDescription(ExifDirectoryBase.TagAperture);
-                }
-                catch
-                {
-                    // ignored
-                }
-
-                try
-                {
-                    newImage.FocusLen = subIfdDirectory?.GetDouble(ExifDirectoryBase.TagFocalLength);
-                }
-                catch
-                {
-                    // ignored
-                }
-
-                try
-                {
-                    newImage.CameraMaker = subIfdDirectory2?.GetString(ExifDirectoryBase.TagMake);
-                }
-                catch
-                {
-                    // ignored
-                }
-
-                try
-                {
-                    newImage.CameraModel = subIfdDirectory2?.GetString(ExifDirectoryBase.TagModel);
-                }
-                catch
-                {
-                    // ignored
-                }
-
-                try
-                {
-                    newImage.ExposureBiasStep = subIfdDirectory?.GetDouble(ExifDirectoryBase.TagExposureBias);
-                }
-                catch
-                {
-                    // ignored
-                }
-
-                try
-                {
-                    newImage.Width = subIfdDirectory.GetInt32(ExifDirectoryBase.TagExifImageWidth);
-                }
-                catch
-                {
-                    // ignored
-                }
-
-                try
-                {
-                    newImage.Height = subIfdDirectory.GetInt32(ExifDirectoryBase.TagExifImageHeight);
-                }
-                catch
-                {
-                    // ignored
-                }
-
-                try
-                {
-                    newImage.Lenses = subIfdDirectory.GetString(ExifDirectoryBase.TagLensModel);
-                }
-                catch
-                {
-                    // ignored
+                    newImage.FileName = Guid.NewGuid().ToString();
                 }
             }
 
