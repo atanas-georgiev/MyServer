@@ -26,14 +26,14 @@
             bundles.Add(new StyleBundle("~/Content/css").Include("~/Content/bootstrap.min.css"));
 
             bundles.Add(
-                new StyleBundle("~/Content/kendo").Include(
-                    "~/Content/kendo/kendo.common.min.css",
-                    "~/Content/kendo/kendo.common-bootstrap.min.css",
-                    "~/Content/kendo/kendo.bootstrap.min.css"));
+                new StyleBundle("~/Content/kendocss").Include(
+                    "~/Content/Kendo/kendo.common.min.css",
+                    "~/Content/Kendo/kendo.common-bootstrap.min.css",
+                    "~/Content/Kendo/kendo.bootstrap.min.css"));
 
             bundles.Add(new StyleBundle("~/Content/custom").Include("~/Content/site.css"));
 
-            bundles.Add(new StyleBundle("~/Content/justifiedGallery").Include("~/Content/JustifiedGallery/justifiedGallery.min.css"));
+            bundles.Add(new StyleBundle("~/Content/gallery").Include("~/Content/justified-gallery.min.css"));
 
         }
 
@@ -57,7 +57,7 @@
             bundles.Add(
                 new ScriptBundle("~/bundles/geocomplete").Include("~/Scripts/GeoComplete/jquery.geocomplete.min.js"));
 
-            bundles.Add(new ScriptBundle("~/bundles/justifiedGallery").Include("~/Scripts/JustifiedGallery/jquery.justifiedGallery.min.js"));
+            bundles.Add(new ScriptBundle("~/bundles/gallery").Include("~/Scripts/jquery.justified-gallery.min.js"));
 }
     }
 }

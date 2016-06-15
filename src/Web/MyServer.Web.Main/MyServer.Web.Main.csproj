@@ -270,7 +270,7 @@
     <Content Include="Content\bootstrap-theme.min.css" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
-    <Content Include="Content\JustifiedGallery\justifiedGallery.min.css" />
+    <Content Include="Content\justified-gallery.min.css" />
     <Content Include="Content\Kendo\Black\editor.png" />
     <Content Include="Content\Kendo\Black\imagebrowser.png" />
     <Content Include="Content\Kendo\Black\indeterminate.gif" />
@@ -606,11 +606,6 @@
     <Content Include="Content\Kendo\Uniform\sprite_2x.png" />
     <Content Include="Content\Kendo\Uniform\sprite_kpi.png" />
     <Content Include="Content\Kendo\Uniform\sprite_kpi_2x.png" />
-    <Content Include="Content\Photoswipe\default-skin\default-skin.css" />
-    <Content Include="Content\Photoswipe\default-skin\default-skin.png" />
-    <Content Include="Content\Photoswipe\default-skin\default-skin.svg" />
-    <Content Include="Content\Photoswipe\default-skin\preloader.gif" />
-    <Content Include="Content\Photoswipe\photoswipe.css" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
@@ -742,13 +737,13 @@
     <Content Include="Scripts\jquery-2.2.3.js" />
     <Content Include="Scripts\jquery-2.2.3.min.js" />
     <None Include="Scripts\jquery.validate-vsdoc.js" />
+    <Content Include="Scripts\jquery.justified-gallery.min.js" />
     <Content Include="Scripts\jquery.unobtrusive-ajax.js" />
     <Content Include="Scripts\jquery.unobtrusive-ajax.min.js" />
     <Content Include="Scripts\jquery.validate.js" />
     <Content Include="Scripts\jquery.validate.min.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
-    <Content Include="Scripts\JustifiedGallery\jquery.justifiedGallery.min.js" />
     <Content Include="Scripts\Kendo\angular.min.js" />
     <Content Include="Scripts\Kendo\bootstrap.js" />
     <Content Include="Scripts\Kendo\bootstrap.min.js" />
@@ -776,10 +771,6 @@
     <Content Include="Scripts\Kendo\respond.js" />
     <Content Include="Scripts\Kendo\respond.min.js" />
     <None Include="Scripts\Kendo\_references.js" />
-    <Content Include="Scripts\Photoswipe\photoswipe-ui-default.js" />
-    <Content Include="Scripts\Photoswipe\photoswipe-ui-default.min.js" />
-    <Content Include="Scripts\Photoswipe\photoswipe.js" />
-    <Content Include="Scripts\Photoswipe\photoswipe.min.js" />
     <Content Include="Scripts\respond.js" />
     <Content Include="Scripts\respond.matchmedia.addListener.js" />
     <Content Include="Scripts\respond.matchmedia.addListener.min.js" />
