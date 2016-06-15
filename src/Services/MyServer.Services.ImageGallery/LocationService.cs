@@ -8,7 +8,7 @@
     using Geocoding.Google;
 
     using MyServer.Data.Common;
-    using MyServer.Data.Models.ImageGallery;
+    using MyServer.Data.Models;
 
     public class LocationService : ILocationService
     {

@@ -4,17 +4,15 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{1C3ABBBD-DC7B-4413-AD5F-C42BCD2AEA03}</ProjectGuid>
+    <ProjectGuid>{B37352D3-D6E3-4E0B-BB74-9BB287E9AE3B}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>MyServer.Data.Users.Models</RootNamespace>
-    <AssemblyName>MyServer.Data.Users.Models</AssemblyName>
+    <RootNamespace>MyServer.Data.Models</RootNamespace>
+    <AssemblyName>MyServer.Data.Models</AssemblyName>
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <StyleCopOverrideSettingsFile>Settings.StyleCop</StyleCopOverrideSettingsFile>
     <BuildToolsStyleCopVersion>4.7.44.0</BuildToolsStyleCopVersion>
-    <NuGetPackageImportStamp>
-    </NuGetPackageImportStamp>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -24,17 +22,14 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <StyleCopEnabled>False</StyleCopEnabled>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>bin\Release\</OutputPath>
-    <DefineConstants>TRACE;CODE_ANALYSIS</DefineConstants>
+    <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <StyleCopEnabled>True</StyleCopEnabled>
-    <StyleCopTreatErrorsAsWarnings>False</StyleCopTreatErrorsAsWarnings>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
@@ -64,18 +59,30 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Album.cs" />
+    <Compile Include="Comment.cs" />
+    <Compile Include="Image.cs" />
+    <Compile Include="ImageGpsData.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="User.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="App.config" />
-    <None Include="packages.config" />
-  </ItemGroup>
-  <ItemGroup>
+    <ProjectReference Include="..\..\Common\MyServer.Common.ImageGallery\MyServer.Common.ImageGallery.csproj">
+      <Project>{52ffc9f2-6ad6-4aea-9ef6-e2daf6c60636}</Project>
+      <Name>MyServer.Common.ImageGallery</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Common\MyServer.Common\MyServer.Common.csproj">
+      <Project>{185cc628-b3b7-4063-bbaa-bae78e137bcc}</Project>
+      <Name>MyServer.Common</Name>
+    </ProjectReference>
     <ProjectReference Include="..\MyServer.Data.Common\MyServer.Data.Common.csproj">
       <Project>{c20b56b9-f6f0-45e3-9190-59da786442d2}</Project>
       <Name>MyServer.Data.Common</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config" />
+    <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

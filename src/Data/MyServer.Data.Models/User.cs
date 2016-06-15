@@ -1,6 +1,7 @@
-﻿namespace ImageGallery.Data.Models
+﻿namespace MyServer.Data.Models
 {
     using System;
+    using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
     using System.Security.Claims;
     using System.Threading.Tasks;
@@ -13,6 +14,12 @@
 
     public class User : IdentityUser, IHavePrimaryKey<string>, IAuditInfo, IDeletableEntity
     {
+        public virtual ICollection<Comment> Comments { get; set; }
+
+        public virtual ICollection<Image> Images { get; set; }
+
+        public virtual ICollection<Album> Albums { get; set; }
+
         public DateTime CreatedOn { get; set; }
 
         public DateTime? DeletedOn { get; set; }
@@ -30,6 +37,8 @@
         [MinLength(2)]
         [MaxLength(50)]
         public string LastName { get; set; }
+
+        public int NotificationMask { get; set; }
 
         public async Task<ClaimsIdentity> GenerateUserIdentityAsync(UserManager<User> manager)
         {

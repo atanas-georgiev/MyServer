@@ -5,13 +5,12 @@
     using System.Threading.Tasks;
     using System.Web.Mvc;
 
-    using global::ImageGallery.Data.Models;
-
     using Microsoft.AspNet.Identity;
     using Microsoft.AspNet.Identity.Owin;
     using Microsoft.Owin.Security;
 
     using MyServer.Common;
+    using MyServer.Data.Models;
     using MyServer.Services.Users;
     using MyServer.Web.Main.Areas.Account.Models;
 

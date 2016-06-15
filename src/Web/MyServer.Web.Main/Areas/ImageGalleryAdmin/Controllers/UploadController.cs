@@ -6,6 +6,8 @@
     using System.Web.Mvc;
     using System.Web.SessionState;
 
+    using Microsoft.AspNet.Identity;
+
     using MyServer.Services.ImageGallery;
     using MyServer.Services.Users;
 
@@ -29,7 +31,7 @@
             {
                 foreach (var file in files)
                 {
-                    this.imageService.Add(albumId, file, System.Web.HttpContext.Current.Server);
+                    this.imageService.Add(albumId, file, System.Web.HttpContext.Current.Server, HttpContext.User.Identity.GetUserId());
                 }
             }
 

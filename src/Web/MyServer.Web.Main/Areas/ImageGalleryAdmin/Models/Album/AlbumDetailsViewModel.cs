@@ -8,7 +8,7 @@
     using AutoMapper;
 
     using MyServer.Common.ImageGallery;
-    using MyServer.Data.Models.ImageGallery;
+    using MyServer.Data.Models;
     using MyServer.Web.Infrastructure.Mappings;
     using MyServer.Web.Main.Areas.ImageGalleryAdmin.Models.Image;
 

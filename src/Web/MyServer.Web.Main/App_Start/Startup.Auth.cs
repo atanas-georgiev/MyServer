@@ -8,11 +8,10 @@ using Owin;
 
 namespace MyServer.Web.Main
 {
-    using ImageGallery.Data.Models;
-
     using Microsoft.Owin.Security.Facebook;
 
     using MyServer.Data;
+    using MyServer.Data.Models;
 
     public partial class Startup
     {

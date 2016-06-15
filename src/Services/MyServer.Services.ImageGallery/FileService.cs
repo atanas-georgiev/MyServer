@@ -5,7 +5,6 @@
     using System.Web;
 
     using MyServer.Common.ImageGallery;
-    using MyServer.Data.Models.ImageGallery;
 
     public static class FileService
     {

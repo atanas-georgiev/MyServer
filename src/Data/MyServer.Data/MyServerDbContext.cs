@@ -9,16 +9,14 @@
     using System.Data.SqlClient;
     using System.Linq;
 
-    using ImageGallery.Data.Models;
-
     using Microsoft.AspNet.Identity.EntityFramework;
 
     using MyServer.Data.Common.Models;
-    using MyServer.Data.Models.ImageGallery;
+    using MyServer.Data.Models;
 
     public class MyServerDbContext : IdentityDbContext<User>
     {
-        private static Dictionary<Type, EntitySetBase> _mappingCache = new Dictionary<Type, EntitySetBase>();
+        private static readonly Dictionary<Type, EntitySetBase> MappingCache = new Dictionary<Type, EntitySetBase>();
 
         public MyServerDbContext()
             : base("MyServerDb", false)
@@ -26,6 +24,8 @@
         }
 
         public virtual IDbSet<Album> Albums { get; set; }
+
+        public virtual IDbSet<Comment> Comments { get; set; }
 
         public virtual IDbSet<ImageGpsData> ImageGpsDatas { get; set; }
 
@@ -53,6 +53,7 @@
                 .Map(m => m.Requires("IsDeleted").HasValue(false))
                 .Ignore(m => m.IsDeleted);
             modelBuilder.Entity<Image>().Map(m => m.Requires("IsDeleted").HasValue(false)).Ignore(m => m.IsDeleted);
+            modelBuilder.Entity<Comment>().Map(m => m.Requires("IsDeleted").HasValue(false)).Ignore(m => m.IsDeleted);
 
             base.OnModelCreating(modelBuilder);
         }
@@ -81,7 +82,7 @@
 
         private EntitySetBase GetEntitySet(Type type)
         {
-            if (!_mappingCache.ContainsKey(type))
+            if (!MappingCache.ContainsKey(type))
             {
                 ObjectContext octx = ((IObjectContextAdapter)this).ObjectContext;
 
@@ -95,10 +96,10 @@
 
                 if (es == null) throw new ArgumentException("Entity type not found in GetTableName", typeName);
 
-                _mappingCache.Add(type, es);
+                MappingCache.Add(type, es);
             }
 
-            return _mappingCache[type];
+            return MappingCache[type];
         }
 
         private string GetPrimaryKeyName(Type type)

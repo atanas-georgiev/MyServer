@@ -7,10 +7,10 @@
 
     using MyServer.Common.ImageGallery;
     using MyServer.Data.Common;
-    using MyServer.Data.Models.ImageGallery;
 
-    using System.IO;
     using System.IO.Compression;
+
+    using MyServer.Data.Models;
 
     public class AlbumService : IAlbumService
     {

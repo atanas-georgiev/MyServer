@@ -6,12 +6,11 @@
     using System.Web.Mvc;
     using System.Web.Routing;
 
-    using global::ImageGallery.Data.Models;
-
     using Microsoft.AspNet.Identity;
     using Microsoft.AspNet.Identity.Owin;
     using Microsoft.Owin.Security;
 
+    using MyServer.Data.Models;
     using MyServer.Services.Users;
 
     public class BaseController : Controller

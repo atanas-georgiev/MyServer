@@ -9,32 +9,36 @@
     using DelegateDecompiler;
 
     using MyServer.Common.ImageGallery;
-    using MyServer.Data.Models.ImageGallery;
+    using MyServer.Data.Models;
     using MyServer.Web.Infrastructure.Mappings;
 
     public class ImageViewModel : IMapFrom<Image>
     {
+        public Guid Id { get; set; }
+
         public Guid? AlbumId { get; set; }
 
+        [MaxLength(50)]
         public string Aperture { get; set; }
 
+        [MaxLength(50)]
         public string CameraMaker { get; set; }
 
+        [MaxLength(50)]
         public string CameraModel { get; set; }
 
         public DateTime? DateTaken { get; set; }
 
+        [MaxLength(50)]
         public string ExposureBiasStep { get; set; }
 
+        [MaxLength(200)]
         public string FileName { get; set; }
 
+        [MaxLength(50)]
         public string FocusLen { get; set; }
 
         public int Height { get; set; }
-
-        public Guid Id { get; set; }
-
-        public string OriginalDownloadPath => VirtualPathUtility.ToAbsolute(Constants.TempContentFolder + "\\" + this.Id + "\\" + this.OriginalFileName);
 
         [Computed]
         public string Info
@@ -104,13 +108,14 @@
             }
         }
 
-        // public string ImageGpsDataLocationName { get; set; }
+        // [ForeignKey("ImageGpsDataId")]
+        // public virtual ImageGpsData ImageGpsData { get; set; }
 
-        // public double? ImageGpsDataLatitude { get; set; }
-
-        // public double? ImageGpsDataLongitude { get; set; }
+        // public virtual Guid? ImageGpsDataId { get; set; }
+        [MaxLength(50)]
         public string Iso { get; set; }
 
+        [MaxLength(100)]
         public string Lenses { get; set; }
 
         public int LowHeight { get; set; }
@@ -135,11 +140,19 @@
 
         public int MidWidth { get; set; }
 
+        [Computed]
+        public string OriginalDownloadPath
+            =>
+                VirtualPathUtility.ToAbsolute(
+                    Constants.TempContentFolder + "\\" + this.Id + "\\" + this.OriginalFileName);
+
+        [MaxLength(100)]
         public string OriginalFileName { get; set; }
 
+        [MaxLength(50)]
         public string ShutterSpeed { get; set; }
 
-        [MaxLength(150)]
+        [MaxLength(200)]
         public string Title { get; set; }
 
         public int Width { get; set; }

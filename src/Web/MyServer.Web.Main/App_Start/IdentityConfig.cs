@@ -13,9 +13,8 @@ using Microsoft.Owin.Security;
 
 namespace MyServer.Web.Main
 {
-    using ImageGallery.Data.Models;
-
     using MyServer.Data;
+    using MyServer.Data.Models;
 
     public class EmailService : IIdentityMessageService
     {

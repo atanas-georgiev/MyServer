@@ -1,14 +1,15 @@
 ﻿using System.Reflection;
+using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("MyServer.Data.Users.Models")]
+[assembly: AssemblyTitle("MyServer.Data.Models.Common")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("MyServer.Data.Users.Models")]
+[assembly: AssemblyProduct("MyServer.Data.Models.Common")]
 [assembly: AssemblyCopyright("Copyright ©  2016")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
@@ -19,13 +20,15 @@ using System.Runtime.InteropServices;
 [assembly: ComVisible(false)]
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
-[assembly: Guid("1c3abbbd-dc7b-4413-ad5f-c42bcd2aea03")]
+[assembly: Guid("b37352d3-d6e3-4e0b-bb74-9bb287e9ae3b")]
 
 // Version information for an assembly consists of the following four values:
+//
 //      Major Version
 //      Minor Version 
 //      Build Number
 //      Revision
+//
 // You can specify all the values or you can default the Build and Revision Numbers 
 // by using the '*' as shown below:
 // [assembly: AssemblyVersion("1.0.*")]

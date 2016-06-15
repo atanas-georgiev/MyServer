@@ -66,13 +66,9 @@
       <Project>{c20b56b9-f6f0-45e3-9190-59da786442d2}</Project>
       <Name>MyServer.Data.Common</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\Data\MyServer.Data.Models.ImageGallery\MyServer.Data.Models.ImageGallery.csproj">
-      <Project>{7abab9f0-0a08-4101-a506-a9caffecc939}</Project>
-      <Name>MyServer.Data.Models.ImageGallery</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\Data\MyServer.Data.Models.Users\MyServer.Data.Models.Users.csproj">
-      <Project>{1c3abbbd-dc7b-4413-ad5f-c42bcd2aea03}</Project>
-      <Name>MyServer.Data.Models.Users</Name>
+    <ProjectReference Include="..\..\Data\MyServer.Data.Models\MyServer.Data.Models.csproj">
+      <Project>{b37352d3-d6e3-4e0b-bb74-9bb287e9ae3b}</Project>
+      <Name>MyServer.Data.Models</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\Data\MyServer.Data\MyServer.Data.csproj">
       <Project>{b5fdc857-c720-4f1e-a9b0-32975b81e03b}</Project>

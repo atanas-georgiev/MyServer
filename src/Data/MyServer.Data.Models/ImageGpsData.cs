@@ -1,4 +1,4 @@
-﻿namespace MyServer.Data.Models.ImageGallery
+﻿namespace MyServer.Data.Models
 {
     using System;
     using System.ComponentModel.DataAnnotations;

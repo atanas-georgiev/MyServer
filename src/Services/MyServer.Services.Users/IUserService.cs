@@ -2,7 +2,7 @@
 {
     using System.Linq;
 
-    using ImageGallery.Data.Models;
+    using MyServer.Data.Models;
 
     public interface IUserService
     {

@@ -2,7 +2,6 @@
 @using Newtonsoft.Json
 @model MyServer.Web.Main.Areas.ImageGallery.Models.Album.AlbumViewModel
 
-
 <h2>@Model.Title</h2>
 @Ajax.ActionLink("Download",
     nameof(AlbumController.Download),

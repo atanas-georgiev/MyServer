@@ -4,7 +4,7 @@
     using System.ComponentModel.DataAnnotations;
     using System.Web.Mvc;
 
-    using MyServer.Data.Models.ImageGallery;
+    using MyServer.Data.Models;
     using MyServer.Web.Infrastructure.Mappings;
 
     public class AddAlbumViewModel : IMapFrom<Album>

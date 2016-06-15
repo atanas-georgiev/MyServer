@@ -4,18 +4,16 @@ namespace MyServer.Data.Migrations
     using System.Data.Entity.Migrations;
     using System.Linq;
 
-    using ImageGallery.Data.Models;
-
     using Microsoft.AspNet.Identity;
     using Microsoft.AspNet.Identity.EntityFramework;
 
     using MyServer.Common;
+    using MyServer.Data.Models;
 
     public sealed class Configuration : DbMigrationsConfiguration<MyServerDbContext>
     {
         public Configuration()
         {
-
             this.AutomaticMigrationsEnabled = true;
 #if DEBUG
             this.AutomaticMigrationDataLossAllowed = true;
@@ -59,6 +57,7 @@ namespace MyServer.Data.Migrations
         {
             context.Roles.AddOrUpdate(x => x.Name, new IdentityRole(MyServerRoles.Admin));
             context.Roles.AddOrUpdate(x => x.Name, new IdentityRole(MyServerRoles.User));
+            context.Roles.AddOrUpdate(x => x.Name, new IdentityRole(MyServerRoles.Public));
             context.SaveChanges();
         }
     }

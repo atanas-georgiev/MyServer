@@ -6,11 +6,11 @@
     using System.Threading.Tasks;
     using System.Web;
 
-    using MyServer.Data.Models.ImageGallery;
+    using MyServer.Data.Models;
 
     public interface IImageService
     {
-        void Add(Guid albumId, HttpPostedFileBase file, HttpServerUtility server);
+        void Add(Guid albumId, HttpPostedFileBase file, HttpServerUtility server, string userId);
 
         IQueryable<Image> GetAll();
 

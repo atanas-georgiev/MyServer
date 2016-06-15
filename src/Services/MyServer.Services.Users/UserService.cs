@@ -3,9 +3,8 @@
     using System.Data.Entity;
     using System.Linq;
 
-    using ImageGallery.Data.Models;
-
     using MyServer.Data.Common;
+    using MyServer.Data.Models;
 
     public class UserService : IUserService
     {

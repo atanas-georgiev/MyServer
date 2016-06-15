@@ -30,6 +30,7 @@ namespace MyServer.Web.Main
 
             var autoMapperConfig = new AutoMapperConfig();
             autoMapperConfig.Execute(Assembly.GetExecutingAssembly());
+
         }
     }
 }

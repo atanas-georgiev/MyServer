@@ -5,8 +5,7 @@
     using System.Web.Mvc;
     using System.Web.Routing;
 
-    using global::ImageGallery.Data.Models;
-
+    using MyServer.Data.Models;
     using MyServer.Services.Users;
 
     // [Authorize(Roles = "Manager")]

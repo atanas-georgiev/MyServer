@@ -4,7 +4,7 @@
     using System.Linq;
     using System.Web;
 
-    using MyServer.Data.Models.ImageGallery;
+    using MyServer.Data.Models;
 
     public interface IAlbumService
     {

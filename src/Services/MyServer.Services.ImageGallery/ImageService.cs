@@ -5,7 +5,6 @@
     using System.Globalization;
     using System.IO;
     using System.Linq;
-    using System.Threading.Tasks;
     using System.Web;
 
     using ImageProcessor;
@@ -17,18 +16,18 @@
 
     using MyServer.Common.ImageGallery;
     using MyServer.Data.Common;
-    using MyServer.Data.Models.ImageGallery;
+    using MyServer.Data.Models;
 
     using Directory = System.IO.Directory;
-    using Image = MyServer.Data.Models.ImageGallery.Image;
+    using Image = MyServer.Data.Models.Image;
 
     public class ImageService : IImageService
     {
-        private IRepository<Album, Guid> albums;
+        private readonly IRepository<Album, Guid> albums;
 
-        private IRepository<Image, Guid> images;
+        private readonly IRepository<Image, Guid> images;
 
-        private ILocationService locationService;
+        private readonly ILocationService locationService;
 
         private int lowheight;
 
@@ -38,14 +37,17 @@
 
         private int midwidth;
 
-        public ImageService(IRepository<Image, Guid> images, IRepository<Album, Guid> albums, ILocationService locationService)
+        public ImageService(
+            IRepository<Image, Guid> images, 
+            IRepository<Album, Guid> albums, 
+            ILocationService locationService)
         {
             this.images = images;
             this.albums = albums;
             this.locationService = locationService;
         }
 
-        public void Add(Guid albumId, HttpPostedFileBase file, HttpServerUtility server)
+        public void Add(Guid albumId, HttpPostedFileBase file, HttpServerUtility server, string userId)
         {
             if (file == null)
             {
@@ -80,6 +82,7 @@
             image.LowWidth = this.lowwidth;
             image.MidHeight = this.midheight;
             image.MidWidth = this.midwidth;
+            image.AddedById = userId;
 
             this.images.Add(image);
 
@@ -90,26 +93,6 @@
                 album.CoverId = image.Id;
                 this.albums.Update(album);
             }
-        }
-
-        public IQueryable<Image> GetAll()
-        {
-            return this.images.All();
-        }
-
-        public Image GetById(Guid id)
-        {
-            return this.GetAll().FirstOrDefault(x => x.Id == id);
-        }
-
-        public void Remove(Guid id)
-        {
-            this.images.Delete(id);
-        }
-
-        public void Update(Image image)
-        {
-            this.images.Update(image);
         }
 
         public void AddGpsDataToImage(Guid id, ImageGpsData gpsData)
@@ -123,18 +106,39 @@
             }
         }
 
-                    
+        public IQueryable<Image> GetAll()
+        {
+            return this.images.All();
+        }
+
+        public Image GetById(Guid id)
+        {
+            return this.GetAll().FirstOrDefault(x => x.Id == id);
+        }
 
         public void PrepareFileForDownload(Guid id, HttpServerUtilityBase server)
         {
             var image = this.GetById(id);
-            var filePathServer = server.MapPath(Constants.MainContentFolder + "\\" + image.AlbumId + "\\" + Constants.ImageFolderOriginal + "\\" + image.FileName);
+            var filePathServer =
+                server.MapPath(
+                    Constants.MainContentFolder + "\\" + image.AlbumId + "\\" + Constants.ImageFolderOriginal + "\\"
+                    + image.FileName);
             var filePathTemp = server.MapPath(Constants.TempContentFolder + "\\" + id + "\\" + image.OriginalFileName);
 
             FileService.EmptyTempFolder(server);
             Directory.CreateDirectory(server.MapPath(Constants.TempContentFolder + "\\" + id));
-            
+
             File.Copy(filePathServer, filePathTemp);
+        }
+
+        public void Remove(Guid id)
+        {
+            this.images.Delete(id);
+        }
+
+        public void Update(Image image)
+        {
+            this.images.Update(image);
         }
 
         private Image ExtractExifData(Stream inputStream, string originalFileName)
@@ -147,7 +151,7 @@
                 var exifMain = imageFactoryStream.OfType<ExifSubIfdDirectory>().FirstOrDefault();
                 var exifExtended = imageFactoryStream.OfType<ExifIfd0Directory>().FirstOrDefault();
                 var exifGps = imageFactoryStream.OfType<GpsDirectory>().FirstOrDefault();
-                
+
                 var gps = exifGps?.GetGeoLocation();
 
                 if (gps != null && !gps.IsZero)
@@ -223,7 +227,9 @@
 
                 if (newImage.DateTaken != null)
                 {
-                    newImage.FileName = newImage.DateTaken.Value.ToString("yyyy-MM-dd-HH-mm-ss-", CultureInfo.CreateSpecificCulture("en-US")) + Guid.NewGuid();
+                    newImage.FileName = newImage.DateTaken.Value.ToString(
+                        "yyyy-MM-dd-HH-mm-ss-", 
+                        CultureInfo.CreateSpecificCulture("en-US")) + Guid.NewGuid();
                 }
                 else
                 {
@@ -252,7 +258,7 @@
                         imageFactory.Load(inputStream)
                             .Resize(
                                 new ResizeLayer(
-                                    new Size(Constants.ImageLowMaxSize, Constants.ImageLowMaxSize),
+                                    new Size(Constants.ImageLowMaxSize, Constants.ImageLowMaxSize), 
                                     ResizeMode.Max))
                             .Format(new JpegFormat { Quality = 75 })
                             .Save(outStream);
@@ -261,6 +267,7 @@
                         FileService.Save(outStream, type, originalFilename, albumId, server);
                     }
                 }
+
                 GC.Collect();
             }
             else if (type == ImageType.Medium)
@@ -272,7 +279,7 @@
                         imageFactory.Load(inputStream)
                             .Resize(
                                 new ResizeLayer(
-                                    new Size(Constants.ImageMiddleMaxSize, Constants.ImageMiddleMaxSize),
+                                    new Size(Constants.ImageMiddleMaxSize, Constants.ImageMiddleMaxSize), 
                                     ResizeMode.Max))
                             .Format(new JpegFormat { Quality = 75 })
                             .Save(outStream);
@@ -281,6 +288,7 @@
                         FileService.Save(outStream, type, originalFilename, albumId, server);
                     }
                 }
+
                 GC.Collect();
             }
         }

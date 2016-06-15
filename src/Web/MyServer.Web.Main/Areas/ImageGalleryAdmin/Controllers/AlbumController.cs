@@ -6,7 +6,9 @@
     using System.Web;
     using System.Web.Mvc;
 
-    using MyServer.Data.Models.ImageGallery;
+    using Microsoft.AspNet.Identity;
+
+    using MyServer.Data.Models;
     using MyServer.Services.ImageGallery;
     using MyServer.Services.Users;
     using MyServer.Web.Infrastructure.Mappings;
@@ -45,7 +47,8 @@
                                 {
                                     Title = model.Title, 
                                     Description = model.Description,
-                                    CreatedOn = DateTime.UtcNow
+                                    CreatedOn = DateTime.UtcNow,
+                                    AddedById = this.User.Identity.GetUserId()
                                 };
 
                 this.albumService.Add(album);

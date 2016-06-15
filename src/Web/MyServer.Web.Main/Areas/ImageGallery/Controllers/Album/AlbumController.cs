@@ -20,8 +20,7 @@
 
         public ActionResult Details(string id)
         {
-            var album =
-                this.albumService.GetAll().Where(x => x.Id.ToString() == id).To<AlbumViewModel>().FirstOrDefault();
+            var album = this.albumService.GetAll().Where(x => x.Id.ToString() == id).To<AlbumViewModel>().FirstOrDefault();
             return this.View(album);
         }
 
@@ -33,9 +32,8 @@
 
         public ActionResult Index()
         {
-            var albums = this.albumService.GetAll().To<AlbumViewModel>();
+            var albums = this.albumService.GetAll().To<AlbumViewModel>().ToList();
             return this.View(albums);
-
         }
     }
 }
