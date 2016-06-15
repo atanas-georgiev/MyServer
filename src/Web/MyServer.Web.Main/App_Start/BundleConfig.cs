@@ -34,7 +34,6 @@
             bundles.Add(new StyleBundle("~/Content/custom").Include("~/Content/site.css"));
 
             bundles.Add(new StyleBundle("~/Content/gallery").Include("~/Content/justified-gallery.min.css"));
-
         }
 
         private static void RegisterScriptBundles(BundleCollection bundles)
