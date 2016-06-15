@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>@ViewBag.Title</title>
     @Styles.Render("~/Content/css")
-    @Styles.Render("~/Content/kendocss")
     @Styles.Render("~/Content/gallery")
     <link type="text/css" rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/lightgallery/1.2.19/css/lightgallery.min.css" />
     @Styles.Render("~/Content/custom")
@@ -29,6 +28,7 @@
                 <li>@Html.ActionLink("Admin", "Index", "Album", new { Area = "ImageGalleryAdmin" }, new { })</li>
                 <li>@Html.ActionLink("Albums", "Index", "Album", new { Area = "ImageGallery" }, new { })</li>
             </ul>
+            @Scripts.Render("~/bundles/gallery")
             @Html.Partial("_LoginPartial")
         </div>
     </div>
@@ -44,11 +44,8 @@
     </footer>
 
 </div>
-    @Scripts.Render("~/bundles/kendo")
     @Scripts.Render("~/bundles/jqueryajax")
     @Scripts.Render("~/bundles/bootstrap")
-    @Scripts.Render("~/bundles/geocomplete")
-    @Scripts.Render("~/bundles/gallery")
     @RenderSection("scripts", required: false)
 </body>
 </html>
