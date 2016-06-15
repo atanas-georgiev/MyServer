@@ -3,35 +3,45 @@
 @model MyServer.Web.Main.Areas.ImageGallery.Models.Album.AlbumViewModel
 
 <div class="row">
-    <div class="panel">
-        <div class="panel-heading">
-            <h3 class="panel-title">@Model.Title</h3>
-        </div>
-        <div class="panel-body">
-            @Ajax.ActionLink("Download",
-                nameof(AlbumController.Download),
-                new { id = @Model.Id },
-                new AjaxOptions()
-                {
-                    HttpMethod = "GET",
-                    LoadingElementId = "loading",
-                    OnSuccess = "window.location.href = data;"
-                },
-                new { @class = "btn btn-primary" })
-            <span id="loading" style="display: none">
-                <img src="~/Content/ajax-loader.gif" alt="" />
-            </span>
+    <div class="well well-sm">
+        <h1 class="well-title text-center">@Model.Title</h1>
+        <h4 class="text-center">@Model.Date</h4>
+        <hr/>
+        @if (Model.Description != null)
+        {
+            <p class="text-center">
+                @Html.Raw(Model.Description)
+            </p>
             <hr />
-            <div class="row">
-                <div class="overlay-album mygallery lightgallery">
-                    @foreach (var image in Model.Images)
-                    {
-                        <a href='@image.MiddleImageSource' data-download-url="@image.OriginalDownloadPath">
-                            <img alt="@image.Info" src='@image.LowImageSource' />
-                        </a>
-                    }
-                </div>
+        }
+
+        <div class="btn-group text-center">
+            <div class="btn-group">
+                <a href="#" data-target="#" class="btn dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+                    Download
+                    <span id="loading" style="display: none">
+                        <img src="~/Content/ajax-loader.gif" alt="" />
+                    </span>
+                </a>
+                <ul class="dropdown-menu">
+                    <li>@Ajax.ActionLink("Low", nameof(AlbumController.Download), new { id = @Model.Id }, new AjaxOptions() { HttpMethod = "GET", LoadingElementId = "loading", OnSuccess = "window.location.href = data;" }, new { @class = "btn" })</li>
+                    <li>@Ajax.ActionLink("Middle", nameof(AlbumController.Download), new { id = @Model.Id }, new AjaxOptions() { HttpMethod = "GET", LoadingElementId = "loading", OnSuccess = "window.location.href = data;" }, new { @class = "btn" })</li>
+                    <li>@Ajax.ActionLink("High", nameof(AlbumController.Download), new { id = @Model.Id }, new AjaxOptions() { HttpMethod = "GET", LoadingElementId = "loading", OnSuccess = "window.location.href = data;" }, new { @class = "btn" })</li>
+                </ul>
             </div>
+            @*</div>
+                <a href="javascript:void(0)" class="btn">Left</a>
+                <a href="javascript:void(0)" class="btn">Middle</a>
+                <a href="javascript:void(0)" class="btn">Right</a>
+            </div>*@
+        </div>
+        <div class="overlay-album mygallery lightgallery">
+            @foreach (var image in Model.Images)
+            {
+                <a href='@image.MiddleImageSource' data-download-url="@image.OriginalDownloadPath">
+                    <img alt="@image.Info" src='@image.LowImageSource' />
+                </a>
+            }
         </div>
     </div>
 </div>
@@ -44,11 +54,11 @@
             controls: false,
             thumbnail: false,
             pause: 3000
-        }); 
+        });
 
         $(".mygallery").justifiedGallery({
             rowHeight: 200,
-            maxRowHeight: 2000,
+            maxRowHeight: 400,
             fixedHeight: false,
             margins: 3,
             lastRow: 'nojustify',
