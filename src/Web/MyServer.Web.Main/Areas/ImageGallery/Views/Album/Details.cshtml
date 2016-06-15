@@ -2,29 +2,37 @@
 @using Newtonsoft.Json
 @model MyServer.Web.Main.Areas.ImageGallery.Models.Album.AlbumViewModel
 
-<h2>@Model.Title</h2>
-@Ajax.ActionLink("Download",
-    nameof(AlbumController.Download),
-    new { id = @Model.Id },
-    new AjaxOptions()
-    {
-        HttpMethod = "GET",
-        LoadingElementId = "loading",
-        OnSuccess = "window.location.href = data;"
-    },
-    new {@class = "btn btn-primary"})
-<span id="loading" style="display: none">
-    <img src="~/Content/ajax-loader.gif" alt=""/>
-</span>
-<hr />
 <div class="row">
-    <div class="overlay-album mygallery lightgallery">
-        @foreach (var image in Model.Images)
-        {
-            <a href='@image.MiddleImageSource' data-download-url="@image.OriginalDownloadPath">
-                <img alt="@image.Info" src='@image.LowImageSource'/>
-            </a>
-        }
+    <div class="panel">
+        <div class="panel-heading">
+            <h3 class="panel-title">@Model.Title</h3>
+        </div>
+        <div class="panel-body">
+            @Ajax.ActionLink("Download",
+                nameof(AlbumController.Download),
+                new { id = @Model.Id },
+                new AjaxOptions()
+                {
+                    HttpMethod = "GET",
+                    LoadingElementId = "loading",
+                    OnSuccess = "window.location.href = data;"
+                },
+                new { @class = "btn btn-primary" })
+            <span id="loading" style="display: none">
+                <img src="~/Content/ajax-loader.gif" alt="" />
+            </span>
+            <hr />
+            <div class="row">
+                <div class="overlay-album mygallery lightgallery">
+                    @foreach (var image in Model.Images)
+                    {
+                        <a href='@image.MiddleImageSource' data-download-url="@image.OriginalDownloadPath">
+                            <img alt="@image.Info" src='@image.LowImageSource' />
+                        </a>
+                    }
+                </div>
+            </div>
+        </div>
     </div>
 </div>
 

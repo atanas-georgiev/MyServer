@@ -1,42 +1,48 @@
 ﻿@using MyServer.Web.Main.Areas.ImageGallery.Controllers.Album
 @model IEnumerable<MyServer.Web.Main.Areas.ImageGallery.Models.Album.AlbumViewModel>
 
-<h2>Albums</h2>
-<hr/>
 <div class="row">
-    <div id="mygallery" class="overlay-album">
-        @foreach (var album in Model)
-        {
-            <a class="overlay-album-link" href='@Url.Content("Album" + "\\" + nameof(AlbumController.Details) + "\\" + album.Id)'>
-                <img class="overlay-album-image" alt="@album.Title" src='@album.CoverImage' />
-                <div class="overlay-album-caption">
-                    <h1 class="overlay-album-title">@album.Title</h1>
-                    <p class="overlay-album-content">
-                        @album.Date<br />
-                        @album.ImagesCountCover
-                    </p>
-                </div>
-            </a>
-        }
+    <div class="panel">
+        <div class="panel-heading">
+            <h3 class="panel-title">Albums</h3>
+        </div>
+        <div class="panel-body">
+            <div id="mygallery" class="overlay-album">
+                @foreach (var album in Model)
+                {
+                    <a class="overlay-album-link" href='@Url.Content("Album" + "\\" + nameof(AlbumController.Details) + "\\" + album.Id)'>
+                        <img class="overlay-album-image" alt="@album.Title" src='@album.CoverImage'/>
+                        <div class="overlay-album-caption">
+                            <h1 class="overlay-album-title">@album.Title</h1>
+                            <p class="overlay-album-content">
+                                @album.Date<br/>
+                                @album.ImagesCountCover
+                            </p>
+                        </div>
+                    </a>
+                }
+            </div>
+        </div>
     </div>
 </div>
-    <script>
-        $(document).ready(function () {
-            $("#mygallery").justifiedGallery({
-                rowHeight: 300,
-                maxRowHeight: 2000,
-                fixedHeight: false,
-                margins: 3,
-                lastRow: 'nojustify',
-                captions: false,
-                border: 0,
-                thumbnailPath: function (currentPath, width, height) {
-                    if (Math.max(width, height) < 300) {
-                        return currentPath.replace(/(.*)(_[a-z]+)(\..*)/, "$1low$2");
-                    } else {
-                        return currentPath.replace(/(.*)(_[a-z]+)(\..*)/, "$1medium$2");
-                    }
+
+<script>
+    $(document).ready(function () {
+        $("#mygallery").justifiedGallery({
+            rowHeight: 300,
+            maxRowHeight: 2000,
+            fixedHeight: false,
+            margins: 3,
+            lastRow: 'nojustify',
+            captions: false,
+            border: 0,
+            thumbnailPath: function (currentPath, width, height) {
+                if (Math.max(width, height) < 300) {
+                    return currentPath.replace(/(.*)(_[a-z]+)(\..*)/, "$1low$2");
+                } else {
+                    return currentPath.replace(/(.*)(_[a-z]+)(\..*)/, "$1medium$2");
                 }
-            });
+            }
         });
-    </script>
+    });
+</script>
