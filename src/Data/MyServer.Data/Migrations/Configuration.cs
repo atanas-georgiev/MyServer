@@ -15,8 +15,13 @@ namespace MyServer.Data.Migrations
     {
         public Configuration()
         {
+
             this.AutomaticMigrationsEnabled = true;
+#if DEBUG
             this.AutomaticMigrationDataLossAllowed = true;
+#else
+            this.AutomaticMigrationDataLossAllowed = false;
+#endif
         }
 
         protected override void Seed(MyServerDbContext context)
