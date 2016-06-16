@@ -2,21 +2,26 @@
 {
     using System;
     using System.ComponentModel.DataAnnotations;
+    using System.Linq;
+
+    using DelegateDecompiler;
 
     using MyServer.Data.Models;
     using MyServer.Web.Infrastructure.Mappings;
+    using MyServer.Web.Main.Areas.ImageGallery.Models.Album;
 
-    public class AlbumListViewModel : IMapFrom<Album>
+    public class AlbumListViewModel : AlbumViewModel
     {
-        [MaxLength(3000)]
-        public string Description { get; set; }
+        [Computed]
+        public int Height =>
+            this.CoverId == null
+                    ? 0
+                    : this.Images.First(x => x.Id == this.CoverId).LowHeight;
 
-        [Key]
-        public Guid Id { get; set; }
-
-        [Required]
-        [MinLength(3)]
-        [MaxLength(150)]
-        public string Title { get; set; }
+        [Computed]
+        public int Width =>
+            this.CoverId == null
+                    ? 0
+                    : this.Images.First(x => x.Id == this.CoverId).LowWidth;
     }
 }

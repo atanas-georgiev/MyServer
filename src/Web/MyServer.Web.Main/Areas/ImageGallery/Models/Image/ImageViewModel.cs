@@ -111,11 +111,11 @@
 
         public virtual GpsDataViewModel ImageGpsData { get; set; }
 
-        //[Computed]
-        //public string GpsName => this.ImageGpsData?.LocationName;
+        [Computed]
+        public string GpsName => this.ImageGpsData?.LocationName;
 
-        //[Computed]
-        //public List<double> GpsCoordinates => this.ImageGpsData != null ? new List<double>() { this.ImageGpsData.Latitude.Value, this.ImageGpsData.Longitude.Value } : null;
+        [Computed]
+        public List<double> GpsCoordinates => this.ImageGpsData != null ? new List<double>() { this.ImageGpsData.Latitude.Value, this.ImageGpsData.Longitude.Value } : null;
 
         [MaxLength(50)]
         public string Iso { get; set; }

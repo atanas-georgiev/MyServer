@@ -29,7 +29,7 @@
 
         public ActionResult Albums_Read([DataSourceRequest] DataSourceRequest request)
         {
-            var tasks = this.albumService.GetAll().To<AlbumListViewModel>();
+            var tasks = this.albumService.GetAll().To<AlbumListViewModel>().ToList();
             return this.Json(tasks.ToDataSourceResult(request));
         }
 
