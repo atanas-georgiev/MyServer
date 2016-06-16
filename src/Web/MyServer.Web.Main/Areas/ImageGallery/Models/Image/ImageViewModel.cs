@@ -1,6 +1,7 @@
 ﻿namespace MyServer.Web.Main.Areas.ImageGallery.Models.Image
 {
     using System;
+    using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
     using System.Globalization;
     using System.Text;
@@ -108,10 +109,14 @@
             }
         }
 
-        // [ForeignKey("ImageGpsDataId")]
-        // public virtual ImageGpsData ImageGpsData { get; set; }
+        public virtual GpsDataViewModel ImageGpsData { get; set; }
 
-        // public virtual Guid? ImageGpsDataId { get; set; }
+        //[Computed]
+        //public string GpsName => this.ImageGpsData?.LocationName;
+
+        //[Computed]
+        //public List<double> GpsCoordinates => this.ImageGpsData != null ? new List<double>() { this.ImageGpsData.Latitude.Value, this.ImageGpsData.Longitude.Value } : null;
+
         [MaxLength(50)]
         public string Iso { get; set; }
 

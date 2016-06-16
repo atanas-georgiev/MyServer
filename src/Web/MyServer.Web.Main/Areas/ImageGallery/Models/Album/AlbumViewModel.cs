@@ -18,8 +18,6 @@
 
     public class AlbumViewModel : IMapFrom<Album>
     {
-        public Guid Id { get; set; }
-
         public Guid? CoverId { get; set; }
 
         [Computed]
@@ -29,7 +27,7 @@
                     ? string.Empty
                     : VirtualPathUtility.ToAbsolute(
                         Constants.MainContentFolder + "\\" + this.Id + "\\" + Constants.ImageFolderLow + "\\"
-                        + this.Images.First(x => x.Id == CoverId).FileName);
+                        + this.Images.First(x => x.Id == this.CoverId).FileName);
 
         [Computed]
         public string Date
@@ -73,6 +71,12 @@
 
         [MaxLength(3000)]
         public string Description { get; set; }
+
+        public Guid Id { get; set; }
+
+        [Computed]
+        public IEnumerable<GpsDataViewModel> ImageCoordinates
+            => this.Images.Where(x => x.ImageGpsData != null).Select(x => x.ImageGpsData).Distinct();
 
         public ICollection<ImageViewModel> Images { get; set; }
 

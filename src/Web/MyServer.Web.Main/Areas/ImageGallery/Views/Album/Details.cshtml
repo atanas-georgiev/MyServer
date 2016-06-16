@@ -15,6 +15,19 @@
             <hr />
         }
 
+        @if (Model.ImageCoordinates != null)
+        {
+            foreach (var gps in Model.ImageCoordinates)
+            {
+                var url = "http://www.google.com/maps/place/" + gps.Latitude + "," + gps.Longitude;
+                <p class="text-center">
+                    <span class="glyphicon glyphicon-map-marker"></span> 
+                    <a href="@url" target="_blank">@gps.LocationName</a>
+                </p>
+            }
+            <hr />
+        }
+
         <div class="btn-group text-center">
             <div class="btn-group">
                 <a href="#" data-target="#" class="btn dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
@@ -29,12 +42,8 @@
                     <li>@Ajax.ActionLink("High", nameof(AlbumController.Download), new { id = @Model.Id }, new AjaxOptions() { HttpMethod = "GET", LoadingElementId = "loading", OnSuccess = "window.location.href = data;" }, new { @class = "btn" })</li>
                 </ul>
             </div>
-            @*</div>
-                <a href="javascript:void(0)" class="btn">Left</a>
-                <a href="javascript:void(0)" class="btn">Middle</a>
-                <a href="javascript:void(0)" class="btn">Right</a>
-            </div>*@
         </div>
+
         <div class="overlay-album mygallery lightgallery">
             @foreach (var image in Model.Images)
             {
