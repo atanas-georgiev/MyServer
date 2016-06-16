@@ -18,9 +18,9 @@
         .ClientTemplateId("template")
         .DataSource(dataSource => dataSource.Model(model => model.Id("Id"))
             .PageSize(10)
-            .Read(read => read.Action("Albums_Read", "Json"))
-            .Create(create => create.Action("Albums_Create", "Json"))
-            .Destroy(destroy => destroy.Action("Albums_Destroy", "Json"))))
+            .Read(read => read.Action("AlbumsRead", "Json"))
+            .Create(create => create.Action("AlbumsCreate", "Json"))
+            .Destroy(destroy => destroy.Action("AlbumsDestroy", "Json"))))
 </div>
 
 <script type="text/x-kendo-tmpl" id="template">

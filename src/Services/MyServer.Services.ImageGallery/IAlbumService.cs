@@ -16,6 +16,8 @@
 
         void Update(Album album);
 
+        void Remove(Guid id);
+
         void UpdateCoverImage(Guid album, Guid image);
 
         string GenerateZipArchive(Guid id, HttpServerUtilityBase server);

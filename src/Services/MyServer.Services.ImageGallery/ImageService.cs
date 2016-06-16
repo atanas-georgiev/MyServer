@@ -2,6 +2,7 @@
 {
     using System;
     using System.Drawing;
+    using System.Drawing.Imaging;
     using System.Globalization;
     using System.IO;
     using System.Linq;
@@ -253,14 +254,15 @@
             {
                 using (MemoryStream outStream = new MemoryStream())
                 {
-                    using (ImageFactory imageFactory = new ImageFactory(preserveExifData: true))
+                    using (ImageFactory imageFactory = new ImageFactory(preserveExifData: false))
                     {
                         imageFactory.Load(inputStream)
                             .Resize(
                                 new ResizeLayer(
                                     new Size(Constants.ImageLowMaxSize, Constants.ImageLowMaxSize), 
                                     ResizeMode.Max))
-                            .Format(new JpegFormat { Quality = 75 })
+                            .Format(new JpegFormat { Quality = 70 })
+                            .Resolution(96, 96)
                             .Save(outStream);
                         this.lowwidth = imageFactory.Load(outStream).Image.Width;
                         this.lowheight = imageFactory.Load(outStream).Image.Height;
@@ -274,14 +276,15 @@
             {
                 using (MemoryStream outStream = new MemoryStream())
                 {
-                    using (ImageFactory imageFactory = new ImageFactory(preserveExifData: true))
+                    using (ImageFactory imageFactory = new ImageFactory(preserveExifData: false))
                     {
                         imageFactory.Load(inputStream)
                             .Resize(
                                 new ResizeLayer(
                                     new Size(Constants.ImageMiddleMaxSize, Constants.ImageMiddleMaxSize), 
                                     ResizeMode.Max))
-                            .Format(new JpegFormat { Quality = 75 })
+                            .Format(new JpegFormat { Quality = 85 })
+                            .Resolution(96, 96)
                             .Save(outStream);
                         this.midwidth = imageFactory.Load(outStream).Image.Width;
                         this.midheight = imageFactory.Load(outStream).Image.Height;

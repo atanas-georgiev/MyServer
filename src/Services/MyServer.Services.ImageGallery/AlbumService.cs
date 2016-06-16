@@ -15,10 +15,12 @@
     public class AlbumService : IAlbumService
     {
         private IRepository<Album, Guid> albums;
+        private IRepository<Image, Guid> images;
 
-        public AlbumService(IRepository<Album, Guid> albums)
+        public AlbumService(IRepository<Album, Guid> albums, IRepository<Image, Guid> images)
         {
             this.albums = albums;
+            this.images = images;
         }
 
         public void Add(Album album)
@@ -39,6 +41,12 @@
         public void Update(Album album)
         {
             this.albums.Update(album);
+        }
+
+        public void Remove(Guid id)
+        {
+            var album = this.GetById(id);
+            this.albums.Delete(id);
         }
 
         public void UpdateCoverImage(Guid album, Guid image)

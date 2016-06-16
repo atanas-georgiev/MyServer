@@ -27,12 +27,28 @@
             this.imageService = imageService;
         }
 
-        public ActionResult Albums_Read([DataSourceRequest] DataSourceRequest request)
+        public ActionResult AlbumsRead([DataSourceRequest] DataSourceRequest request)
         {
             var tasks = this.albumService.GetAll().To<AlbumListViewModel>().ToList();
             return this.Json(tasks.ToDataSourceResult(request));
         }
 
+        [AcceptVerbs(HttpVerbs.Post)]
+        public ActionResult AlbumsDestroy([DataSourceRequest] DataSourceRequest request, AlbumListViewModel album)
+        {
+            if (album != null)
+            {
+                this.albumService.Remove(album.Id);
+
+                foreach (var image in album.Images)
+                {
+                    this.imageService.Remove(image.Id);
+                }
+            }
+
+            return this.Json(this.ModelState.ToDataSourceResult());
+        }
+        
         public ActionResult ImagesGridRead([DataSourceRequest] DataSourceRequest request)
         {
             var id = Guid.Parse(this.Request.Cookies["AlbumId"].Value);

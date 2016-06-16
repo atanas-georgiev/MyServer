@@ -6,6 +6,7 @@
 
     using DelegateDecompiler;
 
+    using MyServer.Common.ImageGallery;
     using MyServer.Data.Models;
     using MyServer.Web.Infrastructure.Mappings;
     using MyServer.Web.Main.Areas.ImageGallery.Models.Album;
@@ -15,13 +16,13 @@
         [Computed]
         public int Height =>
             this.CoverId == null
-                    ? 0
-                    : this.Images.First(x => x.Id == this.CoverId).LowHeight;
+                    ? Convert.ToInt32(Convert.ToDouble(Constants.ImageLowMaxSize / 2) / 1.5)
+                    : this.Images.First(x => x.Id == this.CoverId).LowHeight / 2;
 
         [Computed]
-        public int Width =>
+        public int Width => 
             this.CoverId == null
-                    ? 0
-                    : this.Images.First(x => x.Id == this.CoverId).LowWidth;
+                    ? Constants.ImageLowMaxSize / 2
+                    : this.Images.First(x => x.Id == this.CoverId).LowWidth / 2;
     }
 }

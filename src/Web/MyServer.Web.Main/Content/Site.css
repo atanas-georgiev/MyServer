@@ -32,6 +32,12 @@ figure {
     font: normal 16px/1.5 Arial, sans-serif;
 }
 
+@media only screen and (max-width: 768px) {
+    #well, .well-sm {
+        padding: 0 !important
+    }
+}
+
 .overlay-album h1{
     margin: 0;
     text-shadow: 4px 4px 4px #000000;

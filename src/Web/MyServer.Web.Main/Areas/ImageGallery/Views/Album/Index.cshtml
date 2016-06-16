@@ -29,15 +29,15 @@
             rowHeight: 300,
             maxRowHeight: 400,
             fixedHeight: false,
-            margins: 3,
+            margins: 2,
             lastRow: 'nojustify',
             captions: false,
             border: 0,
             thumbnailPath: function (currentPath, width, height) {
-                if (Math.max(width, height) < 300) {
-                    return currentPath.replace(/(.*)(_[a-z]+)(\..*)/, "$1low$2");
+                if (Math.max(width, height) > 300) {
+                    return currentPath.replace(/(.*)(_[a-z]+)(\..*)/, "$1Low$2");
                 } else {
-                    return currentPath.replace(/(.*)(_[a-z]+)(\..*)/, "$1medium$2");
+                    return currentPath.replace(/(.*)(_[a-z]+)(\..*)/, "$1Medium$2");
                 }
             }
         });

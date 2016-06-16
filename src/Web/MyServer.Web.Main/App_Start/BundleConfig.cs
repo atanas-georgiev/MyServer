@@ -27,9 +27,9 @@
 
             bundles.Add(
                 new StyleBundle("~/Content/kendocss").Include(
-                    "~/Content/Kendo/kendo.common.min.css",
-                    "~/Content/Kendo/kendo.common-bootstrap.min.css",
-                    "~/Content/Kendo/kendo.bootstrap.min.css"));
+                    "~/Content/Kendo/kendo.material.min.css",
+                    "~/Content/Kendo/kendo.material.mobile.min.css",
+                    "~/Content/Kendo/kendo.common-material.min.css"));
 
             bundles.Add(new StyleBundle("~/Content/custom").Include("~/Content/site.css"));
 

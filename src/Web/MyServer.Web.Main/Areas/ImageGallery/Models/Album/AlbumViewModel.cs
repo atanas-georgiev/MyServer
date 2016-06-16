@@ -76,7 +76,22 @@
 
         [Computed]
         public IEnumerable<GpsDataViewModel> ImageCoordinates
-            => this.Images.Where(x => x.ImageGpsData != null).Select(x => x.ImageGpsData).Distinct();
+        {
+            get
+            {
+                if (this.Images != null)
+                {
+                    var coords = this.Images.Where(x => x.ImageGpsData != null);
+
+                    if (coords.Count() != 0)
+                    {
+                        return coords.Select(x => x.ImageGpsData).Distinct().ToList();
+                    }
+                }
+
+                return null;
+            }
+        }
 
         public ICollection<ImageViewModel> Images { get; set; }
 
