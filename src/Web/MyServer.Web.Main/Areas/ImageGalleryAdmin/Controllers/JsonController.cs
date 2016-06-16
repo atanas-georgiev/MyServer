@@ -52,7 +52,7 @@
         public ActionResult ImagesGridRead([DataSourceRequest] DataSourceRequest request)
         {
             var id = Guid.Parse(this.Request.Cookies["AlbumId"].Value);
-            var result = this.imageService.GetAll().Where(x => x.Album.Id == id).To<ImageDetailsViewModel>(); 
+            var result = this.imageService.GetAll().Where(x => x.Album.Id == id).To<ImageDetailsViewModel>().ToList(); 
             return this.Json(result.ToDataSourceResult(request));
         }
 

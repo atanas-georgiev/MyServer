@@ -42,6 +42,7 @@
                     <li>@Ajax.ActionLink("High", nameof(AlbumController.Download), new { id = @Model.Id }, new AjaxOptions() { HttpMethod = "GET", LoadingElementId = "loading", OnSuccess = "window.location.href = data;" }, new { @class = "btn" })</li>
                 </ul>
             </div>
+            <div id="shareBtn" class="btn btn-success clearfix">Share</div>
         </div>
 
         <div class="overlay-album mygallery lightgallery">
@@ -56,7 +57,34 @@
 </div>
 
 <script>
-    $(document).ready(function () {
+    $(document)
+        .ready(function() {
+
+            window.fbAsyncInit = function () {
+                FB.init({
+                    appId: '521558431365642',
+                    xfbml: true,
+                    version: 'v2.6'
+                });
+            };
+
+            (function (d, s, id) {
+                var js, fjs = d.getElementsByTagName(s)[0];
+                if (d.getElementById(id)) { return; }
+                js = d.createElement(s); js.id = id;
+                js.src = "//connect.facebook.net/en_US/sdk.js";
+                fjs.parentNode.insertBefore(js, fjs);
+            }(document, 'script', 'facebook-jssdk'));
+
+        document.getElementById('shareBtn').onclick = function() {
+            urlfb = 'http://atanas.it/ImageGallery/Album/Details/' + '@Model.Id';
+            FB.ui({
+            method: 'share',
+            display: 'popup',
+            href: urlfb,
+        }, function(response){});
+        }
+
         $('.mygallery').lightGallery({
             speed: 400,
             hideBarsDelay: 2000,
