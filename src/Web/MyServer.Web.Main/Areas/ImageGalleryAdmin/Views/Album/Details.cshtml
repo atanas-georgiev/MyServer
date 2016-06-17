@@ -1,6 +1,8 @@
 ﻿@using Kendo.Mvc.UI
 @model MyServer.Web.Main.Areas.ImageGalleryAdmin.Models.Album.AlbumDetailsViewModel
 
+<button class="btn select-all">Select All</button>
+
 <select multiple="multiple" class="image-picker show-html show-labels">
 
     @foreach (var image in Model.Images)
@@ -12,6 +14,11 @@
 <script>
     
     $(document).ready(function () {
+        $(".select-all").click(function () {
+            $("img").trigger("click");
+            
+        });
+
         $("select").imagepicker();
 
         $(".mygallery").justifiedGallery({
