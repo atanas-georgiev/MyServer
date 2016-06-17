@@ -1,6 +1,40 @@
 ﻿@using Kendo.Mvc.UI
 @model MyServer.Web.Main.Areas.ImageGalleryAdmin.Models.Album.AlbumDetailsViewModel
 
+<select multiple="multiple" class="image-picker show-html show-labels mygallery">
+
+    @foreach (var image in Model.Images)
+    {
+        var imagesrc = VirtualPathUtility.ToAbsolute("~" + image.LowImageSource);
+        <option data-img-src="@imagesrc" value="@image.Id">@image.Info</option>
+    }
+
+</select>
+<script>
+    
+    $(document).ready(function () {
+        $("select").imagepicker();
+
+        $(".mygallery").justifiedGallery({
+            rowHeight: 300,
+            maxRowHeight: 400,
+            fixedHeight: false,
+            margins: 2,
+            lastRow: 'nojustify',
+            captions: false,
+            border: 0,
+            thumbnailPath: function (currentPath, width, height) {
+                if (Math.max(width, height) > 300) {
+                    return currentPath.replace(/(.*)(_[a-z]+)(\..*)/, "$1Low$2");
+                } else {
+                    return currentPath.replace(/(.*)(_[a-z]+)(\..*)/, "$1Medium$2");
+                }
+            }
+        });
+    });
+</script>
+
+
 <div class="demo-section k-content wide">
     <br />
     <br />

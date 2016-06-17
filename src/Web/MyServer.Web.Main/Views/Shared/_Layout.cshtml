@@ -6,6 +6,7 @@
     <title>@ViewBag.Title</title>
     <link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=Roboto:300,400,500,700">
     <link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/icon?family=Material+Icons">
+    <link rel="stylesheet" type="text/css" href="~/Content/image-picker.css">
     @Styles.Render("~/Content/css")
     @Styles.Render("~/Content/gallery")
     <link type="text/css" rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/lightgallery/1.2.19/css/lightgallery.min.css" />
@@ -44,7 +45,8 @@
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAJOGz_xyAi_2CdRPW4HX-g5E1WcTwQMSY&libraries=places"></script>
     <script src="https://cdn.jsdelivr.net/bootstrap.material-design/0.5.10/js/material.min.js"></script>
     <script src="https://cdn.jsdelivr.net/bootstrap.material-design/0.5.10/js/ripples.min.js"></script>
-    @RenderBody()
+    <script src="~/Scripts/image-picker.min.js"></script>
+@RenderBody()
     <hr/>
     <footer>
         <p>&copy; @DateTime.Now.Year - My ASP.NET Application</p>
