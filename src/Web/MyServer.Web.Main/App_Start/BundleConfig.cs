@@ -34,6 +34,8 @@
             bundles.Add(new StyleBundle("~/Content/custom").Include("~/Content/site.css"));
 
             bundles.Add(new StyleBundle("~/Content/gallery").Include("~/Content/justified-gallery.min.css"));
+
+            bundles.Add(new StyleBundle("~/Content/imagedetails").Include("~/Content/image-picker.css"));
         }
 
         private static void RegisterScriptBundles(BundleCollection bundles)
@@ -57,6 +59,8 @@
                 new ScriptBundle("~/bundles/geocomplete").Include("~/Scripts/GeoComplete/jquery.geocomplete.min.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/gallery").Include("~/Scripts/jquery.justified-gallery.min.js"));
-}
+
+            bundles.Add(new ScriptBundle("~/bundles/imagedetails").Include("~/Scripts/image-details.js", "~/Scripts/image-picker.min.js"));
+        }
     }
 }

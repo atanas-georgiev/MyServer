@@ -243,6 +243,7 @@
     <Compile Include="Areas\Account\Models\ChallengeResult.cs" />
     <Compile Include="Areas\ImageGalleryAdmin\Controllers\AlbumController.cs" />
     <Compile Include="Areas\ImageGalleryAdmin\Controllers\BaseController.cs" />
+    <Compile Include="Areas\ImageGalleryAdmin\Controllers\ImageController.cs" />
     <Compile Include="Areas\ImageGalleryAdmin\Controllers\JsonController.cs" />
     <Compile Include="Areas\ImageGalleryAdmin\Controllers\UploadController.cs" />
     <Compile Include="Areas\ImageGalleryAdmin\ImageGalleryAdminAreaRegistration.cs" />
@@ -250,6 +251,7 @@
     <Compile Include="Areas\ImageGalleryAdmin\Models\Album\AlbumDetailsViewModel.cs" />
     <Compile Include="Areas\ImageGalleryAdmin\Models\Album\AlbumListViewModel.cs" />
     <Compile Include="Areas\ImageGalleryAdmin\Models\Image\ImageDetailsViewModel.cs" />
+    <Compile Include="Areas\ImageGalleryAdmin\Models\Image\ImageUpdateViewModel.cs" />
     <Compile Include="Areas\ImageGallery\Controllers\Album\AlbumController.cs" />
     <Compile Include="Areas\ImageGallery\Controllers\Album\ImageController.cs" />
     <Compile Include="Areas\ImageGallery\ImageGalleryAreaRegistration.cs" />
@@ -266,6 +268,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="App_Readme\Elmah.txt" />
+    <Content Include="Scripts\image-details.js" />
     <Content Include="Content\image-picker.css" />
     <Content Include="Content\ajax-loader.gif" />
     <Content Include="Content\bootstrap-theme.css" />
@@ -743,6 +746,7 @@
     <Content Include="Areas\Account\Views\Shared\_ExternalLoginsListPartial.cshtml" />
     <Content Include="Areas\Account\Views\Login\ExternalLoginConfirmation.cshtml" />
     <Content Include="Areas\Account\Views\Login\ExternalLoginFailure.cshtml" />
+    <Content Include="Areas\ImageGalleryAdmin\Views\Album\_ImageUpdate.cshtml" />
     <None Include="Scripts\jquery-2.2.3.intellisense.js" />
     <Content Include="Libraries\Kendo.Mvc.dll" />
     <Content Include="Libraries\Kendo.Mvc.resources.dll" />
@@ -819,6 +823,7 @@
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Areas\ImageGalleryAdmin\Views\Base\" />
+    <Folder Include="Areas\ImageGalleryAdmin\Views\Image\" />
     <Folder Include="Areas\ImageGalleryAdmin\Views\JSon\" />
     <Folder Include="Areas\ImageGalleryAdmin\Views\Shared\" />
     <Folder Include="Areas\ImageGalleryAdmin\Views\Upload\" />

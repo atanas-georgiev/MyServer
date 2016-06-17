@@ -12,7 +12,9 @@
     using MyServer.Services.ImageGallery;
     using MyServer.Services.Users;
     using MyServer.Web.Infrastructure.Mappings;
+    using MyServer.Web.Main.Areas.ImageGallery.Models.Image;
     using MyServer.Web.Main.Areas.ImageGalleryAdmin.Models.Album;
+    using MyServer.Web.Main.Areas.ImageGalleryAdmin.Models.Image;
 
     using Newtonsoft.Json;
 
@@ -125,6 +127,13 @@
                 }
             }
 
+            return this.Content(string.Empty);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult UpdateImageTitle(ImageUpdateViewModel model)
+        {
             return this.Content(string.Empty);
         }
     }
