@@ -2,43 +2,6 @@
 
 <div class="form-horizontal">
 
-    @*@using (Ajax.BeginForm("UpdateImages", new AjaxOptions
-    {
-        UpdateTargetId = "result",
-        InsertionMode = InsertionMode.Replace,
-        HttpMethod = "POST"
-    }))
-    {
-        @Html.AntiForgeryToken()
-        @Html.HiddenFor(m => m.Id);
-        <div class="form-group">
-            @Html.LabelFor(m => m.Title, new { @class = "col-md-2 control-label" })
-            <div class="col-md-10">
-                @Html.TextBoxFor(m => m.Title, new { @class = "form-control" })
-                @Html.ValidationMessageFor(m => m.Title, "", new { @class = "text-danger" })
-            </div>
-        </div>
-        <div class="form-group">
-            @Html.LabelFor(m => m.DateTaken, new { @class = "col-md-2 control-label" })
-            <div class="col-md-10">
-                @Html.TextBoxFor(m => m.DateTaken, new { @class = "form-control" })
-                @Html.ValidationMessageFor(m => m.DateTaken, "", new { @class = "text-danger" })
-            </div>
-        </div>
-        <div class="form-group">
-            @Html.LabelFor(m => m.GpsName, new { @class = "col-md-2 control-label" })
-            <div class="col-md-10">
-                @Html.TextBoxFor(m => m.GpsName, new { @class = "form-control" })
-                @Html.ValidationMessageFor(m => m.GpsName, "", new { @class = "text-danger" })
-            </div>
-        </div>
-        <div class="form-group">
-            <div class="col-md-offset-2 col-md-10">
-                <input type="submit" class="btn" value="Update" />
-            </div>
-        </div>
-    }*@
-
     <button class="btn image-edit-box-title-btn" data-toggle="modal" data-target="#image-edit-box-title-modal">Title</button>
     <button class="btn image-edit-box-date-btn">Date</button>
     <button class="btn image-edit-box-location-btn">Location</button>
@@ -62,7 +25,7 @@
                     <div class="form-group">
                         @Html.LabelFor(m => m.Data, new { @class = "col-md-2 control-label" })
                         <div class="col-md-10">
-                            @Html.TextBoxFor(m => m.Data, new { @class = "form-control" })
+                            @Html.TextBoxFor(m => m.Data, new { @class = "form-control image-edit-box-modal-title" })
                             @Html.ValidationMessageFor(m => m.Data, "", new { @class = "text-danger" })
                         </div>
                     </div>
