@@ -90,3 +90,15 @@ figure {
 .overlay-album-content {
     transform: translateY( calc(-100% - 60px) );
 }
+
+.modal form, .modal .form-control, .modal button, .modal input, .modal .modal-body {
+    display: inline !important;
+} 
+
+.modal-dialog {
+    text-align: center;
+}
+
+.pac-container  {
+    z-index: 1000000000
+}

@@ -6,29 +6,15 @@
     @Html.Partial("_AlbumDataPartial", Model);
 </div>
 
-
 <div class="well" id="image-edit-box" style="display:none">
     @Html.Partial("_ImageUpdate", new ImageUpdateViewModel())
 </div>
 
-
 <button class="btn select-all">Select All</button>
 
-<select multiple="multiple" class="image-picker show-html show-labels">
-
-    @foreach (var image in Model.Images)
-    {
-        <option data-img-src="@image.LowImageSource"
-                data-img-id="@image.Id"
-                data-img-title="@image.Title"
-                data-img-date="@image.DateTaken"
-                data-img-gps="@image.GpsName"
-                value="@image.Id">
-            @image.Info
-            </option>
-    }
-
-</select>
+<div class="well" id="image-list-box">
+    @Html.Partial("_ImageListPartial", Model)
+</div>
 
 @section Scripts {
     @Scripts.Render("~/bundles/imagedetails")
@@ -60,8 +46,11 @@
                 }
             }
         });
+
+        $(".image-edit-box-modal-location").geocomplete();
     });
 </script>
+
 
 
 @*<div class="demo-section k-content wide">

@@ -1,5 +1,6 @@
 ﻿var selectedIds;
 var selectedTitles;
+var selectedLocations;
 
 Array.prototype.getUnique = function () {
     var u = {}, a = [];
@@ -27,18 +28,60 @@ function imageDetailsUpdateView() {
     selectedTitles = $(".selected").map(function () {
         return $(this).data("title");
     }).get().getUnique();
+
+    selectedLocations = $(".selected").map(function () {
+        return $(this).data("gps");
+    }).get().getUnique();
 };
 
 $(".image-edit-box-title-btn").click(function () {
     $(".image-edit-box-modal-ids").attr("value", selectedIds);
     if (selectedTitles.length === 1) {
         $(".image-edit-box-modal-title").val(selectedTitles);
+    } else {
+        $(".image-edit-box-modal-title").val("");
     }
 });
 
-$(".image-edit-box-modal-close").click(function () {
+$(".image-edit-box-location-btn").click(function () {
+    $(".image-edit-box-modal-ids").attr("value", selectedIds);
+    if (selectedTitles.length === 1) {
+        $(".image-edit-box-modal-location").val(selectedLocations);
+    } else {
+        $(".image-edit-box-modal-location").val("");
+    }
+});
+
+$(".image-edit-box-modal-title-close").click(function () {
     $('#image-edit-box-title-modal').modal('toggle');
 });
+
+$(".image-edit-box-modal-location-close").click(function () {
+    $('#image-edit-box-location-modal').modal('toggle');
+});
+
+function ImageListUpdate() {
+    $("select").imagepicker();
+
+    $(".mygallery").justifiedGallery({
+        rowHeight: 200,
+        maxRowHeight: 300,
+        fixedHeight: false,
+        margins: 2,
+        lastRow: 'nojustify',
+        captions: false,
+        border: 0,
+        thumbnailPath: function (currentPath, width, height) {
+            if (Math.max(width, height) > 300) {
+                return currentPath.replace(/(.*)(_[a-z]+)(\..*)/, "$1Low$2");
+            } else {
+                return currentPath.replace(/(.*)(_[a-z]+)(\..*)/, "$1Medium$2");
+            }
+        }
+    });
+
+    $("#image-edit-box").hide();
+};
 
 
 

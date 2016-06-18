@@ -114,17 +114,24 @@
         }
 
         [HttpPost]
-        public ActionResult UpdateGpsData(string items, string location)
+        [ValidateAntiForgeryToken]
+        public ActionResult UpdateImageLocation(ImageUpdateViewModel model)
         {
-            var ids = JsonConvert.DeserializeObject<IEnumerable<Guid>>(items);
-            var gpsData = this.locationService.GetGpsData(location);
-
-            if (gpsData != null)
+            if (model != null && !string.IsNullOrEmpty(model.Items))
             {
+                var ids = model.Items.Split(',');
+                var gpsData = this.locationService.GetGpsData(model.Data);
+
                 foreach (var id in ids)
                 {
-                    this.imageService.AddGpsDataToImage(id, gpsData);
+                    this.imageService.AddGpsDataToImage(Guid.Parse(id), gpsData);
                 }
+
+                var imageId = Guid.Parse(ids.First());
+                var albumId = this.imageService.GetById(imageId).AlbumId;
+                var album = this.albumService.GetAll().Where(x => x.Id == albumId).To<AlbumDetailsViewModel>().First();
+
+                return this.PartialView("_ImageListPartial", album);
             }
 
             return this.Content(string.Empty);
@@ -134,7 +141,7 @@
         [ValidateAntiForgeryToken]
         public ActionResult UpdateImageTitle(ImageUpdateViewModel model)
         {
-            if (model != null && !string.IsNullOrEmpty(model.Items) && model.Data != null)
+            if (model != null && !string.IsNullOrEmpty(model.Items))
             {
                 var ids = model.Items.Split(',');
 
@@ -144,6 +151,12 @@
                     image.Title = model.Data;
                     this.imageService.Update(image);
                 }
+
+                var imageId = Guid.Parse(ids.First());
+                var albumId = this.imageService.GetById(imageId).AlbumId;
+                var album = this.albumService.GetAll().Where(x => x.Id == albumId).To<AlbumDetailsViewModel>().First();
+
+                return this.PartialView("_ImageListPartial", album);
             }
             
             return this.Content(string.Empty);
