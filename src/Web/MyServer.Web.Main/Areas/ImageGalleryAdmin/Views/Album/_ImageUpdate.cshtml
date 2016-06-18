@@ -14,36 +14,22 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal">&times;</button>
-                <h4 class="modal-title">Edit title</h4>
-            </div>
-            <div class="modal-body">
+                <div class="modal-body row"></div>
                 @using (Ajax.BeginForm("UpdateImageTitle", new AjaxOptions { UpdateTargetId = "result", InsertionMode = InsertionMode.Replace, HttpMethod = "POST" }))
                 {
                     @Html.AntiForgeryToken()
                     @Html.HiddenFor(m => m.Items, new { @class = "image-edit-box-modal-ids" })
-                    <div class="form-group">
-                        @Html.LabelFor(m => m.Data, new { @class = "col-md-2 control-label" })
-                        <div class="col-md-10">
-                            @Html.TextBoxFor(m => m.Data, new { @class = "form-control image-edit-box-modal-title" })
-                            @Html.ValidationMessageFor(m => m.Data, "", new { @class = "text-danger" })
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <div class="col-md-offset-2 col-md-10">
-                            <input type="submit" class="btn" value="Update"/>
-                        </div>
-                    </div>
+                    @Html.TextBoxFor(m => m.Data, new { @class = "form-control image-edit-box-modal-title" })
+                    <button type="submit" class="btn image-edit-box-modal-close"><span class="glyphicon glyphicon-ok"></span></button>
+                    <button class="btn image-edit-box-modal-close"><span class="glyphicon glyphicon-remove"></span></button>
                 }
             </div>
-            <div class="modal-footer">
-            </div>
+            <div class="modal-footer"></div>
         </div>
     </div>
 </div>
 
-@section Scripts {
-    @Scripts.Render("~/bundles/jqueryval")
-}
-
+<script>
+    
+</script>
 

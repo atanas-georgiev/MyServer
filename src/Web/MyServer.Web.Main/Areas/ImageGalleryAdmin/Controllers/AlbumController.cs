@@ -134,6 +134,18 @@
         [ValidateAntiForgeryToken]
         public ActionResult UpdateImageTitle(ImageUpdateViewModel model)
         {
+            if (model != null && !string.IsNullOrEmpty(model.Items) && model.Data != null)
+            {
+                var ids = model.Items.Split(',');
+
+                foreach (var id in ids)
+                {
+                    var image = this.imageService.GetById(Guid.Parse(id));
+                    image.Title = model.Data;
+                    this.imageService.Update(image);
+                }
+            }
+            
             return this.Content(string.Empty);
         }
 

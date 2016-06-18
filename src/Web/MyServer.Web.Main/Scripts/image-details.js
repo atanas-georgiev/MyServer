@@ -36,6 +36,10 @@ $(".image-edit-box-title-btn").click(function () {
     }
 });
 
+$(".image-edit-box-modal-close").click(function () {
+    $('#image-edit-box-title-modal').modal('toggle');
+});
+
 
 
 // image-edit-box-title-btn
