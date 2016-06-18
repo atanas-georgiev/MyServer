@@ -6,6 +6,7 @@
     using System.Globalization;
     using System.Linq;
     using System.Web;
+    using System.Web.Mvc;
 
     using DelegateDecompiler;
 
@@ -70,6 +71,8 @@
         }
 
         [MaxLength(3000)]
+        [UIHint("Editor")]
+        [AllowHtml]
         public string Description { get; set; }
 
         public Guid Id { get; set; }

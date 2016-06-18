@@ -747,6 +747,7 @@
     <Content Include="Areas\Account\Views\Login\ExternalLoginConfirmation.cshtml" />
     <Content Include="Areas\Account\Views\Login\ExternalLoginFailure.cshtml" />
     <Content Include="Areas\ImageGalleryAdmin\Views\Album\_ImageUpdate.cshtml" />
+    <Content Include="Areas\ImageGalleryAdmin\Views\Album\_AlbumDataPartial.cshtml" />
     <None Include="Scripts\jquery-2.2.3.intellisense.js" />
     <Content Include="Libraries\Kendo.Mvc.dll" />
     <Content Include="Libraries\Kendo.Mvc.resources.dll" />

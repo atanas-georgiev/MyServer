@@ -1,0 +1,32 @@
+﻿@model MyServer.Web.Main.Areas.ImageGalleryAdmin.Models.Album.AlbumDetailsViewModel
+
+<div class="well">
+    @using (Ajax.BeginForm("AlbumDataPartial", new AjaxOptions { UpdateTargetId = "album-data-partial", InsertionMode = InsertionMode.Replace, HttpMethod = "POST" }))
+    {
+        @Html.AntiForgeryToken()
+        @Html.HiddenFor(model => model.Id)
+
+        <div class="form-horizontal">
+            @Html.ValidationSummary(false, string.Empty, new { @class = "text-danger" })
+            <div class="form-group">
+                @Html.LabelFor(model => model.Title, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.Title)
+                </div>
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(model => model.Description, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.Description)
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-md-2"></div>
+                <div class="col-md-10">
+                    <input type="submit" value="Update" class="btn"/>
+                </div>
+            </div>
+        </div>
+    }
+
+</div>

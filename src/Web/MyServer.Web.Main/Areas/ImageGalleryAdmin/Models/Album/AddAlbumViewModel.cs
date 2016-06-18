@@ -1,4 +1,4 @@
-﻿namespace MyServer.Web.Main.Areas.ImageGalleryAdmin.Models.Album
+﻿ namespace MyServer.Web.Main.Areas.ImageGalleryAdmin.Models.Album
 {
     using System;
     using System.ComponentModel.DataAnnotations;

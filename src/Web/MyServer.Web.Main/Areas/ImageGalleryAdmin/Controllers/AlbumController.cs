@@ -136,5 +136,31 @@
         {
             return this.Content(string.Empty);
         }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public PartialViewResult AlbumDataPartial(AlbumDetailsViewModel model)
+        {
+            if (this.ModelState.IsValid && model != null)
+            {
+                var album = this.albumService.GetById(model.Id);
+
+                //if (album == null)
+                //{
+                //    return this.HttpNotFound();
+                //}
+
+                album.Title = model.Title;
+                album.Description = model.Description;
+
+                this.albumService.Update(album);
+
+                var result = this.albumService.GetAll().Where(a => a.Id == album.Id).To<AlbumDetailsViewModel>().First();
+
+                return this.PartialView("_AlbumDataPartial", result);
+            }
+
+            return this.PartialView("_AlbumDataPartial", model);
+        }
     }
 }
