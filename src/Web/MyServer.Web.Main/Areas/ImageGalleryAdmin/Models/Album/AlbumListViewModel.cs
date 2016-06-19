@@ -17,12 +17,12 @@
         public int Height =>
             this.CoverId == null
                     ? Convert.ToInt32(Convert.ToDouble(Constants.ImageLowMaxSize / 2) / 1.5)
-                    : this.Images.First(x => x.Id == this.CoverId).LowHeight / 2;
+                    : this.Cover.LowHeight / 2;
 
         [Computed]
         public int Width => 
             this.CoverId == null
                     ? Constants.ImageLowMaxSize / 2
-                    : this.Images.First(x => x.Id == this.CoverId).LowWidth / 2;
+                    : this.Cover.LowWidth / 2;
     }
 }

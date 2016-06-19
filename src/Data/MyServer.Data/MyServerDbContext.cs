@@ -42,7 +42,16 @@
 
             foreach (var entry in this.ChangeTracker.Entries().Where(p => p.State == EntityState.Deleted)) this.SoftDelete(entry);
 
-            return base.SaveChanges();
+            try
+            {
+                return base.SaveChanges();
+            }
+            catch (Exception ex)
+            {
+
+                return base.SaveChanges();
+            }
+            
         }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
@@ -54,6 +63,30 @@
                 .Ignore(m => m.IsDeleted);
             modelBuilder.Entity<Image>().Map(m => m.Requires("IsDeleted").HasValue(false)).Ignore(m => m.IsDeleted);
             modelBuilder.Entity<Comment>().Map(m => m.Requires("IsDeleted").HasValue(false)).Ignore(m => m.IsDeleted);
+
+            modelBuilder.Entity<Album>()
+                .HasMany(x => x.Images)
+                .WithOptional(x => x.Album)
+                .HasForeignKey(x => x.AlbumId)
+                .WillCascadeOnDelete(false);
+
+            modelBuilder.Entity<Image>()
+                .HasMany(x => x.Covers)
+                .WithOptional(x => x.Cover)
+                .HasForeignKey(x => x.CoverId)
+                .WillCascadeOnDelete(false);
+
+            //modelBuilder.Entity<Image>()
+            //    .HasRequired(m => m.Album)
+            //    .WithMany(t => t.Images)
+            //    .HasForeignKey(t => t.AlbumId)
+            //    .WillCascadeOnDelete(false);
+
+
+            //modelBuilder.Entity<Image>()
+            //    .HasOptional(x => x.Cover)
+            //    .WithOptionalDependent(x => x.Cover)
+            //    .WillCascadeOnDelete(false);
 
             base.OnModelCreating(modelBuilder);
         }

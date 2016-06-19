@@ -11,7 +11,7 @@
         public DateTime? DeletedOn { get; set; }
 
         [Key]
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        //[DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public TKey Id { get; set; }
 
         [Index]

@@ -77,14 +77,20 @@
 
             GC.Collect();
 
-            image.AlbumId = albumId;
+            var albumDb = this.albums.GetById(albumId);
+            var cover = this.albums.GetById(Guid.Parse(Constants.NoCoverId));
+
+
+            image.Id = Guid.NewGuid();
+            image.Album = albumDb;
             image.Title = string.Empty;
             image.LowHeight = this.lowheight;
             image.LowWidth = this.lowwidth;
             image.MidHeight = this.midheight;
             image.MidWidth = this.midwidth;
             image.AddedById = userId;
-
+        //    image.Cover = cover;
+            
             this.images.Add(image);
 
             // check if first image, if so, make album cover
@@ -134,7 +140,7 @@
 
         public void Remove(Guid id)
         {
-            var coverId = this.GetById(id).Album.CoverId;
+            var coverId = this.GetById(id).Album.Cover.Id;
 
             //if (id == coverId)
             //{

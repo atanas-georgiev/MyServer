@@ -268,6 +268,9 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="App_Readme\Elmah.txt" />
+    <Content Include="Content\Images\b437502a-6b7c-4b78-85a2-09231ee3913d\Low\no-cover.jpg" />
+    <Content Include="Content\Images\b437502a-6b7c-4b78-85a2-09231ee3913d\Middle\no-cover.jpg" />
+    <Content Include="Content\Images\b437502a-6b7c-4b78-85a2-09231ee3913d\Original\no-cover.jpg" />
     <Content Include="Scripts\image-details.js" />
     <Content Include="Content\image-picker.css" />
     <Content Include="Content\ajax-loader.gif" />

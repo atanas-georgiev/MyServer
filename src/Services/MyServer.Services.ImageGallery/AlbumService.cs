@@ -30,7 +30,8 @@
 
         public IQueryable<Album> GetAll()
         {
-            return this.albums.All();
+            var firstAlbumToExclude = Guid.Parse(Constants.NoCoverId);
+            return this.albums.All().Where(x => x.Id != firstAlbumToExclude);
         }
 
         public Album GetById(Guid id)

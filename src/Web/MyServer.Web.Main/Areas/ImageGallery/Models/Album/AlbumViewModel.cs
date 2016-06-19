@@ -21,14 +21,10 @@
     {
         public Guid? CoverId { get; set; }
 
+        public ImageViewModel Cover { get; set; }
+
         [Computed]
-        public string CoverImage
-            =>
-                this.CoverId == null
-                    ? string.Empty
-                    : VirtualPathUtility.ToAbsolute(
-                        Constants.MainContentFolder + "\\" + this.Id + "\\" + Constants.ImageFolderLow + "\\"
-                        + this.Images.First(x => x.Id == this.CoverId).FileName);
+        public string CoverImage => VirtualPathUtility.ToAbsolute(Constants.MainContentFolder + "/" + this.Cover.AlbumId + "/" + Constants.ImageFolderLow + "/" + this.Cover.FileName);
 
         [Computed]
         public string Date

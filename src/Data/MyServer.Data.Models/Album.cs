@@ -12,17 +12,31 @@
 
     public class Album : BaseModel<Guid>, IHavePrimaryKey<Guid>
     {
+        public Album()
+        {
+            this.Id = Guid.NewGuid();
+        }
+
+        public Album(string id)
+        {
+            this.Id = Guid.Parse(id);
+        }
+
         public virtual User AddedBy { get; set; }
 
         public virtual string AddedById { get; set; }
 
-        public Guid? CoverId { get; set; }
+        [InverseProperty("Covers")]
+        public virtual Image Cover { get; set; }
+
+        public virtual Guid? CoverId { get; set; }
 
         public bool IsPublic { get; set; }
 
         [MaxLength(3000)]
         public string Description { get; set; }
 
+        [InverseProperty("Album")]
         public virtual ICollection<Image> Images { get; set; }
 
         public virtual ICollection<Comment> Comments { get; set; }

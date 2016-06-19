@@ -10,15 +10,29 @@
 
     public class Image : BaseModel<Guid>, IHavePrimaryKey<Guid>
     {
+        public Image()
+        {
+            this.Id = Guid.NewGuid();
+        }
+
+        public Image(string id)
+        {
+            this.Id = Guid.Parse(id);
+        }
+
         public virtual ICollection<Comment> Comments { get; set; }
 
         public virtual User AddedBy { get; set; }
 
         public virtual string AddedById { get; set; }
 
+        [InverseProperty("Images")]
         public virtual Album Album { get; set; }
 
         public virtual Guid? AlbumId { get; set; }
+
+        [InverseProperty("Cover")]
+        public virtual ICollection<Album> Covers { get; set; }
 
         [MaxLength(50)]
         public string Aperture { get; set; }
@@ -34,6 +48,7 @@
         [MaxLength(50)]
         public string ExposureBiasStep { get; set; }
 
+        [Required]
         [MaxLength(200)]
         public string FileName { get; set; }
 
@@ -43,9 +58,7 @@
         public int Height { get; set; }
 
         public virtual ImageGpsData ImageGpsData { get; set; }
-
-        public virtual Guid? ImageGpsDataId { get; set; }
-
+        
         [MaxLength(50)]
         public string Iso { get; set; }
 
@@ -60,7 +73,8 @@
 
         public int MidWidth { get; set; }
 
-        [MaxLength(100)]
+        [Required]
+        [MaxLength(200)]
         public string OriginalFileName { get; set; }
 
         [MaxLength(50)]

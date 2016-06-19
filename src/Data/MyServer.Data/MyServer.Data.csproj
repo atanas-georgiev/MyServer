@@ -73,6 +73,10 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\Common\MyServer.Common.ImageGallery\MyServer.Common.ImageGallery.csproj">
+      <Project>{52ffc9f2-6ad6-4aea-9ef6-e2daf6c60636}</Project>
+      <Name>MyServer.Common.ImageGallery</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\Common\MyServer.Common\MyServer.Common.csproj">
       <Project>{185cc628-b3b7-4063-bbaa-bae78e137bcc}</Project>
       <Name>MyServer.Common</Name>

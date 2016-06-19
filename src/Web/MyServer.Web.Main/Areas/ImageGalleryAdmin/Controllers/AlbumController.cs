@@ -54,8 +54,9 @@
                                     Title = model.Title,
                                     Description = model.Description,
                                     CreatedOn = DateTime.UtcNow,
-                                    AddedById = this.User.Identity.GetUserId(),
-                                    IsPublic = model.IsPublic
+                                    AddedBy = this.UserProfile,
+                                    IsPublic = model.IsPublic,
+                                    Cover = this.imageService.GetAll().First()
                 };
 
                 this.albumService.Add(album);

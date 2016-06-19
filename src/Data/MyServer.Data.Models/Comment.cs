@@ -9,6 +9,11 @@
 
     public class Comment : BaseModel<Guid>, IHavePrimaryKey<Guid>
     {
+        public Comment()
+        {
+            this.Id = Guid.NewGuid();
+        }
+
         [ForeignKey("UserId")]
         [Required]
         public virtual User User { get; set; }

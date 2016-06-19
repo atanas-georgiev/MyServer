@@ -8,6 +8,11 @@
 
     public class ImageGpsData : BaseModel<Guid>, IHavePrimaryKey<Guid>
     {
+        public ImageGpsData()
+        {
+            this.Id = Guid.NewGuid();
+        }
+
         [Required]
         public double? Latitude { get; set; }
 
