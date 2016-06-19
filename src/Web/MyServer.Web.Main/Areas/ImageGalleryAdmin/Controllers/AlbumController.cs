@@ -26,7 +26,11 @@
 
         private readonly IImageService imageService;
 
-        public AlbumController(IUserService userService, IAlbumService albumService, ILocationService locationService, IImageService imageService)
+        public AlbumController(
+            IUserService userService,
+            IAlbumService albumService,
+            ILocationService locationService,
+            IImageService imageService)
             : base(userService)
         {
             this.albumService = albumService;
@@ -47,7 +51,7 @@
             {
                 var album = new Album()
                                 {
-                                    Title = model.Title, 
+                                    Title = model.Title,
                                     Description = model.Description,
                                     CreatedOn = DateTime.UtcNow,
                                     AddedById = this.User.Identity.GetUserId()
@@ -64,7 +68,8 @@
         {
             this.Response.SetCookie(new HttpCookie("AlbumId", id));
             var intId = Guid.Parse(id);
-            var result = this.albumService.GetAll().Where(x => x.Id == intId).To<AlbumDetailsViewModel>().FirstOrDefault();
+            var result =
+                this.albumService.GetAll().Where(x => x.Id == intId).To<AlbumDetailsViewModel>().FirstOrDefault();
 
             if (result == null)
             {
@@ -148,7 +153,7 @@
 
                 return this.PartialView("_ImageListPartial", album);
             }
-            
+
             return this.Content(string.Empty);
         }
 
@@ -235,6 +240,15 @@
             }
 
             return this.PartialView("_AlbumDataPartial", model);
+        }
+
+        [HttpPost]
+        public PartialViewResult UpdateImages()
+        {
+            var albumId = Guid.Parse(this.Request.Cookies["AlbumId"].Value);
+            var album = this.albumService.GetAll().Where(x => x.Id == albumId).To<AlbumDetailsViewModel>().First();
+
+            return this.PartialView("_ImageListPartial", album);
         }
     }
 }
