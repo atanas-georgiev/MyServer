@@ -18,14 +18,14 @@
 
         public Guid? CoverId { get; set; }
 
+        public bool IsPublic { get; set; }
+
         [MaxLength(3000)]
         public string Description { get; set; }
 
         public virtual ICollection<Image> Images { get; set; }
 
         public virtual ICollection<Comment> Comments { get; set; }
-
-        public virtual ICollection<IdentityUserRole> Roles { get; set; }
 
         [Required]
         [MinLength(3)]

@@ -23,5 +23,7 @@
         [MaxLength(150)]
         [UIHint("String")]
         public string Title { get; set; }
+
+        public bool IsPublic { get; set; }
     }
 }

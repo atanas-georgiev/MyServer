@@ -54,8 +54,9 @@
                                     Title = model.Title,
                                     Description = model.Description,
                                     CreatedOn = DateTime.UtcNow,
-                                    AddedById = this.User.Identity.GetUserId()
-                                };
+                                    AddedById = this.User.Identity.GetUserId(),
+                                    IsPublic = model.IsPublic
+                };
 
                 this.albumService.Add(album);
                 return this.RedirectToAction("Index");
@@ -94,6 +95,7 @@
 
                 album.Title = model.Title;
                 album.Description = model.Description;
+                album.IsPublic = model.IsPublic;
 
                 this.albumService.Update(album);
 
@@ -231,6 +233,7 @@
 
                 album.Title = model.Title;
                 album.Description = model.Description;
+                album.IsPublic = model.IsPublic;
 
                 this.albumService.Update(album);
 

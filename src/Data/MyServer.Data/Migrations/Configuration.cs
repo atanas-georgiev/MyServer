@@ -18,7 +18,7 @@ namespace MyServer.Data.Migrations
 #if DEBUG
             this.AutomaticMigrationDataLossAllowed = true;
 #else
-            this.AutomaticMigrationDataLossAllowed = false;
+            this.AutomaticMigrationDataLossAllowed = true; //false;
 #endif
         }
 
