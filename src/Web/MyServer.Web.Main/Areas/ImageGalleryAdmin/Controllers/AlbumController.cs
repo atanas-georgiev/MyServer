@@ -74,16 +74,6 @@
             return this.View(result);
         }
 
-        public ActionResult UpdateAlbumCover(string id)
-        {
-            var albumId = Guid.Parse(this.Request.Cookies["AlbumId"].Value);
-            var coverId = Guid.Parse(id);
-
-            this.albumService.UpdateCoverImage(albumId, coverId);
-
-            return this.RedirectToAction("Details", new { Id = albumId });
-        }
-
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Details(AlbumDetailsViewModel model)
@@ -184,6 +174,39 @@
 
                 return this.PartialView("_ImageListPartial", album);
             }
+
+            return this.Content(string.Empty);
+        }
+
+        [HttpPost]
+        public ActionResult DeleteImages(string id)
+        {
+            if (!string.IsNullOrEmpty(id))
+            {
+                var ids = id.Split(',');
+                var imageId = Guid.Parse(ids.First());
+                var albumId = this.imageService.GetById(imageId).AlbumId;
+
+                foreach (var item in ids)
+                {
+                    this.imageService.Remove(Guid.Parse(item));
+                }
+
+                var album = this.albumService.GetAll().Where(x => x.Id == albumId).To<AlbumDetailsViewModel>().First();
+
+                return this.PartialView("_ImageListPartial", album);
+            }
+
+            return this.Content(string.Empty);
+        }
+
+        [HttpPost]
+        public ActionResult UpdateAlbumCover(string id)
+        {
+            var albumId = Guid.Parse(this.Request.Cookies["AlbumId"].Value);
+            var coverId = Guid.Parse(id);
+
+            this.albumService.UpdateCoverImage(albumId, coverId);
 
             return this.Content(string.Empty);
         }

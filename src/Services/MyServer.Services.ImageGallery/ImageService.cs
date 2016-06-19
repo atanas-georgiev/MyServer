@@ -134,6 +134,13 @@
 
         public void Remove(Guid id)
         {
+            var coverId = this.GetById(id).Album.CoverId;
+
+            //if (id == coverId)
+            //{
+            //    var firstImage = this.images.All().Where(x => x.Id)      
+            //}
+
             this.images.Delete(id);
         }
 

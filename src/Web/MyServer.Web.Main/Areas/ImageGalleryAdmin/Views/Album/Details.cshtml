@@ -22,12 +22,14 @@
 
 <script>
 
-    $(document).ready(function () {
-        $(".select-all").click(function () {
-            $("img").trigger("click");
+    $(document)
+        .ready(function() {
+            $(".select-all")
+                .click(function() {
+                    $("img").trigger("click");
 
-        });
-
+                });
+         
         $("select").imagepicker();
 
         $("#image-edit-box-modal-date").kendoDatePicker();

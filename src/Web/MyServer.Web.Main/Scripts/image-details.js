@@ -54,7 +54,22 @@ function imageDetailsUpdateView() {
     selectedDates = $(".selected").map(function () {
         return $(this).data("date");
     }).get().getUniqueDates();
+
+    if (selectedIds.length === 1) {
+        $(".image-edit-box-cover-btn").show();
+    } else {
+        $(".image-edit-box-cover-btn").hide();;
+    }
+
+    $(".image-edit-box-cover-btn").attr("href", "/ImageGalleryAdmin/Album/UpdateAlbumCover/" + selectedIds);
+
+    $(".image-edit-box-delete-btn").attr("href", "/ImageGalleryAdmin/Album/DeleteImages/" + selectedIds);
+
 };
+
+$(".image-edit-box-cover-btn").click(function () {
+    $("#image-edit-box").hide();
+});
 
 $(".image-edit-box-title-btn").click(function () {
     $(".image-edit-box-modal-ids").attr("value", selectedIds);
@@ -117,7 +132,3 @@ function ImageListUpdate() {
 
     $("#image-edit-box").hide();
 };
-
-
-
-// image-edit-box-title-btn
