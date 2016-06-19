@@ -164,6 +164,32 @@
 
         [HttpPost]
         [ValidateAntiForgeryToken]
+        public ActionResult UpdateImageDate(ImageUpdateViewModel model)
+        {
+            if (model != null && !string.IsNullOrEmpty(model.Items))
+            {
+                var ids = model.Items.Split(',');
+
+                foreach (var id in ids)
+                {
+                    var image = this.imageService.GetById(Guid.Parse(id));
+                    var date = DateTime.Parse(model.Data);
+                    image.DateTaken = date;
+                    this.imageService.Update(image);
+                }
+
+                var imageId = Guid.Parse(ids.First());
+                var albumId = this.imageService.GetById(imageId).AlbumId;
+                var album = this.albumService.GetAll().Where(x => x.Id == albumId).To<AlbumDetailsViewModel>().First();
+
+                return this.PartialView("_ImageListPartial", album);
+            }
+
+            return this.Content(string.Empty);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
         public PartialViewResult AlbumDataPartial(AlbumDetailsViewModel model)
         {
             if (this.ModelState.IsValid && model != null)
