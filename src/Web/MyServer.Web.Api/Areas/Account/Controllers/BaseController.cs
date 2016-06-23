@@ -11,7 +11,6 @@
     using MyServer.Data.Models;
     using MyServer.Services.Users;
 
-//    [EnableCors(origins: "*", headers: "*", methods: "*")]
     public class BaseController : ApiController
     {
         public BaseController()

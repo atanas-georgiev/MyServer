@@ -29,6 +29,7 @@ namespace MyServer.Web.Api.Areas.Account.Controllers
 
         [HostAuthentication(DefaultAuthenticationTypes.ExternalBearer)]
         [ResponseType(typeof(AccountUserInfoBindingModel))]
+        [Route("Account/UserInfo")]
         public async Task<IHttpActionResult> Get()
         {
             try

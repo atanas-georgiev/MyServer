@@ -15,6 +15,7 @@
         [HttpPost]
         [AllowAnonymous]
         [ResponseType(typeof(User))]
+        [Route("Account/Register")]
         public async Task<IHttpActionResult> Post(AccountRegisterBindingModel model)
         {
             try

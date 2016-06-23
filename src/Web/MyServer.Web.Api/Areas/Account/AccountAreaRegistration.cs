@@ -2,6 +2,8 @@
 
 namespace MyServer.Web.Api.Areas.Account
 {
+    using System.Web.Http;
+
     public class AccountAreaRegistration : AreaRegistration 
     {
         public override string AreaName 
@@ -14,11 +16,10 @@ namespace MyServer.Web.Api.Areas.Account
 
         public override void RegisterArea(AreaRegistrationContext context) 
         {
-            context.MapRoute(
-                "Account_default",
-                "Account/{controller}/{action}/{id}",
-                new { action = "Index", id = UrlParameter.Optional }
-            );
+            context.Routes.MapHttpRoute(
+                name: "AccountApi",
+                routeTemplate: "Account/{controller}/{id}",
+                defaults: new { area = "Account", id = RouteParameter.Optional });
         }
     }
 }
