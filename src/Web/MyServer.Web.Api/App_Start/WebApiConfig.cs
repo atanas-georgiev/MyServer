@@ -14,8 +14,6 @@ namespace MyServer.Web.Api
     {
         public static void Register(HttpConfiguration config)
         {
-            // config.EnableCors(new EnableCorsAttribute("*", "*", "GET, POST, OPTIONS, PUT, DELETE"));
-
             // Web API configuration and services
             // Configure Web API to use only bearer token authentication.
             config.SuppressDefaultHostAuthentication();

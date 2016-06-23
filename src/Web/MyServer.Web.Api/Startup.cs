@@ -10,6 +10,8 @@ namespace MyServer.Web.Api
 {
     using System.Web.Http;
 
+    using Microsoft.Owin.Cors;
+
     using Newtonsoft.Json;
     using Newtonsoft.Json.Serialization;
 
@@ -17,6 +19,8 @@ namespace MyServer.Web.Api
     {
         public void Configuration(IAppBuilder app)
         {
+            app.UseCors(CorsOptions.AllowAll);
+
             ConfigureAuth(app);
 
             var formatters = GlobalConfiguration.Configuration.Formatters;
