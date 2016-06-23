@@ -25,7 +25,7 @@ namespace MyServer.Web.Api
             config.MapHttpAttributeRoutes();
 
             config.Routes.MapHttpRoute(
-                name: "Account",
+                name: "AccountApi",
                 routeTemplate: "Account/{controller}/{id}",
                 defaults: new { area = "Account", id = RouteParameter.Optional });
 
