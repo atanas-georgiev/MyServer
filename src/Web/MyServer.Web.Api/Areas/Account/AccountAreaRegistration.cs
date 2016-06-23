@@ -16,10 +16,7 @@ namespace MyServer.Web.Api.Areas.Account
 
         public override void RegisterArea(AreaRegistrationContext context) 
         {
-            context.Routes.MapHttpRoute(
-                name: "AccountApi",
-                routeTemplate: "Account/{controller}/{id}",
-                defaults: new { area = "Account", id = RouteParameter.Optional });
+
         }
     }
 }

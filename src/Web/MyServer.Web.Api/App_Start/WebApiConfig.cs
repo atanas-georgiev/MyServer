@@ -14,7 +14,7 @@ namespace MyServer.Web.Api
     {
         public static void Register(HttpConfiguration config)
         {
-           // config.EnableCors(new EnableCorsAttribute("*", "*", "GET, POST, OPTIONS, PUT, DELETE"));
+            // config.EnableCors(new EnableCorsAttribute("*", "*", "GET, POST, OPTIONS, PUT, DELETE"));
 
             // Web API configuration and services
             // Configure Web API to use only bearer token authentication.
@@ -24,10 +24,15 @@ namespace MyServer.Web.Api
             // Web API routes
             config.MapHttpAttributeRoutes();
 
+            //config.Routes.MapHttpRoute(
+            //    name: "DefaultApi",
+            //    routeTemplate: "{controller}/{id}",
+            //    defaults: new { id = RouteParameter.Optional });
+
             config.Routes.MapHttpRoute(
-                name: "DefaultApi",
-                routeTemplate: "{controller}/{id}",
-                defaults: new { id = RouteParameter.Optional });
+                name: "AccountApi",
+                routeTemplate: "Account/{controller}/{id}",
+                defaults: new { area = "Account", id = RouteParameter.Optional });
         }
     }
 }
