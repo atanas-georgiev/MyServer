@@ -59,8 +59,7 @@ namespace MyServer.Data.Migrations
             {
                 CreatedOn = DateTime.Now,
                 AddedBy = user,
-                Title = "No Image Album",
-                IsPublic = false,
+                Title = "No Image Album"
             };
 
             context.Albums.AddOrUpdate(album);

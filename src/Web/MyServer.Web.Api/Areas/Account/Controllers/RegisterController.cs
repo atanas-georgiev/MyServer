@@ -6,6 +6,9 @@
     using System.Web.Http.Cors;
     using System.Web.Http.Description;
 
+    using Microsoft.AspNet.Identity;
+
+    using MyServer.Common;
     using MyServer.Data.Models;
     using MyServer.Services.Users;
     using MyServer.Web.Api.Areas.Account.Models;
@@ -40,6 +43,10 @@
                 if (!result.Succeeded)
                 {
                     return this.GetErrorResult(result);
+                }
+                else
+                {
+                    this.UserManager.AddToRole(user.Id, MyServerRoles.User);
                 }
 
                 return this.Ok();
