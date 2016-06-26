@@ -290,6 +290,10 @@
     <Compile Include="Areas\HelpPage\SampleGeneration\SampleDirection.cs" />
     <Compile Include="Areas\HelpPage\SampleGeneration\TextSample.cs" />
     <Compile Include="Areas\HelpPage\XmlDocumentationProvider.cs" />
+    <Compile Include="Areas\ImageGallery\Controllers\AlbumController.cs" />
+    <Compile Include="Areas\ImageGallery\Controllers\BaseController.cs" />
+    <Compile Include="Areas\ImageGallery\ImageGalleryAreaRegistration.cs" />
+    <Compile Include="Areas\ImageGallery\Models\AlbumAddBindingModel.cs" />
     <Compile Include="Controllers\AccounttController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Global.asax.cs">
