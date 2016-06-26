@@ -31,6 +31,11 @@ namespace MyServer.Web.Api
                 name: "AccountApi",
                 routeTemplate: "Account/{controller}/{id}",
                 defaults: new { area = "Account", id = RouteParameter.Optional });
+
+            config.Routes.MapHttpRoute(
+                name: "ImageGalleryApi",
+                routeTemplate: "ImageGallery/{controller}/{id}",
+                defaults: new { area = "ImageGallery", id = RouteParameter.Optional });
         }
     }
 }

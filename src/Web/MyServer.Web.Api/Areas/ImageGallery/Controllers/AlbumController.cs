@@ -37,10 +37,7 @@ namespace MyServer.Web.Api.Areas.ImageGallery.Controllers
         }
 
 
-        //[HttpPost]
-        //[AllowAnonymous]
-        //[ResponseType(typeof(User))]
-        //[Route("Account/Register")]
+        [Route("ImageGallery/Album")]
         public IEnumerable<string> Get()
         {
             return new string[] { "value1", "value2" };
