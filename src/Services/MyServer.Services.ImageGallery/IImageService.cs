@@ -10,7 +10,7 @@
 
     public interface IImageService
     {
-        void Add(Guid albumId, HttpPostedFileBase file, HttpServerUtility server, string userId);
+        void Add(Guid albumId, Stream inputStream, string fileName, HttpServerUtility server, string userId);
 
         IQueryable<Image> GetAll();
 

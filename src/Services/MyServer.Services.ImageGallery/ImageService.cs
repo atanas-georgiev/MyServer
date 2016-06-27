@@ -48,32 +48,27 @@
             this.locationService = locationService;
         }
 
-        public void Add(Guid albumId, HttpPostedFileBase file, HttpServerUtility server, string userId)
+        public void Add(Guid albumId, Stream inputStream, string fileName, HttpServerUtility server, string userId)
         {
-            if (file == null)
+            if (inputStream == null)
             {
                 return;
             }
 
-            if (file.ContentType != "image/jpeg")
-            {
-                return;
-            }
-
-            Image image = this.ExtractExifData(file.InputStream, Path.GetFileName(file.FileName));
+            Image image = this.ExtractExifData(inputStream, Path.GetFileName(fileName));
 
             if (image.FileName != null)
             {
-                image.FileName += Path.GetExtension(file.FileName);
+                image.FileName += Path.GetExtension(fileName);
             }
 
-            image.OriginalFileName = Path.GetFileName(file.FileName);
+            image.OriginalFileName = Path.GetFileName(fileName);
 
             // Create initial folders if not available
             FileService.CreateInitialFolders(albumId, server);
-            FileService.Save(file.InputStream, ImageType.Original, image.FileName, albumId, server);
-            this.Resize(file.InputStream, ImageType.Medium, albumId, image.FileName, server);
-            this.Resize(file.InputStream, ImageType.Low, albumId, image.FileName, server);
+            FileService.Save(inputStream, ImageType.Original, image.FileName, albumId, server);
+            this.Resize(inputStream, ImageType.Medium, albumId, image.FileName, server);
+            this.Resize(inputStream, ImageType.Low, albumId, image.FileName, server);
 
             GC.Collect();
 

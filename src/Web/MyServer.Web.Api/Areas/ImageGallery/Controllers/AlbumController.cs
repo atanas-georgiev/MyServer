@@ -140,14 +140,68 @@ namespace MyServer.Web.Api.Areas.ImageGallery.Controllers
             }
         }
 
-        // PUT: api/Album/5
-        public void Put(int id, [FromBody]string value)
+        [Authorize(Roles = MyServerRoles.Admin)]
+        [Route("ImageGallery/Album/{id}")]
+        [ResponseType(typeof(AlbumAddBindingModel))]
+        public IHttpActionResult Put(string id, [FromBody]AlbumAddBindingModel model)
         {
+            try
+            {
+                if (model == null)
+                {
+                    return this.BadRequest("Album cannot be null");
+                }
+
+                if (!this.ModelState.IsValid)
+                {
+                    return this.BadRequest(this.ModelState);
+                }
+
+                var albumId = Guid.Parse(id);
+                var album = this.albumService.GetById(albumId);
+
+                if (album == null)
+                {
+                    return this.NotFound();
+                }
+
+                album.Title = model.Title;
+                album.Description = model.Description;
+                album.AccessType = model.AccessType;
+
+                this.albumService.Update(album);
+                model = this.albumService.GetAll().Where(x => x.Id == album.Id).To<AlbumAddBindingModel>().First();
+
+                return this.Ok();
+            }
+            catch (Exception ex)
+            {
+                return this.InternalServerError(ex);
+            }
         }
 
-        // DELETE: api/Album/5
-        public void Delete(int id)
+        [Authorize(Roles = MyServerRoles.Admin)]
+        [Route("ImageGallery/Album/{id}")]
+        public IHttpActionResult Delete(string id)
         {
+            try
+            {
+                var albumId = Guid.Parse(id);
+                var album = this.albumService.GetById(albumId);
+
+                if (album == null)
+                {
+                    return this.NotFound();
+                }
+
+                this.albumService.Remove(albumId);
+                
+                return this.Ok();
+            }
+            catch (Exception ex)
+            {
+                return this.InternalServerError(ex);
+            }
         }
     }
 }
