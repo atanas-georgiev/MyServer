@@ -12,13 +12,14 @@ namespace MyServer.Web.Api.Areas.ImageGallery.Controllers
     using Microsoft.AspNet.Identity;
 
     using MyServer.Common;
+    using MyServer.Common.ImageGallery;
     using MyServer.Data.Models;
     using MyServer.Services.ImageGallery;
     using MyServer.Services.Users;
     using MyServer.Web.Api.Areas.ImageGallery.Models;
     using MyServer.Web.Infrastructure.Mappings;
 
-    public class AlbumController : ApiController
+    public class AlbumController : BaseController
     {
         private readonly IAlbumService albumService;
 
@@ -36,17 +37,69 @@ namespace MyServer.Web.Api.Areas.ImageGallery.Controllers
             this.imageService = imageService;
         }
 
-
         [Route("ImageGallery/Album")]
-        public IEnumerable<string> Get()
+        [ResponseType(typeof(IEnumerable<AlbumListBindingModel>))]
+        public IHttpActionResult Get()
         {
-            return new string[] { "value1", "value2" };
+            try
+            {
+                if (!this.User.Identity.IsAuthenticated)
+                {
+                    return this.Ok(this.albumService.GetAll().Where(x => x.AccessType == AccessType.Public).To<AlbumListBindingModel>());
+                }
+
+                if (this.User.IsInRole(MyServerRoles.Admin))
+                {
+                    return this.Ok(this.albumService.GetAll().To<AlbumListBindingModel>());
+                }
+
+                if (this.User.IsInRole(MyServerRoles.User))
+                {
+                    return this.Ok(this.albumService.GetAll().Where(x => x.AccessType == AccessType.Shared).To<AlbumListBindingModel>());
+                }
+
+                return this.NotFound();
+            }
+            catch (Exception ex)
+            {
+                return this.InternalServerError(ex);
+            }
         }
 
-        // GET: api/Album/5
-        public string Get(int id)
+        [Route("ImageGallery/Album/{id}")]
+        [ResponseType(typeof(AlbumDetailsBindingModel))]
+        public IHttpActionResult Get(string id)
         {
-            return "value";
+            try
+            {
+                var albumId = Guid.Parse(id);
+                var album =
+                    this.albumService.GetAll()
+                        .Where(x => x.Id == albumId)
+                        .To<AlbumDetailsBindingModel>()
+                        .FirstOrDefault();
+
+                if (album == null)
+                {
+                    return this.NotFound();
+                }
+
+                if (!this.User.Identity.IsAuthenticated && album.AccessType != AccessType.Public)
+                {
+                    return this.Unauthorized();
+                }
+
+                if (this.User.IsInRole(MyServerRoles.User) && album.AccessType == AccessType.Private)
+                {
+                    return this.Unauthorized();
+                }
+
+                return this.Ok(album);
+            }
+            catch (Exception ex)
+            {
+                return this.InternalServerError(ex);
+            }
         }
 
         [Authorize(Roles = MyServerRoles.Admin)]
@@ -79,7 +132,7 @@ namespace MyServer.Web.Api.Areas.ImageGallery.Controllers
                 this.albumService.Add(album);
                 model = this.albumService.GetAll().Where(x => x.Id == album.Id).To<AlbumAddBindingModel>().First();
 
-                return this.Created<AlbumAddBindingModel>(Request.RequestUri + model.Id.ToString(), model);
+                return this.Created<AlbumAddBindingModel>(this.Request.RequestUri + model.Id.ToString(), model);
             }
             catch (Exception ex)
             {

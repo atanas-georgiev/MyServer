@@ -25,6 +25,8 @@
     <UseGlobalApplicationHostFile />
     <NuGetPackageImportStamp>
     </NuGetPackageImportStamp>
+    <StyleCopOverrideSettingsFile>Settings.StyleCop</StyleCopOverrideSettingsFile>
+    <BuildToolsStyleCopVersion>4.7.44.0</BuildToolsStyleCopVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -294,6 +296,8 @@
     <Compile Include="Areas\ImageGallery\Controllers\BaseController.cs" />
     <Compile Include="Areas\ImageGallery\ImageGalleryAreaRegistration.cs" />
     <Compile Include="Areas\ImageGallery\Models\AlbumAddBindingModel.cs" />
+    <Compile Include="Areas\ImageGallery\Models\AlbumDetailsBindingModel.cs" />
+    <Compile Include="Areas\ImageGallery\Models\AlbumListBindingModel.cs" />
     <Compile Include="Controllers\AccounttController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Global.asax.cs">
@@ -301,6 +305,9 @@
     </Compile>
     <Compile Include="Models\AccountBindingModels.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
+    <Compile Include="Models\ImageGallery\AlbumModel.cs" />
+    <Compile Include="Models\ImageGallery\GpsDataModel.cs" />
+    <Compile Include="Models\ImageGallery\ImageModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Providers\ApplicationOAuthProvider.cs" />
     <Compile Include="Results\ChallengeResult.cs" />
