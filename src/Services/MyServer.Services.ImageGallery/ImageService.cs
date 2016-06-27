@@ -90,7 +90,7 @@
 
             // check if first image, if so, make album cover
             var album = this.albums.GetById(albumId);
-            if (album.Images == null || album.Images.Count == 1)
+            if (album.Images == null)
             {
                 album.CoverId = image.Id;
                 this.albums.Update(album);
