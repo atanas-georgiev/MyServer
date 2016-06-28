@@ -1,13 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net;
-using System.Net.Http;
-using System.Web.Http;
-
-namespace MyServer.Web.Api.Areas.ImageGallery.Controllers
+﻿namespace MyServer.Web.Api.Areas.ImageGallery.Controllers
 {
+    using System;
+    using System.Linq;
+    using System.Net.Http;
+    using System.Threading.Tasks;
+    using System.Web.Http;
     using System.Web.Http.Description;
+    using System.Web.Http.OData;
 
     using Microsoft.AspNet.Identity;
 
@@ -19,7 +18,7 @@ namespace MyServer.Web.Api.Areas.ImageGallery.Controllers
     using MyServer.Web.Api.Areas.ImageGallery.Models;
     using MyServer.Web.Infrastructure.Mappings;
 
-    public class AlbumController : BaseController
+    public class AlbumsController : BaseController
     {
         private readonly IAlbumService albumService;
 
@@ -27,7 +26,7 @@ namespace MyServer.Web.Api.Areas.ImageGallery.Controllers
 
         private readonly IImageService imageService;
 
-        public AlbumController(
+        public AlbumsController(
                 IAlbumService albumService,
                 ILocationService locationService,
                 IImageService imageService)
@@ -37,25 +36,26 @@ namespace MyServer.Web.Api.Areas.ImageGallery.Controllers
             this.imageService = imageService;
         }
 
-        [Route("ImageGallery/Album")]
-        [ResponseType(typeof(IEnumerable<AlbumListBindingModel>))]
+        [Route("ImageGallery/Albums")]
+        [EnableQuery]
+        [ResponseType(typeof(IQueryable<AlbumBindingModel>))]
         public IHttpActionResult Get()
         {
             try
             {
                 if (!this.User.Identity.IsAuthenticated)
                 {
-                    return this.Ok(this.albumService.GetAll().Where(x => x.AccessType == AccessType.Public).To<AlbumListBindingModel>());
-                }
-
-                if (this.User.IsInRole(MyServerRoles.Admin))
-                {
-                    return this.Ok(this.albumService.GetAll().To<AlbumListBindingModel>());
+                    return this.Ok(this.albumService.GetAll().Where(x => x.AccessType == AccessType.Public).To<AlbumBindingModel>());
                 }
 
                 if (this.User.IsInRole(MyServerRoles.User))
                 {
-                    return this.Ok(this.albumService.GetAll().Where(x => x.AccessType == AccessType.Shared).To<AlbumListBindingModel>());
+                    return this.Ok(this.albumService.GetAll().Where(x => x.AccessType != AccessType.Private).To<AlbumBindingModel>());
+                }
+
+                if (this.User.IsInRole(MyServerRoles.Admin))
+                {
+                    return this.Ok(this.albumService.GetAll().To<AlbumBindingModel>());
                 }
 
                 return this.NotFound();
@@ -66,8 +66,8 @@ namespace MyServer.Web.Api.Areas.ImageGallery.Controllers
             }
         }
 
-        [Route("ImageGallery/Album/{id}")]
-        [ResponseType(typeof(AlbumDetailsBindingModel))]
+        [Route("ImageGallery/Albums/{id}")]
+        [ResponseType(typeof(AlbumBindingModel))]
         public IHttpActionResult Get(string id)
         {
             try
@@ -76,7 +76,7 @@ namespace MyServer.Web.Api.Areas.ImageGallery.Controllers
                 var album =
                     this.albumService.GetAll()
                         .Where(x => x.Id == albumId)
-                        .To<AlbumDetailsBindingModel>()
+                        .To<AlbumBindingModel>()
                         .FirstOrDefault();
 
                 if (album == null)
@@ -102,10 +102,10 @@ namespace MyServer.Web.Api.Areas.ImageGallery.Controllers
             }
         }
 
+        [Route("ImageGallery/Albums")]
         [Authorize(Roles = MyServerRoles.Admin)]
-        [Route("ImageGallery/Album")]
-        [ResponseType(typeof(AlbumAddBindingModel))]
-        public IHttpActionResult Post([FromBody]AlbumAddBindingModel model)
+        [ResponseType(typeof(AlbumBindingModel))]
+        public IHttpActionResult Post([FromBody]AlbumBindingModel model)
         {
             try
             {
@@ -123,16 +123,16 @@ namespace MyServer.Web.Api.Areas.ImageGallery.Controllers
                 {
                     Title = model.Title,
                     Description = model.Description,
-                    CreatedOn = DateTime.UtcNow,
+                    CreatedOn = DateTime.Now,
                     AddedById = this.User.Identity.GetUserId(),
                     AccessType = model.AccessType,
                     Cover = this.imageService.GetAll().First()
                 };
 
                 this.albumService.Add(album);
-                model = this.albumService.GetAll().Where(x => x.Id == album.Id).To<AlbumAddBindingModel>().First();
+                model = this.albumService.GetAll().Where(x => x.Id == album.Id).To<AlbumBindingModel>().First();
 
-                return this.Created<AlbumAddBindingModel>(this.Request.RequestUri + model.Id.ToString(), model);
+                return this.Created<AlbumBindingModel>(this.Request.RequestUri + model.Id.ToString(), model);
             }
             catch (Exception ex)
             {
@@ -140,10 +140,10 @@ namespace MyServer.Web.Api.Areas.ImageGallery.Controllers
             }
         }
 
+        [Route("ImageGallery/Albums/{id}")]
         [Authorize(Roles = MyServerRoles.Admin)]
-        [Route("ImageGallery/Album/{id}")]
-        [ResponseType(typeof(AlbumAddBindingModel))]
-        public IHttpActionResult Put(string id, [FromBody]AlbumAddBindingModel model)
+        [ResponseType(typeof(AlbumBindingModel))]
+        public IHttpActionResult Put(string id, [FromBody]AlbumBindingModel model)
         {
             try
             {
@@ -170,9 +170,9 @@ namespace MyServer.Web.Api.Areas.ImageGallery.Controllers
                 album.AccessType = model.AccessType;
 
                 this.albumService.Update(album);
-                model = this.albumService.GetAll().Where(x => x.Id == album.Id).To<AlbumAddBindingModel>().First();
+                model = this.albumService.GetAll().Where(x => x.Id == album.Id).To<AlbumBindingModel>().First();
 
-                return this.Ok();
+                return this.Ok(model);
             }
             catch (Exception ex)
             {
@@ -180,8 +180,8 @@ namespace MyServer.Web.Api.Areas.ImageGallery.Controllers
             }
         }
 
+        [Route("ImageGallery/Albums/{id}")]
         [Authorize(Roles = MyServerRoles.Admin)]
-        [Route("ImageGallery/Album/{id}")]
         public IHttpActionResult Delete(string id)
         {
             try

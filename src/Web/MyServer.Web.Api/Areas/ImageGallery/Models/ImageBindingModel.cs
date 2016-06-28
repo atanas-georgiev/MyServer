@@ -2,7 +2,7 @@
 {
     using MyServer.Web.Api.Models.ImageGallery;
 
-    public class AlbumDetailsBindingModel : AlbumModel
+    public class ImageBindingModel : ImageModel
     {
     }
 }

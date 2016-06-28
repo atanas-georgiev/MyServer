@@ -13,30 +13,40 @@
     using MyServer.Data.Models;
     using MyServer.Web.Infrastructure.Mappings;
 
+    using Newtonsoft.Json;
+
     public class ImageModel : IMapFrom<Image>
     {
+        [JsonIgnore]
         public Guid? AlbumId { get; set; }
 
+        [JsonIgnore]
         [MaxLength(50)]
         public string Aperture { get; set; }
 
+        [JsonIgnore]
         [MaxLength(50)]
         public string CameraMaker { get; set; }
 
+        [JsonIgnore]
         [MaxLength(50)]
         public string CameraModel { get; set; }
 
         public DateTime? DateTaken { get; set; }
 
+        [JsonIgnore]
         [MaxLength(50)]
         public string ExposureBiasStep { get; set; }
 
+        [JsonIgnore]
         [MaxLength(200)]
         public string FileName { get; set; }
 
+        [JsonIgnore]
         [MaxLength(50)]
         public string FocusLen { get; set; }
 
+        [JsonIgnore]
         [Computed]
         public List<double> GpsCoordinates
             =>
@@ -51,6 +61,7 @@
 
         public Guid Id { get; set; }
 
+        [JsonIgnore]
         public virtual GpsDataModel ImageGpsData { get; set; }
 
         [Computed]
@@ -121,9 +132,11 @@
             }
         }
 
+        [JsonIgnore]
         [MaxLength(50)]
         public string Iso { get; set; }
 
+        [JsonIgnore]
         [MaxLength(100)]
         public string Lenses { get; set; }
 
@@ -158,6 +171,7 @@
         [MaxLength(100)]
         public string OriginalFileName { get; set; }
 
+        [JsonIgnore]
         [MaxLength(50)]
         public string ShutterSpeed { get; set; }
 

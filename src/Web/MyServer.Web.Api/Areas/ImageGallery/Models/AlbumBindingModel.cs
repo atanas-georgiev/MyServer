@@ -16,7 +16,7 @@
 
     using Newtonsoft.Json;
 
-    public class AlbumListBindingModel : IMapFrom<Album>
+    public class AlbumBindingModel : IMapFrom<Album>
     {
         [JsonIgnore]
         public ImageModel Cover { get; set; }
@@ -97,5 +97,10 @@
         [MinLength(3)]
         [MaxLength(200)]
         public string Title { get; set; }
+
+        public AccessType AccessType { get; set; }
+
+        [MaxLength(3000)]
+        public string Description { get; set; }
     }
 }

@@ -13,7 +13,10 @@
             var extensions = new[] { "jpeg", "jpg" };
             var filename = headers.ContentDisposition.FileName.Replace("\"", string.Empty);
 
-            if (filename.IndexOf('.') < 0) return Stream.Null;
+            if (filename.IndexOf('.') < 0)
+            {
+                return Stream.Null;
+            }
 
             var extension = filename.Split('.').Last();
 
