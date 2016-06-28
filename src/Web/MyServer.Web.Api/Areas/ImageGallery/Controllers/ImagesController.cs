@@ -107,5 +107,117 @@
                 return this.InternalServerError(ex);
             }
         }
+
+        [HttpPut]
+        [Route("ImageGallery/Albums/{albumId}/Images/{imageId}/Title")]
+        [Authorize(Roles = MyServerRoles.Admin)]
+        public IHttpActionResult Title(string albumId, string imageId, [FromBody]string title)
+        {
+            try
+            {
+                var albumIdGuid = Guid.Parse(albumId);
+                var album = this.albumService.GetById(albumIdGuid);
+                var imageIdGuid = Guid.Parse(imageId);
+                var image = this.imageService.GetById(imageIdGuid);
+
+                if (album == null || image == null)
+                {
+                    return this.NotFound();
+                }
+
+                image.Title = title;
+
+                this.imageService.Update(image);
+
+                return this.Ok();
+            }
+            catch (Exception ex)
+            {
+                return this.InternalServerError(ex);
+            }
+        }
+
+        [HttpPut]
+        [Route("ImageGallery/Albums/{albumId}/Images/{imageId}/Date")]
+        [Authorize(Roles = MyServerRoles.Admin)]
+        public IHttpActionResult Date(string albumId, string imageId, [FromBody]DateTime date)
+        {
+            try
+            {
+                var albumIdGuid = Guid.Parse(albumId);
+                var album = this.albumService.GetById(albumIdGuid);
+                var imageIdGuid = Guid.Parse(imageId);
+                var image = this.imageService.GetById(imageIdGuid);
+
+                if (album == null || image == null)
+                {
+                    return this.NotFound();
+                }
+
+                image.DateTaken = date;
+
+                this.imageService.Update(image);
+
+                return this.Ok();
+            }
+            catch (Exception ex)
+            {
+                return this.InternalServerError(ex);
+            }
+        }
+
+        [HttpPut]
+        [Route("ImageGallery/Albums/{albumId}/Images/{imageId}/Location")]
+        [Authorize(Roles = MyServerRoles.Admin)]
+        public IHttpActionResult Location(string albumId, string imageId, [FromBody]string location)
+        {
+            try
+            {
+                var albumIdGuid = Guid.Parse(albumId);
+                var album = this.albumService.GetById(albumIdGuid);
+                var imageIdGuid = Guid.Parse(imageId);
+                var image = this.imageService.GetById(imageIdGuid);
+
+                if (album == null || image == null)
+                {
+                    return this.NotFound();
+                }
+
+                var gpsData = this.locationService.GetGpsData(location);
+                this.imageService.AddGpsDataToImage(imageIdGuid, gpsData);
+
+                return this.Ok();
+            }
+            catch (Exception ex)
+            {
+                return this.InternalServerError(ex);
+            }
+        }
+
+        [Route("ImageGallery/Albums/{albumId}/Images/{imageId}")]
+        [Authorize(Roles = MyServerRoles.Admin)]
+        public IHttpActionResult Delete(string albumId, string imageId)
+        {
+            try
+            {
+                var albumIdGuid = Guid.Parse(albumId);
+                var album = this.albumService.GetById(albumIdGuid);
+                var imageIdGuid = Guid.Parse(imageId);
+                var image = this.imageService.GetById(imageIdGuid);
+
+                if (album == null || image == null)
+                {
+                    return this.NotFound();
+                }
+
+                this.albumService.Remove(imageIdGuid);
+
+                return this.Ok();
+            }
+            catch (Exception ex)
+            {
+                return this.InternalServerError(ex);
+            }
+        }
     }
 }

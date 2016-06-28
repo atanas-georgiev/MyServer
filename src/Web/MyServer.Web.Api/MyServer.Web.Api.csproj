@@ -315,7 +315,6 @@
     <Compile Include="Areas\ImageGallery\ImageGalleryAreaRegistration.cs" />
     <Compile Include="Areas\ImageGallery\Models\AlbumBindingModel.cs" />
     <Compile Include="Areas\ImageGallery\Models\ImageBindingModel.cs" />
-    <Compile Include="Controllers\AccounttController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
