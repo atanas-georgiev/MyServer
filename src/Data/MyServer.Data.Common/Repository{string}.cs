@@ -1,9 +1,10 @@
 ﻿namespace MyServer.Data.Common
 {
     using System;
-    using System.Data.Entity;
-    using System.Data.Entity.Infrastructure;
     using System.Linq;
+
+    using Microsoft.EntityFrameworkCore;
+    using Microsoft.EntityFrameworkCore.ChangeTracking;
 
     using MyServer.Data.Common.Models;
 
@@ -25,7 +26,7 @@
 
         private DbContext Context { get; }
 
-        private IDbSet<T> DbSet { get; }
+        private DbSet<T> DbSet { get; }
 
         public void Add(T entity)
         {
@@ -35,7 +36,7 @@
 
         public IQueryable<T> All()
         {
-            return this.DbSet;//.Where(x => !x.IsDeleted);
+            return this.DbSet; // .Where(x => !x.IsDeleted);
         }
 
         public IQueryable<T> AllWithDeleted()
@@ -81,7 +82,7 @@
 
         public void Update(T entity)
         {
-            DbEntityEntry entry = this.Context.Entry(entity);
+            EntityEntry entry = this.Context.Entry(entity);
             if (entry.State == EntityState.Detached)
             {
                 this.DbSet.Attach(entity);

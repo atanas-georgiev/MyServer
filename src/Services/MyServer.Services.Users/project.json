@@ -1,0 +1,22 @@
+{
+  "version": "1.0.0-*",
+
+  "dependencies": {
+    "Microsoft.EntityFrameworkCore": "1.0.0",
+    "Microsoft.EntityFrameworkCore.SqlServer": "1.0.0",
+    "MyServer.Common": "1.0.0-*",
+    "MyServer.Common.ImageGallery": "1.0.0-*",
+    "MyServer.Data": "1.0.0-*",
+    "MyServer.Data.Common": "1.0.0-*",
+    "MyServer.Data.Models": "1.0.0-*",
+    "NETStandard.Library": "1.6.0"
+  },
+
+  "frameworks": {
+    "netcoreapp1.0": {
+      "imports": [
+        "net451"
+      ]
+    }
+  }
+}

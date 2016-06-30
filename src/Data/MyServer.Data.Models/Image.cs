@@ -20,8 +20,6 @@
             this.Id = Guid.Parse(id);
         }
 
-        public virtual ICollection<Comment> Comments { get; set; }
-
         public virtual User AddedBy { get; set; }
 
         public virtual string AddedById { get; set; }
@@ -31,9 +29,6 @@
 
         public virtual Guid? AlbumId { get; set; }
 
-        [InverseProperty("Cover")]
-        public virtual ICollection<Album> Covers { get; set; }
-
         [MaxLength(50)]
         public string Aperture { get; set; }
 
@@ -42,6 +37,11 @@
 
         [MaxLength(50)]
         public string CameraModel { get; set; }
+
+        public virtual ICollection<Comment> Comments { get; set; }
+
+        [InverseProperty("Cover")]
+        public virtual ICollection<Album> Covers { get; set; }
 
         public DateTime? DateTaken { get; set; }
 
@@ -58,7 +58,7 @@
         public int Height { get; set; }
 
         public virtual ImageGpsData ImageGpsData { get; set; }
-        
+
         [MaxLength(50)]
         public string Iso { get; set; }
 

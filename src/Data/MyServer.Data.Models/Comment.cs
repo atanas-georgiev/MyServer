@@ -14,16 +14,16 @@
             this.Id = Guid.NewGuid();
         }
 
+        [Required]
+        [MinLength(10)]
+        [MaxLength(1000)]
+        public string Data { get; set; }
+
         [ForeignKey("UserId")]
         [Required]
         public virtual User User { get; set; }
 
         [Required]
         public virtual string UserId { get; set; }
-
-        [Required]
-        [MinLength(10)]
-        [MaxLength(1000)]
-        public string Data { get; set; }
     }
 }

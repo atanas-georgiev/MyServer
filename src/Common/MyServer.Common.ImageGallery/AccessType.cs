@@ -2,9 +2,9 @@
 {
     public enum AccessType
     {
-        Public,
+        Public, 
 
-        Shared,
+        Shared, 
 
         Private
     }

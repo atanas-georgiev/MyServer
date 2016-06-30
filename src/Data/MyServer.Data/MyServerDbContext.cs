@@ -1,61 +1,52 @@
 ﻿namespace MyServer.Data
 {
     using System;
-    using System.Collections.Generic;
-    using System.Data.Entity;
-    using System.Data.Entity.Core.Metadata.Edm;
-    using System.Data.Entity.Core.Objects;
-    using System.Data.Entity.Infrastructure;
-    using System.Data.SqlClient;
     using System.Linq;
 
-    using Microsoft.AspNet.Identity.EntityFramework;
+    using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+    using Microsoft.EntityFrameworkCore;
 
     using MyServer.Data.Common.Models;
     using MyServer.Data.Models;
 
     public class MyServerDbContext : IdentityDbContext<User>
     {
-        private static readonly Dictionary<Type, EntitySetBase> MappingCache = new Dictionary<Type, EntitySetBase>();
-
-        public MyServerDbContext()
-            : base("MyServerDb", false)
+        // private static readonly Dictionary<Type, EntitySetBase> MappingCache = new Dictionary<Type, EntitySetBase>();
+        public MyServerDbContext(DbContextOptions<MyServerDbContext> options)
+            : base(options)
         {
         }
 
-        public virtual IDbSet<Album> Albums { get; set; }
+        public virtual DbSet<Album> Albums { get; set; }
 
-        public virtual IDbSet<Comment> Comments { get; set; }
+        public virtual DbSet<Comment> Comments { get; set; }
 
-        public virtual IDbSet<ImageGpsData> ImageGpsDatas { get; set; }
+        public virtual DbSet<ImageGpsData> ImageGpsDatas { get; set; }
 
-        public virtual IDbSet<Image> Images { get; set; }
+        public virtual DbSet<Image> Images { get; set; }
 
-        public static MyServerDbContext Create()
-        {
-            return new MyServerDbContext();
-        }
-
+        // public static MyServerDbContext Create()
+        // {
+        // return new MyServerDbContext();
+        // }
         public override int SaveChanges()
         {
             this.ApplyAuditInfoRules();
 
-            foreach (var entry in this.ChangeTracker.Entries().Where(p => p.State == EntityState.Deleted)) this.SoftDelete(entry);
-
+            // foreach (var entry in this.ChangeTracker.Entries().Where(p => p.State == EntityState.Deleted)) this.SoftDelete(entry);
             try
             {
                 return base.SaveChanges();
             }
             catch (Exception ex)
             {
-
                 return base.SaveChanges();
             }
-            
         }
 
-        protected override void OnModelCreating(DbModelBuilder modelBuilder)
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            /*
             modelBuilder.Entity<User>().Map(m => m.Requires("IsDeleted").HasValue(false)).Ignore(m => m.IsDeleted);
             modelBuilder.Entity<Album>().Map(m => m.Requires("IsDeleted").HasValue(false)).Ignore(m => m.IsDeleted);
             modelBuilder.Entity<ImageGpsData>()
@@ -87,32 +78,31 @@
             //    .HasOptional(x => x.Cover)
             //    .WithOptionalDependent(x => x.Cover)
             //    .WillCascadeOnDelete(false);
-
+            */
             base.OnModelCreating(modelBuilder);
         }
 
         private void ApplyAuditInfoRules()
         {
             // Approach via @julielerman: http://bit.ly/123661P
-            foreach (var entry in
-                this.ChangeTracker.Entries()
-                    .Where(
-                        e =>
-                        e.Entity is IAuditInfo && ((e.State == EntityState.Added) || (e.State == EntityState.Modified)))
-                )
+            foreach (var entry in this.ChangeTracker.Entries())
             {
-                var entity = (IAuditInfo)entry.Entity;
-                if (entry.State == EntityState.Added && entity.CreatedOn == default(DateTime))
+                if (entry.Entity is IAuditInfo && ((entry.State == EntityState.Added) || (entry.State == EntityState.Modified)))
                 {
-                    entity.CreatedOn = DateTime.Now;
-                }
-                else
-                {
-                    entity.ModifiedOn = DateTime.Now;
+                    var entity = entry.Entity as IAuditInfo;
+                    if (entry.State == EntityState.Added && entity.CreatedOn == default(DateTime))
+                    {
+                        entity.CreatedOn = DateTime.Now;
+                    }
+                    else
+                    {
+                        entity.ModifiedOn = DateTime.Now;
+                    }
                 }
             }
         }
 
+        /*
         private EntitySetBase GetEntitySet(Type type)
         {
             if (!MappingCache.ContainsKey(type))
@@ -152,7 +142,7 @@
                 es.MetadataProperties["Table"].Value);
         }
 
-        private void SoftDelete(DbEntityEntry entry)
+        private void SoftDelete(EntityEntry entry)
         {
             Type entryEntityType = entry.Entity.GetType();
 
@@ -165,6 +155,6 @@
 
             // prevent hard delete            
             entry.State = EntityState.Detached;
-        }
+        }*/
     }
 }

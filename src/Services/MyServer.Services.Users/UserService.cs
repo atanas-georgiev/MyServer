@@ -1,14 +1,15 @@
 ﻿namespace MyServer.Services.Users
 {
-    using System.Data.Entity;
     using System.Linq;
+
+    using Microsoft.EntityFrameworkCore;
 
     using MyServer.Data.Common;
     using MyServer.Data.Models;
 
     public class UserService : IUserService
     {
-        private IRepository<User, string> users;
+        private readonly IRepository<User, string> users;
 
         public UserService(DbContext context, IRepository<User> users)
         {
