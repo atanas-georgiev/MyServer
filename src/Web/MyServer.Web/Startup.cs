@@ -9,10 +9,10 @@
     using Microsoft.EntityFrameworkCore;
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
-    using Microsoft.Extensions.Logging;
-    using Microsoft.Extensions.Options;
+    using Microsoft.Extensions.Logging;    
 
     using MyServer.Services;
+    using Services.ImageGallery;
     using Services.Users;
 
     public class Startup
@@ -52,6 +52,7 @@
             services.Add(ServiceDescriptor.Scoped(typeof(IRepository<,>), typeof(Repository<,>)));
             services.Add(ServiceDescriptor.Scoped(typeof(IRepository<>), typeof(Repository<>)));
             services.AddScoped<IUserService, UserService>();
+            services.AddScoped<IFileService, FileService>();
 
             services.AddIdentity<User, IdentityRole>()
                 .AddEntityFrameworkStores<MyServerDbContext>()

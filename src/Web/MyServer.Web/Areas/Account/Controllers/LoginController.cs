@@ -137,6 +137,7 @@
 
         [HttpPost]
         [AllowAnonymous]
+        [Route("Index")]
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Index(AccountLoginViewModel model, string returnUrl = null)
         {
