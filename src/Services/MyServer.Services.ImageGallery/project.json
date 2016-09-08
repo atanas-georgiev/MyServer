@@ -2,6 +2,8 @@
   "version": "1.0.0-*",
 
   "dependencies": {
+    "ImageProcessor": "2.4.4",
+    "MetadataExtractor": "1.4.0",
     "MyServer.Common": "1.0.0-*",
     "MyServer.Common.ImageGallery": "1.0.0-*",
     "MyServer.Data": "1.0.0-*",

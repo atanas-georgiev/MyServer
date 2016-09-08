@@ -12,12 +12,52 @@
     using MyServer.Services;
     using MyServer.Services.Users;
     using MyServer.Web.Areas.Account.Models;
+    using Shared.Controllers;
 
     [Route("Account/Login")]
     public class LoginController : BaseController
     {
-        public LoginController(IUserService userService, UserManager<User> userManager, SignInManager<User> signInManager, IEmailSender emailSender, MyServerDbContext dbContext) : base(userService, userManager, signInManager, emailSender, dbContext)
+        public LoginController(IUserService userService, UserManager<User> userManager, SignInManager<User> signInManager, MyServerDbContext dbContext) 
+            : base(userService, userManager, signInManager, dbContext)
         {
+        }
+
+        [AllowAnonymous]
+        [Route("Index")]
+        public ActionResult Index(string returnUrl)
+        {
+            this.ViewData["ReturnUrl"] = returnUrl;
+            return this.View();
+        }
+
+        [HttpPost]
+        [AllowAnonymous]
+        [Route("Index")]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> Index(AccountLoginViewModel model, string returnUrl = null)
+        {
+            this.ViewData["ReturnUrl"] = returnUrl;
+
+            if (!this.ModelState.IsValid)
+            {
+                return this.View(model);
+            }
+
+            var result =
+                await
+                this.signInManager.PasswordSignInAsync(
+                    model.Email,
+                    model.Password,
+                    model.RememberMe,
+                    lockoutOnFailure: false);
+
+            if (result.Succeeded)
+            {
+                return this.RedirectToLocal(returnUrl);
+            }
+
+            this.ModelState.AddModelError(string.Empty, "Invalid login attempt.");
+            return this.View(model);
         }
 
         [HttpPost]
@@ -41,6 +81,7 @@
         }
 
         [AllowAnonymous]
+        [Route("ExternalLoginCallback")]
         public async Task<ActionResult> ExternalLoginCallback(string returnUrl, string remoteError = null)
         {
             if (remoteError != null)
@@ -122,47 +163,10 @@
         }
 
         [AllowAnonymous]
+        [Route("ExternalLoginFailure")]
         public ActionResult ExternalLoginFailure()
         {
             return this.View();
-        }
-
-        [AllowAnonymous]
-        [Route("Index")]
-        public ActionResult Index(string returnUrl)
-        {
-            this.ViewBag.ReturnUrl = returnUrl;
-            return this.View();
-        }
-
-        [HttpPost]
-        [AllowAnonymous]
-        [Route("Index")]
-        [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Index(AccountLoginViewModel model, string returnUrl = null)
-        {
-            this.ViewData["ReturnUrl"] = returnUrl;
-
-            if (!this.ModelState.IsValid)
-            {
-                return this.View(model);
-            }
-
-            var result =
-                await
-                this.signInManager.PasswordSignInAsync(
-                    model.Email, 
-                    model.Password, 
-                    model.RememberMe,
-                    lockoutOnFailure: false);
-
-            if (result.Succeeded)
-            {
-                return this.RedirectToLocal(returnUrl);
-            }
-
-            this.ModelState.AddModelError(string.Empty, "Invalid login attempt.");
-            return this.View(model);
         }
     }
 }

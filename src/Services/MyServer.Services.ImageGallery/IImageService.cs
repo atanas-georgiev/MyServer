@@ -1,24 +1,25 @@
 ﻿namespace MyServer.Services.ImageGallery
 {
-    using System;    
-    using System.Linq;    
+    using System;
+    using System.Linq;
 
     using MyServer.Data.Models;
+    using System.IO;
 
     public interface IImageService
     {
-        //void Add(Guid albumId, string userId);
+        void Add(Guid albumId, string userId, Stream fileStream, string fileName);
 
-        //IQueryable<Image> GetAll();
+        IQueryable<Image> GetAll();
 
-        //Image GetById(Guid id);
+        Image GetById(Guid id);
 
-        //void Remove(Guid id);
+        void Remove(Guid id);
 
-        //void Update(Image image);
+        void Update(Image image);
 
-        //void AddGpsDataToImage(Guid id, ImageGpsData gpsData);
+        void AddGpsDataToImage(Guid id, ImageGpsData gpsData);
 
-        //void PrepareFileForDownload(Guid id);
+        void PrepareFileForDownload(Guid id);
     }
 }

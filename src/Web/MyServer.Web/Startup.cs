@@ -5,11 +5,12 @@
     using Data.Models;
     using Microsoft.AspNetCore.Builder;
     using Microsoft.AspNetCore.Hosting;
+    using Microsoft.AspNetCore.Http;
     using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
     using Microsoft.EntityFrameworkCore;
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
-    using Microsoft.Extensions.Logging;    
+    using Microsoft.Extensions.Logging;
 
     using MyServer.Services;
     using Services.ImageGallery;
@@ -53,16 +54,13 @@
             services.Add(ServiceDescriptor.Scoped(typeof(IRepository<>), typeof(Repository<>)));
             services.AddScoped<IUserService, UserService>();
             services.AddScoped<IFileService, FileService>();
+            services.AddScoped<IAlbumService, AlbumService>();            
 
             services.AddIdentity<User, IdentityRole>()
                 .AddEntityFrameworkStores<MyServerDbContext>()
                 .AddDefaultTokenProviders();
             
-            services.AddMvc();
-
-            // Add application services.
-            services.AddTransient<IEmailSender, AuthMessageSender>();
-            services.AddTransient<ISmsSender, AuthMessageSender>();
+            services.AddMvc();            
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -91,9 +89,9 @@
             app.UseIdentity();
 
             app.UseFacebookAuthentication(new FacebookOptions()
-            {
-                AppId = "521558431365642",
-                AppSecret = "af05f969147e202f1e8c76c4cfd31a79"
+            {                
+                AppId = "330419013960689",
+                AppSecret = "8da62d825d48cb9df05f7260c43edef9"
             });
 
             app.UseGoogleAuthentication(new GoogleOptions()

@@ -1,10 +1,8 @@
-﻿namespace MyServer.Web.Areas.Account.Controllers
+﻿namespace MyServer.Web.Areas.Shared.Controllers
 {
     using System;
     using System.Linq;
-    using System.Security.Claims;
-    using System.Threading.Tasks;
-
+    
     using Microsoft.AspNetCore.Identity;
     using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
     using Microsoft.AspNetCore.Mvc;
@@ -12,16 +10,13 @@
 
     using MyServer.Common;
     using MyServer.Data;
-    using MyServer.Data.Models;
-    using MyServer.Services;
+    using MyServer.Data.Models;    
     using MyServer.Services.Users;
 
     [Area("Account")]
     public class BaseController : Controller
     {
-        protected readonly MyServerDbContext dbContext;
-
-        protected readonly IEmailSender emailSender;
+        protected readonly MyServerDbContext dbContext;        
 
         protected readonly SignInManager<User> signInManager;
 
@@ -30,14 +25,12 @@
         public BaseController(
             IUserService userService, 
             UserManager<User> userManager, 
-            SignInManager<User> signInManager, 
-            IEmailSender emailSender, 
+            SignInManager<User> signInManager,             
             MyServerDbContext dbContext)
         {
             this.UserService = userService;
             this.userManager = userManager;
-            this.signInManager = signInManager;
-            this.emailSender = emailSender;
+            this.signInManager = signInManager;            
             this.dbContext = dbContext;
         }
 
@@ -55,8 +48,7 @@
                 this.SeedAdmin(this.dbContext);
             }
 
-            this.UserProfile =
-                this.UserService.GetAll().FirstOrDefault(u => u.UserName == context.HttpContext.User.Identity.Name);
+            this.UserProfile = this.UserService.GetAll().FirstOrDefault(u => u.UserName == context.HttpContext.User.Identity.Name);
             base.OnActionExecuting(context);
         }
 

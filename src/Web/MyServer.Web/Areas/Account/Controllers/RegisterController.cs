@@ -15,11 +15,12 @@
     using MyServer.Services.Users;
     using MyServer.Web.Areas.Account.Models;
     using System.Linq;
+    using Shared.Controllers;
 
     [Route("Account/Register")]
     public class RegisterController : BaseController
     {
-        public RegisterController(IUserService userService, UserManager<User> userManager, SignInManager<User> signInManager, IEmailSender emailSender, MyServerDbContext dbContext) : base(userService, userManager, signInManager, emailSender, dbContext)
+        public RegisterController(IUserService userService, UserManager<User> userManager, SignInManager<User> signInManager, MyServerDbContext dbContext) : base(userService, userManager, signInManager, dbContext)
         {
         }
 
@@ -50,7 +51,7 @@
 
                 if (result.Succeeded)
                 {
-                    var role = this.dbContext.Roles.First(x => x.Name == MyServerRoles.Admin);
+                    var role = this.dbContext.Roles.First(x => x.Name == MyServerRoles.User);
                     this.dbContext.UserRoles.Add(new IdentityUserRole<string>() { RoleId = role.Id, UserId = user.Id });
                     this.dbContext.SaveChanges();
 
