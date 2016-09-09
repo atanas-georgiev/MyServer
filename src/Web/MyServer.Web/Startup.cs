@@ -56,7 +56,9 @@
             services.Add(ServiceDescriptor.Scoped(typeof(IRepository<>), typeof(Repository<>)));
             services.AddScoped<IUserService, UserService>();
             services.AddScoped<IFileService, FileService>();
-            services.AddScoped<IAlbumService, AlbumService>();            
+            services.AddScoped<IAlbumService, AlbumService>();
+            services.AddScoped<IImageService, ImageService>();
+            services.AddScoped<ILocationService, LocationService>();
 
             services.AddIdentity<User, IdentityRole>()
                 .AddEntityFrameworkStores<MyServerDbContext>()

@@ -12,8 +12,7 @@
     using MyServer.Data;
     using MyServer.Data.Models;    
     using MyServer.Services.Users;
-
-    [Area("Account")]
+    
     public class BaseController : Controller
     {
         protected readonly MyServerDbContext dbContext;        

@@ -17,6 +17,7 @@
     using System.Linq;
     using Shared.Controllers;
 
+    [Area("Account")]
     [Route("Account/Register")]
     public class RegisterController : BaseController
     {

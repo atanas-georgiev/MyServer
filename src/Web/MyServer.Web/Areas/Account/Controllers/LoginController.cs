@@ -14,6 +14,7 @@
     using MyServer.Web.Areas.Account.Models;
     using Shared.Controllers;
 
+    [Area("Account")]
     [Route("Account/Login")]
     public class LoginController : BaseController
     {

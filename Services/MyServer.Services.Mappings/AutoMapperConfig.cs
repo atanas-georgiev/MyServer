@@ -25,6 +25,16 @@
 
         private static void LoadCustomMappings(IEnumerable<Type> types, IMapperConfigurationExpression mapperConfiguration)
         {
+            //var maps = (from t in types
+            //            from i in t.GetInterfaces()
+            //            where typeof(IHaveCustomMappings).IsAssignableFrom(t) && !t.IsAbstract && !t.IsInterface
+            //            select (IHaveCustomMappings) Activator.CreateInstance(t)).ToArray();
+
+            //foreach (var map in maps)
+            //{
+            //    map.CreateMappings(mapperConfiguration);
+            //}
+
             var maps = (from t in types
                         from i in t.GetInterfaces()
                         where typeof(IHaveCustomMappings).IsAssignableFrom(t)
