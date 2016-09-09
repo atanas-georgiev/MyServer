@@ -14,7 +14,9 @@
 
     using MyServer.Services;
     using Services.ImageGallery;
+    using Services.Mappings;
     using Services.Users;
+    using System.Reflection;
 
     public class Startup
     {
@@ -113,6 +115,9 @@
                     name: "default",
                     template: "{controller=Home}/{action=Index}/{id?}");
             });
+
+            var autoMapperConfig = new AutoMapperConfig();
+            autoMapperConfig.Execute(Assembly.GetEntryAssembly());
         }
     }
 }

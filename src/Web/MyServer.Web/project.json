@@ -45,6 +45,7 @@
     }
   },
   "dependencies": {
+    "AutoMapper": "5.1.1",
     "BundlerMinifier.Core": "2.2.281",
     "Microsoft.ApplicationInsights.AspNetCore": "1.0.0",
     "Microsoft.AspNetCore.Authentication.Cookies": "1.0.0",
@@ -99,6 +100,7 @@
     "MyServer.Data.Common": "1.0.0-*",
     "MyServer.Data.Models": "1.0.0-*",
     "MyServer.Services.ImageGallery": "1.0.0-*",
+    "MyServer.Services.Mappings": "1.0.0-*",
     "MyServer.Services.Users": "1.0.0-*"
   }
 }
