@@ -3,60 +3,25 @@
     using System;
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
-    
+
     using MyServer.Common.ImageGallery;
     using MyServer.Data.Models;
     using Services.Mappings;
     using Image;
     using AutoMapper;
-    using Microsoft.AspNetCore.Hosting;
+    using Helpers;
+    using System.Linq;
+    using AutoMapper.QueryableExtensions;
 
-    public class AlbumViewModel : IMapFrom<Album>
+    public class AlbumViewModel : IMapFrom<Album>, IHaveCustomMappings
     {
-     //   public Guid? CoverId { get; set; }
+        public Guid? CoverId { get; set; }
 
-       // public ImageViewModel Cover { get; set; }
+        public ImageViewModel CoverModel { get; set; }
 
-     //   public string CoverImage { get; set; }
+        public string CoverImage { get; set; }
 
-     //   public string Date { get; set; }
-        //{
-        //    get
-        //    {
-        //        var dates = this.Images.Where(x => x.DateTaken != null).Select(x => x.DateTaken).ToList();
-
-        //        if (dates.Count == 0)
-        //        {
-        //            return string.Empty;
-        //        }
-        //        else
-        //        {
-        //            var firstDate = dates.OrderBy(x => x.Value).Select(x => x.Value).First();
-        //            var lastDate = dates.OrderBy(x => x.Value).Select(x => x.Value).Last();
-
-        //            if (firstDate.Date == lastDate.Date)
-        //            {
-        //                return firstDate.ToString("dd MMM yyyy", CultureInfo.CreateSpecificCulture("en-US"));
-        //            }
-        //            else if (firstDate.Year == lastDate.Year && firstDate.Month == lastDate.Month)
-        //            {
-        //                return firstDate.Day + "-" + lastDate.Day + " "
-        //                       + firstDate.ToString("MMM yyyy", CultureInfo.CreateSpecificCulture("en-US"));
-        //            }
-        //            else if (firstDate.Year == lastDate.Year)
-        //            {
-        //                return firstDate.ToString("dd MMM", CultureInfo.CreateSpecificCulture("en-US")) + "-"
-        //                       + lastDate.ToString("dd MMM", CultureInfo.CreateSpecificCulture("en-US")) + " "
-        //                       + lastDate.ToString("yyyy", CultureInfo.CreateSpecificCulture("en-US"));
-        //            }
-        //            else
-        //            {
-        //                return firstDate.ToString("dd MMM yyyy", CultureInfo.CreateSpecificCulture("en-US")) + "-"
-        //                       + lastDate.ToString("dd MMM yyyy", CultureInfo.CreateSpecificCulture("en-US"));
-        //            }
-        //        }
-        //    }
-        //}
+        public string Date { get; set; }
 
         [MaxLength(3000)]
         [UIHint("Editor")]
@@ -73,24 +38,9 @@
         //    }
         //}
 
-        //public ICollection<ImageViewModel> Images { get; set; }
+       // public ICollection<ImageViewModel> Images { get; set; }
 
-        //[Computed]
-        //public string ImagesCountCover
-        //{
-        //    get
-        //    {
-        //        switch (this.Images.Count)
-        //        {
-        //            case 0:
-        //                return "No items";
-        //            case 1:
-        //                return "1 item";
-        //            default:
-        //                return this.Images.Count + " items";
-        //        }
-        //    }
-        //}
+        public string ImagesCountCover { get; set; }
 
         // public virtual ICollection<IdentityUserRole> Roles { get; set; }
 
@@ -101,5 +51,94 @@
 
         public bool IsPublic { get; set; }
 
+        public virtual void CreateMappings(IMapperConfigurationExpression configuration)
+        {
+            configuration.CreateMap<Album, AlbumViewModel>()
+                //  .ForMember(m => m.Date, opt => opt.ResolveUsing(c => MapDate(c)))
+                .ForMember(m => m.ImagesCountCover, opt => opt.MapFrom(c => MapImagesCountCover(c)))
+                .ForMember(m => m.CoverImage, opt => opt.MapFrom(c => MapCoverImage(c)))
+                .ForMember(m => m.CoverModel, opt => opt.MapFrom(c => MapCoverModel(c)));
+        }
+
+        static ImageViewModel MapCoverModel(Album source)
+        {
+            if (source.Cover == null)
+            {
+                return null;
+            }
+
+            var list = new List<Image>();
+            list.Add(source.Cover);
+            return list.AsQueryable().To<ImageViewModel>().FirstOrDefault();// (AutoMapperConfig.Configuration, membersToExpand);
+        }
+
+        static string MapCoverImage(Album source)
+        {
+            if (source.Cover == null)
+            {
+                return string.Empty;
+            }
+
+            return PathHelper.WwwPath + Constants.MainContentFolder + "/" + source.Cover.AlbumId + "/" + Constants.ImageFolderLow + "/" + source.Cover.FileName;
+        }
+
+        static string MapImagesCountCover(Album source)
+        {
+            if (source.Images == null)
+            {
+                return "No items";
+            }
+
+            switch (source.Images.Count)
+            {
+                case 0:
+                    return "No items";
+                case 1:
+                    return "1 item";
+                default:
+                    return source.Images.Count + " items";
+            }
+        }
+
+        static string MapDate(Album source)
+        {
+            if (source.Images == null)
+            {
+                return string.Empty;
+            }
+
+            var dates = source.Images.Where(x => x.DateTaken != null).Select(x => x.DateTaken).ToList();
+
+            if (dates.Count == 0)
+            {
+                return string.Empty;
+            }
+            else
+            {
+                var firstDate = dates.OrderBy(x => x.Value).Select(x => x.Value).First();
+                var lastDate = dates.OrderBy(x => x.Value).Select(x => x.Value).Last();
+
+                if (firstDate.Date == lastDate.Date)
+                {
+                    return firstDate.ToString("dd MMM yyyy");
+                }
+                else if (firstDate.Year == lastDate.Year && firstDate.Month == lastDate.Month)
+                {
+                    return firstDate.Day + "-" + lastDate.Day + " "
+                           + firstDate.ToString("MMM yyyy");
+                }
+                else if (firstDate.Year == lastDate.Year)
+                {
+                    return firstDate.ToString("dd MMM") + "-"
+                           + lastDate.ToString("dd MMM") + " "
+                           + lastDate.ToString("yyyy");
+                }
+                else
+                {
+                    return firstDate.ToString("dd MMM yyyy") + "-"
+                           + lastDate.ToString("dd MMM yyyy");
+                }
+            }
+        }
     }
 }

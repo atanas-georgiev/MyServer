@@ -13,11 +13,15 @@
         public Image()
         {
             this.Id = Guid.NewGuid();
+            this.Comments = new List<Comment>();
+            this.Covers = new List<Album>();
         }
 
         public Image(string id)
         {
             this.Id = Guid.Parse(id);
+            this.Comments = new List<Comment>();
+            this.Covers = new List<Album>();
         }
 
         public virtual User AddedBy { get; set; }

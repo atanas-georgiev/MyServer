@@ -8,7 +8,7 @@
     using Microsoft.AspNetCore.Mvc;
     using Services.Mappings;
 
-    public class AddAlbumViewModel : IMapFrom<Album>, IHaveCustomMappings
+    public class AddAlbumViewModel// : IMapFrom<Album>, IHaveCustomMappings
     {
         [MaxLength(3000)]
         public string Description { get; set; }
@@ -24,10 +24,10 @@
 
         public bool IsPublic { get; set; }
 
-        public void CreateMappings(IMapperConfigurationExpression configuration)
-        {
-            configuration.CreateMap<Album, AddAlbumViewModel>()                
-                .ForMember(m => m.Title, opt => opt.MapFrom(c => "Titleeee"));
-        }
+        //public void CreateMappings(IMapperConfigurationExpression configuration)
+        //{
+        //    configuration.CreateMap<Album, AddAlbumViewModel>()                
+        //        .ForMember(m => m.Title, opt => opt.MapFrom(c => "Titleeee"));
+        //}
     }
 }

@@ -14,11 +14,13 @@
         public Album()
         {
             this.Id = Guid.NewGuid();
+            this.Images = new List<Image>();
         }
 
         public Album(string id)
         {
             this.Id = Guid.Parse(id);
+            this.Images = new List<Image>();
         }
 
         public AccessType AccessType { get; set; }

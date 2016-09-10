@@ -7,6 +7,9 @@ using MyServer.Services.Mappings;
 using MyServer.Services.Users;
 using MyServer.Web.Areas.Shared.Controllers;
 using MyServer.Web.Main.Areas.ImageGalleryAdmin.Models.Album;
+using MyServer.Web.Main.Areas.Shared.Models.Album;
+using System;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace MyServer.Web.Areas.ImageGalleryAdmin.Controllers
@@ -31,11 +34,11 @@ namespace MyServer.Web.Areas.ImageGalleryAdmin.Controllers
         [Route("Index")]
         public IActionResult Index()
         {
-            this.albumService.Add(new Album()
-            {
-                Title = "asdasdsa",
-                Description = "desc"
-            });
+            //this.albumService.Add(new Album()
+            //{
+            //    Title = "asdasdsa",
+            //    Description = "desc"
+            //});
 
             var albums = this.albumService.GetAll().To<AlbumListViewModel>().ToList();            
             return View(albums);

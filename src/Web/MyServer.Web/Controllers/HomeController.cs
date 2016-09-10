@@ -7,6 +7,7 @@ using MyServer.Services.ImageGallery;
 using MyServer.Web.Areas.ImageGalleryAdmin.Models.Album;
 using MyServer.Services.Mappings;
 using MyServer.Data.Models;
+using MyServer.Web.Main.Areas.Shared.Models.Album;
 
 namespace MyServer.Controllers
 {
@@ -27,12 +28,13 @@ namespace MyServer.Controllers
             var album = new Album()
             {
                 Id = Guid.NewGuid(),
-                Description = "Mine"
+                Description = "Mine",
+                Title = "sadsa"
             };
             var albums = new List<Album>();
             albums.Add(album);
 
-            var result = albums.AsQueryable().To<AddAlbumViewModel>().FirstOrDefault();
+            var result = albums.AsQueryable().To<AlbumViewModel>().FirstOrDefault();
 
             return View();
         }
