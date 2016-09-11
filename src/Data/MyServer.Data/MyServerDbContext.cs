@@ -52,6 +52,15 @@
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            modelBuilder.Entity<Album>()
+                .HasOne(p => p.Cover)
+                .WithMany(b => b.Covers);
+
+            modelBuilder.Entity<Image>()
+                    .HasMany(x => x.Covers)
+                    .WithOne(x => x.Cover)
+                    .HasForeignKey(x => x.CoverId);
+
             /*
             modelBuilder.Entity<User>().Map(m => m.Requires("IsDeleted").HasValue(false)).Ignore(m => m.IsDeleted);
             modelBuilder.Entity<Album>().Map(m => m.Requires("IsDeleted").HasValue(false)).Ignore(m => m.IsDeleted);

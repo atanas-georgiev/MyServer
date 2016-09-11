@@ -34,7 +34,7 @@ Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "MyServer.Common", "src\Comm
 EndProject
 Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "MyServer.Common.ImageGallery", "src\Common\MyServer.Common.ImageGallery\MyServer.Common.ImageGallery.xproj", "{77018F56-B33A-412C-8461-B7969E511236}"
 EndProject
-Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "MyServer.Services.Mappings", "Services\MyServer.Services.Mappings\MyServer.Services.Mappings.xproj", "{A0B5B9D0-0CDC-428B-936E-5C9338618763}"
+Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "MyServer.Services.Mappings", "src\Services\MyServer.Services.Mappings\MyServer.Services.Mappings.xproj", "{A0B5B9D0-0CDC-428B-936E-5C9338618763}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

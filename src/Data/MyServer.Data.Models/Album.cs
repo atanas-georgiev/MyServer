@@ -34,6 +34,7 @@
         [InverseProperty("Covers")]
         public virtual Image Cover { get; set; }
 
+        [ForeignKey("Cover")]
         public virtual Guid? CoverId { get; set; }
 
         [MaxLength(3000)]

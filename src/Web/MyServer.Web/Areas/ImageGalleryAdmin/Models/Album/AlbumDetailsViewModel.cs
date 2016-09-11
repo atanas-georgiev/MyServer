@@ -1,8 +1,12 @@
 ﻿namespace MyServer.Web.Main.Areas.ImageGalleryAdmin.Models.Album
 {
-    //using MyServer.Web.Main.Areas.ImageGallery.Models.Album;
- 
-    public class AlbumDetailsViewModel// : AlbumViewModel
-    {       
+    using AutoMapper;
+    using Services.Mappings;
+
+    public class AlbumDetailsViewModel : IHaveCustomMappings
+    {
+        public void CreateMappings(IMapperConfigurationExpression configuration)
+        {
+        }
     }
 }

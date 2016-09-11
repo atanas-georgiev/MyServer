@@ -45,7 +45,7 @@
         public virtual ICollection<Comment> Comments { get; set; }
 
         [InverseProperty("Cover")]
-        public virtual ICollection<Album> Covers { get; set; }
+        public ICollection<Album> Covers { get; set; }
 
         public DateTime? DateTaken { get; set; }
 

@@ -11,6 +11,7 @@
 
     using MyServer.Data.Models;
     using Microsoft.AspNetCore.Hosting;
+    using Microsoft.EntityFrameworkCore;
 
     public class AlbumService : IAlbumService
     {
@@ -36,6 +37,12 @@
         {
             var firstAlbumToExcludeGuid = Guid.Parse(Constants.NoCoverId);
             return this.albums.All().Where(x => x.Id != firstAlbumToExcludeGuid);
+        }
+
+        public IQueryable<Album> GetAllReqursive()
+        {
+            var firstAlbumToExcludeGuid = Guid.Parse(Constants.NoCoverId);
+            return this.albums.All().Include(x => x.Cover).Include(x => x.Images).Where(x => x.Id != firstAlbumToExcludeGuid);
         }
 
         public Album GetById(Guid id)

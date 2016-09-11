@@ -11,6 +11,8 @@
 
         IQueryable<Album> GetAll();
 
+        IQueryable<Album> GetAllReqursive();
+
         Album GetById(Guid id);
 
         void Update(Album album);

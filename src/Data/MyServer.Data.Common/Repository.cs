@@ -34,7 +34,7 @@
             this.Save();
         }
 
-        public IQueryable<T> All()
+        public DbSet<T> All()
         {
             return this.DbSet; // .Where(x => !x.IsDeleted);
         }

@@ -5,6 +5,7 @@
     using System.Linq;
 
     using MyServer.Data.Common.Models;
+    using Microsoft.EntityFrameworkCore;
 
     public interface IRepository<T> : IRepository<T, string>
         where T : class, IHavePrimaryKey<string>, IDeletableEntity, IAuditInfo
@@ -24,7 +25,7 @@
     {
         void Add(T entity);
 
-        IQueryable<T> All();
+        DbSet<T> All();
 
         void Delete(T entity);
 

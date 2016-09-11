@@ -8,8 +8,8 @@ using MyServer.Data;
 namespace MyServer.Data.Migrations
 {
     [DbContext(typeof(MyServerDbContext))]
-    [Migration("20160629190638_qq")]
-    partial class qq
+    [Migration("20160910163937_mine")]
+    partial class mine
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
