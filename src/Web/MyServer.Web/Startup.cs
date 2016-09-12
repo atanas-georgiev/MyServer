@@ -13,6 +13,7 @@
     using Microsoft.Extensions.Logging;
 
     using MyServer.Services;
+    using Newtonsoft.Json.Serialization;
     using Services.ImageGallery;
     using Services.Mappings;
     using Services.Users;
@@ -65,13 +66,17 @@
                 .AddEntityFrameworkStores<MyServerDbContext>()
                 .AddDefaultTokenProviders();
             
-            services.AddMvc();
+            services
+                .AddMvc()
+                .AddJsonOptions(options => options.SerializerSettings.ContractResolver = new DefaultContractResolver());
+
+            services.AddKendo();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
         {
-            PathHelper helper = new PathHelper(env);
+            var helper = new PathHelper(env);
             loggerFactory.AddConsole(Configuration.GetSection("Logging"));
             loggerFactory.AddDebug();
 
@@ -119,6 +124,9 @@
                     name: "default",
                     template: "{controller=Home}/{action=Index}/{id?}");
             });
+
+            // Configure Kendo UI
+            app.UseKendo(env);
 
             var autoMapperConfig = new AutoMapperConfig();
             autoMapperConfig.Execute(Assembly.GetEntryAssembly());

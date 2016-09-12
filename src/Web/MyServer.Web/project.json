@@ -102,6 +102,7 @@
     "MyServer.Data.Models": "1.0.0-*",
     "MyServer.Services.ImageGallery": "1.0.0-*",
     "MyServer.Services.Mappings": "1.0.0-*",
-    "MyServer.Services.Users": "1.0.0-*"
+    "MyServer.Services.Users": "1.0.0-*",
+    "Telerik.UI.for.AspNet.Core": "2016.2.714"
   }
 }

@@ -6,10 +6,23 @@
     <title>@ViewData["Title"] - MyServer</title>
 
     <environment names="Development">
+        <link rel="stylesheet" href="~/lib/kendo-ui/styles/kendo.common-nova.min.css" />
+        <link rel="stylesheet" href="~/lib/kendo-ui/styles/kendo.nova.min.css" />
         <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" />
         <link rel="stylesheet" href="~/css/site.css" />
     </environment>
     <environment names="Staging,Production">
+        <link rel="stylesheet"
+              href="https://kendo.cdn.telerik.com/2016.2.714/styles/kendo.common-nova.min.css"
+              asp-fallback-href="~/lib/kendo-ui/styles/kendo.common-nova.min.css"
+              asp-fallback-test-class="k-common-test-class"
+              asp-fallback-test-property="opacity" asp-fallback-test-value="0" />
+
+        <link rel="stylesheet"
+              href="https://kendo.cdn.telerik.com/2016.2.714/styles/kendo.nova.min.css"
+              asp-fallback-href="~/lib/kendo-ui/styles/kendo.nova.min.css"
+              asp-fallback-test-class="k-theme-test-class"
+              asp-fallback-test-property="opacity" asp-fallback-test-value="0" />
         <link rel="stylesheet" href="https://ajax.aspnetcdn.com/ajax/bootstrap/3.3.6/css/bootstrap.min.css"
               asp-fallback-href="~/lib/bootstrap/dist/css/bootstrap.min.css"
               asp-fallback-test-class="sr-only" asp-fallback-test-property="position" asp-fallback-test-value="absolute" />
@@ -49,6 +62,8 @@
 
     <environment names="Development">
         <script src="~/lib/jquery/dist/jquery.js"></script>
+        <script src="~/lib/kendo-ui/js/kendo.all.min.js"></script>
+        <script src="~/lib/kendo-ui/js/kendo.aspnetmvc.min.js"></script>
         <script src="~/lib/bootstrap/dist/js/bootstrap.js"></script>
         <script src="~/js/site.js" asp-append-version="true"></script>
     </environment>
@@ -56,6 +71,14 @@
         <script src="https://ajax.aspnetcdn.com/ajax/jquery/jquery-2.2.0.min.js"
                 asp-fallback-src="~/lib/jquery/dist/jquery.min.js"
                 asp-fallback-test="window.jQuery">
+        </script>
+        <script src="https://kendo.cdn.telerik.com/2016.2.714/js/kendo.all.min.js"
+                asp-fallback-src="~/lib/kendo-ui/js/kendo.all.min.js"
+                asp-fallback-test="window.kendo">
+        </script>
+        <script src="https://kendo.cdn.telerik.com/2016.2.714/js/kendo.aspnetmvc.min.js"
+                asp-fallback-src="~/lib/kendo-ui/js/kendo.aspnetmvc.min.js"
+                asp-fallback-test="kendo.data.transports['aspnetmvc-ajax']">
         </script>
         <script src="https://ajax.aspnetcdn.com/ajax/bootstrap/3.3.6/bootstrap.min.js"
                 asp-fallback-src="~/lib/bootstrap/dist/js/bootstrap.min.js"
@@ -65,5 +88,7 @@
     </environment>
 
     @RenderSection("scripts", required: false)
+    @(Html.Kendo().Upload().Name("files").Async(a => a.Save("Save", "Upload").AutoUpload(true)))
+
 </body>
 </html>
