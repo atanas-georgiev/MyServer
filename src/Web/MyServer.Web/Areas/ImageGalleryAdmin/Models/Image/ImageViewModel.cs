@@ -1,4 +1,4 @@
-﻿namespace MyServer.Web.Main.Areas.Shared.Models.Image
+﻿namespace MyServer.Web.Main.Areas.ImageGalleryAdmin.Models.Image
 {
     using System;
     using System.ComponentModel.DataAnnotations;

@@ -75,20 +75,46 @@ namespace MyServer.Web.Areas.ImageGalleryAdmin.Controllers
             return this.View(model);
         }
 
-        [Route("Details")]
-        public IActionResult Details(string id)
+        [Route("Edit")]
+        public IActionResult Edit(string id)
         {
-            //this.Response.SetCookie(new HttpCookie("AlbumId", id));
+            this.Response.Cookies.Append("AlbumId", id);
             var intId = Guid.Parse(id);
             var result =
-                this.albumService.GetAll().Where(x => x.Id == intId).To<AlbumDetailsViewModel>().FirstOrDefault();
+                this.albumService.GetAllReqursive().Where(x => x.Id == intId).To<AlbumEditViewModel>().FirstOrDefault();
 
             if (result == null)
             {
-               // return this.HttpNotFound("Album not found");
+               return this.NotFound("Album not found");
             }
 
             return this.View(result);
+        }
+
+        [HttpPost]
+        [Route("Edit")]
+        [ValidateAntiForgeryToken]
+        public IActionResult Edit(AlbumEditViewModel model)
+        {
+            if (this.ModelState.IsValid && model != null)
+            {
+                var album = this.albumService.GetById(model.Id);
+
+                if (album == null)
+                {
+                    return this.NotFound();
+                }
+
+                album.Title = model.Title;
+                album.Description = model.Description;
+                //album.IsPublic = model.IsPublic;
+
+                this.albumService.Update(album);
+
+                return this.RedirectToAction("Index");
+            }
+
+            return this.View(model);
         }
     }
 }
