@@ -25,11 +25,14 @@ namespace MyServer.Web.Areas.ImageGalleryAdmin.Controllers
 
         private readonly IImageService imageService;
 
-        public AlbumController(IAlbumService albumService, ILocationService locationService, IImageService imageService, IUserService userService, UserManager<User> userManager, SignInManager<User> signInManager, MyServerDbContext dbContext) : base(userService, userManager, signInManager, dbContext)
+        private readonly IFileService fileService;
+
+        public AlbumController(IAlbumService albumService, ILocationService locationService, IImageService imageService, IUserService userService, UserManager<User> userManager, SignInManager<User> signInManager, MyServerDbContext dbContext, IFileService fileService) : base(userService, userManager, signInManager, dbContext)
         {
             this.albumService = albumService;
             this.locationService = locationService;
             this.imageService = imageService;
+            this.fileService = fileService;
         }
 
         [Route("Index")]
@@ -68,11 +71,39 @@ namespace MyServer.Web.Areas.ImageGalleryAdmin.Controllers
                     Cover = this.imageService.GetAll().First()
                 };
 
-                this.albumService.Add(album);
+                this.albumService.Add(album);                
                 return this.RedirectToAction("Index");
             }
 
             return this.View(model);
+        }
+
+        [HttpPost]
+        [Route("AlbumDataPartial")]
+        [ValidateAntiForgeryToken]
+        public PartialViewResult AlbumDataPartial(AlbumEditViewModel model)
+        {
+            if (this.ModelState.IsValid && model != null)
+            {
+                var album = this.albumService.GetById(model.Id);
+
+                //if (album == null)
+                //{
+                //    return this.NotFound();
+                //}
+
+                album.Title = model.Title;
+                album.Description = model.Description;
+                //album.IsPublic = model.IsPublic;
+
+                this.albumService.Update(album);
+
+                var result = this.albumService.GetAll().Where(a => a.Id == album.Id).To<AlbumEditViewModel>().First();
+
+                return this.PartialView("_AlbumDataPartial", result);
+            }
+
+            return this.PartialView("_AlbumDataPartial", model);
         }
 
         [Route("Edit")]
@@ -89,32 +120,6 @@ namespace MyServer.Web.Areas.ImageGalleryAdmin.Controllers
             }
 
             return this.View(result);
-        }
-
-        [HttpPost]
-        [Route("Edit")]
-        [ValidateAntiForgeryToken]
-        public IActionResult Edit(AlbumEditViewModel model)
-        {
-            if (this.ModelState.IsValid && model != null)
-            {
-                var album = this.albumService.GetById(model.Id);
-
-                if (album == null)
-                {
-                    return this.NotFound();
-                }
-
-                album.Title = model.Title;
-                album.Description = model.Description;
-                //album.IsPublic = model.IsPublic;
-
-                this.albumService.Update(album);
-
-                return this.RedirectToAction("Index");
-            }
-
-            return this.View(model);
-        }
+        }        
     }
 }

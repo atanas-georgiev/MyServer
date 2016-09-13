@@ -31,6 +31,7 @@
         public void Add(Album album)
         {
             this.albums.Add(album);
+            this.fileService.CreateInitialFolders(album.Id);
         }
 
         public IQueryable<Album> GetAll()
