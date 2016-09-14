@@ -28,5 +28,26 @@
                 <input type="submit" value="Save" class="btn btn-default" />
             </div>
         </div>
+
+        <div class="demo-section k-content">
+            @(Html.Kendo().Upload().Name("files").Async(a => a.Save("Save", "Upload").AutoUpload(true)).Events(ev => ev.Complete("onComplete")))
+        </div>
+
     </div>
 </form>
+
+<script>
+    function onComplete(e) {
+        $.ajax({
+            url: '/ImageGalleryAdmin/Album/UpdateImages',
+            error: function () {
+              //  $('#info').html('<p>An error has occurred</p>');
+            },
+            success: function (data) {
+                $("#image-list-box").html(data);
+                ImageListUpdate();
+            },
+            type: 'POST'
+        });
+    }
+</script>
