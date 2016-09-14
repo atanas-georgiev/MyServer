@@ -8,9 +8,6 @@
     using System.Linq;
 
     using ImageProcessorCore;
-    
-    using MetadataExtractor;
-    using MetadataExtractor.Formats.Exif;
 
     using MyServer.Common.ImageGallery;
     using MyServer.Data.Common;
@@ -19,7 +16,6 @@
     using Directory = System.IO.Directory;
     using Image = MyServer.Data.Models.Image;
     using Microsoft.AspNetCore.Hosting;
-    using System.Drawing;
 
     public class ImageService : IImageService
     {
@@ -57,17 +53,13 @@
 
         public void Add(Guid albumId, string userId, Stream fileStream, string fileName)
         {
-            if (fileStream == null)
+            if (albumId == null || string.IsNullOrEmpty(userId) || fileStream == null || string.IsNullOrEmpty(fileName))
             {
                 return;
             }
 
-            if (string.IsNullOrEmpty(fileName))
-            {
-                return;
-            }
-
-            Image image = this.ExtractExifData(fileStream, fileName);
+            Image image = new Image();
+            this.ExtractExifData(image, fileStream, fileName);
 
             if (image.FileName != null)
             {
@@ -159,116 +151,87 @@
             this.images.Update(image);
         }
 
-        private Image ExtractExifData(Stream inputStream, string originalFileName)
+        private void ExtractExifData(Image inputImage, Stream inputStream, string originalFileName)
         {
-            var newImage = new Image();
-
             var image = new ImageProcessorCore.Image(inputStream);
-
             var exif = image.ExifProfile;
-            var a = exif.Values;
 
             var dateTimeTaken = exif.Values.Where(x => x.Tag == ExifTag.DateTimeOriginal).FirstOrDefault();
-
             if (dateTimeTaken != null)
             {
                 var format = "yyyy:MM:dd HH:mm:ss";
-                newImage.DateTaken = DateTime.ParseExact(dateTimeTaken.Value.ToString(), format, CultureInfo.InvariantCulture);
+                inputImage.DateTaken = DateTime.ParseExact(dateTimeTaken.Value.ToString(), format, CultureInfo.InvariantCulture);
             }
 
+            //if (gps != null && !gps.IsZero)
+            //{
+            //    var gpsData = this.locationService.GetGpsData(gps.Latitude, gps.Longitude);
 
-            /*
-            using (ImageFactory imageFactory = new ImageFactory(preserveExifData: true))
-            {
-                var imageFactoryStream = ImageMetadataReader.ReadMetadata(inputStream);
-                var exifMain = imageFactoryStream.OfType<ExifSubIfdDirectory>().FirstOrDefault();
-                var exifExtended = imageFactoryStream.OfType<ExifIfd0Directory>().FirstOrDefault();
-                var exifGps = imageFactoryStream.OfType<GpsDirectory>().FirstOrDefault();
-
-                var gps = exifGps?.GetGeoLocation();
-
-                //if (gps != null && !gps.IsZero)
-                //{
-                //    var gpsData = this.locationService.GetGpsData(gps.Latitude, gps.Longitude);
-
-                //    if (gpsData != null)
-                //    {
-                //        newImage.ImageGpsData = gpsData;
-                //    }
-                //}
-
-                if (exifExtended != null)
-                {
-                    if (exifExtended.ContainsTag(ExifDirectoryBase.TagMake))
-                    {
-                        newImage.CameraMaker = exifExtended.GetDescription(ExifDirectoryBase.TagMake);
-                    }
-
-                    if (exifExtended.ContainsTag(ExifDirectoryBase.TagModel))
-                    {
-                        newImage.CameraModel = exifExtended.GetDescription(ExifDirectoryBase.TagModel);
-                    }
-                }
-
-                if (exifMain != null)
-                {
-                    if (exifMain.ContainsTag(ExifDirectoryBase.TagDateTimeOriginal))
-                    {
-                        newImage.DateTaken = exifMain.GetDateTime(ExifDirectoryBase.TagDateTimeOriginal);
-                    }
-
-                    if (exifMain.ContainsTag(ExifDirectoryBase.TagIsoEquivalent))
-                    {
-                        newImage.Iso = exifMain.GetDescription(ExifDirectoryBase.TagIsoEquivalent);
-                    }
-
-                    if (exifMain.ContainsTag(ExifDirectoryBase.TagExposureTime))
-                    {
-                        newImage.ShutterSpeed = exifMain.GetDescription(ExifDirectoryBase.TagExposureTime);
-                    }
-
-                    if (exifMain.ContainsTag(ExifDirectoryBase.TagFNumber))
-                    {
-                        newImage.Aperture = exifMain.GetDescription(ExifDirectoryBase.TagFNumber);
-                    }
-
-                    if (exifMain.ContainsTag(ExifDirectoryBase.TagFocalLength))
-                    {
-                        newImage.FocusLen = exifMain.GetDescription(ExifDirectoryBase.TagFocalLength);
-                    }
-
-                    if (exifMain.ContainsTag(ExifDirectoryBase.TagExposureBias))
-                    {
-                        newImage.ExposureBiasStep = exifMain.GetDescription(ExifDirectoryBase.TagExposureBias);
-                    }
-
-                    if (exifMain.ContainsTag(ExifDirectoryBase.TagLensModel))
-                    {
-                        newImage.Lenses = exifMain.GetDescription(ExifDirectoryBase.TagLensModel);
-                    }
-
-                    if (exifMain.ContainsTag(ExifDirectoryBase.TagExifImageWidth))
-                    {
-                        newImage.Width = exifMain.GetInt32(ExifDirectoryBase.TagExifImageWidth);
-                    }
-
-                    if (exifMain.ContainsTag(ExifDirectoryBase.TagExifImageHeight))
-                    {
-                        newImage.Height = exifMain.GetInt32(ExifDirectoryBase.TagExifImageHeight);
-                    }
-                }*/
-
-                if (newImage.DateTaken != null)
-                {
-                    newImage.FileName = newImage.DateTaken.Value.ToString("yyyy-MM-dd-HH-mm-ss-") + Guid.NewGuid();
-                }
-                else
-                {
-                    newImage.FileName = Path.GetFileNameWithoutExtension(originalFileName) + Guid.NewGuid();
-                }
+            //    if (gpsData != null)
+            //    {
+            //        newImage.ImageGpsData = gpsData;
+            //    }
             //}
 
-            return newImage;
+            var make = exif.Values.Where(x => x.Tag == ExifTag.Make).FirstOrDefault();
+            if (make != null)
+            {
+                inputImage.CameraMaker = make.Value.ToString();
+            }
+
+            var model = exif.Values.Where(x => x.Tag == ExifTag.Model).FirstOrDefault();
+            if (model != null)
+            {
+                inputImage.CameraModel = model.Value.ToString();
+            }
+
+            var iso = exif.Values.Where(x => x.Tag == ExifTag.ISOSpeedRatings).FirstOrDefault();
+            if (iso != null)
+            {
+                inputImage.Iso = iso.Value.ToString();
+            }
+
+            var shutter = exif.Values.Where(x => x.Tag == ExifTag.ExposureTime).FirstOrDefault();
+            if (shutter != null)
+            {
+                inputImage.ShutterSpeed = shutter.Value.ToString();
+            }
+
+            var aperture = exif.Values.Where(x => x.Tag == ExifTag.ApertureValue).FirstOrDefault();
+            if (aperture != null)
+            {
+                inputImage.Aperture = aperture.Value.ToString();
+            }
+
+            var focuslen = exif.Values.Where(x => x.Tag == ExifTag.FocalLength).FirstOrDefault();
+            if (focuslen != null)
+            {
+                inputImage.FocusLen = focuslen.Value.ToString();
+            }
+
+            var exposure = exif.Values.Where(x => x.Tag == ExifTag.ExposureBiasValue).FirstOrDefault();
+            if (exposure != null)
+            {
+                inputImage.ExposureBiasStep = exposure.Value.ToString();
+            }
+
+            //var lens = exif.Values.Where(x => x.Tag == ExifTag.le).FirstOrDefault();
+            //if (lens != null)
+            //{
+            //    inputImage.ExposureBiasStep = lens.Value.ToString();
+            //}
+
+            inputImage.Width = image.Width;
+            inputImage.Height = image.Height;
+
+            if (inputImage.DateTaken != null)
+            {
+                inputImage.FileName = inputImage.DateTaken.Value.ToString("yyyy-MM-dd-HH-mm-ss-") + Guid.NewGuid();
+            }
+            else
+            {
+                inputImage.FileName = Path.GetFileNameWithoutExtension(originalFileName) + Guid.NewGuid();
+            }
         }
 
         private void Resize(
@@ -277,26 +240,22 @@
             Guid albumId, 
             string originalFilename)
         {
-            inputStream.Seek(0, SeekOrigin.Begin);
+            var image = new ImageProcessorCore.Image(inputStream);          
 
             if (type == ImageType.Low)
             {
                 using (MemoryStream outStream = new MemoryStream())
                 {
-                    //using (ImageFactory imageFactory = new ImageFactory(preserveExifData: false))
-                    //{
-                    //    imageFactory.Load(inputStream)
-                    //        //.Resize(
-                    //        //    new ResizeLayer(
-                    //        //        new Size(Constants.ImageLowMaxSize, Constants.ImageLowMaxSize), 
-                    //        //        ResizeMode.Max))
-                    //        .Format(new JpegFormat { Quality = 70 })
-                    //        .Resolution(96, 96)
-                    //        .Save(outStream);
-                    //    //this.lowwidth = imageFactory.Load(outStream).Image.Width;
-                    //    //this.lowheight = imageFactory.Load(outStream).Image.Height;
-                    //    this.fileService.Save(outStream, type, originalFilename, albumId);
-                    //}
+                    var resizedImage = image.Resize(new ResizeOptions()
+                    {
+                        Mode = ResizeMode.Max,
+                        Size = new ImageProcessorCore.Size(Constants.ImageLowMaxSize, Constants.ImageLowMaxSize)
+                    });
+
+                    resizedImage.Save(outStream);
+                    this.lowwidth = resizedImage.Width;
+                    this.lowheight = resizedImage.Height;
+                    this.fileService.Save(outStream, type, originalFilename, albumId);
                 }
 
                 GC.Collect();
@@ -305,20 +264,16 @@
             {
                 using (MemoryStream outStream = new MemoryStream())
                 {
-                    //using (ImageFactory imageFactory = new ImageFactory(preserveExifData: false))
-                    //{
-                    //    imageFactory.Load(inputStream)
-                    //        //.Resize(
-                    //        //    new ResizeLayer(
-                    //        //        new Size(Constants.ImageMiddleMaxSize, Constants.ImageMiddleMaxSize), 
-                    //        //        ResizeMode.Max))
-                    //        .Format(new JpegFormat { Quality = 85 })
-                    //        .Resolution(96, 96)
-                    //        .Save(outStream);
-                    //    // this.midwidth = imageFactory.Load(outStream).Image.Width;
-                    //    // this.midheight = imageFactory.Load(outStream).Image.Height;
-                    //    this.fileService.Save(outStream, type, originalFilename, albumId);
-                    //}
+                    var resizedImage = image.Resize(new ResizeOptions()
+                    {
+                        Mode = ResizeMode.Max,
+                        Size = new ImageProcessorCore.Size(Constants.ImageMiddleMaxSize, Constants.ImageMiddleMaxSize)
+                    });
+
+                    resizedImage.Save(outStream);
+                    this.midwidth = resizedImage.Width;
+                    this.midheight = resizedImage.Height;
+                    this.fileService.Save(outStream, type, originalFilename, albumId);
                 }
 
                 GC.Collect();
