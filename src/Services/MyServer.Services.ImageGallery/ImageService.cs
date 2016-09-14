@@ -58,39 +58,42 @@
                 return;
             }
 
-            Image image = new Image();
-            this.ExtractExifData(image, fileStream, fileName);
-
-            if (image.FileName != null)
-            {
-                image.FileName += Path.GetExtension(fileName);
-            }
-
-            image.OriginalFileName = Path.GetFileName(fileName);
-
-            // Create initial folders if not available
-            this.fileService.CreateInitialFolders(albumId);
-            this.fileService.Save(fileStream, ImageType.Original, image.FileName, albumId);
-            this.Resize(fileStream, ImageType.Medium, albumId, image.FileName);
-            this.Resize(fileStream, ImageType.Low, albumId, image.FileName);
-
-            GC.Collect();
-
-            var albumDb = this.albums.GetById(albumId);
-            var cover = this.albums.GetById(Guid.Parse(Constants.NoCoverId));
-
-
+            var image = new Image();
             image.Id = Guid.NewGuid();
-            image.Album = albumDb;
+            image.AlbumId = albumId;
+            image.OriginalFileName = Path.GetFileName(fileName);
             image.Title = string.Empty;
             image.LowHeight = this.lowheight;
             image.LowWidth = this.lowwidth;
             image.MidHeight = this.midheight;
             image.MidWidth = this.midwidth;
             image.AddedById = userId;
-        //    image.Cover = cover;
-          
+
+            // Add exif data
+            this.ExtractExifData(image, fileStream, fileName);
+
+            // save files
+            this.fileService.Save(fileStream, ImageType.Original, image.FileName, albumId);
+
+            var midStream = new MemoryStream();
+            var midImage = this.Resize(fileStream, ImageType.Medium).Save(midStream);
+            this.fileService.Save(midStream, ImageType.Medium, image.FileName, albumId);
+
+            var lowStream = new MemoryStream();
+            var lowImage = this.Resize(fileStream, ImageType.Low).Save(lowStream);
+            this.fileService.Save(lowStream, ImageType.Low, image.FileName, albumId);
+
+            image.LowHeight = lowImage.Height;
+            image.LowWidth = lowImage.Width;
+            image.MidHeight = midImage.Height;
+            image.MidWidth = midImage.Width;
+
+            // Store image in DB
             this.images.Add(image);
+
+            GC.Collect();
+
+            var cover = this.albums.GetById(Guid.Parse(Constants.NoCoverId));                       
 
             // check if first image, if so, make album cover
             var album = this.albums.GetById(albumId);
@@ -232,52 +235,36 @@
             {
                 inputImage.FileName = Path.GetFileNameWithoutExtension(originalFileName) + Guid.NewGuid();
             }
+
+            inputImage.FileName += Path.GetExtension(originalFileName);            
         }
 
-        private void Resize(
-            Stream inputStream, 
-            ImageType type, 
-            Guid albumId, 
-            string originalFilename)
+        private ImageProcessorCore.Image<ImageProcessorCore.Color, uint>Resize(Stream inputStream, ImageType type)
         {
-            var image = new ImageProcessorCore.Image(inputStream);          
+            var image = new ImageProcessorCore.Image(inputStream);
 
             if (type == ImageType.Low)
             {
-                using (MemoryStream outStream = new MemoryStream())
+                var resizedImage = image.Resize(new ResizeOptions()
                 {
-                    var resizedImage = image.Resize(new ResizeOptions()
-                    {
-                        Mode = ResizeMode.Max,
-                        Size = new ImageProcessorCore.Size(Constants.ImageLowMaxSize, Constants.ImageLowMaxSize)
-                    });
+                    Mode = ResizeMode.Max,
+                    Size = new ImageProcessorCore.Size(Constants.ImageLowMaxSize, Constants.ImageLowMaxSize)
+                });
 
-                    resizedImage.Save(outStream);
-                    this.lowwidth = resizedImage.Width;
-                    this.lowheight = resizedImage.Height;
-                    this.fileService.Save(outStream, type, originalFilename, albumId);
-                }
-
-                GC.Collect();
+                return resizedImage;
             }
             else if (type == ImageType.Medium)
             {
-                using (MemoryStream outStream = new MemoryStream())
+                var resizedImage = image.Resize(new ResizeOptions()
                 {
-                    var resizedImage = image.Resize(new ResizeOptions()
-                    {
-                        Mode = ResizeMode.Max,
-                        Size = new ImageProcessorCore.Size(Constants.ImageMiddleMaxSize, Constants.ImageMiddleMaxSize)
-                    });
+                    Mode = ResizeMode.Max,
+                    Size = new ImageProcessorCore.Size(Constants.ImageMiddleMaxSize, Constants.ImageMiddleMaxSize)
+                });
 
-                    resizedImage.Save(outStream);
-                    this.midwidth = resizedImage.Width;
-                    this.midheight = resizedImage.Height;
-                    this.fileService.Save(outStream, type, originalFilename, albumId);
-                }
-
-                GC.Collect();
+                return resizedImage;
             }
+
+            return null;
         }
     }
 }
