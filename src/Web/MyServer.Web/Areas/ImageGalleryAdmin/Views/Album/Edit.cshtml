@@ -6,7 +6,7 @@
 
 <h2>Edit</h2>
 
-<div id="album-data-partial">
+<div class="well" id="album-data-partial">
     @{
         await Html.RenderPartialAsync("_AlbumDataPartial");
     }
@@ -15,6 +15,10 @@
 @*<div id="album-data-partial">
     @Html.Partial("_AlbumDataPartial", Model);
 </div>*@
+
+<div class="well" id="image-list-box">
+    @Html.Partial("_ImageListPartial", Model)
+</div>
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}

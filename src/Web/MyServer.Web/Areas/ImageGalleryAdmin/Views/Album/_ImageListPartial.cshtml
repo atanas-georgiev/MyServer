@@ -1,0 +1,20 @@
+﻿@model MyServer.Web.Main.Areas.ImageGalleryAdmin.Models.Album.AlbumEditViewModel
+
+@*<select multiple="multiple" class="image-picker show-html show-labels">
+    @foreach (var image in Model.Images)
+    {
+        <option data-img-src="@image.LowImageSource"
+                data-img-id="@image.Id"
+                data-img-title="@image.Title"
+                data-img-date="@image.DateTaken"
+                data-img-gps="@image.GpsName"
+                value="@image.Id">
+            @image.Info
+        </option>
+    }
+</select>*@
+
+@foreach (var image in Model.Images)
+{
+    <img src="@image.LowImageSource" />
+}
