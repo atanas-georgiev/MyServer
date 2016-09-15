@@ -12,6 +12,8 @@
 
         IQueryable<Image> GetAll();
 
+        IQueryable<Image> GetAllReqursive();
+
         Image GetById(Guid id);
 
         void Remove(Guid id);

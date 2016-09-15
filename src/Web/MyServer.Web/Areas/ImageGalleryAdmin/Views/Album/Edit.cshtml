@@ -6,16 +6,13 @@
 
 <h2>Edit</h2>
 
-<div class="well" id="album-data-partial">
-    @{
-        await Html.RenderPartialAsync("_AlbumDataPartial");
-    }
+<div class="well id="album-data-partial">
+    @Html.Partial("_AlbumDataPartial", Model)
 </div>
-
-@*<div id="album-data-partial">
-    @Html.Partial("_AlbumDataPartial", Model);
-</div>*@
-
+<div class="well" id="image-edit-box" style="display:none">
+    @Html.Partial("_ImageUpdate", new MyServer.Web.Main.Areas.ImageGalleryAdmin.Models.Image.ImageUpdateViewModel())
+</div>
+<button class="btn select-all">Select All</button>
 <div class="well" id="image-list-box">
     @Html.Partial("_ImageListPartial", Model)
 </div>
@@ -23,3 +20,38 @@
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
 }
+
+<script>
+
+    $(document)
+        .ready(function() {
+            $(".select-all")
+                .click(function() {
+                    $("img").trigger("click");
+
+                });
+
+        $("select").imagepicker();
+
+        $("#image-edit-box-modal-date").kendoDatePicker();
+
+        $(".mygallery").justifiedGallery({
+            rowHeight: 200,
+            maxRowHeight: 300,
+            fixedHeight: false,
+            margins: 2,
+            lastRow: 'nojustify',
+            captions: false,
+            border: 0,
+            thumbnailPath: function (currentPath, width, height) {
+                if (Math.max(width, height) > 300) {
+                    return currentPath.replace(/(.*)(_[a-z]+)(\..*)/, "$1Low$2");
+                } else {
+                    return currentPath.replace(/(.*)(_[a-z]+)(\..*)/, "$1Medium$2");
+                }
+            }
+        });
+
+        $(".image-edit-box-modal-location").geocomplete();
+    });
+</script>

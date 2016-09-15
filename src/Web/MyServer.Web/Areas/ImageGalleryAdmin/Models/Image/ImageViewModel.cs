@@ -10,6 +10,8 @@
     using System.Text;
     using System.Globalization;
     using Helpers;
+    using ImageGallery.Models.Image;
+    using System.Collections.Generic;
 
     public class ImageViewModel : IMapFrom<Image>, IHaveCustomMappings
     {
@@ -41,13 +43,11 @@
         
         public string Info { get; set; }
 
-        //public virtual GpsDataViewModel ImageGpsData { get; set; }
+        public virtual GpsDataViewModel ImageGpsData { get; set; }
 
-        //[Computed]
-        //public string GpsName => this.ImageGpsData?.LocationName;
+        public string GpsName { get; set; }
 
-        //[Computed]
-        //public List<double> GpsCoordinates => this.ImageGpsData != null ? new List<double>() { this.ImageGpsData.Latitude.Value, this.ImageGpsData.Longitude.Value } : null;
+        public List<double> GpsCoordinates { get; set; }
 
         [MaxLength(50)]
         public string Iso { get; set; }
@@ -84,9 +84,21 @@
         {
             configuration.CreateMap<Image, ImageViewModel>()
                 .ForMember(m => m.Info, opt => opt.MapFrom(src => MapStatus(src)))
+                .ForMember(m => m.GpsCoordinates, opt => opt.MapFrom(src => MapGpsCoordinates(src)))
+                .ForMember(m => m.GpsName, opt => opt.MapFrom(src => MapGpsName(src)))
                 .ForMember(m => m.OriginalDownloadPath, opt => opt.MapFrom(c => Constants.TempContentFolder + "\\" + c.Id + "\\" + c.OriginalFileName))
                 .ForMember(m => m.MiddleImageSource, opt => opt.MapFrom(c => Constants.MainContentFolder + "\\" + c.AlbumId + "\\" + Constants.ImageFolderMiddle + "\\" + c.FileName))
                 .ForMember(m => m.LowImageSource, opt => opt.MapFrom(c => Constants.MainContentFolder + "\\" + c.AlbumId + "\\" + Constants.ImageFolderLow + "\\" + c.FileName));
+        }
+
+        static string MapGpsName(Image source)
+        {
+            return source.ImageGpsData?.LocationName;
+        }
+
+        static List<double> MapGpsCoordinates(Image source)
+        {            
+            return source.ImageGpsData != null ? new List<double>() { source.ImageGpsData.Latitude.Value, source.ImageGpsData.Longitude.Value } : null;
         }
 
         static string MapStatus(Image source)

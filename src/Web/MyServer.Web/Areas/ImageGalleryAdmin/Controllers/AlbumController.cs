@@ -12,6 +12,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using Microsoft.EntityFrameworkCore;
+using MyServer.Web.Main.Areas.ImageGalleryAdmin.Models.Image;
 
 namespace MyServer.Web.Areas.ImageGalleryAdmin.Controllers
 {
@@ -120,6 +121,123 @@ namespace MyServer.Web.Areas.ImageGalleryAdmin.Controllers
             }
 
             return this.View(result);
-        }        
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        [Route("UpdateImageLocation/{model}")]
+        public IActionResult UpdateImageLocation(ImageUpdateViewModel model)
+        {
+            if (model != null && !string.IsNullOrEmpty(model.Items))
+            {
+                //var ids = model.Items.Split(',');
+                //var gpsData = this.locationService.GetGpsData(model.Data);
+
+                //foreach (var id in ids)
+                //{
+                //    this.imageService.AddGpsDataToImage(Guid.Parse(id), gpsData);
+                //}
+
+                //var imageId = Guid.Parse(ids.First());
+                //var albumId = this.imageService.GetById(imageId).AlbumId;
+                //var album = this.albumService.GetAll().Where(x => x.Id == albumId).To<ImageViewModel>().First();
+
+                //return this.PartialView("_ImageListPartial", album);
+            }
+
+            return this.Content(string.Empty);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        [Route("UpdateImageTitle")]
+        public IActionResult UpdateImageTitle(ImageUpdateViewModel model)
+        {
+            if (model != null && !string.IsNullOrEmpty(model.Items))
+            {
+                var ids = model.Items.Split(',');
+
+                foreach (var id in ids)
+                {
+                    var image = this.imageService.GetById(Guid.Parse(id));
+                    image.Title = model.Data;
+                    this.imageService.Update(image);
+                }
+
+                var albumId = Guid.Parse(this.Request.Cookies["AlbumId"]);
+                var album = this.albumService.GetAllReqursive().Where(x => x.Id == albumId).To<AlbumEditViewModel>().First();
+                return this.PartialView("_ImageListPartial", album);
+            }
+
+            return this.Content(string.Empty);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        [Route("UpdateImageDate")]
+        public IActionResult UpdateImageDate(ImageUpdateViewModel model)
+        {
+            if (model != null && !string.IsNullOrEmpty(model.Items))
+            {
+                var ids = model.Items.Split(',');
+
+                foreach (var id in ids)
+                {
+                    var image = this.imageService.GetById(Guid.Parse(id));
+                    var date = DateTime.Parse(model.Data);
+                    image.DateTaken = date;
+                    this.imageService.Update(image);
+                }
+
+                var albumId = Guid.Parse(this.Request.Cookies["AlbumId"]);
+                var album = this.albumService.GetAllReqursive().Where(x => x.Id == albumId).To<AlbumEditViewModel>().First();
+                return this.PartialView("_ImageListPartial", album);
+            }
+
+            return this.Content(string.Empty);
+        }
+
+        [HttpPost]
+        [Route("DeleteImages/{id}")]
+        public IActionResult DeleteImages(string id)
+        {
+            if (!string.IsNullOrEmpty(id))
+            {
+                var ids = id.Split(',');
+                var imageId = Guid.Parse(ids.First());
+                var albumId = this.imageService.GetById(imageId).AlbumId;
+
+                foreach (var item in ids)
+                {
+                    this.imageService.Remove(Guid.Parse(item));
+                }
+
+                var album = this.albumService.GetAllReqursive().Where(x => x.Id == albumId).To<AlbumEditViewModel>().First();
+                return this.PartialView("_ImageListPartial", album);
+            }
+
+            return this.Content(string.Empty);
+        }
+
+        [HttpPost]
+        [Route("UpdateAlbumCover/{id}")]
+        public IActionResult UpdateAlbumCover(string id)
+        {
+            var albumId = Guid.Parse(this.Request.Cookies["AlbumId"]);
+            var coverId = Guid.Parse(id);
+
+            this.albumService.UpdateCoverImage(albumId, coverId);
+            return this.Content(string.Empty);
+        }
+
+        [HttpPost]
+        [Route("UpdateImages")]
+        public PartialViewResult UpdateImages()
+        {
+            var albumId = Guid.Parse(this.Request.Cookies["AlbumId"]);
+            var album = this.albumService.GetAllReqursive().Where(x => x.Id == albumId).To<AlbumEditViewModel>().First();
+            return this.PartialView("_ImageListPartial", album);
+        }
+
     }
 }

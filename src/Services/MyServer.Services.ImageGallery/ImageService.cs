@@ -16,6 +16,7 @@
     using Directory = System.IO.Directory;
     using Image = MyServer.Data.Models.Image;
     using Microsoft.AspNetCore.Hosting;
+    using Microsoft.EntityFrameworkCore;
 
     public class ImageService : IImageService
     {
@@ -120,9 +121,14 @@
             return this.images.All();
         }
 
+        public IQueryable<Image> GetAllReqursive()
+        {
+            return this.images.All().Include(x => x.Album).Include(x => x.Comments).Include(x => x.ImageGpsData);
+        }
+
         public Image GetById(Guid id)
         {
-            return this.GetAll().FirstOrDefault(x => x.Id == id);
+            return this.GetAllReqursive().FirstOrDefault(x => x.Id == id);
         }
 
         public void PrepareFileForDownload(Guid id)
@@ -139,12 +145,15 @@
 
         public void Remove(Guid id)
         {
-            var coverId = this.GetById(id).Album.Cover.Id;
+            var album = this.GetById(id).Album;
+            var coverId = album.CoverId;
 
-            //if (id == coverId)
-            //{
-            //    var firstImage = this.images.All().Where(x => x.Id)      
-            //}
+            if (id == coverId)
+            {
+                var firstImage = this.images.All().First();
+                album.CoverId = firstImage.Id;
+                this.albums.Update(album);
+            }
 
             this.images.Delete(id);
         }
