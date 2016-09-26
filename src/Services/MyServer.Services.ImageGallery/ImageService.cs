@@ -201,7 +201,7 @@
             var gpdLat = exif.Values.Where(x => x.Tag == ExifTag.GPSLatitude).FirstOrDefault();
             if (gpdLong != null && gpdLat != null)
             {
-                inputImage.ImageGpsData = locationService.GetGpsData(ExifGpsToDouble((ImageProcessorCore.Rational[])gpdLong.Value), ExifGpsToDouble((ImageProcessorCore.Rational[]) gpdLat.Value));
+                inputImage.ImageGpsData = locationService.GetGpsData(ExifGpsToDouble((ImageProcessorCore.Rational[])gpdLong.Value), ExifGpsToDouble((ImageProcessorCore.Rational[]) gpdLat.Value)).Result;
             }
 
             var make = exif.Values.Where(x => x.Tag == ExifTag.Make).FirstOrDefault();
