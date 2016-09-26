@@ -17,7 +17,6 @@
     using Image = MyServer.Data.Models.Image;
     using Microsoft.AspNetCore.Hosting;
     using Microsoft.EntityFrameworkCore;
-    using ImageProcessor;
     using ExifUtils;
 
     public class ImageService : IImageService
@@ -165,6 +164,27 @@
             this.images.Update(image);
         }
 
+        private static double ExifGpsToDouble(ImageProcessorCore.Rational[] propItem)
+        {
+            uint degreesNumerator = propItem[0].Numerator;
+            uint degreesDenominator = propItem[0].Denominator;
+            double degrees = degreesNumerator / (double) degreesDenominator;
+
+            uint minutesNumerator = propItem[1].Numerator;
+            uint minutesDenominator = propItem[1].Denominator;
+            double minutes = minutesNumerator / (double) minutesDenominator;
+
+            uint secondsNumerator = propItem[2].Numerator;
+            uint secondsDenominator = propItem[2].Denominator;
+            double seconds = secondsNumerator / (double) secondsDenominator;
+
+            double coorditate = degrees + (minutes / 60f) + (seconds / 3600f);
+            //string gpsRef = System.Text.Encoding.ASCII.GetString(new byte[1] { propItemRef.Value[0] }); //N, S, E, or W
+            //if (gpsRef == "S" || gpsRef == "W")
+            //    coorditate = 0 - coorditate;
+            return coorditate;
+        }
+
         private void ExtractExifData(Image inputImage, Stream inputStream, string originalFileName)
         {
             var image = new ImageProcessorCore.Image(inputStream);
@@ -177,15 +197,12 @@
                 inputImage.DateTaken = DateTime.ParseExact(dateTimeTaken.Value.ToString(), format, CultureInfo.InvariantCulture);
             }
 
-            //if (gps != null && !gps.IsZero)
-            //{
-            //    var gpsData = this.locationService.GetGpsData(gps.Latitude, gps.Longitude);
-
-            //    if (gpsData != null)
-            //    {
-            //        newImage.ImageGpsData = gpsData;
-            //    }
-            //}
+            var gpdLong = exif.Values.Where(x => x.Tag == ExifTag.GPSLongitude).FirstOrDefault();
+            var gpdLat = exif.Values.Where(x => x.Tag == ExifTag.GPSLatitude).FirstOrDefault();
+            if (gpdLong != null && gpdLat != null)
+            {
+                inputImage.ImageGpsData = locationService.GetGpsData(ExifGpsToDouble((ImageProcessorCore.Rational[])gpdLong.Value), ExifGpsToDouble((ImageProcessorCore.Rational[]) gpdLat.Value));
+            }
 
             var make = exif.Values.Where(x => x.Tag == ExifTag.Make).FirstOrDefault();
             if (make != null)
@@ -205,29 +222,23 @@
                 inputImage.Iso = iso.Value.ToString();
             }
 
-            var shutter = exif.Values.Where(x => x.Tag == ExifTag.ShutterSpeedValue).FirstOrDefault();
+            var shutter = exif.Values.Where(x => x.Tag == ExifTag.ExposureTime).FirstOrDefault();
             if (shutter != null)
             {
-                //if (!(shutter is Rational<uint>))
+                inputImage.ShutterSpeed = shutter.Value.ToString();
+
+                //var val = new Rational<int>(((ImageProcessorCore.SignedRational) shutter.Value).Numerator, ((ImageProcessorCore.SignedRational) shutter.Value).Denominator);
+
+                //if (val.Numerator > 0)
                 //{
-                //    goto default;
+                //    double speed = Math.Pow(2.0, Convert.ToDouble(val));
+                //    inputImage.ShutterSpeed = String.Format("1/{0:####0}", speed);
                 //}
-
-                // Exposure time (reciprocal of shutter speed). Unit is second.
-                Rational<int> exposure1 = new Rational<int>(((ImageProcessorCore.SignedRational) shutter.Value).Numerator, ((ImageProcessorCore.SignedRational) shutter.Value).Denominator);
-
-                if (exposure1.Numerator > 0)
-                {
-                    double speed = Math.Pow(2.0, Convert.ToDouble(exposure1));
-                    inputImage.ShutterSpeed = String.Format("1/{0:####0} sec", speed);
-                }
-                else
-                {
-                    double speed = Math.Pow(2.0, -Convert.ToDouble(exposure1));
-                    inputImage.ShutterSpeed = String.Format("{0:####0.##} sec", speed);
-                }
-
-           //     inputImage.ShutterSpeed = shutter.Value.ToString();
+                //else
+                //{
+                //    double speed = Math.Pow(2.0, -Convert.ToDouble(val));
+                //    inputImage.ShutterSpeed = String.Format("{0:####0.##}", speed);
+                //}
             }
 
             var aperture = exif.Values.Where(x => x.Tag == ExifTag.ApertureValue).FirstOrDefault();
@@ -242,13 +253,14 @@
             if (focuslen != null)
             {
                 Rational<uint> val = new Rational<uint>(((ImageProcessorCore.Rational) focuslen.Value).Numerator, ((ImageProcessorCore.Rational) focuslen.Value).Denominator);
-                inputImage.FocusLen = String.Format("{0:#0.#} mm", Convert.ToDecimal(val));
+                inputImage.FocusLen = String.Format("{0:#0.#}", Convert.ToDecimal(val));
             }
 
             var exposure = exif.Values.Where(x => x.Tag == ExifTag.ExposureBiasValue).FirstOrDefault();
             if (exposure != null)
             {
-                inputImage.ExposureBiasStep = exposure.Value.ToString();
+                var val = new Rational<int>(((ImageProcessorCore.SignedRational) exposure.Value).Numerator, ((ImageProcessorCore.SignedRational) exposure.Value).Denominator);
+                inputImage.ExposureBiasStep = ((Rational<int>) val).Numerator != 0 ? val.ToString() : "0";
             }
 
             //var lens = exif.Values.Where(x => x.Tag == ExifTag.le).FirstOrDefault();

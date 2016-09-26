@@ -6,6 +6,6 @@
     {
         //ImageGpsData GetGpsData(string location);
 
-        //ImageGpsData GetGpsData(double latitude, double longitude);
+        ImageGpsData GetGpsData(double latitude, double longitude);
     }
 }
