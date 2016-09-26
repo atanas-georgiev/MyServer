@@ -3,6 +3,7 @@
 
   "dependencies": {
     "ChyImageProcessorCore": "1.0.0-alpha1031",
+    "ImageProcessor": "2.4.4",
     "MyServer.Common": "1.0.0-*",
     "MyServer.Common.ImageGallery": "1.0.0-*",
     "MyServer.Data": "1.0.0-*",
@@ -10,6 +11,8 @@
     "MyServer.Data.Models": "1.0.0-*",
     "MyServer.Services.Users": "1.0.0-*",
     "NETStandard.Library": "1.6.0",
+    "System.IO": "4.1.0",
+    "System.Runtime": "4.1.0",
     "System.Runtime.CompilerServices.Unsafe": "4.0.0"
   },
 

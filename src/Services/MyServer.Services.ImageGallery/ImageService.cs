@@ -17,6 +17,8 @@
     using Image = MyServer.Data.Models.Image;
     using Microsoft.AspNetCore.Hosting;
     using Microsoft.EntityFrameworkCore;
+    using ImageProcessor;
+    using ExifUtils;
 
     public class ImageService : IImageService
     {
@@ -203,22 +205,44 @@
                 inputImage.Iso = iso.Value.ToString();
             }
 
-            var shutter = exif.Values.Where(x => x.Tag == ExifTag.ExposureTime).FirstOrDefault();
+            var shutter = exif.Values.Where(x => x.Tag == ExifTag.ShutterSpeedValue).FirstOrDefault();
             if (shutter != null)
             {
-                inputImage.ShutterSpeed = shutter.Value.ToString();
+                //if (!(shutter is Rational<uint>))
+                //{
+                //    goto default;
+                //}
+
+                // Exposure time (reciprocal of shutter speed). Unit is second.
+                Rational<int> exposure1 = new Rational<int>(((ImageProcessorCore.SignedRational) shutter.Value).Numerator, ((ImageProcessorCore.SignedRational) shutter.Value).Denominator);
+
+                if (exposure1.Numerator > 0)
+                {
+                    double speed = Math.Pow(2.0, Convert.ToDouble(exposure1));
+                    inputImage.ShutterSpeed = String.Format("1/{0:####0} sec", speed);
+                }
+                else
+                {
+                    double speed = Math.Pow(2.0, -Convert.ToDouble(exposure1));
+                    inputImage.ShutterSpeed = String.Format("{0:####0.##} sec", speed);
+                }
+
+           //     inputImage.ShutterSpeed = shutter.Value.ToString();
             }
 
             var aperture = exif.Values.Where(x => x.Tag == ExifTag.ApertureValue).FirstOrDefault();
             if (aperture != null)
             {
-                inputImage.Aperture = aperture.Value.ToString();
+                Rational<uint> val = new Rational<uint>(((ImageProcessorCore.Rational) aperture.Value).Numerator, ((ImageProcessorCore.Rational) aperture.Value).Denominator);
+                double fStop = Math.Pow(2.0, Convert.ToDouble(val) / 2.0);
+                inputImage.Aperture = String.Format("f/{0:#0.0}", fStop);                
             }
 
             var focuslen = exif.Values.Where(x => x.Tag == ExifTag.FocalLength).FirstOrDefault();
             if (focuslen != null)
             {
-                inputImage.FocusLen = focuslen.Value.ToString();
+                Rational<uint> val = new Rational<uint>(((ImageProcessorCore.Rational) focuslen.Value).Numerator, ((ImageProcessorCore.Rational) focuslen.Value).Denominator);
+                inputImage.FocusLen = String.Format("{0:#0.#} mm", Convert.ToDecimal(val));
             }
 
             var exposure = exif.Values.Where(x => x.Tag == ExifTag.ExposureBiasValue).FirstOrDefault();
