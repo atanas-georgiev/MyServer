@@ -48,3 +48,7 @@ textarea {
     display: none
   }
 }
+
+.pac-container  {
+    z-index: 1000000000
+}

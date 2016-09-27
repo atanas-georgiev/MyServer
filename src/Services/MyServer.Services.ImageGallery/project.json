@@ -3,7 +3,6 @@
 
   "dependencies": {
     "ChyImageProcessorCore": "1.0.0-alpha1031",
-    "Geocoding.net": "3.5.0",
     "Microsoft.NETCore.Portable.Compatibility": "1.0.1",
     "MyServer.Common": "1.0.0-*",
     "MyServer.Common.ImageGallery": "1.0.0-*",

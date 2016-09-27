@@ -125,24 +125,24 @@ namespace MyServer.Web.Areas.ImageGalleryAdmin.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        [Route("UpdateImageLocation/{model}")]
+        [Route("UpdateImageLocation")]
         public IActionResult UpdateImageLocation(ImageUpdateViewModel model)
         {
             if (model != null && !string.IsNullOrEmpty(model.Items))
             {
-                //var ids = model.Items.Split(',');
-                //var gpsData = this.locationService.GetGpsData(model.Data);
+                var ids = model.Items.Split(',');
+                var gpsData = this.locationService.GetGpsData(model.Data).Result;
 
-                //foreach (var id in ids)
-                //{
-                //    this.imageService.AddGpsDataToImage(Guid.Parse(id), gpsData);
-                //}
+                foreach (var id in ids)
+                {
+                    this.imageService.AddGpsDataToImage(Guid.Parse(id), gpsData);
+                }
 
-                //var imageId = Guid.Parse(ids.First());
-                //var albumId = this.imageService.GetById(imageId).AlbumId;
-                //var album = this.albumService.GetAll().Where(x => x.Id == albumId).To<ImageViewModel>().First();
+                var imageId = Guid.Parse(ids.First());
+                var albumId = this.imageService.GetById(imageId).AlbumId;
+                var album = this.albumService.GetAll().Where(x => x.Id == albumId).To<AlbumEditViewModel>().First();
 
-                //return this.PartialView("_ImageListPartial", album);
+                return this.PartialView("_ImageListPartial", album);
             }
 
             return this.Content(string.Empty);

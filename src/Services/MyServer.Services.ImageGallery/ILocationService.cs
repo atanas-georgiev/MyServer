@@ -5,7 +5,7 @@
 
     public interface ILocationService
     {
-        //ImageGpsData GetGpsData(string location);
+        Task<ImageGpsData> GetGpsData(string location);
 
         Task<ImageGpsData> GetGpsData(double latitude, double longitude);
     }
