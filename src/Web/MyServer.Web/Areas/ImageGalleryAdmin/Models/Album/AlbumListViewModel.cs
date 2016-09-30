@@ -58,7 +58,7 @@
 
         static string MapCoverImage(Album source)
         {
-            return PathHelper.WwwPath + Constants.MainContentFolder + "/" + source.Cover.AlbumId + "/" + Constants.ImageFolderLow + "/" + source.Cover.FileName;
+            return Constants.MainContentFolder + "/" + source.Cover.AlbumId + "/" + Constants.ImageFolderLow + "/" + source.Cover.FileName;
         }
 
         static string MapImagesCountCover(Album source)

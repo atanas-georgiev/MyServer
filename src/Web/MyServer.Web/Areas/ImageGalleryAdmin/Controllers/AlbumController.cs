@@ -39,12 +39,6 @@ namespace MyServer.Web.Areas.ImageGalleryAdmin.Controllers
         [Route("Index")]
         public IActionResult Index()
         {
-            //this.albumService.Add(new Album()
-            //{
-            //    Title = "asdasdsa",
-            //    Description = "desc"
-            //});
-
             var albums = this.albumService.GetAllReqursive().To<AlbumListViewModel>().ToList();            
             return this.View(albums);
         }
@@ -52,7 +46,7 @@ namespace MyServer.Web.Areas.ImageGalleryAdmin.Controllers
         [Route("Create")]
         public IActionResult Create()
         {
-            return this.View(new AddAlbumViewModel() { Title = "" });
+            return this.View(new AddAlbumViewModel() { Title = "", IsPublic = true });
         }
 
         [Route("Create")]
@@ -68,7 +62,7 @@ namespace MyServer.Web.Areas.ImageGalleryAdmin.Controllers
                     Description = model.Description,
                     CreatedOn = DateTime.UtcNow,
                     AddedBy = this.UserProfile,
-                    //IsPublic = model.IsPublic,
+                    IsPublic = model.IsPublic,
                     Cover = this.imageService.GetAll().First()
                 };
 
@@ -95,7 +89,7 @@ namespace MyServer.Web.Areas.ImageGalleryAdmin.Controllers
 
                 album.Title = model.Title;
                 album.Description = model.Description;
-                //album.IsPublic = model.IsPublic;
+                album.IsPublic = model.IsPublic;
 
                 this.albumService.Update(album);
 
