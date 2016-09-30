@@ -19,6 +19,7 @@
     using Services.Users;
     using System.Reflection;
     using Web.Helpers;
+    using Microsoft.AspNet.Diagnostics.Elm;
 
     public class Startup
     {
@@ -65,7 +66,7 @@
             services.AddIdentity<User, IdentityRole>()
                 .AddEntityFrameworkStores<MyServerDbContext>()
                 .AddDefaultTokenProviders();
-            
+
             services
                 .AddMvc()
                 .AddJsonOptions(options => options.SerializerSettings.ContractResolver = new DefaultContractResolver());
@@ -83,14 +84,17 @@
             app.UseApplicationInsightsRequestTelemetry();
 
             if (env.IsDevelopment())
-            {
+            {                
                 app.UseDeveloperExceptionPage();
                 app.UseDatabaseErrorPage();
                 app.UseBrowserLink();
             }
             else
             {
-                app.UseExceptionHandler("/Home/Error");
+                app.UseDeveloperExceptionPage();
+                app.UseDatabaseErrorPage();
+                app.UseBrowserLink();
+                //app.UseExceptionHandler("/Home/Error");
             }
 
             app.UseApplicationInsightsExceptionTelemetry();
