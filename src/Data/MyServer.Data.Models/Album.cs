@@ -23,7 +23,7 @@
             this.Images = new List<Image>();
         }
 
-        public AccessType AccessType { get; set; }
+        public bool IsPublic { get; set; }
 
         public virtual User AddedBy { get; set; }
 

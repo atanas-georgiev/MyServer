@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Metadata;
 
 namespace MyServer.Data.Migrations
 {
-    public partial class mine : Migration
+    public partial class last : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -218,7 +218,6 @@ namespace MyServer.Data.Migrations
                     ImageGpsDataId = table.Column<Guid>(nullable: true),
                     IsDeleted = table.Column<bool>(nullable: false),
                     Iso = table.Column<string>(maxLength: 50, nullable: true),
-                    Lenses = table.Column<string>(maxLength: 100, nullable: true),
                     LowHeight = table.Column<int>(nullable: false),
                     LowWidth = table.Column<int>(nullable: false),
                     MidHeight = table.Column<int>(nullable: false),
@@ -251,13 +250,13 @@ namespace MyServer.Data.Migrations
                 columns: table => new
                 {
                     Id = table.Column<Guid>(nullable: false),
-                    AccessType = table.Column<int>(nullable: false),
                     AddedById = table.Column<string>(nullable: true),
                     CoverId = table.Column<Guid>(nullable: true),
                     CreatedOn = table.Column<DateTime>(nullable: false),
                     DeletedOn = table.Column<DateTime>(nullable: true),
                     Description = table.Column<string>(maxLength: 3000, nullable: true),
                     IsDeleted = table.Column<bool>(nullable: false),
+                    IsPublic = table.Column<bool>(nullable: false),
                     ModifiedOn = table.Column<DateTime>(nullable: true),
                     Title = table.Column<string>(maxLength: 200, nullable: false)
                 },

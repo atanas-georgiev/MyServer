@@ -122,11 +122,6 @@
                 result.Append(source.CameraModel + " ");
             }
 
-            if (!string.IsNullOrEmpty(source.Lenses))
-            {
-                result.Append(source.Lenses + " ");
-            }
-
             result.Append("<br/>");
 
             if (!string.IsNullOrEmpty(source.Aperture))

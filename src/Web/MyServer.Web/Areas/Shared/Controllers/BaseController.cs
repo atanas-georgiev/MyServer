@@ -2,7 +2,7 @@
 {
     using System;
     using System.Linq;
-    
+
     using Microsoft.AspNetCore.Identity;
     using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
     using Microsoft.AspNetCore.Mvc;
@@ -10,9 +10,10 @@
 
     using MyServer.Common;
     using MyServer.Data;
-    using MyServer.Data.Models;    
+    using MyServer.Data.Models;
     using MyServer.Services.Users;
-    
+    using System.Threading.Tasks;
+
     public class BaseController : Controller
     {
         protected readonly MyServerDbContext dbContext;        
@@ -93,8 +94,7 @@
                                CreatedOn = DateTime.Now
                            };
 
-            this.userManager.CreateAsync(user, "Godcheto1");
-            this.dbContext.Users.Add(user);
+            var res1 = this.userManager.CreateAsync(user, "Godcheto!1").Result;            
             this.dbContext.SaveChanges();
 
             var role = context.Roles.First(x => x.Name == MyServerRoles.Admin);
@@ -102,7 +102,7 @@
             this.dbContext.UserRoles.Add(new IdentityUserRole<string>() { RoleId = role.Id, UserId = user.Id });
             this.dbContext.SaveChanges();
 
-            this.userManager.AddToRoleAsync(user, MyServerRoles.Admin);
+            // var res2 = this.userManager.AddToRoleAsync(user, MyServerRoles.Admin).Result;
 
             var album = new Album(Common.ImageGallery.Constants.NoCoverId)
                             {

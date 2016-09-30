@@ -13,7 +13,7 @@ namespace MyServer.Data.Migrations
         protected override void BuildModel(ModelBuilder modelBuilder)
         {
             modelBuilder
-                .HasAnnotation("ProductVersion", "1.0.0-rtm-21431")
+                .HasAnnotation("ProductVersion", "1.0.1")
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.EntityFrameworkCore.IdentityRole", b =>
@@ -128,8 +128,6 @@ namespace MyServer.Data.Migrations
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<int>("AccessType");
-
                     b.Property<string>("AddedById");
 
                     b.Property<Guid?>("CoverId");
@@ -142,6 +140,8 @@ namespace MyServer.Data.Migrations
                         .HasAnnotation("MaxLength", 3000);
 
                     b.Property<bool>("IsDeleted");
+
+                    b.Property<bool>("IsPublic");
 
                     b.Property<DateTime?>("ModifiedOn");
 
@@ -235,9 +235,6 @@ namespace MyServer.Data.Migrations
 
                     b.Property<string>("Iso")
                         .HasAnnotation("MaxLength", 50);
-
-                    b.Property<string>("Lenses")
-                        .HasAnnotation("MaxLength", 100);
 
                     b.Property<int>("LowHeight");
 

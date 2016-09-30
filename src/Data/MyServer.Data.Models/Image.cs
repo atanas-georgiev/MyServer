@@ -66,9 +66,6 @@
         [MaxLength(50)]
         public string Iso { get; set; }
 
-        [MaxLength(100)]
-        public string Lenses { get; set; }
-
         public int LowHeight { get; set; }
 
         public int LowWidth { get; set; }

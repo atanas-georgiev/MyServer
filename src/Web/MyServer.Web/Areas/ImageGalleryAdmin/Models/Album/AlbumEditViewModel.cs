@@ -8,7 +8,7 @@
     using MyServer.Data.Models;
     using System;
 
-    public class AlbumEditViewModel : IMapFrom<Album>, IHaveCustomMappings
+    public class AlbumEditViewModel : IMapFrom<Album>
     {
         public Guid Id { get; set; }
 
@@ -22,8 +22,6 @@
         [MaxLength(200)]
         public string Title { get; set; }
 
-        public void CreateMappings(IMapperConfigurationExpression configuration)
-        {
-        }
+        public bool IsPublic { get; set; }
     }
 }

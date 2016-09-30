@@ -31,14 +31,6 @@
 
         private readonly IHostingEnvironment appEnvironment;
 
-        private int lowheight;
-
-        private int lowwidth;
-
-        private int midheight;
-
-        private int midwidth;
-
         public ImageService(
             IRepository<Image, Guid> images, 
             IRepository<Album, Guid> albums, 
@@ -65,10 +57,6 @@
             image.AlbumId = albumId;
             image.OriginalFileName = Path.GetFileName(fileName);
             image.Title = string.Empty;
-            image.LowHeight = this.lowheight;
-            image.LowWidth = this.lowwidth;
-            image.MidHeight = this.midheight;
-            image.MidWidth = this.midwidth;
             image.AddedById = userId;
 
             // Add exif data
