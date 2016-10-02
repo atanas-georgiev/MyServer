@@ -46,7 +46,7 @@
         </div>
 
         <div class="overlay-album mygallery lightgallery">
-            @foreach (var image in Model.Images)
+            @foreach (var image in Model.Images.OrderBy(x => x.DateTaken))
             {
                 <a href='@image.MiddleImageSource' data-download-url="@image.OriginalDownloadPath">
                     <img alt="@image.Info" src='@image.LowImageSource'/>
