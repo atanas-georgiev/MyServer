@@ -56,12 +56,12 @@
                    : source.Cover.LowWidth / 2;
         }
 
-        static string MapCoverImage(Album source)
+        public static string MapCoverImage(Album source)
         {
             return Constants.MainContentFolder + "/" + source.Cover.AlbumId + "/" + Constants.ImageFolderLow + "/" + source.Cover.FileName;
         }
 
-        static string MapImagesCountCover(Album source)
+        public static string MapImagesCountCover(Album source)
         {
             switch (source.Images.Count)
             {
@@ -74,7 +74,7 @@
             }
         }
 
-        static string MapDate(Album source)
+        public static string MapDate(Album source)
         {
             if (source.Images == null)
             {

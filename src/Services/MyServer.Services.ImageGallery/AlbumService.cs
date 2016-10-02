@@ -48,7 +48,7 @@
 
         public Album GetById(Guid id)
         {
-            return this.GetAll().FirstOrDefault(x => x.Id == id);
+            return this.GetAllReqursive().FirstOrDefault(x => x.Id == id);
         }
 
         public void Update(Album album)
