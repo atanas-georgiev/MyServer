@@ -28,7 +28,7 @@ namespace MyServer.Web.Areas.ImageGallery.Models.Album
 
         public IEnumerable<GpsDataViewModel> ImageCoordinates { get; set; }
 
-        public ICollection<ImageViewModel> Images { get; set; }
+        public List<ImageViewModel> Images { get; set; }
 
         public string ImagesCountCover { get; set; }
 

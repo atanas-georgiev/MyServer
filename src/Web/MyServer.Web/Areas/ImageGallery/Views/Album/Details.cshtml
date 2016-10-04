@@ -2,17 +2,22 @@
 @using Newtonsoft.Json
 @model MyServer.Web.Areas.ImageGallery.Models.Album.AlbumViewModel
 
+@{
+    var counter = 0;
+    var imagesCount = Model.Images.Count;
+}
+
 <div class="row">
     <div class="well well-sm">
         <h1 class="well-title text-center">@Model.Title</h1>
         <h4 class="text-center">@Model.Date</h4>
-        <hr/>
+        <hr />
         @if (Model.Description != null)
         {
             <p class="text-center">
                 @Html.Raw(Model.Description)
             </p>
-            <hr/>
+            <hr />
         }
 
         @if (Model.ImageCoordinates != null)
@@ -21,11 +26,11 @@
             {
                 var url = "http://www.google.com/maps/place/" + gps.Latitude + "," + gps.Longitude;
                 <p class="text-center">
-                    <span class="glyphicon glyphicon-map-marker"></span> 
+                    <span class="glyphicon glyphicon-map-marker"></span>
                     <a href="@url" target="_blank">@gps.LocationName</a>
                 </p>
             }
-            <hr/>
+            <hr />
         }
 
         <div class="btn-group text-center">
@@ -45,12 +50,16 @@
             <div id="shareBtn" class="btn btn-success clearfix">Share</div>
         </div>
 
-        <div class="mygallery1">
-            @foreach (var image in Model.Images.OrderBy(x => x.DateTaken))
+        <div class="overlay-album mygallery lightgallery">
+            @for (var i = 0; i < 20; i++)// in Model.Images)
             {
-                <div class="item" data-w="@image.LowWidth" data-h="@image.LowHeight" href='@image.MiddleImageSource' data-download-url="@image.OriginalDownloadPath">
-                    <img src='@image.LowImageSource'/>
-                </div>
+                counter = i;
+                <a href='@Model.Images[i].MiddleImageSource' data-download-url="@Model.Images[i].OriginalDownloadPath">
+                    <img class="b-lazy"
+                         src="@Model.Images[i].LowImageSource"
+                         alt="@Model.Images[i].Info" />
+                    @*<img alt="@image.Info" data-src='@image.LowImageSource'/>*@
+                </a>
             }
         </div>
     </div>
@@ -65,7 +74,7 @@
 
 <script>
     $(document)
-        .ready(function() {
+        .ready(function () {
 
             window.fbAsyncInit = function () {
                 FB.init({
@@ -83,41 +92,86 @@
                 fjs.parentNode.insertBefore(js, fjs);
             }(document, 'script', 'facebook-jssdk'));
 
-        document.getElementById('shareBtn').onclick = function() {
-            urlfb = 'http://atanas.it/ImageGallery/Album/Details/' + '@Model.Id';
-            FB.ui({
-            method: 'share',
-            display: 'popup',
-            href: urlfb,
-        }, function(response){});
-        }
+            document.getElementById('shareBtn').onclick = function () {
+                urlfb = 'http://atanas.it/ImageGallery/Album/Details/' + '@Model.Id';
+                FB.ui({
+                    method: 'share',
+                    display: 'popup',
+                    href: urlfb,
+                }, function (response) { });
+            }
 
-        $('.mygallery').lightGallery({
-            speed: 400,
-            hideBarsDelay: 2000,
-            controls: false,
-            thumbnail: false,
-            pause: 3000
+            $('.mygallery').lightGallery({
+                speed: 400,
+                hideBarsDelay: 2000,
+                controls: false,
+                thumbnail: false,
+                pause: 3000
+            });
+            $(".mygallery").justifiedGallery({
+                rowHeight: 200,
+                maxRowHeight: 266,
+                fixedHeight: false,
+                margins: 2,
+                lastRow: 'nojustify',
+                captions: false,
+                border: 0,
+                thumbnailPath: function (currentPath, width, height) {
+                    if (Math.max(width, height) < 266) {
+                        return currentPath.replace(/(.*)(_[a-z]+)(\..*)/, "$1low$2");
+                    } else {
+                        return currentPath.replace(/(.*)(_[a-z]+)(\..*)/, "$1medium$2");
+                    }
+                }
+            });
+
+            $(window).scroll(function () {
+                if ($(window).scrollTop() + $(window).height() > $(document).height() - 50) {
+                    @{
+                        for (var i = counter; i < 20 + counter; i++)// in Model.Images)
+                        {
+                            <text>
+                                 $('.mygallery').append('<a href="@Model.Images[i].MiddleImageSource" data-download-url="@Model.Images[i].OriginalDownloadPath">' +
+                                '<img src="@Model.Images[i].LowImageSource" alt="@Model.Images[i].Info" />' +
+                                '</a>');
+                            </text>
+                        }
+                     }
+                    $('.mygallery').justifiedGallery('norewind');
+                }
+            });
+
+            //$(window).scroll(function () {
+            //    if ($(window).scrollTop() + $(window).height() == $(document).height()) {
+            //        //for (var i = 0; i < 5; i++) {
+            //        //    $('.mygallery').append('<a>' +
+            //        //        '<img src="http://path/to/image" />' +
+            //        //        '</a>');
+            //        //}
+
+            //        console.log('a');
+            //        $('.mygallery').justifiedGallery('norewind');
+            //    }
+            //});
+
+            //$(".mygallery").justifiedGallery({
+            //    rowHeight: 200,
+            //    maxRowHeight: 266,
+            //    fixedHeight: false,
+            //    margins: 2,
+            //    lastRow: 'nojustify',
+            //    captions: false,
+            //    border: 0,
+            //    thumbnailPath: function (currentPath, width, height) {
+            //        if (Math.max(width, height) < 266) {
+            //            return currentPath.replace(/(.*)(_[a-z]+)(\..*)/, "$1low$2");
+            //        } else {
+            //            return currentPath.replace(/(.*)(_[a-z]+)(\..*)/, "$1medium$2");
+            //        }
+            //    }
+
+            //});
+
+
         });
-
-        $('.mygallery1').flexImages();
-
-        //$(".mygallery").justifiedGallery({
-        //    rowHeight: 200,
-        //    maxRowHeight: 266,
-        //    fixedHeight: false,
-        //    margins: 2,
-        //    lastRow: 'nojustify',
-        //    captions: false,
-        //    border: 0,
-        //    thumbnailPath: function (currentPath, width, height) {
-        //        if (Math.max(width, height) < 266) {
-        //            return currentPath.replace(/(.*)(_[a-z]+)(\..*)/, "$1low$2");
-        //        } else {
-        //            return currentPath.replace(/(.*)(_[a-z]+)(\..*)/, "$1medium$2");
-        //        }
-        //    }
-
-        //});
-    });
 </script>

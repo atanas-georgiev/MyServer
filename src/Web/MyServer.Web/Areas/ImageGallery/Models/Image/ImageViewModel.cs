@@ -86,9 +86,9 @@
                 .ForMember(m => m.Info, opt => opt.MapFrom(src => MapStatus(src)))
                 .ForMember(m => m.GpsCoordinates, opt => opt.MapFrom(src => MapGpsCoordinates(src)))
                 .ForMember(m => m.GpsName, opt => opt.MapFrom(src => MapGpsName(src)))
-                .ForMember(m => m.OriginalDownloadPath, opt => opt.MapFrom(c => Constants.TempContentFolder + "\\" + c.Id + "\\" + c.OriginalFileName))
-                .ForMember(m => m.MiddleImageSource, opt => opt.MapFrom(c => Constants.MainContentFolder + "\\" + c.AlbumId + "\\" + Constants.ImageFolderMiddle + "\\" + c.FileName))
-                .ForMember(m => m.LowImageSource, opt => opt.MapFrom(c => Constants.MainContentFolder + "\\" + c.AlbumId + "\\" + Constants.ImageFolderLow + "\\" + c.FileName));
+                .ForMember(m => m.OriginalDownloadPath, opt => opt.MapFrom(c => Constants.TempContentFolder + "/" + c.Id + "/" + c.OriginalFileName))
+                .ForMember(m => m.MiddleImageSource, opt => opt.MapFrom(c => Constants.MainContentFolder + "/" + c.AlbumId + "/" + Constants.ImageFolderMiddle + "/" + c.FileName))
+                .ForMember(m => m.LowImageSource, opt => opt.MapFrom(c => Constants.MainContentFolder + "/" + c.AlbumId + "/" + Constants.ImageFolderLow + "/" + c.FileName));
         }
 
         static string MapGpsName(Image source)
