@@ -128,6 +128,8 @@ namespace MyServer.Data.Migrations
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd();
 
+                    b.Property<int>("Access");
+
                     b.Property<string>("AddedById");
 
                     b.Property<Guid?>("CoverId");
@@ -140,8 +142,6 @@ namespace MyServer.Data.Migrations
                         .HasAnnotation("MaxLength", 3000);
 
                     b.Property<bool>("IsDeleted");
-
-                    b.Property<bool>("IsPublic");
 
                     b.Property<DateTime?>("ModifiedOn");
 

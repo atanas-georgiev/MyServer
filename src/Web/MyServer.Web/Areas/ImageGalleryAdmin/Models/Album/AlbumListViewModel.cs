@@ -10,6 +10,7 @@
     using System.Collections.Generic;
     using System.Linq;
     using Helpers;
+    using Common;
 
     public class AlbumListViewModel : IMapFrom<Album>, IHaveCustomMappings
     {      
@@ -30,7 +31,7 @@
         [MaxLength(200)]
         public string Title { get; set; }
 
-        public bool IsPublic { get; set; }
+        public MyServerAccessType Access { get; set; }
 
         public void CreateMappings(IMapperConfigurationExpression configuration)
         {

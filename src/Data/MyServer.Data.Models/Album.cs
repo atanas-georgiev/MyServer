@@ -8,6 +8,7 @@
     using MyServer.Common.ImageGallery;
     using MyServer.Data.Common;
     using MyServer.Data.Common.Models;
+    using MyServer.Common;
 
     public class Album : BaseModel<Guid>, IHavePrimaryKey<Guid>
     {
@@ -23,7 +24,7 @@
             this.Images = new List<Image>();
         }
 
-        public bool IsPublic { get; set; }
+        public MyServerAccessType Access { get; set; }
 
         public virtual User AddedBy { get; set; }
 

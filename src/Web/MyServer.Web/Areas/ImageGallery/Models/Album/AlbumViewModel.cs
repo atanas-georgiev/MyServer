@@ -7,6 +7,7 @@ using MyServer.Web.Main.Areas.ImageGalleryAdmin.Models.Album;
 using System.ComponentModel.DataAnnotations;
 using System.Collections.Generic;
 using System.Linq;
+using MyServer.Common;
 
 namespace MyServer.Web.Areas.ImageGallery.Models.Album
 {
@@ -31,7 +32,7 @@ namespace MyServer.Web.Areas.ImageGallery.Models.Album
 
         public string ImagesCountCover { get; set; }
 
-        public bool IsPublic { get; set; }
+        public MyServerAccessType Access { get; set; }
 
         [Required]
         [MinLength(3)]

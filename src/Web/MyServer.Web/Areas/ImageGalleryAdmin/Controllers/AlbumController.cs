@@ -13,6 +13,8 @@ using System.Collections.Generic;
 using System.Linq;
 using Microsoft.EntityFrameworkCore;
 using MyServer.Web.Main.Areas.ImageGalleryAdmin.Models.Image;
+using Microsoft.AspNetCore.Mvc.Rendering;
+using MyServer.Common;
 
 namespace MyServer.Web.Areas.ImageGalleryAdmin.Controllers
 {
@@ -46,7 +48,8 @@ namespace MyServer.Web.Areas.ImageGalleryAdmin.Controllers
         [Route("Create")]
         public IActionResult Create()
         {
-            return this.View(new AddAlbumViewModel() { Title = "", IsPublic = true });
+            ViewBag.AccessTypes = new SelectList(new List<string>() { MyServerAccessType.Public.ToString(), MyServerAccessType.Registrated.ToString(), MyServerAccessType.Private.ToString() });
+            return this.View(new AddAlbumViewModel() { Title = "", Access = Common.MyServerAccessType.Registrated });
         }
 
         [Route("Create")]
@@ -62,7 +65,7 @@ namespace MyServer.Web.Areas.ImageGalleryAdmin.Controllers
                     Description = model.Description,
                     CreatedOn = DateTime.UtcNow,
                     AddedBy = this.UserProfile,
-                    IsPublic = model.IsPublic,
+                    Access = model.Access,
                     Cover = this.imageService.GetAll().First()
                 };
 
@@ -89,7 +92,7 @@ namespace MyServer.Web.Areas.ImageGalleryAdmin.Controllers
 
                 album.Title = model.Title;
                 album.Description = model.Description;
-                album.IsPublic = model.IsPublic;
+                album.Access = model.Access;
 
                 this.albumService.Update(album);
 
@@ -104,10 +107,10 @@ namespace MyServer.Web.Areas.ImageGalleryAdmin.Controllers
         [Route("Edit")]
         public IActionResult Edit(string id)
         {
+            ViewBag.AccessTypes = new SelectList(new List<string>() { MyServerAccessType.Public.ToString(), MyServerAccessType.Registrated.ToString(), MyServerAccessType.Private.ToString() });
             this.Response.Cookies.Append("AlbumId", id);
             var intId = Guid.Parse(id);
-            var result =
-                this.albumService.GetAllReqursive().Where(x => x.Id == intId).To<AlbumEditViewModel>().FirstOrDefault();
+            var result = this.albumService.GetAllReqursive().Where(x => x.Id == intId).To<AlbumEditViewModel>().FirstOrDefault();
 
             if (result == null)
             {

@@ -250,13 +250,13 @@ namespace MyServer.Data.Migrations
                 columns: table => new
                 {
                     Id = table.Column<Guid>(nullable: false),
+                    Access = table.Column<int>(nullable: false),
                     AddedById = table.Column<string>(nullable: true),
                     CoverId = table.Column<Guid>(nullable: true),
                     CreatedOn = table.Column<DateTime>(nullable: false),
                     DeletedOn = table.Column<DateTime>(nullable: true),
                     Description = table.Column<string>(maxLength: 3000, nullable: true),
                     IsDeleted = table.Column<bool>(nullable: false),
-                    IsPublic = table.Column<bool>(nullable: false),
                     ModifiedOn = table.Column<DateTime>(nullable: true),
                     Title = table.Column<string>(maxLength: 200, nullable: false)
                 },

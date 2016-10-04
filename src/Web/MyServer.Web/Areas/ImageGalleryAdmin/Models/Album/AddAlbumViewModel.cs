@@ -7,6 +7,7 @@
     using AutoMapper;
     using Microsoft.AspNetCore.Mvc;
     using Services.Mappings;
+    using Common;
 
     public class AddAlbumViewModel : IMapFrom<Album>
     {
@@ -22,6 +23,6 @@
         [MaxLength(150)]
         public string Title { get; set; }
 
-        public bool IsPublic { get; set; }
+        public MyServerAccessType Access { get; set; }
     }
 }

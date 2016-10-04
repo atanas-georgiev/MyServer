@@ -11,15 +11,13 @@
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
     using Microsoft.Extensions.Logging;
-
-    using MyServer.Services;
+    
     using Newtonsoft.Json.Serialization;
     using Services.ImageGallery;
     using Services.Mappings;
     using Services.Users;
     using System.Reflection;
     using Web.Helpers;
-    using Microsoft.AspNet.Diagnostics.Elm;
 
     public class Startup
     {
@@ -66,6 +64,9 @@
             services.AddIdentity<User, IdentityRole>()
                 .AddEntityFrameworkStores<MyServerDbContext>()
                 .AddDefaultTokenProviders();
+
+            services.AddDistributedMemoryCache();
+            services.AddSession();
 
             services
                 .AddMvc()
@@ -116,7 +117,7 @@
             });
 
             // Add external authentication middleware below. To configure them please see http://go.microsoft.com/fwlink/?LinkID=532715
-
+            app.UseSession();
             app.UseMvc(routes =>
             {
                 // Areas support

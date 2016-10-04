@@ -7,6 +7,7 @@
     using System.ComponentModel.DataAnnotations;
     using MyServer.Data.Models;
     using System;
+    using Common;
 
     public class AlbumEditViewModel : IMapFrom<Album>
     {
@@ -22,6 +23,6 @@
         [MaxLength(200)]
         public string Title { get; set; }
 
-        public bool IsPublic { get; set; }
+        public MyServerAccessType Access { get; set; }
     }
 }
