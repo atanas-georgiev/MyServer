@@ -260,9 +260,9 @@
                 var resizedImage = image.Resize(new ResizeOptions()
                 {
                     Mode = ResizeMode.Max,
-                    Size = new ImageProcessorCore.Size(Constants.ImageLowMaxSize, Constants.ImageLowMaxSize)
+                    Size = new ImageProcessorCore.Size(Constants.ImageLowMaxSize, Constants.ImageLowMaxSize),
                 });
-
+                resizedImage.Quality = 70;
                 return resizedImage;
             }
             else if (type == ImageType.Medium)
@@ -272,7 +272,7 @@
                     Mode = ResizeMode.Max,
                     Size = new ImageProcessorCore.Size(Constants.ImageMiddleMaxSize, Constants.ImageMiddleMaxSize)
                 });
-
+                resizedImage.Quality = 70;
                 return resizedImage;
             }
 

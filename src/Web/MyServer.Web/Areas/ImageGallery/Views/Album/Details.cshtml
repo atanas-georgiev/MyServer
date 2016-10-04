@@ -51,13 +51,12 @@
         </div>
 
         <div class="overlay-album mygallery lightgallery">
-            @for (var i = 0; i < 20; i++)// in Model.Images)
+            @foreach (var image in Model.Images)
             {
-                counter = i;
-                <a href='@Model.Images[i].MiddleImageSource' data-download-url="@Model.Images[i].OriginalDownloadPath">
+                <a href='@image.MiddleImageSource' data-download-url="@image.OriginalDownloadPath">
                     <img class="b-lazy"
-                         src="@Model.Images[i].LowImageSource"
-                         alt="@Model.Images[i].Info" />
+                         src="@image.LowImageSource"
+                         alt="@image.Info" />
                     @*<img alt="@image.Info" data-src='@image.LowImageSource'/>*@
                 </a>
             }
@@ -125,7 +124,7 @@
                 }
             });
 
-            $(window).scroll(function () {
+            @*$(window).scroll(function () {
                 if ($(window).scrollTop() + $(window).height() > $(document).height() - 50) {
                     @{
                         for (var i = counter; i < 20 + counter; i++)// in Model.Images)
@@ -139,7 +138,7 @@
                      }
                     $('.mygallery').justifiedGallery('norewind');
                 }
-            });
+            });*@
 
             //$(window).scroll(function () {
             //    if ($(window).scrollTop() + $(window).height() == $(document).height()) {
