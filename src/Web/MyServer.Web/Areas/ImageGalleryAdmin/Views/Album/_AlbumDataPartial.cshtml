@@ -18,19 +18,15 @@
         <div class="form-group">
             <label asp-for="Description" class="col-md-2 control-label"></label>
             <div class="col-md-10">
-                <input asp-for="Description" class="form-control" />
+                @Html.Kendo().EditorFor(model => model.Description).HtmlAttributes(new { @class = "form-control" }).Encoded(false)                
                 <span asp-validation-for="Description" class="text-danger" />
             </div>
         </div>
         <div class="form-group">
             <label asp-for="Access" class="col-md-2 control-label"></label>
             <div class="col-md-10">
-                <input asp-for="Access" class="form-control" />
-                <span asp-validation-for="Access" class="text-danger" />
+                <select asp-for="Access" asp-items='@Model.AccessTypes' class="form-control"></select>
             </div>
-            @*<div class="col-md-10">
-                <select asp-for="Access" asp-items='@(System.Collections.Generic.IEnumerable<Microsoft.AspNetCore.Mvc.Rendering.SelectListItem>)ViewData["AccessTypes"]' class="form-control"></select>
-            </div>*@
         </div>
 
         <div class="form-group">

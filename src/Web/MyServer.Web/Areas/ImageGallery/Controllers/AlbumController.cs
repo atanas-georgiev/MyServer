@@ -40,7 +40,7 @@ namespace MyServer.Web.Areas.ImageGallery.Controllers
         [Route("Index")]
         public IActionResult Index()
         {
-            var albums = this.albumService.GetAllReqursive().To<AlbumViewModel>().ToList();
+            var albums = this.albumService.GetAllReqursive().OrderByDescending(x => x.CreatedOn).To<AlbumViewModel>().ToList();
             return this.View(albums);
         }
     }

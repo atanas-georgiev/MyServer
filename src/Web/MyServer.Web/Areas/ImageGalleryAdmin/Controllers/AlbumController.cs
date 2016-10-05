@@ -48,7 +48,6 @@ namespace MyServer.Web.Areas.ImageGalleryAdmin.Controllers
         [Route("Create")]
         public IActionResult Create()
         {
-            ViewBag.AccessTypes = new SelectList(new List<string>() { MyServerAccessType.Public.ToString(), MyServerAccessType.Registrated.ToString(), MyServerAccessType.Private.ToString() });
             return this.View(new AddAlbumViewModel() { Title = "", Access = Common.MyServerAccessType.Registrated });
         }
 
@@ -104,10 +103,9 @@ namespace MyServer.Web.Areas.ImageGalleryAdmin.Controllers
             return this.PartialView("_AlbumDataPartial", model);
         }
 
-        [Route("Edit")]
+        [Route("Edit/{id}")]
         public IActionResult Edit(string id)
         {
-            ViewBag.AccessTypes = new SelectList(new List<string>() { MyServerAccessType.Public.ToString(), MyServerAccessType.Registrated.ToString(), MyServerAccessType.Private.ToString() });
             this.Response.Cookies.Append("AlbumId", id);
             var intId = Guid.Parse(id);
             var result = this.albumService.GetAllReqursive().Where(x => x.Id == intId).To<AlbumEditViewModel>().FirstOrDefault();

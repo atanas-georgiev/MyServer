@@ -11,6 +11,7 @@
     using System.Linq;
     using Helpers;
     using Common;
+    using Web.Areas.ImageGallery.Models.Image;
 
     public class AlbumListViewModel : IMapFrom<Album>, IHaveCustomMappings
     {      
@@ -25,6 +26,8 @@
         public Guid Id { get; set; }
 
         public string ImagesCountCover { get; set; }
+
+        public List<ImageViewModel> Images { get; set; }
 
         [Required]
         [MinLength(3)]
@@ -46,15 +49,15 @@
         static int MapHeight(Album source)
         {
             return source.CoverId == null
-                   ? Convert.ToInt32(Convert.ToDouble(Constants.ImageLowMaxSize / 2) / 1.5)
-                   : source.Cover.LowHeight / 2;
+                   ? Convert.ToInt32(Convert.ToDouble(Constants.ImageLowMaxSize) / 1.5)
+                   : source.Cover.LowHeight;
         }
 
         static int MapWidth(Album source)
         {
             return source.CoverId == null
-                   ? Constants.ImageLowMaxSize / 2
-                   : source.Cover.LowWidth / 2;
+                   ? Constants.ImageLowMaxSize
+                   : source.Cover.LowWidth;
         }
 
         public static string MapCoverImage(Album source)

@@ -83,10 +83,8 @@
 
             GC.Collect();
 
-            var cover = this.albums.GetById(Guid.Parse(Constants.NoCoverId));                       
-
             // check if first image, if so, make album cover
-            var album = this.albums.GetById(albumId);
+            var album = this.albums.All().Where(x => x.Id == albumId).Include(x => x.Images).FirstOrDefault();
             if (album.Images.Count == 1)
             {
                 album.CoverId = image.Id;

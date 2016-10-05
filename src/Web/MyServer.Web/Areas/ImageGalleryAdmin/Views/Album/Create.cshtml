@@ -15,14 +15,14 @@
         <div class="form-group">
             <label asp-for="Description" class="col-md-2 control-label"></label>
             <div class="col-md-10">
-                <textarea asp-for="Description" class="form-control"></textarea>
+                @Html.Kendo().EditorFor(model => model.Description).HtmlAttributes(new { @class = "form-control" }).Encoded(false)
                 <span asp-validation-for="Description" class="text-danger" />
             </div>
         </div>
         <div class="form-group">
             <label asp-for="Access" class="col-md-2 control-label"></label>
             <div class="col-md-10">
-                <select asp-for="Access" asp-items='@ViewBag.AccessTypes' class="form-control"></select>
+                <select asp-for="Access" asp-items='@Model.AccessTypes' class="form-control"></select>
             </div>
         </div>
         <div class="form-group">

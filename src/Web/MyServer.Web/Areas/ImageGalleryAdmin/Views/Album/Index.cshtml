@@ -1,71 +1,139 @@
+@using Kendo.Mvc.UI
 @model IEnumerable<MyServer.Web.Main.Areas.ImageGalleryAdmin.Models.Album.AlbumListViewModel>
 
 @{
-    ViewData["Title"] = "View";
+    ViewBag.Title = "Albums";
 }
+<br />
+<br />
 
-<h2>View</h2>
+<div class="demo-section k-content wide">
+    <a asp-action="Create" class="btn">Create New</a>    
+    <br />
+    <br />
+    @(Html.Kendo().ListView(Model)
+        .Name("listAlbums")
+        .TagName("div")
+        .ClientTemplateId("template")
+        .DataSource(dataSource => dataSource.Ajax()
+            .Model(model => model.Id("Id"))
+            .PageSize(10)
+            .Read(read => read.Action("AlbumsRead", "Json"))
+            .Create(create => create.Action("AlbumsCreate", "Json"))
+            .Destroy(destroy => destroy.Action("AlbumsDestroy", "Json"))))
+</div>
+<script type="text/x-kendo-tmpl" id="template">
+    <div class="product-view k-widget" style="width:#:Width#px;height:#:Height#px; background-image: url(#:CoverImage#);background-size:contain; background-repeat: no-repeat">
+        <dl class="b">
+            <dt>Title</dt>
+            <dd>#:Title#</dd>
+        </dl>
+        <div class="edit-buttons">
+            <a class="k-button" href="/ImageGalleryAdmin/Album/Edit/#:Id#"><span class="k-icon k-edit"></span></a>
+            <a class="k-button k-delete-button" href="\\#"><span class="k-icon k-delete"></span></a>
+        </div>
+    </div>
+</script>
+<script>
+    $(function() {
+        var listView = $("#listView").data("listAlbums");
 
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.CoverImage)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Title)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Access)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Date)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.ImagesCountCover)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Height)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Width)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model) {
-        <tr>           
-            <td>
-                <img src="@item.CoverImage" alt="@item.CoverImage" width="@item.Width" height="@item.Height"/>
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Title)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Access)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Date)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.ImagesCountCover)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Height)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Width)
-            </td>
-            <td>
-                @Html.ActionLink("Edit", "Edit", new { id=item.Id }) |
-                @Html.ActionLink("Details", "Details", new {  id=item.Id }) |
-                @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
-            </td>
-        </tr>
+        $(".k-add-button").click(function(e) {
+            listView.add();
+            e.preventDefault();
+        });
+    });
+</script>
+<style>
+    .product-view {
+        float: left;
+        width: 50%;
+        height: 300px;
+        box-sizing: border-box;
+        border-top: 0;
+        position: relative;
+    }
+
+        .product-view:nth-child(even) {
+            border-left-width: 0;
+        }
+
+        .product-view dl {
+            margin: 10px 10px 0;
+            padding: 0;
+            overflow: hidden;
+        }
+
+        .product-view dt, dd {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            line-height: 24px;
+            font-size: 18px;
+        }
+
+        .product-view dt {
+            font-size: 11px;
+            height: 16px;
+            line-height: 16px;
+            text-transform: uppercase;
+            opacity: 0.5;
+        }
+
+        .product-view dd {
+            height: 46px;
+            overflow: hidden;
+            white-space: nowrap;
+            text-overflow: ellipsis;
+        }
+
+            .product-view dd .k-widget,
+            .product-view dd .k-textbox {
+                font-size: 14px;
+            }
+
+    .k-listview {
+        border-width: 1px 0 0;
+        padding: 0;
+        overflow: hidden;
+        min-height: 298px;
+    }
+
+    .edit-buttons {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        text-align: left;
+        padding: 5px;
+        background-color: rgba(0, 0, 0, 0.1);
+    }
+
+    .k-pager-wrap {
+        border-top: 0;
+    }
+
+    span.k-invalid-msg {
+        position: absolute;
+        margin-left: 6px;
+    }
+
+    .k-add-button {
+        margin-bottom: 2em;
+    }
+
+    @@media only screen and (max-width: 620px) {
+
+        .product-view {
+            width: 100%;
+        }
+
+            .product-view:nth-child(even) {
+                border-left-width: 1px;
+            }
+    }
+</style>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
 }
-    </tbody>
-</table>

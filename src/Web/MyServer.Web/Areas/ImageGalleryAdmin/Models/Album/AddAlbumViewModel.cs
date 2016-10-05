@@ -8,6 +8,8 @@
     using Microsoft.AspNetCore.Mvc;
     using Services.Mappings;
     using Common;
+    using System.Collections.Generic;
+    using Microsoft.AspNetCore.Mvc.Rendering;
 
     public class AddAlbumViewModel : IMapFrom<Album>
     {
@@ -24,5 +26,7 @@
         public string Title { get; set; }
 
         public MyServerAccessType Access { get; set; }
+
+        public SelectList AccessTypes { get; set; } = new SelectList(new List<string>() { MyServerAccessType.Public.ToString(), MyServerAccessType.Registrated.ToString(), MyServerAccessType.Private.ToString() });
     }
 }
