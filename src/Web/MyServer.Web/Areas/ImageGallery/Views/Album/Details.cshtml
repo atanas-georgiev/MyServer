@@ -47,8 +47,9 @@
                     <li><a asp-action="Download" asp-controller="Album" asp-route-area="ImageGallery" @*asp-route-id="@Model.Id" *@ data-ajax="true" data-ajax-method="GET" data-ajax-loading="loading" data-ajax-success="window.location.href = data;" class="btn">High</a></li>
                 </ul>
             </div>
-            <div id="shareBtn" class="btn btn-success clearfix">Share</div>
+            <div id="shareBtn" class="btn clearfix">Share</div>
         </div>
+        <hr />
 
         <div class="overlay-album mygallery lightgallery">
             @foreach (var image in Model.Images)
