@@ -1,5 +1,6 @@
 ﻿namespace MyServer.Web.Areas.Account.Models
 {
+    using Resources;
     using System.ComponentModel.DataAnnotations;
 
     public class AccountRegisterViewModel
@@ -29,7 +30,7 @@
         [Required]
         [StringLength(100, ErrorMessage = "The {0} must be at least {2} characters long.", MinimumLength = 6)]
         [DataType(DataType.Password)]
-        [Display(Name = "Password")]
+        [Display(Name = "Password", ResourceType = typeof(DataAnnotations))]
         public string Password { get; set; }
     }
 }

@@ -1,9 +1,13 @@
 ﻿@model MyServer.Web.Areas.Account.Models.AccountRegisterViewModel
+
+@inject IViewLocalizer LocString
+
 @{
-    ViewData["Title"] = "Register";
+    ViewData["Title"] = LocString["Register"];
 }
 
 <form asp-controller="Register" asp-action="Index" asp-route-returnurl="@ViewData["ReturnUrl"]" method="post" class="form-horizontal">
+    <h1>@LocString["Register"]</h1>
     <h4>Create a new account.</h4>
     <hr />
     <div asp-validation-summary="All" class="text-danger"></div>
