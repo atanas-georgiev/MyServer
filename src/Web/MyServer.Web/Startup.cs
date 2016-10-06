@@ -129,8 +129,8 @@
 
             app.UseFacebookAuthentication(new FacebookOptions()
             {                
-                AppId = "330419013960689",
-                AppSecret = "8da62d825d48cb9df05f7260c43edef9"
+                AppId = "521558431365642",
+                AppSecret = "af05f969147e202f1e8c76c4cfd31a79"
             });
 
             app.UseGoogleAuthentication(new GoogleOptions()

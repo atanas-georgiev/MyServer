@@ -1,6 +1,7 @@
 ﻿namespace MyServer.Web.Areas.Account.Controllers
 {
     using System;
+    using System.Linq;
     using System.Threading.Tasks;
 
     using Microsoft.AspNetCore.Authorization;
@@ -13,6 +14,9 @@
     using MyServer.Services.Users;
     using MyServer.Web.Areas.Account.Models;
     using Shared.Controllers;
+    using System.Security.Claims;
+    using Common;
+    using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 
     [Area("Account")]
     [Route("Account/Login")]
@@ -98,10 +102,6 @@
             }
 
             var result = await this.signInManager.ExternalLoginSignInAsync(info.LoginProvider, info.ProviderKey, isPersistent: false);
-            //var firstName = result.ExternalIdentity.Name.Split(' ').FirstOrDefault();
-            //var lastName = result.ExternalIdentity.Name.Split(' ').LastOrDefault();
-            //var email = result.Email;
-
 
             if (result.Succeeded)
             {
@@ -109,15 +109,19 @@
             }
             else
             {
+                var email = info.Principal.Claims.FirstOrDefault(x => x.Type == ClaimTypes.Email);
+                var firstName = info.Principal.Claims.FirstOrDefault(x => x.Type == ClaimTypes.GivenName);
+                var lastName = info.Principal.Claims.FirstOrDefault(x => x.Type == ClaimTypes.Surname);
                 this.ViewBag.ReturnUrl = returnUrl;
+
                 //this.ViewBag.LoginProvider = loginInfo.Login.LoginProvider;
                 return this.View(
                     "ExternalLoginConfirmation",
                     new AccountExternalLoginConfirmationViewModel
                     {
-                        //Email = email,
-                        //FirstName = firstName,
-                        //LastName = lastName
+                        Email = email == null ? "" : email.Value,
+                        FirstName = firstName == null ? "" : firstName.Value,
+                        LastName = lastName == null ? "" : lastName.Value
                     });
             }
         }
@@ -130,7 +134,7 @@
             AccountExternalLoginConfirmationViewModel model, 
             string returnUrl = null)
         {
-            if (this.ModelState.IsValid)
+            //if (this.ModelState.IsValid)
             {
                 var info = await this.signInManager.GetExternalLoginInfoAsync();
                 if (info == null)
@@ -153,6 +157,11 @@
                     if (result.Succeeded)
                     {
                         await this.signInManager.SignInAsync(user, isPersistent: false);
+
+                        var role = this.dbContext.Roles.First(x => x.Name == MyServerRoles.User);
+                        this.dbContext.UserRoles.Add(new IdentityUserRole<string>() { RoleId = role.Id, UserId = user.Id });
+                        this.dbContext.SaveChanges();
+
                         return this.RedirectToLocal(returnUrl);
                     }
                 }
