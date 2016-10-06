@@ -146,7 +146,7 @@
                 // Areas support
                 routes.MapRoute(
                     name: "areaRoute",
-                    template: "{area}/{controller}/{action}/{id?}");
+                    template: "{area:exists}/{controller=Home}/{action=Index}/{id?}");
 
                 routes.MapRoute(
                     name: "default",

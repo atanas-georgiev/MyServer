@@ -17,7 +17,6 @@ using System.Linq;
 namespace MyServer.Web.Areas.ImageGalleryAdmin.Controllers
 {
     [Area("ImageGalleryAdmin")]
-    [Route("ImageGalleryAdmin/Json")]
     public class JsonController : BaseController
     {
         private readonly IAlbumService albumService;
@@ -30,7 +29,6 @@ namespace MyServer.Web.Areas.ImageGalleryAdmin.Controllers
             this.imageService = imageService;
         }
 
-        [Route("AlbumsRead")]
         [HttpPost]
         public ActionResult AlbumsRead([DataSourceRequest] DataSourceRequest request)
         {
@@ -38,7 +36,6 @@ namespace MyServer.Web.Areas.ImageGalleryAdmin.Controllers
             return this.Json(tasks.ToDataSourceResult(request));
         }
 
-        [Route("AlbumsDestroy")]
         [HttpPost]
         public ActionResult AlbumsDestroy([DataSourceRequest] DataSourceRequest request, AlbumListViewModel album)
         {
@@ -55,15 +52,13 @@ namespace MyServer.Web.Areas.ImageGalleryAdmin.Controllers
             return this.Json(this.ModelState.ToDataSourceResult());
         }
 
-        [Route("ImagesGridRead")]
         public ActionResult ImagesGridRead([DataSourceRequest] DataSourceRequest request)
         {
             var albumId = Guid.Parse(this.Request.Cookies["AlbumId"]);
             var result = this.imageService.GetAllReqursive().Where(x => x.AlbumId == albumId).To<ImageViewModel>().ToList();
             return this.Json(result.ToDataSourceResult(request));
         }
-
-        [Route("ImagesGridUpdate")]
+        
         [HttpPost]
         public ActionResult ImagesGridUpdate([DataSourceRequest] DataSourceRequest request, [Bind(Prefix = "models")]IEnumerable<ImageViewModel> images)
         {
@@ -79,8 +74,7 @@ namespace MyServer.Web.Areas.ImageGalleryAdmin.Controllers
 
             return this.Json(images.ToDataSourceResult(request, this.ModelState));
         }
-
-        [Route("ImagesGridDestroy")]
+        
         [HttpPost]
         public ActionResult ImagesGridDestroy([DataSourceRequest] DataSourceRequest request, [Bind(Prefix = "models")]IEnumerable<ImageViewModel> images)
         {

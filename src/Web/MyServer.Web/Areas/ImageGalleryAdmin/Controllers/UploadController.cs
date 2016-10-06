@@ -12,7 +12,6 @@
     using Microsoft.AspNetCore.Http;
 
     [Area("ImageGalleryAdmin")]
-    [Route("ImageGalleryAdmin/Upload")]
     public class UploadController : BaseController
     {
         private readonly IImageService imageService;
@@ -22,7 +21,6 @@
             this.imageService = imageService;
         }
 
-        [Route("Save")]
         public ActionResult Save(ICollection<IFormFile> files)
         {
             var albumId = Guid.Parse(this.Request.Cookies["AlbumId"]);

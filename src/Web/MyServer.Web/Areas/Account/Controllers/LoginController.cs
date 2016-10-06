@@ -19,7 +19,6 @@
     using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 
     [Area("Account")]
-    [Route("Account/Login")]
     public class LoginController : BaseController
     {
         public LoginController(IUserService userService, UserManager<User> userManager, SignInManager<User> signInManager, MyServerDbContext dbContext) 
@@ -28,7 +27,6 @@
         }
 
         [AllowAnonymous]
-        [Route("Index")]
         public ActionResult Index(string returnUrl)
         {
             this.ViewData["ReturnUrl"] = returnUrl;
@@ -37,7 +35,6 @@
 
         [HttpPost]
         [AllowAnonymous]
-        [Route("Index")]
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Index(AccountLoginViewModel model, string returnUrl = null)
         {
@@ -66,7 +63,6 @@
         }
 
         [HttpPost]
-        [Route("Exit")]
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Exit()
         {
@@ -76,7 +72,6 @@
 
         [HttpPost]
         [AllowAnonymous]
-        [Route("ExternalLogin")]
         [ValidateAntiForgeryToken]
         public ActionResult ExternalLogin(string provider, string returnUrl = null)
         {
@@ -86,7 +81,6 @@
         }
 
         [AllowAnonymous]
-        [Route("ExternalLoginCallback")]
         public async Task<ActionResult> ExternalLoginCallback(string returnUrl, string remoteError = null)
         {
             if (remoteError != null)
@@ -128,7 +122,6 @@
 
         [HttpPost]
         [AllowAnonymous]
-        [Route("ExternalLoginConfirmation")]
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> ExternalLoginConfirmation(
             AccountExternalLoginConfirmationViewModel model, 
@@ -173,7 +166,6 @@
         }
 
         [AllowAnonymous]
-        [Route("ExternalLoginFailure")]
         public ActionResult ExternalLoginFailure()
         {
             return this.View();

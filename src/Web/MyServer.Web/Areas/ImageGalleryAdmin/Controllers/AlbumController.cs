@@ -19,7 +19,6 @@ using MyServer.Common;
 namespace MyServer.Web.Areas.ImageGalleryAdmin.Controllers
 {
     [Area("ImageGalleryAdmin")]
-    [Route("ImageGalleryAdmin/Album")]
     public class AlbumController : BaseController
     {
         private readonly IAlbumService albumService;
@@ -38,20 +37,17 @@ namespace MyServer.Web.Areas.ImageGalleryAdmin.Controllers
             this.fileService = fileService;
         }
 
-        [Route("Index")]
         public IActionResult Index()
         {
             var albums = this.albumService.GetAllReqursive().To<AlbumListViewModel>().ToList();            
             return this.View(albums);
         }
 
-        [Route("Create")]
         public IActionResult Create()
         {
             return this.View(new AddAlbumViewModel() { Title = "", Access = Common.MyServerAccessType.Registrated });
         }
 
-        [Route("Create")]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public IActionResult Create(AddAlbumViewModel model)
@@ -76,7 +72,6 @@ namespace MyServer.Web.Areas.ImageGalleryAdmin.Controllers
         }
 
         [HttpPost]
-        [Route("AlbumDataPartial")]
         [ValidateAntiForgeryToken]
         public PartialViewResult AlbumDataPartial(AlbumEditViewModel model)
         {
@@ -103,7 +98,6 @@ namespace MyServer.Web.Areas.ImageGalleryAdmin.Controllers
             return this.PartialView("_AlbumDataPartial", model);
         }
 
-        [Route("Edit/{id}")]
         public IActionResult Edit(string id)
         {
             this.Response.Cookies.Append("AlbumId", id);
@@ -120,7 +114,6 @@ namespace MyServer.Web.Areas.ImageGalleryAdmin.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        [Route("UpdateImageLocation")]
         public IActionResult UpdateImageLocation(ImageUpdateViewModel model)
         {
             if (model != null && !string.IsNullOrEmpty(model.Items))
@@ -145,7 +138,6 @@ namespace MyServer.Web.Areas.ImageGalleryAdmin.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        [Route("UpdateImageTitle")]
         public IActionResult UpdateImageTitle(ImageUpdateViewModel model)
         {
             if (model != null && !string.IsNullOrEmpty(model.Items))
@@ -169,7 +161,6 @@ namespace MyServer.Web.Areas.ImageGalleryAdmin.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        [Route("UpdateImageDate")]
         public IActionResult UpdateImageDate(ImageUpdateViewModel model)
         {
             if (model != null && !string.IsNullOrEmpty(model.Items))
@@ -193,7 +184,6 @@ namespace MyServer.Web.Areas.ImageGalleryAdmin.Controllers
         }
 
         [HttpPost]
-        [Route("DeleteImages/{id}")]
         public IActionResult DeleteImages(string id)
         {
             if (!string.IsNullOrEmpty(id))
@@ -215,7 +205,6 @@ namespace MyServer.Web.Areas.ImageGalleryAdmin.Controllers
         }
 
         [HttpPost]
-        [Route("UpdateAlbumCover/{id}")]
         public IActionResult UpdateAlbumCover(string id)
         {
             var albumId = Guid.Parse(this.Request.Cookies["AlbumId"]);
@@ -226,7 +215,6 @@ namespace MyServer.Web.Areas.ImageGalleryAdmin.Controllers
         }
 
         [HttpPost]
-        [Route("UpdateImages")]
         public PartialViewResult UpdateImages()
         {
             var albumId = Guid.Parse(this.Request.Cookies["AlbumId"]);

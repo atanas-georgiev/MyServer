@@ -18,22 +18,18 @@
     using Shared.Controllers;
 
     [Area("Account")]
-    [Route("Account/Register")]
     public class RegisterController : BaseController
     {
         public RegisterController(IUserService userService, UserManager<User> userManager, SignInManager<User> signInManager, MyServerDbContext dbContext) : base(userService, userManager, signInManager, dbContext)
         {
         }
 
-        [AllowAnonymous]
-        [Route("Index")]
         public ActionResult Index()
         {
             return this.View();
         }
 
         [HttpPost]
-        [Route("Index")]
         [AllowAnonymous]
         public async Task<ActionResult> Index(AccountRegisterViewModel model)
         {
