@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 using MyServer.Data;
 
-namespace MyServer.Data.Migrations
+namespace MyServer.Web.Migrations.SeedDataClass
 {
     [DbContext(typeof(MyServerDbContext))]
     partial class MyServerDbContextModelSnapshot : ModelSnapshot

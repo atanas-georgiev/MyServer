@@ -1,5 +1,7 @@
 ﻿
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Identity;
+using MyServer.Data.Models;
 
 namespace MyServer.Web.Helpers
 {
@@ -9,9 +11,12 @@ namespace MyServer.Web.Helpers
 
         public static string WwwRootPath = string.Empty;
 
-        public PathHelper(IHostingEnvironment appEnvironment)
+        public static UserManager<User> UserManager = null;
+
+        public PathHelper(IHostingEnvironment appEnvironment, UserManager<User> userManager)
         {
             WwwPath = appEnvironment.WebRootPath;
+            UserManager = userManager;
         }
     }
 }

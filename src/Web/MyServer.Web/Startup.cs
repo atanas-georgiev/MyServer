@@ -22,6 +22,8 @@
     using System.Reflection;
     using Web.Helpers;
     using Microsoft.AspNetCore.Mvc.Localization;
+    using Microsoft.AspNetCore.Identity;
+    using MyServer.Data.Migrations;
 
     public class Startup
     {
@@ -84,7 +86,7 @@
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
+        public void Configure(IApplicationBuilder app, IServiceScopeFactory scopeFactory, IHostingEnvironment env, ILoggerFactory loggerFactory, UserManager<User> userManager)
         {
             var supportedCultures = new[]
             {
@@ -101,9 +103,11 @@
                 SupportedUICultures = supportedCultures
             });
 
-            var helper = new PathHelper(env);
+            var helper = new PathHelper(env, userManager);
             loggerFactory.AddConsole(Configuration.GetSection("Logging"));
             loggerFactory.AddDebug();
+
+            scopeFactory.SeedData();
 
             app.UseApplicationInsightsRequestTelemetry();
 
