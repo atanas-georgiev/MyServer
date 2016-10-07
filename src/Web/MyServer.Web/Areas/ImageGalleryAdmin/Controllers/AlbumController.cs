@@ -15,9 +15,11 @@ using Microsoft.EntityFrameworkCore;
 using MyServer.Web.Main.Areas.ImageGalleryAdmin.Models.Image;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using MyServer.Common;
+using Microsoft.AspNetCore.Authorization;
 
 namespace MyServer.Web.Areas.ImageGalleryAdmin.Controllers
 {
+    [Authorize(Roles = MyServerRoles.Admin)]
     [Area("ImageGalleryAdmin")]
     public class AlbumController : BaseController
     {
