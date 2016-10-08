@@ -1,7 +1,7 @@
-﻿using System.ComponentModel.DataAnnotations;
-
-namespace MyServer.Web.Areas.Account.Models
+﻿namespace MyServer.Web.Areas.Account.Models
 {
+    using System.ComponentModel.DataAnnotations;
+
     public class AccountManageViewModel
     {
         [Required]

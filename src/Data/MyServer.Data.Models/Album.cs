@@ -5,10 +5,9 @@
     using System.ComponentModel.DataAnnotations;
     using System.ComponentModel.DataAnnotations.Schema;
 
-    using MyServer.Common.ImageGallery;
+    using MyServer.Common;
     using MyServer.Data.Common;
     using MyServer.Data.Common.Models;
-    using MyServer.Common;
 
     public class Album : BaseModel<Guid>, IHavePrimaryKey<Guid>
     {

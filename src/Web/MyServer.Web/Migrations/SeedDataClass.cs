@@ -1,14 +1,17 @@
-﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.DependencyInjection;
-using MyServer.Common;
-using MyServer.Data.Models;
-using MyServer.Web.Helpers;
-using System;
-using System.Linq;
-
-namespace MyServer.Data.Migrations
+﻿namespace MyServer.Web.Migrations
 {
+    using System;
+    using System.Linq;
+
+    using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+    using Microsoft.EntityFrameworkCore;
+    using Microsoft.Extensions.DependencyInjection;
+
+    using MyServer.Common;
+    using MyServer.Data;
+    using MyServer.Data.Models;
+    using MyServer.Web.Helpers;
+
     public static class SeedDataClass
     {
         public static void SeedData(this IServiceScopeFactory scopeFactory)
@@ -18,7 +21,7 @@ namespace MyServer.Data.Migrations
                 var context = serviceScope.ServiceProvider.GetService<MyServerDbContext>();
                 try
                 {
-                    if (!context.Users.Any())
+                    if (!Queryable.Any<User>(context.Users))
                     {
                         SeedRoles(context);
                         SeedAdmin(context);
@@ -28,61 +31,60 @@ namespace MyServer.Data.Migrations
                 {
                     context.Database.Migrate();
 
-                    if (!context.Users.Any())
+                    if (!Queryable.Any<User>(context.Users))
                     {
                         SeedRoles(context);
                         SeedAdmin(context);
                     }
                 }
             }
-
         }
 
         private static void SeedAdmin(MyServerDbContext context)
         {
             var user = new User
-            {
-                UserName = "atanasgeorgiev83@gmail.com",
-                Email = "atanasgeorgiev83@gmail.com",
-                FirstName = "Atanas",
-                LastName = "Georgiev",
-                CreatedOn = DateTime.Now
-            };
+                           {
+                               UserName = "atanasgeorgiev83@gmail.com",
+                               Email = "atanasgeorgiev83@gmail.com",
+                               FirstName = "Atanas",
+                               LastName = "Georgiev",
+                               CreatedOn = DateTime.Now
+                           };
 
             var res1 = PathHelper.UserManager.CreateAsync(user, "Godcheto!1").Result;
             context.SaveChanges();
 
-            var role = context.Roles.First(x => x.Name == MyServerRoles.Admin);
+            var role = Queryable.First<IdentityRole>(context.Roles, x => x.Name == MyServerRoles.Admin);
 
             context.UserRoles.Add(new IdentityUserRole<string>() { RoleId = role.Id, UserId = user.Id });
             context.SaveChanges();
 
-            var album = new Album(MyServer.Common.ImageGallery.Constants.NoCoverId)
-            {
-                CreatedOn = DateTime.Now,
-                AddedById = user.Id,
-                Title = "No Image Album"
-            };
+            var album = new Album(Common.ImageGallery.Constants.NoCoverId)
+                            {
+                                CreatedOn = DateTime.Now,
+                                AddedById = user.Id,
+                                Title = "No Image Album"
+                            };
 
             context.Albums.Add(album);
             context.SaveChanges();
 
-            var image = new Image(MyServer.Common.ImageGallery.Constants.NoCoverId)
-            {
-                CreatedOn = DateTime.Now,
-                AddedById = user.Id,
-                AlbumId = album.Id,
+            var image = new Image(Common.ImageGallery.Constants.NoCoverId)
+                            {
+                                CreatedOn = DateTime.Now,
+                                AddedById = user.Id,
+                                AlbumId = album.Id,
 
-                // Cover = album,
-                Height = 400,
-                Width = 600,
-                LowHeight = 400,
-                LowWidth = 600,
-                MidHeight = 400,
-                MidWidth = 600,
-                FileName = MyServer.Common.ImageGallery.Constants.NoCoverImage,
-                OriginalFileName = MyServer.Common.ImageGallery.Constants.NoCoverImage
-            };
+                                // Cover = album,
+                                Height = 400,
+                                Width = 600,
+                                LowHeight = 400,
+                                LowWidth = 600,
+                                MidHeight = 400,
+                                MidWidth = 600,
+                                FileName = Common.ImageGallery.Constants.NoCoverImage,
+                                OriginalFileName = Common.ImageGallery.Constants.NoCoverImage
+                            };
 
             context.Images.Add(image);
             context.SaveChanges();
@@ -94,7 +96,10 @@ namespace MyServer.Data.Migrations
 
         private static void SeedRoles(MyServerDbContext context)
         {
-            context.Roles.AddRange(new IdentityRole(MyServerRoles.Admin), new IdentityRole(MyServerRoles.User), new IdentityRole(MyServerRoles.Public));
+            context.Roles.AddRange(
+                new IdentityRole(MyServerRoles.Admin),
+                new IdentityRole(MyServerRoles.User),
+                new IdentityRole(MyServerRoles.Public));
             context.SaveChanges();
         }
     }

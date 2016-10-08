@@ -1,137 +1,153 @@
-﻿<!DOCTYPE html>
+﻿@using Microsoft.ApplicationInsights.Extensibility
+@using Microsoft.AspNetCore.Mvc.Razor
+@using Microsoft.AspNetCore.Mvc.ViewFeatures
+<!DOCTYPE html>
 <html>
 <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <title>@ViewData["Title"] - MyServer</title>
 
     <environment names="Development">
-        <link rel="stylesheet" href="~/lib/kendo-ui/styles/kendo.common-nova.min.css" />
-        <link rel="stylesheet" href="~/lib/kendo-ui/styles/kendo.nova.min.css" />
-        <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" />
-        <link rel="stylesheet" href="~/lib/justified-gallery/dist/justified-gallery.min.css" />
-        <link rel="stylesheet" href="~/lib/image-picker/dist/image-picker.css" />
-        <link type="text/css" rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/lightgallery/1.2.19/css/lightgallery.min.css" />
-        <link href="~/lib/flex-images/jquery.flex-images.css" rel="stylesheet" />
-        <link href="~/lib/bootstrap-social/bootstrap-social.css" rel="stylesheet" />
-        <link rel="stylesheet" href="~/css/site.css" />
+        <link rel="stylesheet" href="~/lib/kendo-ui/styles/kendo.common-nova.min.css"/>
+        <link rel="stylesheet" href="~/lib/kendo-ui/styles/kendo.nova.min.css"/>
+        <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css"/>
+        <link rel="stylesheet" href="~/lib/justified-gallery/dist/justified-gallery.min.css"/>
+        <link rel="stylesheet" href="~/lib/image-picker/dist/image-picker.css"/>
+        <link type="text/css" rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/lightgallery/1.2.19/css/lightgallery.min.css"/>
+        <link href="~/lib/flex-images/jquery.flex-images.css" rel="stylesheet"/>
+        <link href="~/lib/bootstrap-social/bootstrap-social.css" rel="stylesheet"/>
+        <link rel="stylesheet" href="~/css/site.css"/>
     </environment>
     <environment names="Staging,Production">
         <link rel="stylesheet"
               href="https://kendo.cdn.telerik.com/2016.2.714/styles/kendo.common-nova.min.css"
               asp-fallback-href="~/lib/kendo-ui/styles/kendo.common-nova.min.css"
               asp-fallback-test-class="k-common-test-class"
-              asp-fallback-test-property="opacity" asp-fallback-test-value="0" />
+              asp-fallback-test-property="opacity" asp-fallback-test-value="0"/>
 
         <link rel="stylesheet"
               href="https://kendo.cdn.telerik.com/2016.2.714/styles/kendo.nova.min.css"
               asp-fallback-href="~/lib/kendo-ui/styles/kendo.nova.min.css"
               asp-fallback-test-class="k-theme-test-class"
-              asp-fallback-test-property="opacity" asp-fallback-test-value="0" />
+              asp-fallback-test-property="opacity" asp-fallback-test-value="0"/>
         <link rel="stylesheet" href="https://ajax.aspnetcdn.com/ajax/bootstrap/3.3.6/css/bootstrap.min.css"
               asp-fallback-href="~/lib/bootstrap/dist/css/bootstrap.min.css"
-              asp-fallback-test-class="sr-only" asp-fallback-test-property="position" asp-fallback-test-value="absolute" />
-        <link rel="stylesheet" href="~/lib/justified-gallery/dist/justified-gallery.min.css" asp-append-version="true" />
-        <link rel="stylesheet" href="~/lib/image-picker/dist/image-picker.css" asp-append-version="true" />
-        <link type="text/css" rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/lightgallery/1.2.19/css/lightgallery.min.css" />
-        <link href="~/lib/flex-images/jquery.flex-images.css" rel="stylesheet" />
-        <link href="~/lib/bootstrap-social/bootstrap-social.css" rel="stylesheet" />
-        <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+              asp-fallback-test-class="sr-only" asp-fallback-test-property="position" asp-fallback-test-value="absolute"/>
+        <link rel="stylesheet" href="~/lib/justified-gallery/dist/justified-gallery.min.css" asp-append-version="true"/>
+        <link rel="stylesheet" href="~/lib/image-picker/dist/image-picker.css" asp-append-version="true"/>
+        <link type="text/css" rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/lightgallery/1.2.19/css/lightgallery.min.css"/>
+        <link href="~/lib/flex-images/jquery.flex-images.css" rel="stylesheet"/>
+        <link href="~/lib/bootstrap-social/bootstrap-social.css" rel="stylesheet"/>
+        <link rel="stylesheet" href="~/css/site.css" asp-append-version="true"/>
     </environment>
     @Html.ApplicationInsightsJavaScript(TelemetryConfiguration)
 </head>
 <body>
-    <div class="navbar navbar-inverse navbar-fixed-top">
-        <div class="container">
-            <div class="navbar-header">
-                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-                    <span class="sr-only">Toggle navigation</span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </button>
-                <a asp-area="" asp-controller="Home" asp-action="Index" class="navbar-brand">MyServer</a>
-            </div>            
-            <div class="navbar-collapse collapse">
-                <ul class="nav navbar-nav">
-                    <li><a asp-area="" asp-controller="Home" asp-action="Index">Home</a></li>
-                    <li><a asp-area="ImageGallery" asp-controller="Album" asp-action="Index">Albums</a></li>
-                    @if (User.IsInRole(MyServer.Common.MyServerRoles.Admin))
-                    {
-                        <li class="dropdown">
-                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">Admin<span class="caret"></span></a>
-                            <ul class="dropdown-menu" role="menu">
-                                <li><a asp-area="ImageGalleryAdmin" asp-controller="Album" asp-action="Index">Albums</a></li>
-                            </ul>
-                        </li>
-                    }
-                </ul>
-                @await Html.PartialAsync("_LoginPartial")
-            </div>
+<div class="navbar navbar-inverse navbar-fixed-top">
+    <div class="container">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a asp-area="" asp-controller="Home" asp-action="Index" class="navbar-brand">MyServer</a>
+        </div>
+        <div class="navbar-collapse collapse">
+            <ul class="nav navbar-nav">
+                <li>
+                    <a asp-area="" asp-controller="Home" asp-action="Index">Home</a>
+                </li>
+                <li>
+                    <a asp-area="ImageGallery" asp-controller="Album" asp-action="Index">Albums</a>
+                </li>
+                @if (User.IsInRole(MyServer.Common.MyServerRoles.Admin))
+                {
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Admin<span class="caret"></span></a>
+                        <ul class="dropdown-menu" role="menu">
+                            <li>
+                                <a asp-area="ImageGalleryAdmin" asp-controller="Album" asp-action="Index">Albums</a>
+                            </li>
+                        </ul>
+                    </li>
+                }
+            </ul>
+            @await Html.PartialAsync("_LoginPartial")
         </div>
     </div>
-    <br />
-    @RenderSection("scripts", required: false)
-    <div class="container body-content">
-        <environment names="Development">
-            <script src="~/lib/jquery/dist/jquery.js"></script>
-            <script src="~/lib/kendo-ui/js/kendo.all.min.js"></script>
-            <script src="~/lib/kendo-ui/js/kendo.aspnetmvc.min.js"></script>
-            <script src="~/lib/bootstrap/dist/js/bootstrap.js"></script>
-            <script src="~/lib/jquery-ajax-unobtrusive/dist/jquery.unobtrusive-ajax.js"></script>
-            <script src="~/lib/image-picker/dist/image-details.js"></script>
-            <script src="~/lib/image-picker/dist/image-picker.min.js"></script>
-            <script src="~/lib/justified-gallery/dist/jquery.justified-gallery.min.js"></script>
-            <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCwTwQMYg1fPJn532TT3o-_SQlbhEOf64g&libraries=places"></script>
-            <script src="~/lib/geocomplete/jquery.geocomplete.js"></script>
-            <script src="https://cdnjs.cloudflare.com/ajax/libs/lightgallery/1.2.19/js/lightgallery-all.min.js"></script>
-            <script src="~/lib/flex-images/jquery.flex-images.js"></script>
-            <script src="~/lib/jquery_lazyload/jquery.lazyload.js"></script>
-            <script src="~/lib/jquery_lazyload/jquery.scrollstop.js"></script>
-            <script src="~/lib/jquery-unveil/jquery.unveil.js"></script>
-            <script src="https://cdn.jsdelivr.net/blazy/1.6.3/blazy.min.js"></script>
-            <script src="~/js/site.js" asp-append-version="true"></script>
-        </environment>
-        <environment names="Staging,Production">
-            <script src="https://ajax.aspnetcdn.com/ajax/jquery/jquery-2.2.0.min.js"
-                    asp-fallback-src="~/lib/jquery/dist/jquery.min.js"
-                    asp-fallback-test="window.jQuery">
-            </script>
-            <script src="https://kendo.cdn.telerik.com/2016.2.714/js/kendo.all.min.js"
-                    asp-fallback-src="~/lib/kendo-ui/js/kendo.all.min.js"
-                    asp-fallback-test="window.kendo">
-            </script>
-            <script src="https://kendo.cdn.telerik.com/2016.2.714/js/kendo.aspnetmvc.min.js"
-                    asp-fallback-src="~/lib/kendo-ui/js/kendo.aspnetmvc.min.js"
-                    asp-fallback-test="kendo.data.transports['aspnetmvc-ajax']">
-            </script>
-            <script src="https://ajax.aspnetcdn.com/ajax/bootstrap/3.3.6/bootstrap.min.js"
-                    asp-fallback-src="~/lib/bootstrap/dist/js/bootstrap.min.js"
-                    asp-fallback-test="window.jQuery && window.jQuery.fn && window.jQuery.fn.modal">
-            </script>
-            <script src="~/lib/jquery-ajax-unobtrusive/dist/jquery.unobtrusive-ajax.js"></script>
-            <script src="~/lib/image-picker/dist/image-details.js"></script>
-            <script src="~/lib/image-picker/dist/image-picker.min.js"></script>
-            <script src="~/lib/justified-gallery/dist/jquery.justified-gallery.min.js"></script>
-            <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCwTwQMYg1fPJn532TT3o-_SQlbhEOf64g&libraries=places"></script>
-            <script src="~/lib/geocomplete/jquery.geocomplete.js"></script>
-            <script src="https://cdnjs.cloudflare.com/ajax/libs/lightgallery/1.2.19/js/lightgallery-all.min.js"></script>
-            <script src="~/lib/flex-images/jquery.flex-images.js"></script>
-            <script src="~/lib/jquery_lazyload/jquery.lazyload.js"></script>
-            <script src="~/lib/jquery_lazyload/jquery.scrollstop.js"></script>
-            <script src="~/lib/jquery-unveil/jquery.unveil.js"></script>
-            <script src="https://cdn.jsdelivr.net/blazy/1.6.3/blazy.min.js"></script>
-            <script src="~/js/site.min.js" asp-append-version="true"></script>
-        </environment>
+</div>
+<br/>
+@RenderSection("scripts", required: false)
+<div class="container body-content">
+    <environment names="Development">
+        <script src="~/lib/jquery/dist/jquery.js"></script>
+        <script src="~/lib/kendo-ui/js/kendo.all.min.js"></script>
+        <script src="~/lib/kendo-ui/js/kendo.aspnetmvc.min.js"></script>
+        <script src="~/lib/bootstrap/dist/js/bootstrap.js"></script>
+        <script src="~/lib/jquery-ajax-unobtrusive/dist/jquery.unobtrusive-ajax.js"></script>
+        <script src="~/lib/image-picker/dist/image-details.js"></script>
+        <script src="~/lib/image-picker/dist/image-picker.min.js"></script>
+        <script src="~/lib/justified-gallery/dist/jquery.justified-gallery.min.js"></script>
+        <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCwTwQMYg1fPJn532TT3o-_SQlbhEOf64g&libraries=places"></script>
+        <script src="~/lib/geocomplete/jquery.geocomplete.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/lightgallery/1.2.19/js/lightgallery-all.min.js"></script>
+        <script src="~/lib/flex-images/jquery.flex-images.js"></script>
+        <script src="~/lib/jquery_lazyload/jquery.lazyload.js"></script>
+        <script src="~/lib/jquery_lazyload/jquery.scrollstop.js"></script>
+        <script src="~/lib/jquery-unveil/jquery.unveil.js"></script>
+        <script src="https://cdn.jsdelivr.net/blazy/1.6.3/blazy.min.js"></script>
+        <script src="~/js/site.js" asp-append-version="true"></script>
+    </environment>
+    <environment names="Staging,Production">
+        <script src="https://ajax.aspnetcdn.com/ajax/jquery/jquery-2.2.0.min.js"
+                asp-fallback-src="~/lib/jquery/dist/jquery.min.js"
+                asp-fallback-test="window.jQuery">
 
-        @RenderBody()
-        <hr />
-        <footer>
-            <p>&copy; 2016 - MyServer</p>
-        </footer>
-    </div>
+        
+        </script>
+        <script src="https://kendo.cdn.telerik.com/2016.2.714/js/kendo.all.min.js"
+                asp-fallback-src="~/lib/kendo-ui/js/kendo.all.min.js"
+                asp-fallback-test="window.kendo">
 
-    
+        
+        </script>
+        <script src="https://kendo.cdn.telerik.com/2016.2.714/js/kendo.aspnetmvc.min.js"
+                asp-fallback-src="~/lib/kendo-ui/js/kendo.aspnetmvc.min.js"
+                asp-fallback-test="kendo.data.transports['aspnetmvc-ajax']">
+
+        
+        </script>
+        <script src="https://ajax.aspnetcdn.com/ajax/bootstrap/3.3.6/bootstrap.min.js"
+                asp-fallback-src="~/lib/bootstrap/dist/js/bootstrap.min.js"
+                asp-fallback-test="window.jQuery && window.jQuery.fn && window.jQuery.fn.modal">
+
+        
+        </script>
+        <script src="~/lib/jquery-ajax-unobtrusive/dist/jquery.unobtrusive-ajax.js"></script>
+        <script src="~/lib/image-picker/dist/image-details.js"></script>
+        <script src="~/lib/image-picker/dist/image-picker.min.js"></script>
+        <script src="~/lib/justified-gallery/dist/jquery.justified-gallery.min.js"></script>
+        <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCwTwQMYg1fPJn532TT3o-_SQlbhEOf64g&libraries=places"></script>
+        <script src="~/lib/geocomplete/jquery.geocomplete.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/lightgallery/1.2.19/js/lightgallery-all.min.js"></script>
+        <script src="~/lib/flex-images/jquery.flex-images.js"></script>
+        <script src="~/lib/jquery_lazyload/jquery.lazyload.js"></script>
+        <script src="~/lib/jquery_lazyload/jquery.scrollstop.js"></script>
+        <script src="~/lib/jquery-unveil/jquery.unveil.js"></script>
+        <script src="https://cdn.jsdelivr.net/blazy/1.6.3/blazy.min.js"></script>
+        <script src="~/js/site.min.js" asp-append-version="true"></script>
+    </environment>
+
+    @RenderBody()
+    <hr/>
+    <footer>
+        <p>&copy; 2016 - MyServer</p>
+    </footer>
+</div>
+
 
 </body>
 </html>

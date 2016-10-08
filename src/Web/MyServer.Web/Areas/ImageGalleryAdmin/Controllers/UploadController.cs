@@ -1,22 +1,30 @@
-﻿namespace MyServer.Web.Main.Areas.ImageGalleryAdmin.Controllers
+﻿namespace MyServer.Web.Areas.ImageGalleryAdmin.Controllers
 {
     using System;
     using System.Collections.Generic;
+
+    using Microsoft.AspNetCore.Http;
     using Microsoft.AspNetCore.Identity;
-    using Data;
-    using Data.Models;
+    using Microsoft.AspNetCore.Mvc;
+
+    using MyServer.Data;
+    using MyServer.Data.Models;
     using MyServer.Services.ImageGallery;
     using MyServer.Services.Users;
-    using Web.Areas.Shared.Controllers;
-    using Microsoft.AspNetCore.Mvc;
-    using Microsoft.AspNetCore.Http;
+    using MyServer.Web.Areas.Shared.Controllers;
 
     [Area("ImageGalleryAdmin")]
     public class UploadController : BaseController
     {
         private readonly IImageService imageService;
 
-        public UploadController(IUserService userService, UserManager<User> userManager, SignInManager<User> signInManager, MyServerDbContext dbContext, IImageService imageService) : base(userService, userManager, signInManager, dbContext)
+        public UploadController(
+            IUserService userService,
+            UserManager<User> userManager,
+            SignInManager<User> signInManager,
+            MyServerDbContext dbContext,
+            IImageService imageService)
+            : base(userService, userManager, signInManager, dbContext)
         {
             this.imageService = imageService;
         }

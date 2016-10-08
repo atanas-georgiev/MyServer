@@ -1,6 +1,7 @@
 ﻿namespace MyServer.Web.Areas.Account.Controllers
 {
     using System;
+    using System.Linq;
     using System.Threading.Tasks;
 
     using Microsoft.AspNetCore.Authorization;
@@ -11,16 +12,19 @@
     using MyServer.Common;
     using MyServer.Data;
     using MyServer.Data.Models;
-    using MyServer.Services;
     using MyServer.Services.Users;
     using MyServer.Web.Areas.Account.Models;
-    using System.Linq;
-    using Shared.Controllers;
+    using MyServer.Web.Areas.Shared.Controllers;
 
     [Area("Account")]
     public class RegisterController : BaseController
     {
-        public RegisterController(IUserService userService, UserManager<User> userManager, SignInManager<User> signInManager, MyServerDbContext dbContext) : base(userService, userManager, signInManager, dbContext)
+        public RegisterController(
+            IUserService userService,
+            UserManager<User> userManager,
+            SignInManager<User> signInManager,
+            MyServerDbContext dbContext)
+            : base(userService, userManager, signInManager, dbContext)
         {
         }
 
@@ -37,10 +41,10 @@
             {
                 var user = new User
                                {
-                                   UserName = model.Email, 
-                                   Email = model.Email, 
-                                   FirstName = model.FirstName, 
-                                   LastName = model.LastName, 
+                                   UserName = model.Email,
+                                   Email = model.Email,
+                                   FirstName = model.FirstName,
+                                   LastName = model.LastName,
                                    CreatedOn = DateTime.UtcNow
                                };
 

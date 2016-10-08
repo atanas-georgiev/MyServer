@@ -9,18 +9,18 @@
     {
         void Add(Album album);
 
+        string GenerateZipArchive(Guid id);
+
         IQueryable<Album> GetAll();
 
         IQueryable<Album> GetAllReqursive();
 
         Album GetById(Guid id);
 
-        void Update(Album album);
-
         void Remove(Guid id);
 
-        void UpdateCoverImage(Guid album, Guid image);
+        void Update(Album album);
 
-        string GenerateZipArchive(Guid id);
+        void UpdateCoverImage(Guid album, Guid image);
     }
 }

@@ -1,19 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
-using MyServer.Services.ImageGallery;
-using MyServer.Web.Areas.ImageGalleryAdmin.Models.Album;
-using MyServer.Services.Mappings;
-using MyServer.Data.Models;
-namespace MyServer.Controllers
+﻿namespace MyServer.Web.Controllers
 {
+    using Microsoft.AspNetCore.Mvc;
+
+    using MyServer.Services.ImageGallery;
+
     public class HomeController : Controller
     {
-        private readonly IFileService fileService;
         private readonly IAlbumService albumService;
 
+        private readonly IFileService fileService;
 
         public HomeController(IFileService fileService, IAlbumService albumService)
         {
@@ -21,28 +16,28 @@ namespace MyServer.Controllers
             this.albumService = albumService;
         }
 
-        public IActionResult Index()
-        {
-            return View();
-        }
-
         public IActionResult About()
         {
-            ViewData["Message"] = "Your application description page.";
+            this.ViewData["Message"] = "Your application description page.";
 
-            return View();
+            return this.View();
         }
 
         public IActionResult Contact()
         {
-            ViewData["Message"] = "Your contact page.";
+            this.ViewData["Message"] = "Your contact page.";
 
-            return View();
+            return this.View();
         }
 
         public IActionResult Error()
         {
-            return View();
+            return this.View();
+        }
+
+        public IActionResult Index()
+        {
+            return this.View();
         }
     }
 }

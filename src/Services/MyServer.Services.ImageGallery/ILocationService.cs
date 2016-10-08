@@ -1,7 +1,8 @@
 ﻿namespace MyServer.Services.ImageGallery
 {
-    using MyServer.Data.Models;
     using System.Threading.Tasks;
+
+    using MyServer.Data.Models;
 
     public interface ILocationService
     {

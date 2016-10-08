@@ -1,4 +1,10 @@
-﻿@model MyServer.Web.Main.Areas.ImageGalleryAdmin.Models.Album.AlbumEditViewModel
+﻿@using System.IO
+@using System.Threading.Tasks
+@using Microsoft.ApplicationInsights.Extensibility
+@using Microsoft.AspNetCore.Mvc.Razor
+@using Microsoft.AspNetCore.Mvc.ViewFeatures
+@using MyServer.Web.Areas.ImageGalleryAdmin.Models.Album
+@model MyServer.Web.Areas.ImageGalleryAdmin.Models.Album.AlbumEditViewModel
 
 <select multiple="multiple" class="image-picker show-html show-labels">
     @foreach (var image in Model.Images.OrderBy(x => x.DateTaken))

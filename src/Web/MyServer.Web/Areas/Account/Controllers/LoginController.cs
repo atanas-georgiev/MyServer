@@ -2,64 +2,31 @@
 {
     using System;
     using System.Linq;
+    using System.Security.Claims;
     using System.Threading.Tasks;
 
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Identity;
+    using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
     using Microsoft.AspNetCore.Mvc;
 
+    using MyServer.Common;
     using MyServer.Data;
     using MyServer.Data.Models;
-    using MyServer.Services;
     using MyServer.Services.Users;
     using MyServer.Web.Areas.Account.Models;
-    using Shared.Controllers;
-    using System.Security.Claims;
-    using Common;
-    using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+    using MyServer.Web.Areas.Shared.Controllers;
 
     [Area("Account")]
     public class LoginController : BaseController
     {
-        public LoginController(IUserService userService, UserManager<User> userManager, SignInManager<User> signInManager, MyServerDbContext dbContext) 
+        public LoginController(
+            IUserService userService,
+            UserManager<User> userManager,
+            SignInManager<User> signInManager,
+            MyServerDbContext dbContext)
             : base(userService, userManager, signInManager, dbContext)
         {
-        }
-
-        [AllowAnonymous]
-        public ActionResult Index(string returnUrl)
-        {
-            this.ViewData["ReturnUrl"] = returnUrl;
-            return this.View();
-        }
-
-        [HttpPost]
-        [AllowAnonymous]
-        [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Index(AccountLoginViewModel model, string returnUrl = null)
-        {
-            this.ViewData["ReturnUrl"] = returnUrl;
-
-            if (!this.ModelState.IsValid)
-            {
-                return this.View(model);
-            }
-
-            var result =
-                await
-                this.signInManager.PasswordSignInAsync(
-                    model.Email,
-                    model.Password,
-                    model.RememberMe,
-                    lockoutOnFailure: false);
-
-            if (result.Succeeded)
-            {
-                return this.RedirectToLocal(returnUrl);
-            }
-
-            this.ModelState.AddModelError(string.Empty, "Invalid login attempt.");
-            return this.View(model);
         }
 
         [HttpPost]
@@ -95,7 +62,12 @@
                 return this.RedirectToAction(nameof(Index));
             }
 
-            var result = await this.signInManager.ExternalLoginSignInAsync(info.LoginProvider, info.ProviderKey, isPersistent: false);
+            var result =
+                await
+                    this.signInManager.ExternalLoginSignInAsync(
+                        info.LoginProvider,
+                        info.ProviderKey,
+                        isPersistent: false);
 
             if (result.Succeeded)
             {
@@ -108,15 +80,15 @@
                 var lastName = info.Principal.Claims.FirstOrDefault(x => x.Type == ClaimTypes.Surname);
                 this.ViewBag.ReturnUrl = returnUrl;
 
-                //this.ViewBag.LoginProvider = loginInfo.Login.LoginProvider;
+                // this.ViewBag.LoginProvider = loginInfo.Login.LoginProvider;
                 return this.View(
                     "ExternalLoginConfirmation",
                     new AccountExternalLoginConfirmationViewModel
-                    {
-                        Email = email == null ? "" : email.Value,
-                        FirstName = firstName == null ? "" : firstName.Value,
-                        LastName = lastName == null ? "" : lastName.Value
-                    });
+                        {
+                            Email = email == null ? string.Empty : email.Value,
+                            FirstName = firstName == null ? string.Empty : firstName.Value,
+                            LastName = lastName == null ? string.Empty : lastName.Value
+                        });
             }
         }
 
@@ -124,24 +96,25 @@
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> ExternalLoginConfirmation(
-            AccountExternalLoginConfirmationViewModel model, 
+            AccountExternalLoginConfirmationViewModel model,
             string returnUrl = null)
         {
-            //if (this.ModelState.IsValid)
             {
+                // if (this.ModelState.IsValid)
                 var info = await this.signInManager.GetExternalLoginInfoAsync();
                 if (info == null)
                 {
                     return this.View("ExternalLoginFailure");
                 }
+
                 var user = new User
-                {
-                    UserName = model.Email,
-                    Email = model.Email,
-                    CreatedOn = DateTime.Now,
-                    FirstName = model.FirstName,
-                    LastName = model.LastName
-                };
+                               {
+                                   UserName = model.Email,
+                                   Email = model.Email,
+                                   CreatedOn = DateTime.Now,
+                                   FirstName = model.FirstName,
+                                   LastName = model.LastName
+                               };
 
                 var result = await this.userManager.CreateAsync(user);
                 if (result.Succeeded)
@@ -152,12 +125,14 @@
                         await this.signInManager.SignInAsync(user, isPersistent: false);
 
                         var role = this.dbContext.Roles.First(x => x.Name == MyServerRoles.User);
-                        this.dbContext.UserRoles.Add(new IdentityUserRole<string>() { RoleId = role.Id, UserId = user.Id });
+                        this.dbContext.UserRoles.Add(
+                            new IdentityUserRole<string>() { RoleId = role.Id, UserId = user.Id });
                         this.dbContext.SaveChanges();
 
                         return this.RedirectToLocal(returnUrl);
                     }
                 }
+
                 this.AddErrors(result);
             }
 
@@ -169,6 +144,42 @@
         public ActionResult ExternalLoginFailure()
         {
             return this.View();
+        }
+
+        [AllowAnonymous]
+        public ActionResult Index(string returnUrl)
+        {
+            this.ViewData["ReturnUrl"] = returnUrl;
+            return this.View();
+        }
+
+        [HttpPost]
+        [AllowAnonymous]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> Index(AccountLoginViewModel model, string returnUrl = null)
+        {
+            this.ViewData["ReturnUrl"] = returnUrl;
+
+            if (!this.ModelState.IsValid)
+            {
+                return this.View(model);
+            }
+
+            var result =
+                await
+                    this.signInManager.PasswordSignInAsync(
+                        model.Email,
+                        model.Password,
+                        model.RememberMe,
+                        lockoutOnFailure: false);
+
+            if (result.Succeeded)
+            {
+                return this.RedirectToLocal(returnUrl);
+            }
+
+            this.ModelState.AddModelError(string.Empty, "Invalid login attempt.");
+            return this.View(model);
         }
     }
 }

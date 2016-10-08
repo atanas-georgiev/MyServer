@@ -1,22 +1,18 @@
 ﻿namespace MyServer.Web.Areas.ImageGallery.Models.Image
 {
     using System;
+    using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
+    using System.Text;
+
     using AutoMapper;
+
     using MyServer.Common.ImageGallery;
     using MyServer.Data.Models;
-    using Services.Mappings;
-    using Microsoft.AspNetCore.Hosting;
-    using System.Text;
-    using System.Globalization;
-    using Helpers;
-    using ImageGallery.Models.Image;
-    using System.Collections.Generic;
+    using MyServer.Services.Mappings;
 
     public class ImageViewModel : IMapFrom<Image>, IHaveCustomMappings
     {
-        public Guid Id { get; set; }
-
         public Guid? AlbumId { get; set; }
 
         [MaxLength(50)]
@@ -39,15 +35,17 @@
         [MaxLength(50)]
         public string FocusLen { get; set; }
 
-        public int Height { get; set; }
-
-        public string Info { get; set; }
-
-        public virtual GpsDataViewModel ImageGpsData { get; set; }
+        public List<double> GpsCoordinates { get; set; }
 
         public string GpsName { get; set; }
 
-        public List<double> GpsCoordinates { get; set; }
+        public int Height { get; set; }
+
+        public Guid Id { get; set; }
+
+        public virtual GpsDataViewModel ImageGpsData { get; set; }
+
+        public string Info { get; set; }
 
         [MaxLength(50)]
         public string Iso { get; set; }
@@ -86,19 +84,35 @@
                 .ForMember(m => m.Info, opt => opt.MapFrom(src => MapStatus(src)))
                 .ForMember(m => m.GpsCoordinates, opt => opt.MapFrom(src => MapGpsCoordinates(src)))
                 .ForMember(m => m.GpsName, opt => opt.MapFrom(src => MapGpsName(src)))
-                .ForMember(m => m.OriginalDownloadPath, opt => opt.MapFrom(c => Constants.TempContentFolder + "/" + c.Id + "/" + c.OriginalFileName))
-                .ForMember(m => m.MiddleImageSource, opt => opt.MapFrom(c => Constants.MainContentFolder + "/" + c.AlbumId + "/" + Constants.ImageFolderMiddle + "/" + c.FileName))
-                .ForMember(m => m.LowImageSource, opt => opt.MapFrom(c => Constants.MainContentFolder + "/" + c.AlbumId + "/" + Constants.ImageFolderLow + "/" + c.FileName));
+                .ForMember(
+                    m => m.OriginalDownloadPath,
+                    opt => opt.MapFrom(c => Constants.TempContentFolder + "/" + c.Id + "/" + c.OriginalFileName))
+                .ForMember(
+                    m => m.MiddleImageSource,
+                    opt =>
+                        opt.MapFrom(
+                            c =>
+                                Constants.MainContentFolder + "/" + c.AlbumId + "/" + Constants.ImageFolderMiddle
+                                + "/" + c.FileName))
+                .ForMember(
+                    m => m.LowImageSource,
+                    opt =>
+                        opt.MapFrom(
+                            c =>
+                                Constants.MainContentFolder + "/" + c.AlbumId + "/" + Constants.ImageFolderLow + "/"
+                                + c.FileName));
+        }
+
+        static List<double> MapGpsCoordinates(Image source)
+        {
+            return source.ImageGpsData != null
+                       ? new List<double>() { source.ImageGpsData.Latitude.Value, source.ImageGpsData.Longitude.Value }
+                       : null;
         }
 
         static string MapGpsName(Image source)
         {
             return source.ImageGpsData?.LocationName;
-        }
-
-        static List<double> MapGpsCoordinates(Image source)
-        {
-            return source.ImageGpsData != null ? new List<double>() { source.ImageGpsData.Latitude.Value, source.ImageGpsData.Longitude.Value } : null;
         }
 
         static string MapStatus(Image source)
@@ -151,8 +165,7 @@
 
             if (source.DateTaken != null)
             {
-                result.Append(
-                    "<br/>" + source.DateTaken.Value.ToString("dd-MMM-yy"));
+                result.Append("<br/>" + source.DateTaken.Value.ToString("dd-MMM-yy"));
             }
 
             result.Append("</small>");

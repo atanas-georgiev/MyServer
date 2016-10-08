@@ -1,36 +1,32 @@
 ﻿namespace MyServer.Web.Areas.Shared.Controllers
 {
-    using System;
     using System.Linq;
 
     using Microsoft.AspNetCore.Identity;
-    using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.AspNetCore.Mvc.Filters;
 
-    using MyServer.Common;
     using MyServer.Data;
     using MyServer.Data.Models;
     using MyServer.Services.Users;
-    using System.Threading.Tasks;
 
     public class BaseController : Controller
     {
-        protected readonly MyServerDbContext dbContext;        
+        protected readonly MyServerDbContext dbContext;
 
         protected readonly SignInManager<User> signInManager;
 
         protected readonly UserManager<User> userManager;
 
         public BaseController(
-            IUserService userService, 
-            UserManager<User> userManager, 
-            SignInManager<User> signInManager,             
+            IUserService userService,
+            UserManager<User> userManager,
+            SignInManager<User> signInManager,
             MyServerDbContext dbContext)
         {
             this.UserService = userService;
             this.userManager = userManager;
-            this.signInManager = signInManager;            
+            this.signInManager = signInManager;
             this.dbContext = dbContext;
         }
 
@@ -40,7 +36,8 @@
 
         public override void OnActionExecuting(ActionExecutingContext context)
         {
-            this.UserProfile = this.UserService.GetAll().FirstOrDefault(u => u.UserName == context.HttpContext.User.Identity.Name);
+            this.UserProfile =
+                this.UserService.GetAll().FirstOrDefault(u => u.UserName == context.HttpContext.User.Identity.Name);
             base.OnActionExecuting(context);
         }
 
@@ -48,7 +45,7 @@
         {
             foreach (var error in result.Errors)
             {
-            //    this.ModelState.AddModelError(string.Empty, error);
+                // this.ModelState.AddModelError(string.Empty, error);
             }
         }
 

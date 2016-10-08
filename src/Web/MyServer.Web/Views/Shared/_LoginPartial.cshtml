@@ -1,16 +1,16 @@
-﻿@using Microsoft.AspNetCore.Identity
+﻿@using Microsoft.ApplicationInsights.Extensibility
+@using Microsoft.AspNetCore.Mvc.Razor
+@using Microsoft.AspNetCore.Mvc.ViewFeatures
 @using MyServer.Data.Models
-@using MyServer.Models
-
-@inject SignInManager<MyServer.Data.Models.User> SignInManager
-@inject UserManager<MyServer.Data.Models.User> UserManager
+@inject SignInManager<User> SignInManager
+@inject UserManager<User> UserManager
 
 @if (SignInManager.IsSignedIn(User))
 {
     <form asp-area="Account" asp-controller="Login" asp-action="Exit" method="post" id="logoutForm" class="navbar-right">
         <ul class="nav navbar-nav navbar-right">
             <li>
-                <a asp-area="Account" asp-controller="Manage" asp-action="Index" title="Manage">@UserManager.GetUserName(User)</a>
+                <a asp-area="Account" asp-controller="Manage" asp-action="Index" title="Manage">@((object)UserManager.GetUserName(User))</a>
             </li>
             <li>
                 <button type="submit" class="btn btn-link navbar-btn navbar-link">Log off</button>
@@ -21,7 +21,11 @@
 else
 {
     <ul class="nav navbar-nav navbar-right">
-        <li><a asp-area="Account" asp-controller="Register" asp-action="Index">Register</a></li>
-        <li><a asp-area="Account" asp-controller="Login" asp-action="Index">Log in</a></li>
+        <li>
+            <a asp-area="Account" asp-controller="Register" asp-action="Index">Register</a>
+        </li>
+        <li>
+            <a asp-area="Account" asp-controller="Login" asp-action="Index">Log in</a>
+        </li>
     </ul>
 }

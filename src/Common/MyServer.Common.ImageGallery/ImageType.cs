@@ -2,9 +2,9 @@
 {
     public enum ImageType
     {
-        Low, 
+        Low,
 
-        Medium, 
+        Medium,
 
         Original
     }

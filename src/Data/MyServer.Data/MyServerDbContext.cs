@@ -1,7 +1,6 @@
 ﻿namespace MyServer.Data
 {
     using System;
-    using System.Linq;
 
     using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
     using Microsoft.EntityFrameworkCore;
@@ -52,14 +51,9 @@
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<Album>()
-                .HasOne(p => p.Cover)
-                .WithMany(b => b.Covers);
+            modelBuilder.Entity<Album>().HasOne(p => p.Cover).WithMany(b => b.Covers);
 
-            modelBuilder.Entity<Image>()
-                    .HasMany(x => x.Covers)
-                    .WithOne(x => x.Cover)
-                    .HasForeignKey(x => x.CoverId);
+            modelBuilder.Entity<Image>().HasMany(x => x.Covers).WithOne(x => x.Cover).HasForeignKey(x => x.CoverId);
 
             /*
             modelBuilder.Entity<User>().Map(m => m.Requires("IsDeleted").HasValue(false)).Ignore(m => m.IsDeleted);
@@ -102,7 +96,8 @@
             // Approach via @julielerman: http://bit.ly/123661P
             foreach (var entry in this.ChangeTracker.Entries())
             {
-                if (entry.Entity is IAuditInfo && ((entry.State == EntityState.Added) || (entry.State == EntityState.Modified)))
+                if (entry.Entity is IAuditInfo
+                    && ((entry.State == EntityState.Added) || (entry.State == EntityState.Modified)))
                 {
                     var entity = entry.Entity as IAuditInfo;
                     if (entry.State == EntityState.Added && entity.CreatedOn == default(DateTime))

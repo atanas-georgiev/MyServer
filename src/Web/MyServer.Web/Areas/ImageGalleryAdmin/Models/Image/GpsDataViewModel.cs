@@ -1,7 +1,7 @@
-﻿namespace MyServer.Web.Main.Areas.ImageGallery.Models.Image
+﻿namespace MyServer.Web.Areas.ImageGalleryAdmin.Models.Image
 {
     using MyServer.Data.Models;
-    using Services.Mappings;
+    using MyServer.Services.Mappings;
 
     public class GpsDataViewModel : IMapFrom<ImageGpsData>
     {

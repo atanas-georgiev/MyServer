@@ -2,21 +2,19 @@
 {
     using System;
     using System.Linq;
-    
     using System.Net.Http;
+    using System.Threading.Tasks;
+    using System.Xml.Linq;
 
     using MyServer.Data.Common;
     using MyServer.Data.Models;
-    using System.Xml;
-    using System.Xml.Linq;
-    using System.Threading.Tasks;
 
     public class LocationService : ILocationService
     {
         private IRepository<ImageGpsData, Guid> gpsDbData;
 
         public LocationService(IRepository<ImageGpsData, Guid> gpsDbData)
-        {            
+        {
             this.gpsDbData = gpsDbData;
         }
 
@@ -32,22 +30,20 @@
             if (!string.IsNullOrEmpty(location))
             {
                 var httpClient = new HttpClient();
-                var result1 = await httpClient.GetStringAsync("https://maps.googleapis.com/maps/api/geocode/xml?address=" + location + "&key=AIzaSyAJOGz_xyAi_2CdRPW4HX-g5E1WcTwQMSY");
+                var result1 =
+                    await
+                        httpClient.GetStringAsync(
+                            "https://maps.googleapis.com/maps/api/geocode/xml?address=" + location
+                            + "&key=AIzaSyAJOGz_xyAi_2CdRPW4HX-g5E1WcTwQMSY");
                 var xmlElm = XElement.Parse(result1);
 
-                var status = (from elm in xmlElm.Descendants()
-                              where elm.Name == "status"
-                              select elm).FirstOrDefault();
+                var status = (from elm in xmlElm.Descendants() where elm.Name == "status" select elm).FirstOrDefault();
 
                 if (status.Value.ToLower() == "ok")
                 {
-                    var lat = (from elm in xmlElm.Descendants()
-                               where elm.Name == "lat"
-                               select elm).FirstOrDefault();
+                    var lat = (from elm in xmlElm.Descendants() where elm.Name == "lat" select elm).FirstOrDefault();
 
-                    var lng = (from elm in xmlElm.Descendants()
-                               where elm.Name == "lng"
-                               select elm).FirstOrDefault();
+                    var lng = (from elm in xmlElm.Descendants() where elm.Name == "lng" select elm).FirstOrDefault();
 
                     if (lat != null && lng != null)
                     {
@@ -67,7 +63,7 @@
                 }
             }
 
-            return null;                
+            return null;
         }
 
         public async Task<ImageGpsData> GetGpsData(double latitude, double longitude)
@@ -77,21 +73,22 @@
             if (this.gpsDbData.All().Any(x => x.Latitude == latitude && x.Longitude == longitude))
             {
                 return this.gpsDbData.All().First();
-            }            
+            }
 
             var httpClient = new HttpClient();
-            var result1 = await httpClient.GetStringAsync("https://maps.googleapis.com/maps/api/geocode/xml?latlng=" + longitude.ToString() + "," + latitude.ToString() +"&key=AIzaSyAJOGz_xyAi_2CdRPW4HX-g5E1WcTwQMSY");
+            var result1 =
+                await
+                    httpClient.GetStringAsync(
+                        "https://maps.googleapis.com/maps/api/geocode/xml?latlng=" + longitude.ToString() + ","
+                        + latitude.ToString() + "&key=AIzaSyAJOGz_xyAi_2CdRPW4HX-g5E1WcTwQMSY");
             var xmlElm = XElement.Parse(result1);
 
-            var status = (from elm in xmlElm.Descendants()
-                          where elm.Name == "status"
-                          select elm).FirstOrDefault();
+            var status = (from elm in xmlElm.Descendants() where elm.Name == "status" select elm).FirstOrDefault();
 
             if (status.Value.ToLower() == "ok")
             {
-                var res = (from elm in xmlElm.Descendants()
-                           where elm.Name == "formatted_address"
-                           select elm).FirstOrDefault();
+                var res =
+                    (from elm in xmlElm.Descendants() where elm.Name == "formatted_address" select elm).FirstOrDefault();
                 if (res != null)
                 {
                     result.Latitude = latitude;

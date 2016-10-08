@@ -3,7 +3,9 @@
     public enum MyServerAccessType
     {
         Public,
+
         Registrated,
+
         Private
     }
 }

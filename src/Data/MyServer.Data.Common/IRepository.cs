@@ -4,8 +4,9 @@
     using System.ComponentModel.DataAnnotations.Schema;
     using System.Linq;
 
-    using MyServer.Data.Common.Models;
     using Microsoft.EntityFrameworkCore;
+
+    using MyServer.Data.Common.Models;
 
     public interface IRepository<T> : IRepository<T, string>
         where T : class, IHavePrimaryKey<string>, IDeletableEntity, IAuditInfo

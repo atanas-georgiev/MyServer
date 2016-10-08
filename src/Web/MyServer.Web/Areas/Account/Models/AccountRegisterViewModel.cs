@@ -1,7 +1,8 @@
 ﻿namespace MyServer.Web.Areas.Account.Models
 {
-    using Resources;
     using System.ComponentModel.DataAnnotations;
+
+    using MyServer.Web.Resources;
 
     public class AccountRegisterViewModel
     {

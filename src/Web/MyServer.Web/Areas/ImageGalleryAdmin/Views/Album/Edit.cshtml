@@ -1,4 +1,11 @@
-@model MyServer.Web.Main.Areas.ImageGalleryAdmin.Models.Album.AlbumEditViewModel
+@using System.IO
+@using System.Threading.Tasks
+@using Microsoft.ApplicationInsights.Extensibility
+@using Microsoft.AspNetCore.Mvc.Razor
+@using Microsoft.AspNetCore.Mvc.ViewFeatures
+@using MyServer.Web.Areas.ImageGalleryAdmin.Models.Album
+@using MyServer.Web.Areas.ImageGalleryAdmin.Models.Image
+@model MyServer.Web.Areas.ImageGalleryAdmin.Models.Album.AlbumEditViewModel
 
 @{
     ViewData["Title"] = "Edit";
@@ -10,8 +17,8 @@
 <div class="well id="album-data-partial">
     @Html.Partial("_AlbumDataPartial", Model)
 </div>
-<div class="well" id="image-edit-box" style="display:none">
-    @Html.Partial("_ImageUpdate", new MyServer.Web.Main.Areas.ImageGalleryAdmin.Models.Image.ImageUpdateViewModel())
+<div class="well" id="image-edit-box" style="display: none">
+    @Html.Partial("_ImageUpdate", new ImageUpdateViewModel())
 </div>
 <button class="btn select-all">Select All</button>
 <div class="well" id="image-list-box">
@@ -19,7 +26,9 @@
 </div>
 
 @section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
 }
 
 <script>
@@ -32,27 +41,28 @@
 
                 });
 
-        $("select.image-picker").imagepicker();
+            $("select.image-picker").imagepicker();
 
-        $("#image-edit-box-modal-date").kendoDatePicker();
+            $("#image-edit-box-modal-date").kendoDatePicker();
 
-        $(".mygallery").justifiedGallery({
-            rowHeight: 200,
-            maxRowHeight: 300,
-            fixedHeight: false,
-            margins: 2,
-            lastRow: 'nojustify',
-            captions: false,
-            border: 0,
-            thumbnailPath: function (currentPath, width, height) {
-                if (Math.max(width, height) > 300) {
-                    return currentPath.replace(/(.*)(_[a-z]+)(\..*)/, "$1Low$2");
-                } else {
-                    return currentPath.replace(/(.*)(_[a-z]+)(\..*)/, "$1Medium$2");
-                }
-            }
+            $(".mygallery")
+                .justifiedGallery({
+                    rowHeight: 200,
+                    maxRowHeight: 300,
+                    fixedHeight: false,
+                    margins: 2,
+                    lastRow: 'nojustify',
+                    captions: false,
+                    border: 0,
+                    thumbnailPath: function(currentPath, width, height) {
+                        if (Math.max(width, height) > 300) {
+                            return currentPath.replace(/(.*)(_[a-z]+)(\..*)/, "$1Low$2");
+                        } else {
+                            return currentPath.replace(/(.*)(_[a-z]+)(\..*)/, "$1Medium$2");
+                        }
+                    }
+                });
+
+            $(".image-edit-box-modal-location").geocomplete();
         });
-
-        $(".image-edit-box-modal-location").geocomplete();
-    });
 </script>

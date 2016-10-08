@@ -1,23 +1,20 @@
-﻿using MyServer.Common.ImageGallery;
-using System;
-using System.IO;
-
-namespace MyServer.Services.ImageGallery
+﻿namespace MyServer.Services.ImageGallery
 {
+    using System;
+    using System.IO;
+
+    using MyServer.Common.ImageGallery;
+
     public interface IFileService
     {
-        string MakeValidFileName(string name);
+        void CreateInitialFolders(Guid albumId);
 
         void EmptyTempFolder();
 
-        void CreateInitialFolders(Guid albumId);
-
         string GetImageFolder(Guid albumId, ImageType type);
 
-        void Save(
-            Stream inputStream,
-            ImageType type,
-            string originalFilename,
-            Guid albumId);
+        string MakeValidFileName(string name);
+
+        void Save(Stream inputStream, ImageType type, string originalFilename, Guid albumId);
     }
 }

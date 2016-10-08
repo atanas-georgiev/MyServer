@@ -1,24 +1,30 @@
-@model MyServer.Web.Main.Areas.ImageGalleryAdmin.Models.Album.AlbumEditViewModel
+@using System.IO
+@using System.Threading.Tasks
+@using Microsoft.ApplicationInsights.Extensibility
+@using Microsoft.AspNetCore.Mvc.Razor
+@using Microsoft.AspNetCore.Mvc.ViewFeatures
+@using MyServer.Web.Areas.ImageGalleryAdmin.Models.Album
+@model MyServer.Web.Areas.ImageGalleryAdmin.Models.Album.AlbumEditViewModel
 
 <form asp-action="AlbumDataPartial" data-ajax="true" data-ajax-method="POST" data-ajax-mode="replace" data-ajax-update="#album-data-partial">
     <div class="form-horizontal">
         <h4>AlbumEditViewModel</h4>
-        <hr />
+        <hr/>
         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-        
-        <input type="hidden" asp-for="Id" class="form-control" />
-        
+
+        <input type="hidden" asp-for="Id" class="form-control"/>
+
         <div class="form-group">
             <label asp-for="Title" class="col-md-2 control-label"></label>
             <div class="col-md-10">
-                <input asp-for="Title" class="form-control" />
+                <input asp-for="Title" class="form-control"/>
                 <span asp-validation-for="Title" class="text-danger" />
             </div>
         </div>
         <div class="form-group">
             <label asp-for="Description" class="col-md-2 control-label"></label>
             <div class="col-md-10">
-                @Html.Kendo().EditorFor(model => model.Description).HtmlAttributes(new { @class = "form-control" }).Encoded(false)                
+                @Html.Kendo().EditorFor(model => model.Description).HtmlAttributes(new { @class = "form-control" }).Encoded(false)
                 <span asp-validation-for="Description" class="text-danger" />
             </div>
         </div>
@@ -31,7 +37,7 @@
 
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Save" class="btn btn-default" />
+                <input type="submit" value="Save" class="btn btn-default"/>
             </div>
         </div>
 
@@ -46,10 +52,10 @@
     function onComplete(e) {
         $.ajax({
             url: '/ImageGalleryAdmin/Album/UpdateImages',
-            error: function () {
-              //  $('#info').html('<p>An error has occurred</p>');
+            error: function() {
+                //  $('#info').html('<p>An error has occurred</p>');
             },
-            success: function (data) {
+            success: function(data) {
                 $("#image-list-box").html(data);
                 ImageListUpdate();
             },

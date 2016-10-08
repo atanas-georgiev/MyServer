@@ -1,26 +1,22 @@
-@using Kendo.Mvc.UI
-@model IEnumerable<MyServer.Web.Main.Areas.ImageGalleryAdmin.Models.Album.AlbumListViewModel>
+@using System.IO
+@using System.Threading.Tasks
+@using Microsoft.ApplicationInsights.Extensibility
+@using Microsoft.AspNetCore.Mvc.Razor
+@using Microsoft.AspNetCore.Mvc.ViewFeatures
+@using MyServer.Web.Areas.ImageGalleryAdmin.Models.Album
+@model IEnumerable<MyServer.Web.Areas.ImageGalleryAdmin.Models.Album.AlbumListViewModel>
 
 @{
     ViewBag.Title = "Albums";
 }
-<br />
-<br />
+<br/>
+<br/>
 
 <div class="demo-section k-content wide">
-    <a asp-action="Create" class="btn">Create New</a>    
-    <br />
-    <br />
-    @(Html.Kendo().ListView(Model)
-        .Name("listAlbums")
-        .TagName("div")
-        .ClientTemplateId("template")
-        .DataSource(dataSource => dataSource.Ajax()
-            .Model(model => model.Id("Id"))
-            .PageSize(10)
-            .Read(read => read.Action("AlbumsRead", "Json"))
-            .Create(create => create.Action("AlbumsCreate", "Json"))
-            .Destroy(destroy => destroy.Action("AlbumsDestroy", "Json"))))
+    <a asp-action="Create" class="btn">Create New</a>
+    <br/>
+    <br/>
+    @(Html.Kendo().ListView(Model).Name("listAlbums").TagName("div").ClientTemplateId("template").DataSource(dataSource => dataSource.Ajax().Model(model => model.Id("Id")).PageSize(10).Read(read => read.Action("AlbumsRead", "Json")).Create(create => create.Action("AlbumsCreate", "Json")).Destroy(destroy => destroy.Action("AlbumsDestroy", "Json"))))
 </div>
 <script type="text/x-kendo-tmpl" id="template">
     <div class="product-view k-widget" style="width:#:Width#px;height:#:Height#px; background-image: url(#:CoverImage#);background-size:contain; background-repeat: no-repeat">
@@ -38,10 +34,11 @@
     $(function() {
         var listView = $("#listView").data("listAlbums");
 
-        $(".k-add-button").click(function(e) {
-            listView.add();
-            e.preventDefault();
-        });
+        $(".k-add-button")
+            .click(function(e) {
+                listView.add();
+                e.preventDefault();
+            });
     });
 </script>
 <style>
@@ -54,43 +51,39 @@
         position: relative;
     }
 
-        .product-view:nth-child(even) {
-            border-left-width: 0;
-        }
+    .product-view:nth-child(even) { border-left-width: 0; }
 
-        .product-view dl {
-            margin: 10px 10px 0;
-            padding: 0;
-            overflow: hidden;
-        }
+    .product-view dl {
+        margin: 10px 10px 0;
+        padding: 0;
+        overflow: hidden;
+    }
 
-        .product-view dt, dd {
-            margin: 0;
-            padding: 0;
-            width: 100%;
-            line-height: 24px;
-            font-size: 18px;
-        }
+    .product-view dt, dd {
+        margin: 0;
+        padding: 0;
+        width: 100%;
+        line-height: 24px;
+        font-size: 18px;
+    }
 
-        .product-view dt {
-            font-size: 11px;
-            height: 16px;
-            line-height: 16px;
-            text-transform: uppercase;
-            opacity: 0.5;
-        }
+    .product-view dt {
+        font-size: 11px;
+        height: 16px;
+        line-height: 16px;
+        text-transform: uppercase;
+        opacity: 0.5;
+    }
 
-        .product-view dd {
-            height: 46px;
-            overflow: hidden;
-            white-space: nowrap;
-            text-overflow: ellipsis;
-        }
+    .product-view dd {
+        height: 46px;
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+    }
 
-            .product-view dd .k-widget,
-            .product-view dd .k-textbox {
-                font-size: 14px;
-            }
+    .product-view dd .k-widget,
+    .product-view dd .k-textbox { font-size: 14px; }
 
     .k-listview {
         border-width: 1px 0 0;
@@ -109,31 +102,24 @@
         background-color: rgba(0, 0, 0, 0.1);
     }
 
-    .k-pager-wrap {
-        border-top: 0;
-    }
+    .k-pager-wrap { border-top: 0; }
 
     span.k-invalid-msg {
         position: absolute;
         margin-left: 6px;
     }
 
-    .k-add-button {
-        margin-bottom: 2em;
-    }
+    .k-add-button { margin-bottom: 2em; }
 
     @@media only screen and (max-width: 620px) {
+        .product-view { width: 100%; }
 
-        .product-view {
-            width: 100%;
-        }
-
-            .product-view:nth-child(even) {
-                border-left-width: 1px;
-            }
+        .product-view:nth-child(even) { border-left-width: 1px; }
     }
 </style>
 
 @section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
 }

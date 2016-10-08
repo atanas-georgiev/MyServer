@@ -1,39 +1,38 @@
 ﻿namespace MyServer.Services.ImageGallery
 {
     using System;
-    //using System.Drawing;
-    //using System.Drawing.Imaging;
     using System.Globalization;
     using System.IO;
     using System.Linq;
 
     using ImageProcessorCore;
 
+    using Microsoft.AspNetCore.Hosting;
+    using Microsoft.EntityFrameworkCore;
+
     using MyServer.Common.ImageGallery;
     using MyServer.Data.Common;
     using MyServer.Data.Models;
 
-    using Directory = System.IO.Directory;
     using Image = MyServer.Data.Models.Image;
-    using Microsoft.AspNetCore.Hosting;
-    using Microsoft.EntityFrameworkCore;
-    using ExifUtils;
 
+    // using System.Drawing;
+    // using System.Drawing.Imaging;
     public class ImageService : IImageService
     {
         private readonly IRepository<Album, Guid> albums;
+
+        private readonly IHostingEnvironment appEnvironment;
+
+        private readonly IFileService fileService;
 
         private readonly IRepository<Image, Guid> images;
 
         private readonly ILocationService locationService;
 
-        private readonly IFileService fileService;
-
-        private readonly IHostingEnvironment appEnvironment;
-
         public ImageService(
-            IRepository<Image, Guid> images, 
-            IRepository<Album, Guid> albums, 
+            IRepository<Image, Guid> images,
+            IRepository<Album, Guid> albums,
             ILocationService locationService,
             IFileService fileService,
             IHostingEnvironment appEnvironment)
@@ -121,11 +120,13 @@
         public void PrepareFileForDownload(Guid id)
         {
             var image = this.GetById(id);
-            var filePathServer = appEnvironment.WebRootPath + Constants.MainContentFolder + "\\" + image.AlbumId + "\\" + Constants.ImageFolderOriginal + "\\" + image.FileName;
-            var filePathTemp = appEnvironment.WebRootPath + Constants.TempContentFolder + "\\" + id + "\\" + image.OriginalFileName;
+            var filePathServer = this.appEnvironment.WebRootPath + Constants.MainContentFolder + "\\" + image.AlbumId
+                                 + "\\" + Constants.ImageFolderOriginal + "\\" + image.FileName;
+            var filePathTemp = this.appEnvironment.WebRootPath + Constants.TempContentFolder + "\\" + id + "\\"
+                               + image.OriginalFileName;
 
             this.fileService.EmptyTempFolder();
-            Directory.CreateDirectory(appEnvironment.WebRootPath + Constants.TempContentFolder + "\\" + id);
+            Directory.CreateDirectory(this.appEnvironment.WebRootPath + Constants.TempContentFolder + "\\" + id);
 
             File.Copy(filePathServer, filePathTemp);
         }
@@ -150,19 +151,19 @@
             this.images.Update(image);
         }
 
-        private static double ExifGpsToDouble(ImageProcessorCore.Rational[] propItem)
+        private static double ExifGpsToDouble(Rational[] propItem)
         {
             uint degreesNumerator = propItem[0].Numerator;
             uint degreesDenominator = propItem[0].Denominator;
-            double degrees = degreesNumerator / (double) degreesDenominator;
+            double degrees = degreesNumerator / (double)degreesDenominator;
 
             uint minutesNumerator = propItem[1].Numerator;
             uint minutesDenominator = propItem[1].Denominator;
-            double minutes = minutesNumerator / (double) minutesDenominator;
+            double minutes = minutesNumerator / (double)minutesDenominator;
 
             uint secondsNumerator = propItem[2].Numerator;
             uint secondsDenominator = propItem[2].Denominator;
-            double seconds = secondsNumerator / (double) secondsDenominator;
+            double seconds = secondsNumerator / (double)secondsDenominator;
 
             double coorditate = degrees + (minutes / 60f) + (seconds / 3600f);
 
@@ -178,14 +179,20 @@
             if (dateTimeTaken != null)
             {
                 var format = "yyyy:MM:dd HH:mm:ss";
-                inputImage.DateTaken = DateTime.ParseExact(dateTimeTaken.Value.ToString(), format, CultureInfo.InvariantCulture);
+                inputImage.DateTaken = DateTime.ParseExact(
+                    dateTimeTaken.Value.ToString(),
+                    format,
+                    CultureInfo.InvariantCulture);
             }
 
             var gpdLong = exif.Values.Where(x => x.Tag == ExifTag.GPSLongitude).FirstOrDefault();
             var gpdLat = exif.Values.Where(x => x.Tag == ExifTag.GPSLatitude).FirstOrDefault();
             if (gpdLong != null && gpdLat != null)
             {
-                inputImage.ImageGpsData = locationService.GetGpsData(ExifGpsToDouble((ImageProcessorCore.Rational[])gpdLong.Value), ExifGpsToDouble((ImageProcessorCore.Rational[]) gpdLat.Value)).Result;
+                inputImage.ImageGpsData =
+                    this.locationService.GetGpsData(
+                        ExifGpsToDouble((Rational[])gpdLong.Value),
+                        ExifGpsToDouble((Rational[])gpdLat.Value)).Result;
             }
 
             var make = exif.Values.Where(x => x.Tag == ExifTag.Make).FirstOrDefault();
@@ -215,23 +222,29 @@
             var aperture = exif.Values.Where(x => x.Tag == ExifTag.ApertureValue).FirstOrDefault();
             if (aperture != null)
             {
-                Rational<uint> val = new Rational<uint>(((ImageProcessorCore.Rational) aperture.Value).Numerator, ((ImageProcessorCore.Rational) aperture.Value).Denominator);
+                Rational<uint> val = new Rational<uint>(
+                                         ((Rational)aperture.Value).Numerator,
+                                         ((Rational)aperture.Value).Denominator);
                 double fStop = Math.Pow(2.0, Convert.ToDouble(val) / 2.0);
-                inputImage.Aperture = String.Format("f/{0:#0.0}", fStop);                
+                inputImage.Aperture = string.Format("f/{0:#0.0}", fStop);
             }
 
             var focuslen = exif.Values.Where(x => x.Tag == ExifTag.FocalLength).FirstOrDefault();
             if (focuslen != null)
             {
-                Rational<uint> val = new Rational<uint>(((ImageProcessorCore.Rational) focuslen.Value).Numerator, ((ImageProcessorCore.Rational) focuslen.Value).Denominator);
-                inputImage.FocusLen = String.Format("{0:#0.#}", Convert.ToDecimal(val));
+                Rational<uint> val = new Rational<uint>(
+                                         ((Rational)focuslen.Value).Numerator,
+                                         ((Rational)focuslen.Value).Denominator);
+                inputImage.FocusLen = string.Format("{0:#0.#}", Convert.ToDecimal(val));
             }
 
             var exposure = exif.Values.Where(x => x.Tag == ExifTag.ExposureBiasValue).FirstOrDefault();
             if (exposure != null)
             {
-                var val = new Rational<int>(((ImageProcessorCore.SignedRational) exposure.Value).Numerator, ((ImageProcessorCore.SignedRational) exposure.Value).Denominator);
-                inputImage.ExposureBiasStep = ((Rational<int>) val).Numerator != 0 ? val.ToString() : "0";
+                var val = new Rational<int>(
+                              ((SignedRational)exposure.Value).Numerator,
+                              ((SignedRational)exposure.Value).Denominator);
+                inputImage.ExposureBiasStep = ((Rational<int>)val).Numerator != 0 ? val.ToString() : "0";
             }
 
             inputImage.Width = image.Width;
@@ -246,30 +259,34 @@
                 inputImage.FileName = Path.GetFileNameWithoutExtension(originalFileName) + Guid.NewGuid();
             }
 
-            inputImage.FileName += Path.GetExtension(originalFileName);            
+            inputImage.FileName += Path.GetExtension(originalFileName);
         }
 
-        private ImageProcessorCore.Image<ImageProcessorCore.Color, uint>Resize(Stream inputStream, ImageType type)
+        private Image<Color, uint> Resize(Stream inputStream, ImageType type)
         {
             var image = new ImageProcessorCore.Image(inputStream);
 
             if (type == ImageType.Low)
             {
-                var resizedImage = image.Resize(new ResizeOptions()
-                {
-                    Mode = ResizeMode.Max,
-                    Size = new ImageProcessorCore.Size(Constants.ImageLowMaxSize, Constants.ImageLowMaxSize),
-                });
+                var resizedImage =
+                    image.Resize(
+                        new ResizeOptions()
+                            {
+                                Mode = ResizeMode.Max,
+                                Size = new Size(Constants.ImageLowMaxSize, Constants.ImageLowMaxSize),
+                            });
                 resizedImage.Quality = 70;
                 return resizedImage;
             }
             else if (type == ImageType.Medium)
             {
-                var resizedImage = image.Resize(new ResizeOptions()
-                {
-                    Mode = ResizeMode.Max,
-                    Size = new ImageProcessorCore.Size(Constants.ImageMiddleMaxSize, Constants.ImageMiddleMaxSize)
-                });
+                var resizedImage =
+                    image.Resize(
+                        new ResizeOptions()
+                            {
+                                Mode = ResizeMode.Max,
+                                Size = new Size(Constants.ImageMiddleMaxSize, Constants.ImageMiddleMaxSize)
+                            });
                 resizedImage.Quality = 70;
                 return resizedImage;
             }
