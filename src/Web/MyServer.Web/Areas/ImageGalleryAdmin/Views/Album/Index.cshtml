@@ -120,6 +120,12 @@
 
 @section Scripts {
     @{
-        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+        await Html.RenderPartialAsync("_KendoScriptsPartial");
+    }
+}
+
+@section Styles {
+    @{
+        await Html.RenderPartialAsync("_KendoStylesPartial");
     }
 }

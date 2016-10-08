@@ -25,12 +25,6 @@
     @Html.Partial("_ImageListPartial", Model)
 </div>
 
-@section Scripts {
-    @{
-        await Html.RenderPartialAsync("_ValidationScriptsPartial");
-    }
-}
-
 <script>
 
     $(document)
@@ -66,3 +60,15 @@
             $(".image-edit-box-modal-location").geocomplete();
         });
 </script>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_KendoScriptsPartial");
+    }
+}
+
+@section Styles {
+    @{
+        await Html.RenderPartialAsync("_KendoStylesPartial");
+    }
+}

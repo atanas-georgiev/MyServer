@@ -1,0 +1,17 @@
+﻿@using Microsoft.ApplicationInsights.Extensibility
+@using Microsoft.AspNetCore.Mvc.Razor
+@using Microsoft.AspNetCore.Mvc.ViewFeatures
+<environment names="Development">
+    <script src="~/lib/kendo-ui/js/kendo.all.min.js"></script>
+    <script src="~/lib/kendo-ui/js/kendo.aspnetmvc.min.js"></script>
+</environment>
+<environment names="Staging,Production">
+    <script src="https://kendo.cdn.telerik.com/2016.2.714/js/kendo.all.min.js"
+            asp-fallback-src="~/lib/kendo-ui/js/kendo.all.min.js"
+            asp-fallback-test="window.kendo">
+    </script>
+    <script src="https://kendo.cdn.telerik.com/2016.2.714/js/kendo.aspnetmvc.min.js"
+            asp-fallback-src="~/lib/kendo-ui/js/kendo.aspnetmvc.min.js"
+            asp-fallback-test="kendo.data.transports['aspnetmvc-ajax']">
+    </script>
+</environment>

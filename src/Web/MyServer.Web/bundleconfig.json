@@ -5,12 +5,26 @@
     "outputFileName": "wwwroot/css/site.min.css",
     // An array of relative input file paths. Globbing patterns supported
     "inputFiles": [
+      "wwwroot/lib/bootstrap/dist/css/bootstrap.css",
+      "wwwroot/lib/justified-gallery/dist/justified-gallery.min.css",
+      "wwwroot/lib/image-picker/dist/image-picker.css",
+      "wwwroot/lib/lightgallery/dist/css/lightgallery.css",
       "wwwroot/css/site.css"
     ]
   },
   {
     "outputFileName": "wwwroot/js/site.min.js",
     "inputFiles": [
+      "wwwroot/lib/jquery/dist/jquery.js",
+      "wwwroot/lib/jquery-validation/dist/jquery.validate.js",
+      "wwwroot/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.js",
+      "wwwroot/lib/jquery-ajax-unobtrusive/dist/jquery.unobtrusive-ajax.js",
+      "wwwroot/lib/bootstrap/dist/js/bootstrap.js",
+      "wwwroot/lib/image-picker/dist/image-details.js",
+      "wwwroot/lib/image-picker/dist/image-picker.min.js",
+      "wwwroot/lib/justified-gallery/dist/jquery.justified-gallery.min.js",
+      "wwwroot/lib/geocomplete/jquery.geocomplete.js",
+      "wwwroot/lib/lightgallery/dist/js/lightgallery-all.js",
       "wwwroot/js/site.js"
     ],
     // Optionally specify minification options
