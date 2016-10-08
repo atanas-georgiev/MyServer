@@ -3,13 +3,14 @@
     using System;
     using System.Linq;
 
+    using MyServer.Common.ImageGallery;
     using MyServer.Data.Models;
 
     public interface IAlbumService
     {
         void Add(Album album);
 
-        string GenerateZipArchive(Guid id);
+        string GenerateZipArchive(Guid id, ImageType type);
 
         IQueryable<Album> GetAll();
 

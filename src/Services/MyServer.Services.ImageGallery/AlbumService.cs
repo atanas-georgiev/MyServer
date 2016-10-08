@@ -40,7 +40,7 @@
             this.fileService.CreateInitialFolders(album.Id);
         }
 
-        public string GenerateZipArchive(Guid id)
+        public string GenerateZipArchive(Guid id, ImageType type)
         {
             var number = 0;
             var album = this.GetById(id);
@@ -49,8 +49,24 @@
                     .Select(x => new { id = number++, FileName = x.FileName, OriginalFileName = x.OriginalFileName })
                     .ToList();
             var duplicates = files.GroupBy(s => s.OriginalFileName).SelectMany(grp => grp.Skip(1)).ToList();
-            var albumPathOriginal = this.appEnvironment.WebRootPath + Constants.MainContentFolder + "\\" + id + "\\"
+            string albumPath = string.Empty;
+
+            switch (type)
+            {
+                case ImageType.Low:
+                    albumPath = this.appEnvironment.WebRootPath + Constants.MainContentFolder + "\\" + id + "\\"
+                                    + Constants.ImageFolderLow + "\\";
+                    break;
+                case ImageType.Medium:
+                    albumPath = this.appEnvironment.WebRootPath + Constants.MainContentFolder + "\\" + id + "\\"
+                                    + Constants.ImageFolderMiddle + "\\";
+                    break;
+                case ImageType.Original:
+                    albumPath = this.appEnvironment.WebRootPath + Constants.MainContentFolder + "\\" + id + "\\"
                                     + Constants.ImageFolderOriginal + "\\";
+                    break;
+            }
+            
             var albumPathTemp = this.appEnvironment.WebRootPath + Constants.TempContentFolder + "\\" + id + "\\";
 
             this.fileService.EmptyTempFolder();
@@ -60,13 +76,13 @@
             {
                 if (!duplicates.Exists(x => x.OriginalFileName == file.OriginalFileName))
                 {
-                    File.Copy(albumPathOriginal + file.FileName, albumPathTemp + file.OriginalFileName);
+                    File.Copy(albumPath + file.FileName, albumPathTemp + file.OriginalFileName);
                 }
                 else
                 {
                     var newFileName = Path.GetFileNameWithoutExtension(file.OriginalFileName) + "_" + file.id
                                       + Path.GetExtension(file.OriginalFileName);
-                    File.Copy(albumPathOriginal + file.FileName, albumPathTemp + newFileName);
+                    File.Copy(albumPath + file.FileName, albumPathTemp + newFileName);
                 }
             }
 

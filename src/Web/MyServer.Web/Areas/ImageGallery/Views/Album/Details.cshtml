@@ -1,13 +1,10 @@
 ﻿@using Microsoft.ApplicationInsights.Extensibility
 @using Microsoft.AspNetCore.Mvc.Razor
 @using Microsoft.AspNetCore.Mvc.ViewFeatures
+@using Microsoft.EntityFrameworkCore.Metadata.Internal
+@using MyServer.Common.ImageGallery
 @using MyServer.Web.Areas.ImageGallery.Models.Album
 @model MyServer.Web.Areas.ImageGallery.Models.Album.AlbumViewModel
-
-@{
-    var counter = 0;
-    var imagesCount = Model.Images.Count;
-}
 
 <div class="row">
     <div class="well well-sm">
@@ -46,13 +43,13 @@
                 </a>
                 <ul class="dropdown-menu">
                     <li>
-                        <a asp-action="Download" asp-controller="Album" asp-route-area="ImageGallery" asp-route-id="@Model.Id" data-ajax="true" data-ajax-method="GET" data-ajax-loading="loading" data-ajax-success="window.location.href = data;" class="btn">Low</a>
+                        <a asp-action="Download" asp-controller="Album" asp-route-area="ImageGallery" asp-route-id="@Model.Id" asp-route-type="@ImageType.Low" data-ajax="true" data-ajax-method="GET" data-ajax-loading="#loading" data-ajax-success="window.location.href = data;" class="btn">Low</a>
                     </li>
                     <li>
-                        <a asp-action="Download" asp-controller="Album" asp-route-area="ImageGallery" asp-route-id="@Model.Id" data-ajax="true" data-ajax-method="GET" data-ajax-loading="loading" data-ajax-success="window.location.href = data;" class="btn">Middle</a>
+                        <a asp-action="Download" asp-controller="Album" asp-route-area="ImageGallery" asp-route-id="@Model.Id" asp-route-type="@ImageType.Medium"data-ajax="true" data-ajax-method="GET" data-ajax-loading="#loading" data-ajax-success="window.location.href = data;" class="btn">Middle</a>
                     </li>
                     <li>
-                        <a asp-action="Download" asp-controller="Album" asp-route-area="ImageGallery" asp-route-id="@Model.Id" data-ajax="true" data-ajax-method="GET" data-ajax-loading="loading" data-ajax-success="window.location.href = data;" class="btn">High</a>
+                        <a asp-action="Download" asp-controller="Album" asp-route-area="ImageGallery" asp-route-id="@Model.Id" asp-route-type="@ImageType.Original"data-ajax="true" data-ajax-method="GET" data-ajax-loading="#loading" data-ajax-success="window.location.href = data;" class="btn">High</a>
                     </li>
                 </ul>
             </div>
@@ -139,54 +136,5 @@
                         }
                     }
                 });
-
-            @*$(window).scroll(function () {
-                if ($(window).scrollTop() + $(window).height() > $(document).height() - 50) {
-                    @{
-                        for (var i = counter; i < 20 + counter; i++)// in Model.Images)
-                        {
-                            <text>
-                                 $('.mygallery').append('<a href="@Model.Images[i].MiddleImageSource" data-download-url="@Model.Images[i].OriginalDownloadPath">' +
-                                '<img src="@Model.Images[i].LowImageSource" alt="@Model.Images[i].Info" />' +
-                                '</a>');
-                            </text>
-                        }
-                     }
-                    $('.mygallery').justifiedGallery('norewind');
-                }
-            });*@
-
-            //$(window).scroll(function () {
-            //    if ($(window).scrollTop() + $(window).height() == $(document).height()) {
-            //        //for (var i = 0; i < 5; i++) {
-            //        //    $('.mygallery').append('<a>' +
-            //        //        '<img src="http://path/to/image" />' +
-            //        //        '</a>');
-            //        //}
-
-            //        console.log('a');
-            //        $('.mygallery').justifiedGallery('norewind');
-            //    }
-            //});
-
-            //$(".mygallery").justifiedGallery({
-            //    rowHeight: 200,
-            //    maxRowHeight: 266,
-            //    fixedHeight: false,
-            //    margins: 2,
-            //    lastRow: 'nojustify',
-            //    captions: false,
-            //    border: 0,
-            //    thumbnailPath: function (currentPath, width, height) {
-            //        if (Math.max(width, height) < 266) {
-            //            return currentPath.replace(/(.*)(_[a-z]+)(\..*)/, "$1low$2");
-            //        } else {
-            //            return currentPath.replace(/(.*)(_[a-z]+)(\..*)/, "$1medium$2");
-            //        }
-            //    }
-
-            //});
-
-
         });
 </script>

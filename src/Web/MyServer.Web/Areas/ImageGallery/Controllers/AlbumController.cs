@@ -7,6 +7,7 @@ namespace MyServer.Web.Areas.ImageGallery.Controllers
     using Microsoft.AspNetCore.Identity;
     using Microsoft.AspNetCore.Mvc;
 
+    using MyServer.Common.ImageGallery;
     using MyServer.Data;
     using MyServer.Data.Models;
     using MyServer.Services.ImageGallery;
@@ -51,9 +52,9 @@ namespace MyServer.Web.Areas.ImageGallery.Controllers
             return this.View(album);
         }
 
-        public IActionResult Download(string id)
+        public IActionResult Download(string id, ImageType type)
         {
-            var zip = this.albumService.GenerateZipArchive(Guid.Parse(id));
+            var zip = this.albumService.GenerateZipArchive(Guid.Parse(id), type);
             return this.Content(zip.Replace("~", string.Empty));
         }
 

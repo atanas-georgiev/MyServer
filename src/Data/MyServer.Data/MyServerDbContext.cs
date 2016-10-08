@@ -33,14 +33,14 @@
             this.ApplyAuditInfoRules();
 
             // foreach (var entry in this.ChangeTracker.Entries().Where(p => p.State == EntityState.Deleted)) this.SoftDelete(entry);
-            try
-            {
+            //try
+            //{
                 return base.SaveChanges();
-            }
-            catch (Exception ex)
-            {
-                return base.SaveChanges();
-            }
+            //}
+            //catch (Exception ex)
+            //{
+            //    return base.SaveChanges();
+            //}
         }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
