@@ -6,6 +6,8 @@
 @using MyServer.Web.Areas.ImageGallery.Models.Album
 @model MyServer.Web.Areas.ImageGallery.Models.Album.AlbumViewModel
 
+<div id="fb-root"></div>
+
 <div class="row">
     <div class="well well-sm">
         <h1 class="well-title text-center">@Model.Title</h1>
@@ -53,8 +55,8 @@
                     </li>
                 </ul>
             </div>
-            <div id="shareBtn" class="btn clearfix">Share</div>
-        </div>
+            <div id="shareBtn" class="fb-share-button clearfix" data-type="button" data-size="large">Share</div>
+         </div>
         <hr/>
 
         <div class="overlay-album mygallery lightgallery">
@@ -71,16 +73,18 @@
     </div>
 </div>
 
-<meta property="og:url" content='@("http://atanas.it/ImageGallery/Album/Details/" + Model.Id)'/>
-<meta property="og:type" content="article"/>
-<meta property="og:title" content="@Model.Title"/>
-<meta property="og:description" content="@Model.Description"/>
-<meta property="og:image" content="@Model.CoverImage"/>
-<meta property="fb:app_id" content="521558431365642"/>
+@section Styles {
+    <meta property="og:url" content='@("http://atanas.it/ImageGallery/Album/Details/" + Model.Id)'/>
+    <meta property="og:type" content="article"/>
+    <meta property="og:title" content="@Model.Title"/>
+    <meta property="og:description" content="@Model.Description"/>
+    <meta property="og:image" content='@("http://atanas.it" + Model.CoverImage)'/>
+    <meta property="fb:app_id" content="521558431365642"/>
+}
 
 <script>
     $(document)
-        .ready(function() {
+        .ready(function () {
 
             window.fbAsyncInit = function() {
                 FB.init({
