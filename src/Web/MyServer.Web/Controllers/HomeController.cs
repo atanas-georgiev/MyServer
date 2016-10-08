@@ -1,5 +1,9 @@
 ﻿namespace MyServer.Web.Controllers
 {
+    using System;
+
+    using Microsoft.AspNetCore.Http;
+    using Microsoft.AspNetCore.Localization;
     using Microsoft.AspNetCore.Mvc;
 
     using MyServer.Services.ImageGallery;
@@ -16,20 +20,6 @@
             this.albumService = albumService;
         }
 
-        public IActionResult About()
-        {
-            this.ViewData["Message"] = "Your application description page.";
-
-            return this.View();
-        }
-
-        public IActionResult Contact()
-        {
-            this.ViewData["Message"] = "Your contact page.";
-
-            return this.View();
-        }
-
         public IActionResult Error()
         {
             return this.View();
@@ -38,6 +28,16 @@
         public IActionResult Index()
         {
             return this.View();
+        }
+        
+        public IActionResult SetLanguage(string culture, string returnUrl)
+        {
+            this.Response.Cookies.Append(
+                CookieRequestCultureProvider.DefaultCookieName,
+                CookieRequestCultureProvider.MakeCookieValue(new RequestCulture(culture)),
+                new CookieOptions { Expires = DateTimeOffset.UtcNow.AddYears(1) });
+
+            return this.LocalRedirect(returnUrl);
         }
     }
 }

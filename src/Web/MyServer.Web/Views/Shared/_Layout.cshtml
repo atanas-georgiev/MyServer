@@ -1,4 +1,5 @@
 ﻿@using Microsoft.ApplicationInsights.Extensibility
+@using Microsoft.AspNetCore.Http
 @using Microsoft.AspNetCore.Mvc.Razor
 @using Microsoft.AspNetCore.Mvc.ViewFeatures
 <!DOCTYPE html>
@@ -32,8 +33,8 @@
                     <span class="icon-bar"></span>
                 </button>
                 <a asp-area="" asp-controller="Home" asp-action="Index" class="navbar-brand">Atanas Georgiev</a>
-                <a asp-area="" asp-controller="Home" asp-action="Index" class="navbar-brand"><img src="~/img/bg-icon.png" /></a>
-                <a asp-area="" asp-controller="Home" asp-action="Index" class="navbar-brand"><img src="~/img/us-icon.png" /></a>
+                <a asp-area="" asp-controller="Home" asp-action="SetLanguage" asp-route-culture="bg-BG" asp-route-returnUrl="@Context.Request.Path" class="navbar-brand"><img src="~/img/bg-icon.png" /></a>
+                <a asp-area="" asp-controller="Home" asp-action="SetLanguage" asp-route-culture="en-US" asp-route-returnUrl="@Context.Request.Path" class="navbar-brand"><img src="~/img/us-icon.png" /></a>
             </div>
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
