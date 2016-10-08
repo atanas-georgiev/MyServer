@@ -62,20 +62,20 @@
 
                 if (firstDate.Date == lastDate.Date)
                 {
-                    return firstDate.ToString("dd MMM yyyy");
+                    return firstDate.ToString("dd MMMM yyyy");
                 }
                 else if (firstDate.Year == lastDate.Year && firstDate.Month == lastDate.Month)
                 {
-                    return firstDate.Day + "-" + lastDate.Day + " " + firstDate.ToString("MMM yyyy");
+                    return firstDate.Day + "-" + lastDate.Day + " " + firstDate.ToString("MMMM yyyy");
                 }
                 else if (firstDate.Year == lastDate.Year)
                 {
-                    return firstDate.ToString("dd MMM") + "-" + lastDate.ToString("dd MMM") + " "
+                    return firstDate.ToString("dd MMMM") + "-" + lastDate.ToString("dd MMMM") + " "
                            + lastDate.ToString("yyyy");
                 }
                 else
                 {
-                    return firstDate.ToString("dd MMM yyyy") + "-" + lastDate.ToString("dd MMM yyyy");
+                    return firstDate.ToString("dd MMMM yyyy") + "-" + lastDate.ToString("dd MMMM yyyy");
                 }
             }
         }
@@ -85,11 +85,11 @@
             switch (source.Images.Count)
             {
                 case 0:
-                    return "No items";
+                    return Startup.SharedLocalizer["NoItems"];
                 case 1:
-                    return "1 item";
+                    return "1 " + Startup.SharedLocalizer["Item"];
                 default:
-                    return source.Images.Count + " items";
+                    return source.Images.Count + " " + Startup.SharedLocalizer["Items"];
             }
         }
 

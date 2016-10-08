@@ -11,6 +11,7 @@
     using Microsoft.EntityFrameworkCore;
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
+    using Microsoft.Extensions.Localization;
     using Microsoft.Extensions.Logging;
 
     using MyServer.Data;
@@ -46,6 +47,8 @@
             this.Configuration = builder.Build();
         }
 
+        public static IStringLocalizer<SharedResource> SharedLocalizer { get; private set; }
+
         public IConfigurationRoot Configuration { get; }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -54,9 +57,11 @@
             IServiceScopeFactory scopeFactory,
             IHostingEnvironment env,
             ILoggerFactory loggerFactory,
-            UserManager<User> userManager)
+            UserManager<User> userManager,
+            IStringLocalizer<SharedResource> sharedLocalizer)
         {
             var supportedCultures = new[] { new CultureInfo("en-US"), new CultureInfo("bg-BG") };
+            SharedLocalizer = sharedLocalizer;
 
             app.UseRequestLocalization(
                 new RequestLocalizationOptions

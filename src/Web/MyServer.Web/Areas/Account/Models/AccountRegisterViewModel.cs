@@ -2,36 +2,35 @@
 {
     using System.ComponentModel.DataAnnotations;
 
+    using MyServer.Web.Helpers;
     using MyServer.Web.Resources;
 
     public class AccountRegisterViewModel
     {
         [DataType(DataType.Password)]
-        [Display(Name = "Confirm password")]
-        [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
+        [Display(Name = "ConfirmPassword", ResourceType = typeof(Helpers_SharedResource))]
+        [Compare("Password", ErrorMessageResourceName = "ErrorPasswordNotMatch", ErrorMessageResourceType = typeof(Helpers_SharedResource))]
         public string ConfirmPassword { get; set; }
 
-        [Required]
+        [Required(ErrorMessageResourceName = "ErrorRequired", ErrorMessageResourceType = typeof(Helpers_SharedResource))]
         [EmailAddress]
-        [Display(Name = "Email")]
+        [Display(Name = "Email", ResourceType = typeof(Helpers_SharedResource))]
         public string Email { get; set; }
 
-        [Required]
-        [MinLength(2)]
-        [MaxLength(50)]
-        [Display(Name = "First Name")]
+        [Required(ErrorMessageResourceName = "ErrorRequired", ErrorMessageResourceType = typeof(Helpers_SharedResource))]
+        [StringLength(50, ErrorMessageResourceName = "ErrorLength", ErrorMessageResourceType = typeof(Helpers_SharedResource), MinimumLength = 2)]
+        [Display(Name = "FirstName", ResourceType = typeof(Helpers_SharedResource))]
         public string FirstName { get; set; }
 
-        [Required]
-        [MinLength(2)]
-        [MaxLength(50)]
-        [Display(Name = "Last Name")]
+        [Required(ErrorMessageResourceName = "ErrorRequired", ErrorMessageResourceType = typeof(Helpers_SharedResource))]
+        [StringLength(50, ErrorMessageResourceName = "ErrorLength", ErrorMessageResourceType = typeof(Helpers_SharedResource), MinimumLength = 2)]
+        [Display(Name = "LastName", ResourceType = typeof(Helpers_SharedResource))]
         public string LastName { get; set; }
 
-        [Required]
-        [StringLength(6, ErrorMessage = "The {0} must be at least {2} characters long.", MinimumLength = 6)]
+        [Required(ErrorMessageResourceName = "ErrorRequired", ErrorMessageResourceType = typeof(Helpers_SharedResource))]
+        [StringLength(6, ErrorMessageResourceName = "ErrorMinLength", ErrorMessageResourceType = typeof(Helpers_SharedResource), MinimumLength = 6)]
         [DataType(DataType.Password)]
-        [Display(Name = "Password", ResourceType = typeof(DataAnnotations))]
+        [Display(Name = "Password", ResourceType = typeof(Helpers_SharedResource))]
         public string Password { get; set; }
     }
 }

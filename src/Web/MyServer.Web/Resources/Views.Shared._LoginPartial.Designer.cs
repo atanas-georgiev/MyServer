@@ -22,13 +22,13 @@ namespace MyServer.Web.Resources {
     // with the /str option, or rebuild your VS project.
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    public class Areas_Account_Views_Register_Index {
+    public class Views_Shared__LoginPartial {
         
         private static global::System.Resources.ResourceManager resourceMan;
         
         private static global::System.Globalization.CultureInfo resourceCulture;
         
-        internal Areas_Account_Views_Register_Index() {
+        internal Views_Shared__LoginPartial() {
         }
         
         /// <summary>
@@ -38,7 +38,7 @@ namespace MyServer.Web.Resources {
         public static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("MyServer.Web.Resources.Areas.Account.Views.Register.Index", typeof(Areas_Account_Views_Register_Index).GetTypeInfo().Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("MyServer.Web.Resources.Views.Shared._LoginPartial", typeof(Views_Shared__LoginPartial).GetTypeInfo().Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;
@@ -60,11 +60,20 @@ namespace MyServer.Web.Resources {
         }
         
         /// <summary>
-        ///    Looks up a localized string similar to Create a new local account.
+        ///    Looks up a localized string similar to Log out.
         /// </summary>
-        public static string CreateLocalAccount {
+        public static string Exit {
             get {
-                return ResourceManager.GetString("CreateLocalAccount", resourceCulture);
+                return ResourceManager.GetString("Exit", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to Log In.
+        /// </summary>
+        public static string Login {
+            get {
+                return ResourceManager.GetString("Login", resourceCulture);
             }
         }
         

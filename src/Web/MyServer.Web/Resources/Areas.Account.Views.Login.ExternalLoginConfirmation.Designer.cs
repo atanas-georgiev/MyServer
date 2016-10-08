@@ -22,13 +22,13 @@ namespace MyServer.Web.Resources {
     // with the /str option, or rebuild your VS project.
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    public class Areas_Account_Views_Register_Index {
+    public class Areas_Account_Views_Login_ExternalLoginConfirmation {
         
         private static global::System.Resources.ResourceManager resourceMan;
         
         private static global::System.Globalization.CultureInfo resourceCulture;
         
-        internal Areas_Account_Views_Register_Index() {
+        internal Areas_Account_Views_Login_ExternalLoginConfirmation() {
         }
         
         /// <summary>
@@ -38,7 +38,7 @@ namespace MyServer.Web.Resources {
         public static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("MyServer.Web.Resources.Areas.Account.Views.Register.Index", typeof(Areas_Account_Views_Register_Index).GetTypeInfo().Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("MyServer.Web.Resources.Areas.Account.Views.Login.ExternalLoginConfirmation", typeof(Areas_Account_Views_Login_ExternalLoginConfirmation).GetTypeInfo().Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;
@@ -60,11 +60,11 @@ namespace MyServer.Web.Resources {
         }
         
         /// <summary>
-        ///    Looks up a localized string similar to Create a new local account.
+        ///    Looks up a localized string similar to Confirm data.
         /// </summary>
-        public static string CreateLocalAccount {
+        public static string ConfirmData {
             get {
-                return ResourceManager.GetString("CreateLocalAccount", resourceCulture);
+                return ResourceManager.GetString("ConfirmData", resourceCulture);
             }
         }
         

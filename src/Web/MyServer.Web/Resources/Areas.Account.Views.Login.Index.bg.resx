@@ -117,10 +117,16 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="CreateLocalAccount" xml:space="preserve">
-    <value>Създаване на потребителски акаунт</value>
+  <data name="ExternalProvider" xml:space="preserve">
+    <value>Или с външно приложение</value>
   </data>
-  <data name="Register" xml:space="preserve">
-    <value>Регистрация</value>
+  <data name="Login" xml:space="preserve">
+    <value>Вход</value>
+  </data>
+  <data name="LoginLocal" xml:space="preserve">
+    <value>С регистриран потребиел</value>
+  </data>
+  <data name="NewUser" xml:space="preserve">
+    <value>Регистрирай нов потребител?</value>
   </data>
 </root>

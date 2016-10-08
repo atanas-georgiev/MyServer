@@ -4,9 +4,13 @@
 @using MyServer.Web.Areas.ImageGallery.Models.Album
 @model IEnumerable<MyServer.Web.Areas.ImageGallery.Models.Album.AlbumViewModel>
 
+@{
+    ViewData["Title"] = LocString["Albums"];
+}
+
 <div class="row">
     <div class="well well-sm">
-        <h1 class="well-title text-center">Albums</h1>
+        <h2 class="well-title text-center">@LocString["Albums"]</h2>
         <hr/>
         <div id="mygallery" class="overlay-album">
             @foreach (var album in Model)

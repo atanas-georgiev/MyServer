@@ -117,10 +117,43 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="CreateLocalAccount" xml:space="preserve">
-    <value>Създаване на потребителски акаунт</value>
+  <data name="ConfirmPassword" xml:space="preserve">
+    <value>Потвърждение на паролата</value>
   </data>
-  <data name="Register" xml:space="preserve">
-    <value>Регистрация</value>
+  <data name="Email" xml:space="preserve">
+    <value>Е-мейл</value>
+  </data>
+  <data name="ErrorLength" xml:space="preserve">
+    <value>Полето {0} трябва да е с дължина между {1} и {2} символа.</value>
+  </data>
+  <data name="ErrorMinLength" xml:space="preserve">
+    <value>Полето {0} трябва да е с дължина поне {2} символа.</value>
+  </data>
+  <data name="ErrorPasswordNotMatch" xml:space="preserve">
+    <value>Въведените пароли не съвпадат.</value>
+  </data>
+  <data name="ErrorRequired" xml:space="preserve">
+    <value>Полето {0} е задължително.</value>
+  </data>
+  <data name="FirstName" xml:space="preserve">
+    <value>Име</value>
+  </data>
+  <data name="Item" xml:space="preserve">
+    <value>снимка</value>
+  </data>
+  <data name="Items" xml:space="preserve">
+    <value>снимки</value>
+  </data>
+  <data name="LastName" xml:space="preserve">
+    <value>Фамилия</value>
+  </data>
+  <data name="NoItems" xml:space="preserve">
+    <value>Няма снимки</value>
+  </data>
+  <data name="Password" xml:space="preserve">
+    <value>Парола</value>
+  </data>
+  <data name="RememberMe" xml:space="preserve">
+    <value>Запомни ме?</value>
   </data>
 </root>

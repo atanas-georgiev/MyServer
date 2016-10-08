@@ -22,13 +22,13 @@ namespace MyServer.Web.Resources {
     // with the /str option, or rebuild your VS project.
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    public class DataAnnotations {
+    public class Views___Copy_Shared__Layout {
         
         private static global::System.Resources.ResourceManager resourceMan;
         
         private static global::System.Globalization.CultureInfo resourceCulture;
         
-        internal DataAnnotations() {
+        internal Views___Copy_Shared__Layout() {
         }
         
         /// <summary>
@@ -38,7 +38,7 @@ namespace MyServer.Web.Resources {
         public static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("MyServer.Web.Resources.DataAnnotations", typeof(DataAnnotations).GetTypeInfo().Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("MyServer.Web.Resources.Views - Copy.Shared._Layout", typeof(Views___Copy_Shared__Layout).GetTypeInfo().Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;
@@ -56,15 +56,6 @@ namespace MyServer.Web.Resources {
             }
             set {
                 resourceCulture = value;
-            }
-        }
-        
-        /// <summary>
-        ///    Looks up a localized string similar to Password.
-        /// </summary>
-        public static string Password {
-            get {
-                return ResourceManager.GetString("Password", resourceCulture);
             }
         }
     }

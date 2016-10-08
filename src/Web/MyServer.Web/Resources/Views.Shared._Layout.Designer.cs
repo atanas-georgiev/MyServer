@@ -22,13 +22,13 @@ namespace MyServer.Web.Resources {
     // with the /str option, or rebuild your VS project.
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    public class Areas_Account_Views_Register_Index {
+    public class Views_Shared__Layout {
         
         private static global::System.Resources.ResourceManager resourceMan;
         
         private static global::System.Globalization.CultureInfo resourceCulture;
         
-        internal Areas_Account_Views_Register_Index() {
+        internal Views_Shared__Layout() {
         }
         
         /// <summary>
@@ -38,7 +38,7 @@ namespace MyServer.Web.Resources {
         public static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("MyServer.Web.Resources.Areas.Account.Views.Register.Index", typeof(Areas_Account_Views_Register_Index).GetTypeInfo().Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("MyServer.Web.Resources.Views.Shared._Layout", typeof(Views_Shared__Layout).GetTypeInfo().Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;
@@ -60,20 +60,38 @@ namespace MyServer.Web.Resources {
         }
         
         /// <summary>
-        ///    Looks up a localized string similar to Create a new local account.
+        ///    Looks up a localized string similar to Admin.
         /// </summary>
-        public static string CreateLocalAccount {
+        public static string Admin {
             get {
-                return ResourceManager.GetString("CreateLocalAccount", resourceCulture);
+                return ResourceManager.GetString("Admin", resourceCulture);
             }
         }
         
         /// <summary>
-        ///    Looks up a localized string similar to Register.
+        ///    Looks up a localized string similar to Albums.
         /// </summary>
-        public static string Register {
+        public static string Albums {
             get {
-                return ResourceManager.GetString("Register", resourceCulture);
+                return ResourceManager.GetString("Albums", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to Home.
+        /// </summary>
+        public static string Home {
+            get {
+                return ResourceManager.GetString("Home", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to Atanas Georgiev.
+        /// </summary>
+        public static string Title {
+            get {
+                return ResourceManager.GetString("Title", resourceCulture);
             }
         }
     }

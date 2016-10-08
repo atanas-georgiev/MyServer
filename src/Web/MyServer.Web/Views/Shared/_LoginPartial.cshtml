@@ -13,7 +13,7 @@
                 <a asp-area="Account" asp-controller="Manage" asp-action="Index" title="Manage">@((object)UserManager.GetUserName(User))</a>
             </li>
             <li>
-                <button type="submit" class="btn btn-link navbar-btn navbar-link">Log off</button>
+                <button type="submit" class="btn btn-link navbar-btn navbar-link">@LocString["Exit"]</button>
             </li>
         </ul>
     </form>
@@ -22,10 +22,10 @@ else
 {
     <ul class="nav navbar-nav navbar-right">
         <li>
-            <a asp-area="Account" asp-controller="Register" asp-action="Index">Register</a>
+            <a asp-area="Account" asp-controller="Register" asp-action="Index">@LocString["Register"]</a>
         </li>
         <li>
-            <a asp-area="Account" asp-controller="Login" asp-action="Index">Log in</a>
+            <a asp-area="Account" asp-controller="Login" asp-action="Index">@LocString["Login"]</a>
         </li>
     </ul>
 }
