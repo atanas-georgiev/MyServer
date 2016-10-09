@@ -7,7 +7,7 @@
 @model MyServer.Web.Areas.ImageGallery.Models.Album.AlbumViewModel
 
 <div id="fb-root"></div>
-<div class="container well well-main">
+<div class="container well well-main well-mobile">
     <h2 class="well-title text-center">@Model.Title</h2>
     <h4 class="text-center">@Model.Date</h4>
     <hr />
@@ -124,17 +124,18 @@
             $(".mygallery")
                 .justifiedGallery({
                     rowHeight: 200,
-                    maxRowHeight: 266,
+                    maxRowHeight: 300,
                     fixedHeight: false,
                     margins: 2,
                     lastRow: 'nojustify',
                     captions: true,
+                    captionSettings: { animationDuration: 500, visibleOpacity: 0.9, nonVisibleOpacity: 0.4 },
                     border: 0,
-                    thumbnailPath: function(currentPath, width, height) {
-                        if (Math.max(width, height) < 266) {
-                            return currentPath.replace(/(.*)(_[a-z]+)(\..*)/, "$1low$2");
+                    thumbnailPath: function (currentPath, width, height) {
+                        if (Math.max(width, height) > 300) {
+                            return currentPath.replace(/(.*)(_[a-z]+)(\..*)/, "$1Low$2");
                         } else {
-                            return currentPath.replace(/(.*)(_[a-z]+)(\..*)/, "$1medium$2");
+                            return currentPath.replace(/(.*)(_[a-z]+)(\..*)/, "$1Medium$2");
                         }
                     }
                 });

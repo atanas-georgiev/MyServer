@@ -59,8 +59,8 @@ figure {
 }
 
 @media only screen and (max-width: 768px) {
-    #well, .well-sm {
-        padding: 0 !important
+    .body-content, .well-mobile {
+        padding: 2px !important
     }
 }
 

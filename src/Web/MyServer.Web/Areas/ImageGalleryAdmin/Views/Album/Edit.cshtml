@@ -14,14 +14,14 @@
 
 <h2>Edit</h2>
 
-<div class="well id="album-data-partial">
+<div class="well" id="album-data-partial">
     @Html.Partial("_AlbumDataPartial", Model)
 </div>
-<div class="well" id="image-edit-box" style="display: none">
+<div class="well well-mobile" id="image-edit-box" style="display: none">
     @Html.Partial("_ImageUpdate", new ImageUpdateViewModel())
 </div>
 <button class="btn select-all">Select All</button>
-<div class="well" id="image-list-box">
+<div class="well well-mobile" id="image-list-box">
     @Html.Partial("_ImageListPartial", Model)
 </div>
 
@@ -85,7 +85,8 @@
                     fixedHeight: false,
                     margins: 2,
                     lastRow: 'nojustify',
-                    captions: false,
+                    captions: true,
+                    captionSettings: { animationDuration: 500, visibleOpacity: 0.9, nonVisibleOpacity: 0.4 },
                     border: 0,
                     thumbnailPath: function(currentPath, width, height) {
                         if (Math.max(width, height) > 300) {
@@ -100,14 +101,23 @@
         });
 </script>
 
-@*<style>
-        #image-edit-box {
+<style>
+    #image-edit-box {
         position:fixed;
-        bottom:0;
+        top:50px;
         width:100%;
         z-index:100;
     }
-    </style>*@
+    .modal-backdrop {
+      z-index: -1;
+    }
+    .modal {
+         position:fixed;
+        top:50%;
+        width:100%;
+        z-index:100;
+    }
+</style>
 
 @section Scripts {
     @{

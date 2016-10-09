@@ -9,8 +9,8 @@
       "wwwroot/lib/justified-gallery/dist/justified-gallery.min.css",
       "wwwroot/lib/image-picker/dist/image-picker.css",
       "wwwroot/lib/lightgallery/dist/css/lightgallery.css",
-      "wwwroot/lib/material/css/mbd.css",
-      "wwwroot/lib/material/css/style.css",
+      "wwwroot/lib/bootstrap-material-design/dist/css/bootstrap-material-design.css",
+      "wwwroot/lib/bootstrap-material-design/dist/css/ripples.css",
       "wwwroot/css/site.css"
     ]
   },
@@ -18,7 +18,7 @@
     "outputFileName": "wwwroot/js/site.min.js",
     "inputFiles": [
       "wwwroot/lib/jquery/dist/jquery-2.2.4.min.js",
-      "wwwroot/lib/material/js/tether.js",
+      "wwwroot/lib/bootstrap-material-design/scripts/material.js",
       "wwwroot/lib/jquery-validation/dist/jquery.validate.js",
       "wwwroot/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.js",
       "wwwroot/lib/jquery-ajax-unobtrusive/dist/jquery.unobtrusive-ajax.js",

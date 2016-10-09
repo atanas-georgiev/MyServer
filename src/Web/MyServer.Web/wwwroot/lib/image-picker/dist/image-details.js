@@ -113,22 +113,24 @@ $(".image-edit-box-modal-date-close").click(function () {
 function ImageListUpdate() {
     $("select").imagepicker();
 
-    $(".mygallery").justifiedGallery({
-        rowHeight: 200,
-        maxRowHeight: 300,
-        fixedHeight: false,
-        margins: 2,
-        lastRow: 'nojustify',
-        captions: false,
-        border: 0,
-        thumbnailPath: function (currentPath, width, height) {
-            if (Math.max(width, height) > 300) {
-                return currentPath.replace(/(.*)(_[a-z]+)(\..*)/, "$1Low$2");
-            } else {
-                return currentPath.replace(/(.*)(_[a-z]+)(\..*)/, "$1Medium$2");
-            }
-        }
-    });
+    $(".mygallery")
+                .justifiedGallery({
+                    rowHeight: 200,
+                    maxRowHeight: 300,
+                    fixedHeight: false,
+                    margins: 2,
+                    lastRow: 'nojustify',
+                    captions: true,
+                    captionSettings: { animationDuration: 500, visibleOpacity: 0.9, nonVisibleOpacity: 0.4 },
+                    border: 0,
+                    thumbnailPath: function (currentPath, width, height) {
+                        if (Math.max(width, height) > 300) {
+                            return currentPath.replace(/(.*)(_[a-z]+)(\..*)/, "$1Low$2");
+                        } else {
+                            return currentPath.replace(/(.*)(_[a-z]+)(\..*)/, "$1Medium$2");
+                        }
+                    }
+                });
 
     $("#image-edit-box").hide();
 };
