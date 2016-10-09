@@ -7,69 +7,67 @@
 @model MyServer.Web.Areas.ImageGallery.Models.Album.AlbumViewModel
 
 <div id="fb-root"></div>
+<div class="container well well-main">
+    <h2 class="well-title text-center">@Model.Title</h2>
+    <h4 class="text-center">@Model.Date</h4>
+    <hr />
+    @if (Model.Description != null)
+    {
+        <p class="text-center">
+            @Html.Raw(Model.Description)
+        </p>
+        <hr />
+    }
 
-<div class="row">
-    <div class="well well-sm">
-        <h1 class="well-title text-center">@Model.Title</h1>
-        <h4 class="text-center">@Model.Date</h4>
-        <hr/>
-        @if (Model.Description != null)
+    @if (Model.ImageCoordinates != null)
+    {
+        foreach (var gps in Model.ImageCoordinates)
         {
+            var url = "http://www.google.com/maps/place/" + gps.Latitude + "," + gps.Longitude;
             <p class="text-center">
-                @Html.Raw(Model.Description)
+                <span class="glyphicon glyphicon-map-marker"></span>
+                <a href="@url" target="_blank">@gps.LocationName</a>
             </p>
-            <hr/>
         }
+        <hr />
+    }
 
-        @if (Model.ImageCoordinates != null)
-        {
-            foreach (var gps in Model.ImageCoordinates)
-            {
-                var url = "http://www.google.com/maps/place/" + gps.Latitude + "," + gps.Longitude;
-                <p class="text-center">
-                    <span class="glyphicon glyphicon-map-marker"></span>
-                    <a href="@url" target="_blank">@gps.LocationName</a>
-                </p>
-            }
-
-            <hr/>
-        }
-
-        <div class="btn-group text-center">
-            <div class="btn-group">
-                <a href="#" data-target="#" class="btn dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
-                    Download
-                    <span id="loading" style="display: none">
-                        <img src="~/img/ajax-loader.gif" alt="" />
-                    </span>
-                </a>
-                <ul class="dropdown-menu">
-                    <li>
-                        <a asp-action="Download" asp-controller="Album" asp-route-area="ImageGallery" asp-route-id="@Model.Id" asp-route-type="@ImageType.Low" data-ajax="true" data-ajax-method="GET" data-ajax-loading="#loading" data-ajax-success="window.location.href = data;" class="btn">Low</a>
-                    </li>
-                    <li>
-                        <a asp-action="Download" asp-controller="Album" asp-route-area="ImageGallery" asp-route-id="@Model.Id" asp-route-type="@ImageType.Medium"data-ajax="true" data-ajax-method="GET" data-ajax-loading="#loading" data-ajax-success="window.location.href = data;" class="btn">Middle</a>
-                    </li>
-                    <li>
-                        <a asp-action="Download" asp-controller="Album" asp-route-area="ImageGallery" asp-route-id="@Model.Id" asp-route-type="@ImageType.Original"data-ajax="true" data-ajax-method="GET" data-ajax-loading="#loading" data-ajax-success="window.location.href = data;" class="btn">High</a>
-                    </li>
-                </ul>
-            </div>
-            <div id="shareBtn" class="fb-share-button clearfix" data-type="button" data-size="large">Share</div>
-         </div>
-        <hr/>
-
-        <div class="overlay-album mygallery lightgallery">
-            @foreach (var image in Model.Images)
-            {
-                <a href='@image.MiddleImageSource' data-download-url="@image.OriginalDownloadPath">
-                    <img class="b-lazy"
-                         src="@image.LowImageSource"
-                         alt="@image.Info"/>
-                    @*<img alt="@image.Info" data-src='@image.LowImageSource'/>*@
-                </a>
-            }
+    <div class="text-center">
+        <div class="btn-group">
+            <a href="#" data-target="#" class="btn dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+                Download
+                <span id="loading" style="display: none">
+                    <img src="~/img/ajax-loader.gif" alt="" />
+                </span>
+            </a>
+            <ul class="dropdown-menu">
+                <li>
+                    <a asp-action="Download" asp-controller="Album" asp-route-area="ImageGallery" asp-route-id="@Model.Id" asp-route-type="@ImageType.Low" data-ajax="true" data-ajax-method="GET" data-ajax-loading="#loading" data-ajax-success="window.location.href = data;" class="btn">Low</a>
+                </li>
+                <li>
+                    <a asp-action="Download" asp-controller="Album" asp-route-area="ImageGallery" asp-route-id="@Model.Id" asp-route-type="@ImageType.Medium" data-ajax="true" data-ajax-method="GET" data-ajax-loading="#loading" data-ajax-success="window.location.href = data;" class="btn">Middle</a>
+                </li>
+                <li>
+                    <a asp-action="Download" asp-controller="Album" asp-route-area="ImageGallery" asp-route-id="@Model.Id" asp-route-type="@ImageType.Original" data-ajax="true" data-ajax-method="GET" data-ajax-loading="#loading" data-ajax-success="window.location.href = data;" class="btn">High</a>
+                </li>
+            </ul>
         </div>
+        <div id="shareBtn" class="fb-share-button clearfix" data-type="button" data-size="large">Share</div>
+    </div>
+    <hr />
+
+    <div class="overlay-album mygallery lightgallery">
+        @foreach (var image in Model.Images.OrderBy(x => x.DateTaken))
+            {
+            <a href='@image.MiddleImageSource' data-download-url="@image.OriginalDownloadPath">
+                <img class="b-lazy"
+                     src="@image.LowImageSource"
+                     alt="@image.Info" />
+                <div class="caption">
+                    <div>@image.GpsName</div>
+                </div>
+            </a>
+        }
     </div>
 </div>
 
@@ -130,7 +128,7 @@
                     fixedHeight: false,
                     margins: 2,
                     lastRow: 'nojustify',
-                    captions: false,
+                    captions: true,
                     border: 0,
                     thumbnailPath: function(currentPath, width, height) {
                         if (Math.max(width, height) < 266) {

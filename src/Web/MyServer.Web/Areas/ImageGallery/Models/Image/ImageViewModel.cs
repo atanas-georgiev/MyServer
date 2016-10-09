@@ -43,7 +43,7 @@
 
         public Guid Id { get; set; }
 
-        public virtual GpsDataViewModel ImageGpsData { get; set; }
+        public GpsDataViewModel ImageGpsData { get; set; }
 
         public string Info { get; set; }
 

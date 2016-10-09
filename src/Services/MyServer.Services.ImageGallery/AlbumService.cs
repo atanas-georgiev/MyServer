@@ -108,7 +108,7 @@
             return
                 this.albums.All()
                     .Include(x => x.Cover)
-                    .Include(x => x.Images)
+                    .Include(x => x.Images).ThenInclude(x => x.ImageGpsData)
                     .Where(x => x.Id != firstAlbumToExcludeGuid);
         }
 

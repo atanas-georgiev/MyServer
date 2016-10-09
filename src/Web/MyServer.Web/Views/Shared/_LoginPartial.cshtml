@@ -7,25 +7,23 @@
 
 @if (SignInManager.IsSignedIn(User))
 {
-    <form asp-area="Account" asp-controller="Login" asp-action="Exit" method="post" id="logoutForm" class="navbar-right">
-        <ul class="nav navbar-nav navbar-right">
-            <li>
-                <a asp-area="Account" asp-controller="Manage" asp-action="Index" title="Manage">@((object)UserManager.GetUserName(User))</a>
-            </li>
-            <li>
-                <button type="submit" class="btn btn-link navbar-btn navbar-link">@LocString["Exit"]</button>
-            </li>
-        </ul>
-    </form>
+    <ul class="nav navbar-nav navbar-right">
+        <li>
+            <a asp-area="Account" asp-controller="Manage" asp-action="Index" title="Manage" class="nav-link">@((object) UserManager.GetUserName(User))</a>
+        </li>
+        <li>
+            <a asp-area="Account" asp-controller="Login" asp-action="Exit" title="Manage" class="nav-link">@LocString["Exit"]</a>
+        </li>
+    </ul>
 }
 else
 {
     <ul class="nav navbar-nav navbar-right">
         <li>
-            <a asp-area="Account" asp-controller="Register" asp-action="Index">@LocString["Register"]</a>
+            <a asp-area="Account" asp-controller="Register" asp-action="Index" class="nav-link">@LocString["Register"]</a>
         </li>
         <li>
-            <a asp-area="Account" asp-controller="Login" asp-action="Index">@LocString["Login"]</a>
+            <a asp-area="Account" asp-controller="Login" asp-action="Index" class="nav-link">@LocString["Login"]</a>
         </li>
     </ul>
 }

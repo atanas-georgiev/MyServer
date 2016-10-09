@@ -1,6 +1,7 @@
 ﻿namespace MyServer.Services.ImageGallery
 {
     using System;
+    using System.Globalization;
     using System.Linq;
     using System.Net.Http;
     using System.Threading.Tasks;
@@ -47,8 +48,8 @@
 
                     if (lat != null && lng != null)
                     {
-                        result.Latitude = double.Parse(lat.Value);
-                        result.Longitude = double.Parse(lng.Value);
+                        result.Latitude = double.Parse(lat.Value, CultureInfo.InvariantCulture);
+                        result.Longitude = double.Parse(lng.Value, CultureInfo.InvariantCulture);
                         result.LocationName = location;
                         return result;
                     }

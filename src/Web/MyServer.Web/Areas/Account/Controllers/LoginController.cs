@@ -29,8 +29,6 @@
         {
         }
 
-        [HttpPost]
-        [ValidateAntiForgeryToken]
         public async Task<ActionResult> Exit()
         {
             await this.signInManager.SignOutAsync();

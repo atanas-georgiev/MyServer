@@ -11,6 +11,7 @@
     using MyServer.Services.Mappings;
     using MyServer.Web.Areas.ImageGallery.Models.Image;
     using MyServer.Web.Areas.ImageGalleryAdmin.Models.Album;
+    using System.Linq;
 
     public class AlbumViewModel : IMapFrom<Album>, IHaveCustomMappings
     {
@@ -28,7 +29,7 @@
 
         public Guid Id { get; set; }
 
-        public IEnumerable<GpsDataViewModel> ImageCoordinates { get; set; }
+        public IEnumerable<ImageGpsData> ImageCoordinates { get; set; }
 
         public List<ImageViewModel> Images { get; set; }
 
@@ -39,9 +40,9 @@
         [MaxLength(200)]
         public string Title { get; set; }
 
-        public static IEnumerable<GpsDataViewModel> MapImageCoordinates(Album source)
+        public static IEnumerable<ImageGpsData> MapImageCoordinates(Album source)
         {
-            return null; // source.Images?.Where(x => x.ImageGpsData != null).Select(x => x.ImageGpsData).Distinct();
+            return source.Images?.Where(x => x.ImageGpsData != null).Select(x => x.ImageGpsData).Distinct();
         }
 
         public void CreateMappings(IMapperConfigurationExpression configuration)
@@ -50,7 +51,7 @@
                 .ForMember(m => m.ImagesCountCover, opt => opt.MapFrom(c => AlbumListViewModel.MapImagesCountCover(c)))
                 .ForMember(m => m.CoverImage, opt => opt.MapFrom(c => AlbumListViewModel.MapCoverImage(c)))
 
-                // .ForMember(m => m.ImageCoordinates, opt => opt.MapFrom(c => MapImageCoordinates(c)))
+                 .ForMember(m => m.ImageCoordinates, opt => opt.MapFrom(c => MapImageCoordinates(c)))
                 .ForMember(m => m.Date, opt => opt.MapFrom(c => AlbumListViewModel.MapDate(c)));
         }
     }

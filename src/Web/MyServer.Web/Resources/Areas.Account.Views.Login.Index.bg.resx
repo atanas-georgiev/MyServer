@@ -124,7 +124,7 @@
     <value>Вход</value>
   </data>
   <data name="LoginLocal" xml:space="preserve">
-    <value>С регистриран потребиел</value>
+    <value>С регистриран потребител</value>
   </data>
   <data name="NewUser" xml:space="preserve">
     <value>Регистрирай нов потребител?</value>

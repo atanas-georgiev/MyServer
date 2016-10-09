@@ -11,24 +11,28 @@
     <title>@ViewData["Title"]</title>
 
     <environment names="Development">
-        <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" />
-        <link rel="stylesheet" href="~/lib/justified-gallery/dist/justified-gallery.min.css" />
-        <link rel="stylesheet" href="~/lib/image-picker/dist/image-picker.css" />
-        <link href="~/lib/lightgallery/dist/css/lightgallery.css" rel="stylesheet" />
-        <link rel="stylesheet" href="~/css/site.css" />
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.0/css/font-awesome.min.css">
+        <link href="~/lib/bootstrap/dist/css/bootstrap.css" rel="stylesheet" />
+        <link href="~/lib/bootstrap-material-design/dist/css/bootstrap-material-design.css" rel="stylesheet" />
+        <link href="~/lib/bootstrap-material-design/dist/css/ripples.css" rel="stylesheet" />
+        <link rel="stylesheet" href="~/lib/justified-gallery/dist/justified-gallery.min.css"/>
+        <link rel="stylesheet" href="~/lib/image-picker/dist/image-picker.css"/>
+        <link href="~/lib/lightgallery/dist/css/lightgallery.css" rel="stylesheet"/>
+        <link rel="stylesheet" href="~/css/site.css"/>
     </environment>
     <environment names="Staging,Production">
-        <link rel="stylesheet" href="~/css/site.min.css" asp-append-version="true" />
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.0/css/font-awesome.min.css">
+        <link rel="stylesheet" href="~/css/site.min.css" asp-append-version="true"/>
     </environment>
     @Html.ApplicationInsightsJavaScript(TelemetryConfiguration)
     @RenderSection("styles", required: false)
 </head>
 <body>
+<header>
     <div class="navbar navbar-inverse navbar-fixed-top">
         <div class="container">
             <div class="navbar-header">
-                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-                    <span class="sr-only">Toggle navigation</span>
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-inverse-collapse">
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
@@ -37,22 +41,25 @@
                 <a asp-area="" asp-controller="Home" asp-action="SetLanguage" asp-route-culture="bg-BG" asp-route-returnUrl="@Context.Request.Path" class="navbar-brand"><img src="~/img/bg-icon.png" /></a>
                 <a asp-area="" asp-controller="Home" asp-action="SetLanguage" asp-route-culture="en-US" asp-route-returnUrl="@Context.Request.Path" class="navbar-brand"><img src="~/img/us-icon.png" /></a>
             </div>
-            <div class="navbar-collapse collapse">
+            <div class="navbar-collapse collapse navbar-inverse-collapse">
                 <ul class="nav navbar-nav">
-                    <li>
-                        <a asp-area="" asp-controller="Home" asp-action="Index">@LocString["Home"]</a>
+                    <li class="active">
+                        <a asp-area="" asp-controller="Home" asp-action="Index" class="nav-link">@LocString["Home"]</a>
                     </li>
                     <li>
-                        <a asp-area="ImageGallery" asp-controller="Album" asp-action="Index">@LocString["Albums"]</a>
+                        <a asp-area="ImageGallery" asp-controller="Album" asp-action="Index" class="nav-link">@LocString["Albums"]</a>
                     </li>
                     @if (User.IsInRole(MyServer.Common.MyServerRoles.Admin))
                     {
                         <li class="dropdown">
-                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">@LocString["Admin"]<span class="caret"></span></a>
-                            <ul class="dropdown-menu" role="menu">
+                            <a href="#" data-target="#" class="dropdown-toggle" data-toggle="dropdown">
+                                @LocString["Admin"]
+                                <b class="caret"></b><div class="ripple-container"></div>
+                            </a>
+                            <ul class="dropdown-menu">
                                 <li>
-                                    <a asp-area="ImageGalleryAdmin" asp-controller="Album" asp-action="Index">@LocString["Albums"]</a>
-                                </li>
+                                    <a class="dropdown-item" asp-area="ImageGalleryAdmin" asp-controller="Album" asp-action="Index">@LocString["Albums"]</a>
+                                </li>           
                             </ul>
                         </li>
                     }
@@ -61,33 +68,150 @@
             </div>
         </div>
     </div>
+    @*<nav class="navbar navbar-dark primary-color">
+        <div class="container">
+            
+            <!--Collapse content-->
+            <div class="collapse navbar-toggleable-xs" id="collapseEx2">
+                <!--Navbar Brand-->
+                <a asp-area="" asp-controller="Home" asp-action="Index" class="navbar-brand">@LocString["Title"]</a>
+                <a asp-area="" asp-controller="Home" asp-action="SetLanguage" asp-route-culture="bg-BG" asp-route-returnUrl="@Context.Request.Path" class="navbar-brand"><img src="~/img/bg-icon.png"/></a>
+                <a asp-area="" asp-controller="Home" asp-action="SetLanguage" asp-route-culture="en-US" asp-route-returnUrl="@Context.Request.Path" class="navbar-brand"><img src="~/img/us-icon.png"/></a>
+                <!--Links-->
+                <ul class="nav navbar-nav">
+                    <li class="nav-item active">
+                        <a asp-area="" asp-controller="Home" asp-action="Index" class="nav-link">@LocString["Home"]</a>
+                    </li>
+                    <li class="nav-item">
+                        <a asp-area="ImageGallery" asp-controller="Album" asp-action="Index" class="nav-link">@LocString["Albums"]</a>
+                    </li>
+                    @if (User.IsInRole(MyServer.Common.MyServerRoles.Admin))
+                    {
+                        <li class="nav-item btn-group">
+                            <a class="nav-link dropdown-toggle" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">@LocString["Admin"]</a>
+                            <div class="dropdown-menu" aria-labelledby="dropdownMenu1">
+                                <a class="dropdown-item" asp-area="ImageGalleryAdmin" asp-controller="Album" asp-action="Index">@LocString["Albums"]</a>
+                            </div>
+                        </li>
+                    }
+                </ul>
+                @await Html.PartialAsync("_LoginPartial")
+            </div>
+            <!--/.Collapse content-->
+
+        </div>
+
+    </nav>*@
+    <!--/.Navbar-->
+
+</header>
+@*<div class="container">
+    <nav class="navbar navbar-dark bg-primary navbar-fixed-top">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a asp-area="" asp-controller="Home" asp-action="Index" class="navbar-brand">@LocString["Title"]</a>
+            <a asp-area="" asp-controller="Home" asp-action="SetLanguage" asp-route-culture="bg-BG" asp-route-returnUrl="@Context.Request.Path" class="navbar-brand"><img src="~/img/bg-icon.png"/></a>
+            <a asp-area="" asp-controller="Home" asp-action="SetLanguage" asp-route-culture="en-US" asp-route-returnUrl="@Context.Request.Path" class="navbar-brand"><img src="~/img/us-icon.png"/></a>
+        </div>
+        <div class="navbar-collapse collapse">
+            <ul class="nav navbar-nav">
+                <li>
+                    <a asp-area="" asp-controller="Home" asp-action="Index">@LocString["Home"]</a>
+                </li>
+                <li>
+                    <a asp-area="ImageGallery" asp-controller="Album" asp-action="Index">@LocString["Albums"]</a>
+                </li>
+                @if (User.IsInRole(MyServer.Common.MyServerRoles.Admin))
+                {
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">@LocString["Admin"]<span class="caret"></span></a>
+                        <ul class="dropdown-menu" role="menu">
+                            <li>
+                                <a asp-area="ImageGalleryAdmin" asp-controller="Album" asp-action="Index">@LocString["Albums"]</a>
+                            </li>
+                        </ul>
+                    </li>
+                }
+            </ul>
+            @await Html.PartialAsync("_LoginPartial")
+        </div>
+    </nav>
+</div>*@
+
+<div class="container body-content">
+    <environment names="Development">
+        <script src="~/lib/jquery/dist/jquery-2.2.4.min.js"></script>
+        <script src="~/lib/bootstrap/dist/js/bootstrap.js"></script>
+        <script src="~/lib/bootstrap-material-design/scripts/material.js"></script>
+        <script src="~/lib/jquery-ajax-unobtrusive/dist/jquery.unobtrusive-ajax.js"></script>
+        <script src="~/lib/image-picker/dist/image-details.js"></script>
+        <script src="~/lib/image-picker/dist/image-picker.min.js"></script>
+        <script src="~/lib/justified-gallery/dist/jquery.justified-gallery.min.js"></script>
+        <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCwTwQMYg1fPJn532TT3o-_SQlbhEOf64g&libraries=places"></script>
+        <script src="~/lib/geocomplete/jquery.geocomplete.js"></script>
+        <script src="~/lib/lightgallery/dist/js/lightgallery-all.js"></script>
+        <script src="~/js/site.js" asp-append-version="true"></script>
+    </environment>
+    <environment names="Staging,Production">
+        <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCwTwQMYg1fPJn532TT3o-_SQlbhEOf64g&libraries=places"></script>
+        <script src="~/js/site.min.js" asp-append-version="true"></script>
+    </environment>
+
+    <br />
     <br />
     
-    <div class="container body-content">
-        <environment names="Development">
-            <script src="~/lib/jquery/dist/jquery.js"></script>
-            <script src="~/lib/bootstrap/dist/js/bootstrap.js"></script>
-            <script src="~/lib/jquery-ajax-unobtrusive/dist/jquery.unobtrusive-ajax.js"></script>
-            <script src="~/lib/image-picker/dist/image-details.js"></script>
-            <script src="~/lib/image-picker/dist/image-picker.min.js"></script>
-            <script src="~/lib/justified-gallery/dist/jquery.justified-gallery.min.js"></script>
-            <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCwTwQMYg1fPJn532TT3o-_SQlbhEOf64g&libraries=places"></script>
-            <script src="~/lib/geocomplete/jquery.geocomplete.js"></script>
-            <script src="~/lib/lightgallery/dist/js/lightgallery-all.js"></script>
-            <script src="~/js/site.js" asp-append-version="true"></script>
-        </environment>
-        <environment names="Staging,Production">
-            <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCwTwQMYg1fPJn532TT3o-_SQlbhEOf64g&libraries=places"></script>
-            <script src="~/js/site.min.js" asp-append-version="true"></script>
-        </environment>
+    <br />
+    <br />
 
-        @RenderBody()
-        <hr />
-        <footer>
-            <p>&copy; 2016 - @LocString["Title"]</p>
-        </footer>
-    </div>
+    @RenderBody()
+    @*<footer>
+        <p>&copy; 2016 - @LocString["Title"]</p>
+    </footer>*@
+    <!--Footer-->
+    <footer class="page-footer blue center-on-small-only">
 
-    @RenderSection("scripts", required: false)
+        <!--Footer Links-->
+        @*<div class="container-fluid">
+            <div class="row">
+
+                <!--First column-->
+                <div class="col-md-6">
+                    <h5 class="title">Footer Content</h5>
+                    <p>Here you can use rows and columns here to organize your footer content.</p>
+                </div>
+                <!--/.First column-->
+                <!--Second column-->
+                <div class="col-md-6">
+                    <h5 class="title">Links</h5>
+                    <ul>
+                        <li><a href="#!">Link 1</a></li>
+                        <li><a href="#!">Link 2</a></li>
+                        <li><a href="#!">Link 3</a></li>
+                        <li><a href="#!">Link 4</a></li>
+                    </ul>
+                </div>
+                <!--/.Second column-->
+            </div>
+        </div>*@
+        <!--/.Footer Links-->
+        <!--Copyright-->
+        <div class="footer-copyright">
+            <div class="container-fluid">
+                © 2015 Copyright: <a href="http://www.MDBootstrap.com"> MDBootstrap.com </a>
+
+            </div>
+        </div>
+        <!--/.Copyright-->
+
+    </footer>
+    <!--/.Footer-->
+</div>
+
+@RenderSection("scripts", required: false)
 </body>
 </html>
