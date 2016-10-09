@@ -225,8 +225,8 @@
                 Rational<uint> val = new Rational<uint>(
                                          ((Rational)aperture.Value).Numerator,
                                          ((Rational)aperture.Value).Denominator);
-                double fStop = Math.Pow(2.0, Convert.ToDouble(val) / 2.0);
-                inputImage.Aperture = string.Format("f/{0:#0.0}", fStop);
+                double fStop = Math.Pow(2.0, Convert.ToDouble(val, CultureInfo.InvariantCulture) / 2.0);
+                inputImage.Aperture = string.Format(new CultureInfo("en-US"), "f/{0:#0.0}", fStop);
             }
 
             var focuslen = exif.Values.Where(x => x.Tag == ExifTag.FocalLength).FirstOrDefault();
@@ -235,7 +235,7 @@
                 Rational<uint> val = new Rational<uint>(
                                          ((Rational)focuslen.Value).Numerator,
                                          ((Rational)focuslen.Value).Denominator);
-                inputImage.FocusLen = string.Format("{0:#0.#}", Convert.ToDecimal(val));
+                inputImage.FocusLen = string.Format(new CultureInfo("en-US"), "{0:#0.#}", Convert.ToDecimal(val, CultureInfo.InvariantCulture));
             }
 
             var exposure = exif.Values.Where(x => x.Tag == ExifTag.ExposureBiasValue).FirstOrDefault();
@@ -244,7 +244,7 @@
                 var val = new Rational<int>(
                               ((SignedRational)exposure.Value).Numerator,
                               ((SignedRational)exposure.Value).Denominator);
-                inputImage.ExposureBiasStep = ((Rational<int>)val).Numerator != 0 ? val.ToString() : "0";
+                inputImage.ExposureBiasStep = ((Rational<int>)val).Numerator != 0 ? val.ToString(CultureInfo.InvariantCulture) : "0";
             }
 
             inputImage.Width = image.Width;
@@ -287,7 +287,6 @@
                                 Mode = ResizeMode.Max,
                                 Size = new Size(Constants.ImageMiddleMaxSize, Constants.ImageMiddleMaxSize)
                             });
-                resizedImage.Quality = 70;
                 return resizedImage;
             }
 

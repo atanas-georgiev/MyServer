@@ -1,7 +1,4 @@
-﻿@using Microsoft.ApplicationInsights.Extensibility
-@using Microsoft.AspNetCore.Mvc.Razor
-@using Microsoft.AspNetCore.Mvc.ViewFeatures
-@using MyServer.Web.Areas.ImageGallery.Models.Album
+﻿@using MyServer.Web.Areas.ImageGallery.Models.Album
 @model IEnumerable<MyServer.Web.Areas.ImageGallery.Models.Album.AlbumViewModel>
 
 @{
@@ -11,18 +8,18 @@
 <div class="container well well-main well-mobile">
     <div>
         <h2 class="text-center">@LocString["Albums"]</h2>
-        <hr />
+        <hr/>
     </div>
     <div>
         <div id="mygallery" class="overlay-album">
             @foreach (var album in Model)
             {
                 <a class="overlay-album-link" href='@Url.Content("Album/Details/" + album.Id)'>
-                    <img class="overlay-album-image" alt="@album.Title" src='@album.CoverImage' />
+                    <img class="overlay-album-image" alt="@album.Title" src='@album.CoverImage'/>
                     <div class="overlay-album-caption">
                         <h1 class="overlay-album-title">@album.Title</h1>
                         <p class="overlay-album-content">
-                            @album.Date<br />
+                            @album.Date<br/>
                             @album.ImagesCountCover
                         </p>
                     </div>
@@ -34,7 +31,7 @@
 
 <script>
     $(document)
-        .ready(function () {
+        .ready(function() {
             $("#mygallery")
                 .justifiedGallery({
                     rowHeight: 300,
@@ -44,7 +41,7 @@
                     lastRow: 'nojustify',
                     captions: false,
                     border: 0,
-                    thumbnailPath: function (currentPath, width, height) {
+                    thumbnailPath: function(currentPath, width, height) {
                         if (Math.max(width, height) > 300) {
                             return currentPath.replace(/(.*)(_[a-z]+)(\..*)/, "$1Low$2");
                         } else {

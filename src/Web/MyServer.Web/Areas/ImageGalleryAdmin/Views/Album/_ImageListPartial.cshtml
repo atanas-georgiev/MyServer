@@ -1,8 +1,4 @@
-﻿@using System.IO
-@using System.Threading.Tasks
-@using Microsoft.ApplicationInsights.Extensibility
-@using Microsoft.AspNetCore.Mvc.Razor
-@using Microsoft.AspNetCore.Mvc.ViewFeatures
+﻿@using System.Threading.Tasks
 @using MyServer.Web.Areas.ImageGalleryAdmin.Models.Album
 @model MyServer.Web.Areas.ImageGalleryAdmin.Models.Album.AlbumEditViewModel
 
@@ -13,7 +9,7 @@
                 data-img-id="@image.Id"
                 data-img-title="@image.Title"
                 data-img-date="@image.DateTaken"
-                data-img-gps="@image.GpsName"
+                data-img-gps="@image.ImageGpsData?.LocationName"
                 value="@image.Id">
             @image.Info
         </option>

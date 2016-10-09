@@ -1,8 +1,4 @@
-﻿@using System.IO
-@using System.Threading.Tasks
-@using Microsoft.ApplicationInsights.Extensibility
-@using Microsoft.AspNetCore.Mvc.Razor
-@using Microsoft.AspNetCore.Mvc.ViewFeatures
+﻿@using System.Threading.Tasks
 @using MyServer.Web.Areas.ImageGalleryAdmin.Models.Image
 @model MyServer.Web.Areas.ImageGalleryAdmin.Models.Image.ImageUpdateViewModel
 <div class="form-horizontal">
@@ -11,7 +7,7 @@
     <button class="btn image-edit-box-location-btn" data-toggle="modal" data-target="#image-edit-box-location-modal">Location</button>
     <a asp-action="UpdateAlbumCover" asp-controller="Album" asp-route-area="ImageGalleryAdmin" @*asp-route-id="@item.RoleID " *@ data-ajax="true" data-ajax-method="POST" class="btn image-edit-box-cover-btn">Cover</a>
     <a asp-action="DeleteImages" asp-controller="Album" asp-route-area="ImageGalleryAdmin" @*asp-route-id="@item.RoleID " *@ data-ajax="true" data-ajax-method="POST" data-ajax-mode="replace" data-ajax-update="#image-list-box" class="btn image-edit-box-delete-btn" data-ajax-success="ImageListUpdate">Delete</a>
-   </div>
+</div>
 <div class="modal fade" id="image-edit-box-title-modal" role="dialog">
     <div class="modal-dialog">
         <div class="modal-content">

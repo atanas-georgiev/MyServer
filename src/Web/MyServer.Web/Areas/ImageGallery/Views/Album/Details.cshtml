@@ -1,7 +1,5 @@
-﻿@using Microsoft.ApplicationInsights.Extensibility
-@using Microsoft.AspNetCore.Mvc.Razor
-@using Microsoft.AspNetCore.Mvc.ViewFeatures
-@using Microsoft.EntityFrameworkCore.Metadata.Internal
+﻿@using System.Globalization
+@using System.Threading.Tasks
 @using MyServer.Common.ImageGallery
 @using MyServer.Web.Areas.ImageGallery.Models.Album
 @model MyServer.Web.Areas.ImageGallery.Models.Album.AlbumViewModel
@@ -10,26 +8,27 @@
 <div class="container well well-main well-mobile">
     <h2 class="well-title text-center">@Model.Title</h2>
     <h4 class="text-center">@Model.Date</h4>
-    <hr />
+    <hr/>
     @if (Model.Description != null)
     {
         <p class="text-center">
             @Html.Raw(Model.Description)
         </p>
-        <hr />
+        <hr/>
     }
 
-    @if (Model.ImageCoordinates != null)
+    @if (Model.ImageCoordinates != null && Model.ImageCoordinates.Count() != 0)
     {
         foreach (var gps in Model.ImageCoordinates)
         {
-            var url = "http://www.google.com/maps/place/" + gps.Latitude + "," + gps.Longitude;
+            var url = "http://www.google.com/maps/place/" + gps.Latitude.ToString().Replace(",", ".") + "," + gps.Longitude.ToString().Replace(",", ".");
             <p class="text-center">
                 <span class="glyphicon glyphicon-map-marker"></span>
                 <a href="@url" target="_blank">@gps.LocationName</a>
             </p>
         }
-        <hr />
+
+        <hr/>
     }
 
     <div class="text-center">
@@ -54,15 +53,15 @@
         </div>
         <div id="shareBtn" class="fb-share-button clearfix" data-type="button" data-size="large">Share</div>
     </div>
-    <hr />
+    <hr/>
 
     <div class="overlay-album mygallery lightgallery">
         @foreach (var image in Model.Images.OrderBy(x => x.DateTaken))
-            {
+        {
             <a href='@image.MiddleImageSource' data-download-url="@image.OriginalDownloadPath">
                 <img class="b-lazy"
                      src="@image.LowImageSource"
-                     alt="@image.Info" />
+                     alt="@image.Info"/>
                 <div class="caption">
                     <div>@image.GpsName</div>
                 </div>
@@ -82,7 +81,7 @@
 
 <script>
     $(document)
-        .ready(function () {
+        .ready(function() {
 
             window.fbAsyncInit = function() {
                 FB.init({
@@ -131,7 +130,7 @@
                     captions: true,
                     captionSettings: { animationDuration: 500, visibleOpacity: 0.9, nonVisibleOpacity: 0.4 },
                     border: 0,
-                    thumbnailPath: function (currentPath, width, height) {
+                    thumbnailPath: function(currentPath, width, height) {
                         if (Math.max(width, height) > 300) {
                             return currentPath.replace(/(.*)(_[a-z]+)(\..*)/, "$1Low$2");
                         } else {

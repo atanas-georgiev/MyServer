@@ -13,6 +13,8 @@
     using MyServer.Web.Areas.ImageGalleryAdmin.Models.Album;
     using System.Linq;
 
+    using MyServer.Web.Areas.Shared.Models;
+
     public class AlbumViewModel : IMapFrom<Album>, IHaveCustomMappings
     {
         public MyServerAccessType Access { get; set; }
@@ -21,7 +23,6 @@
 
         public string CoverImage { get; set; }
 
-        // public ImageViewModel Cover { get; set; }
         public string Date { get; set; }
 
         [MaxLength(3000)]
@@ -40,19 +41,13 @@
         [MaxLength(200)]
         public string Title { get; set; }
 
-        public static IEnumerable<ImageGpsData> MapImageCoordinates(Album source)
-        {
-            return source.Images?.Where(x => x.ImageGpsData != null).Select(x => x.ImageGpsData).Distinct();
-        }
-
         public void CreateMappings(IMapperConfigurationExpression configuration)
         {
             configuration.CreateMap<Album, AlbumViewModel>()
-                .ForMember(m => m.ImagesCountCover, opt => opt.MapFrom(c => AlbumListViewModel.MapImagesCountCover(c)))
-                .ForMember(m => m.CoverImage, opt => opt.MapFrom(c => AlbumListViewModel.MapCoverImage(c)))
-
-                 .ForMember(m => m.ImageCoordinates, opt => opt.MapFrom(c => MapImageCoordinates(c)))
-                .ForMember(m => m.Date, opt => opt.MapFrom(c => AlbumListViewModel.MapDate(c)));
+                .ForMember(m => m.ImagesCountCover, opt => opt.MapFrom(c => MappingFunctions.MapImagesCountCover(c)))
+                .ForMember(m => m.CoverImage, opt => opt.MapFrom(c => MappingFunctions.MapCoverImage(c)))
+                .ForMember(m => m.ImageCoordinates, opt => opt.MapFrom(c => MappingFunctions.MapImageCoordinates(c)))
+                .ForMember(m => m.Date, opt => opt.MapFrom(c => MappingFunctions.MapDate(c)));
         }
     }
 }
