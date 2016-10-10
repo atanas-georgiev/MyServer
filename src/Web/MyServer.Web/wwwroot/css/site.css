@@ -117,6 +117,17 @@ figure {
     transform: translateY( calc(-100% - 60px) );
 }
 
+.overlay-admin-album-checkbox {
+    transform: translateY( calc(-100% - 20px) );
+    text-shadow: 4px 4px 4px #000000;
+}
+
+.overlay-admin-album-text {
+    transform: translate(50px, calc(-100% - 25px));
+    text-shadow: 4px 4px 4px #000000;
+}
+
+
 .modal form, .modal .form-control, .modal button, .modal input, .modal .modal-body {
     display: inline !important;
 } 
@@ -127,4 +138,8 @@ figure {
 
 .pac-container  {
     z-index: 1000000000
+}
+
+span.glyphicon {
+    font-size: 2em;
 }
