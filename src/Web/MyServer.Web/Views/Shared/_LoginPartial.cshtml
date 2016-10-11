@@ -9,10 +9,10 @@
 {
     <ul class="nav navbar-nav navbar-right">
         <li>
-            <a asp-area="Account" asp-controller="Manage" asp-action="Index" title="Manage" class="nav-link">@((object) UserManager.GetUserName(User))</a>
+            <a asp-area="Account" asp-controller="Manage" asp-action="Index" title="Manage" class="nav-link"><i class="fa fa-user" aria-hidden="true"></i> @((object)UserManager.GetUserName(User))</a>
         </li>
         <li>
-            <a asp-area="Account" asp-controller="Login" asp-action="Exit" title="Manage" class="nav-link">@LocString["Exit"]</a>
+            <a asp-area="Account" asp-controller="Login" asp-action="Exit" title="Manage" class="nav-link"><i class="fa fa-sign-out" aria-hidden="true"></i> @LocString["Exit"]</a>
         </li>
     </ul>
 }
@@ -20,10 +20,10 @@ else
 {
     <ul class="nav navbar-nav navbar-right">
         <li>
-            <a asp-area="Account" asp-controller="Register" asp-action="Index" class="nav-link">@LocString["Register"]</a>
+            <a asp-area="Account" asp-controller="Register" asp-action="Index" class="nav-link"><i class="fa fa-user-plus" aria-hidden="true"></i> @LocString["Register"]</a>
         </li>
         <li>
-            <a asp-area="Account" asp-controller="Login" asp-action="Index" class="nav-link">@LocString["Login"]</a>
+            <a asp-area="Account" asp-controller="Login" asp-action="Index" class="nav-link"><i class="fa fa-sign-in" aria-hidden="true"></i> @LocString["Login"]</a>
         </li>
     </ul>
 }

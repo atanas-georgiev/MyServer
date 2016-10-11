@@ -71,17 +71,18 @@
         {
             var result = new ImageGpsData { Id = Guid.NewGuid(), CreatedOn = DateTime.Now };
 
-            if (this.gpsDbData.All().Any(x => x.Latitude == latitude && x.Longitude == longitude))
+            var dbElement = this.gpsDbData.All().FirstOrDefault(x => x.Latitude == latitude && x.Longitude == longitude);
+            if (dbElement != null)
             {
-                return this.gpsDbData.All().First();
+                return dbElement;
             }
 
             var httpClient = new HttpClient();
             var result1 =
                 await
                     httpClient.GetStringAsync(
-                        "https://maps.googleapis.com/maps/api/geocode/xml?latlng=" + longitude.ToString() + ","
-                        + latitude.ToString() + "&key=AIzaSyAJOGz_xyAi_2CdRPW4HX-g5E1WcTwQMSY");
+                        "https://maps.googleapis.com/maps/api/geocode/xml?latlng=" + longitude.ToString(CultureInfo.InvariantCulture) + ","
+                        + latitude.ToString(CultureInfo.InvariantCulture) + "&key=AIzaSyAJOGz_xyAi_2CdRPW4HX-g5E1WcTwQMSY");
             var xmlElm = XElement.Parse(result1);
 
             var status = (from elm in xmlElm.Descendants() where elm.Name == "status" select elm).FirstOrDefault();
