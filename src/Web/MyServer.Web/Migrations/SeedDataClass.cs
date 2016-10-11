@@ -76,12 +76,12 @@
                                 AlbumId = album.Id,
 
                                 // Cover = album,
-                                Height = 400,
-                                Width = 600,
-                                LowHeight = 400,
-                                LowWidth = 600,
-                                MidHeight = 400,
-                                MidWidth = 600,
+                                Height = 267,
+                                Width = 400,
+                                LowHeight = 267,
+                                LowWidth = 400,
+                                MidHeight = 267,
+                                MidWidth = 400,
                                 FileName = Common.ImageGallery.Constants.NoCoverImage,
                                 OriginalFileName = Common.ImageGallery.Constants.NoCoverImage
                             };

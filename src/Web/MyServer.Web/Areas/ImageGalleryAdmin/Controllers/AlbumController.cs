@@ -90,7 +90,7 @@ namespace MyServer.Web.Areas.ImageGalleryAdmin.Controllers
                                     CreatedOn = DateTime.UtcNow,
                                     AddedBy = this.UserProfile,
                                     Access = model.Access,
-                                    Cover = this.imageService.GetAll().First()
+                                    Cover = this.imageService.GetAll().OrderBy(x => x.CreatedOn).First()
                                 };
 
                 this.albumService.Add(album);

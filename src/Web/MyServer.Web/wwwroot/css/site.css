@@ -100,6 +100,7 @@ figure {
 
 .overlay-album-caption {
     position: absolute;
+    font-size: 0.8em;
     top: 0;
     right: 0;
     bottom: 0;
@@ -122,9 +123,16 @@ figure {
     text-shadow: 4px 4px 4px #000000;
 }
 
-.overlay-admin-album-text {
-    transform: translate(50px, calc(-100% - 25px));
-    text-shadow: 4px 4px 4px #000000;
+.overlay-admin-album-text {    
+    transform: translate(50px, calc(-100% - 15px));
+    color: #eee;
+    text-shadow: 2px 2px 2px #000000;
+}
+
+.overlay-user-album-text {    
+    transform: translate(0px, calc(-100% - 15px));
+    color: #eee;
+    text-shadow: 2px 2px 2px #000000;
 }
 
 
@@ -140,7 +148,7 @@ figure {
     z-index: 1000000000
 }
 
-i.fa-check-square-o, i.fa-square-o {
+.overlay-admin-album-checkbox i {
     font-size: 2em;
 }
 

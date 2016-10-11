@@ -19,8 +19,8 @@
                     <div class="overlay-album-caption">
                         <h1 class="overlay-album-title">@album.Title</h1>
                         <p class="overlay-album-content">
-                            @album.Date<br/>
-                            @album.ImagesCountCover
+                            <i class="fa fa-calendar" aria-hidden="true"></i> @album.Date<br/>
+                            <i class="fa fa-file-image-o" aria-hidden="true"></i> @album.ImagesCountCover
                         </p>
                     </div>
                 </a>
@@ -34,8 +34,8 @@
         .ready(function() {
             $("#mygallery")
                 .justifiedGallery({
-                    rowHeight: 300,
-                    maxRowHeight: 400,
+                    rowHeight: 200,
+                    maxRowHeight: 300,
                     fixedHeight: false,
                     margins: 2,
                     lastRow: 'nojustify',

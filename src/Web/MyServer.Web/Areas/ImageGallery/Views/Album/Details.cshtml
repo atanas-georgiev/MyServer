@@ -8,13 +8,13 @@
 <div class="container well well-main well-mobile">
     <h2 class="well-title text-center">@Model.Title</h2>
     <h4 class="text-center">@Model.Date</h4>
-    <hr/>
+    <hr />
     @if (Model.Description != null)
     {
         <p class="text-center">
             @Html.Raw(Model.Description)
         </p>
-        <hr/>
+        <hr />
     }
 
     @if (Model.ImageCoordinates != null && Model.ImageCoordinates.Count() != 0)
@@ -28,7 +28,7 @@
             </p>
         }
 
-        <hr/>
+        <hr />
     }
 
     <div class="text-center">
@@ -53,17 +53,28 @@
         </div>
         <div id="shareBtn" class="fb-share-button clearfix" data-type="button" data-size="large">Share</div>
     </div>
-    <hr/>
+    <hr />
 
     <div class="overlay-album mygallery lightgallery">
         @foreach (var image in Model.Images.OrderBy(x => x.DateTaken))
         {
             <a href='@image.MiddleImageSource' data-download-url="@image.OriginalDownloadPath">
-                <img class="b-lazy"
-                     src="@image.LowImageSource"
-                     alt="@image.Info"/>
-                <div class="caption">
-                    <div>@image.GpsName</div>
+                <img class="b-lazy" src="@image.LowImageSource" alt="@image.Info" />
+                <div class="overlay-album-caption">
+                    <div class="overlay-user-album-text">
+                        @if (!string.IsNullOrEmpty(image.Title))
+                        {
+                            <i class="fa fa-pencil-square-o" aria-hidden="true"></i> @image.Title<br>
+                        }
+                        @if (!string.IsNullOrEmpty(image.DateTaken.ToString()))
+                        {
+                            <i class="fa fa-calendar" aria-hidden="true"></i> @image.DateTaken.Value.ToString("dd MMMM yyyy")<br>
+                        }
+                        @if (!string.IsNullOrEmpty(image.GpsName))
+                        {
+                            <i class="fa fa-map-marker" aria-hidden="true"></i> @image.GpsName
+                        }
+                    </div>
                 </div>
             </a>
         }
@@ -71,19 +82,19 @@
 </div>
 
 @section Styles {
-    <meta property="og:url" content='@("http://atanas.it/ImageGallery/Album/Details/" + Model.Id)'/>
-    <meta property="og:type" content="article"/>
-    <meta property="og:title" content="@Model.Title"/>
-    <meta property="og:description" content="@Model.Description"/>
-    <meta property="og:image" content='@("http://atanas.it" + Model.CoverImage)'/>
-    <meta property="fb:app_id" content="521558431365642"/>
+    <meta property="og:url" content='@("http://atanas.it/ImageGallery/Album/Details/" + Model.Id)' />
+    <meta property="og:type" content="article" />
+    <meta property="og:title" content="@Model.Title" />
+    <meta property="og:description" content="@Model.Description" />
+    <meta property="og:image" content='@("http://atanas.it" + Model.CoverImage)' />
+    <meta property="fb:app_id" content="521558431365642" />
 }
 
 <script>
     $(document)
-        .ready(function() {
+        .ready(function () {
 
-            window.fbAsyncInit = function() {
+            window.fbAsyncInit = function () {
                 FB.init({
                     appId: '521558431365642',
                     xfbml: true,
@@ -91,7 +102,7 @@
                 });
             };
 
-            (function(d, s, id) {
+            (function (d, s, id) {
                 var js, fjs = d.getElementsByTagName(s)[0];
                 if (d.getElementById(id)) {
                     return;
@@ -102,14 +113,14 @@
                 fjs.parentNode.insertBefore(js, fjs);
             }(document, 'script', 'facebook-jssdk'));
 
-            document.getElementById('shareBtn').onclick = function() {
+            document.getElementById('shareBtn').onclick = function () {
                 urlfb = 'http://atanas.it/ImageGallery/Album/Details/' + '@Model.Id';
                 FB.ui({
-                        method: 'share',
-                        display: 'popup',
-                        href: urlfb,
-                    },
-                    function(response) {});
+                    method: 'share',
+                    display: 'popup',
+                    href: urlfb,
+                },
+                    function (response) { });
             }
 
             $('.mygallery')
@@ -127,10 +138,9 @@
                     fixedHeight: false,
                     margins: 2,
                     lastRow: 'nojustify',
-                    captions: true,
-                    captionSettings: { animationDuration: 500, visibleOpacity: 0.9, nonVisibleOpacity: 0.4 },
+                    captions: false,                    
                     border: 0,
-                    thumbnailPath: function(currentPath, width, height) {
+                    thumbnailPath: function (currentPath, width, height) {
                         if (Math.max(width, height) > 300) {
                             return currentPath.replace(/(.*)(_[a-z]+)(\..*)/, "$1Low$2");
                         } else {
