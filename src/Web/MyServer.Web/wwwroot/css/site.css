@@ -140,11 +140,12 @@ figure {
     z-index: 1000000000
 }
 
-span.glyphicon {
+i.fa-check-square-o, i.fa-square-o {
     font-size: 2em;
 }
 
 .image-edit-box-title-btn, .image-edit-box-date-btn, .image-edit-box-location-btn, .image-edit-box-cover-btn, .image-edit-box-delete-btn {
-    padding: 10px;
-    margin: 10px;
+    font-size: 1.5em;
+    padding: 12px;
+    margin: 0px;
 }
