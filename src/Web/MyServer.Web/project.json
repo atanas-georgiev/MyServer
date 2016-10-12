@@ -51,8 +51,6 @@
     "BundlerMinifier.Core": "2.2.281",
     "lib": "2016.2.714",
     "Microsoft.ApplicationInsights.AspNetCore": "1.0.0",
-    "Microsoft.AspNet.Diagnostics.Elm": "1.0.0-rc1-final",
-    "Microsoft.AspNet.Mvc.Localization": "6.0.0-rc1-final",
     "Microsoft.AspNetCore.Authentication.Cookies": "1.0.0",
     "Microsoft.AspNetCore.Authentication.Facebook": "1.0.0",
     "Microsoft.AspNetCore.Authentication.Google": "1.0.0",
@@ -68,6 +66,7 @@
       "type": "build"
     },
     "Microsoft.AspNetCore.Server.IISIntegration": "1.0.0",
+    "Microsoft.AspNetCore.Server.IISIntegration.Tools": "1.0.0-preview2-final",
     "Microsoft.AspNetCore.Server.Kestrel": "1.0.1",
     "Microsoft.AspNetCore.Session": "1.0.0",
     "Microsoft.AspNetCore.StaticFiles": "1.0.0",
@@ -75,7 +74,7 @@
     "Microsoft.EntityFrameworkCore.SqlServer": "1.0.1",
     "Microsoft.EntityFrameworkCore.SqlServer.Design": "1.0.1",
     "Microsoft.EntityFrameworkCore.Tools": {
-      "version": "1.0.0-preview2-final",
+      "version": "1.0.0-*",
       "type": "build"
     },
     "Microsoft.Extensions.Caching.Memory": "1.0.0",
@@ -92,11 +91,11 @@
     },
     "Microsoft.VisualStudio.Web.BrowserLink.Loader": "14.0.0",
     "Microsoft.VisualStudio.Web.CodeGeneration.Tools": {
-      "version": "1.0.0-preview2-final",
+      "version": "1.0.0-*",
       "type": "build"
     },
     "Microsoft.VisualStudio.Web.CodeGenerators.Mvc": {
-      "version": "1.0.0-preview2-final",
+      "version": "1.0.0-*",
       "type": "build"
     },
     "MyServer.Common": "1.0.0-*",

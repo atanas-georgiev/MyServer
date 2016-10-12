@@ -166,6 +166,8 @@
                 .AddJsonOptions(options => options.SerializerSettings.ContractResolver = new DefaultContractResolver());
 
             services.AddKendo();
+
+            services.Configure<IISOptions>(options => { });
         }
     }
 }
