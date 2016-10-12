@@ -49,6 +49,7 @@
   "dependencies": {
     "AutoMapper": "5.1.1",
     "BundlerMinifier.Core": "2.2.281",
+    "lib": "2016.2.714",
     "Microsoft.ApplicationInsights.AspNetCore": "1.0.0",
     "Microsoft.AspNet.Diagnostics.Elm": "1.0.0-rc1-final",
     "Microsoft.AspNet.Mvc.Localization": "6.0.0-rc1-final",
@@ -105,8 +106,7 @@
     "MyServer.Data.Models": "1.0.0-*",
     "MyServer.Services.ImageGallery": "1.0.0-*",
     "MyServer.Services.Mappings": "1.0.0-*",
-    "MyServer.Services.Users": "1.0.0-*",
-    "Telerik.UI.for.AspNet.Core": "2016.2.714"
+    "MyServer.Services.Users": "1.0.0-*"
   },
   "commands": {
     "web": "Microsoft.AspNet.Server.Kestrel --server.urls http://*:5000"
