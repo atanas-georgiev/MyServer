@@ -9,3 +9,6 @@ before_build:
     dotnet restore
 build:
   verbosity: minimal
+  
+after_build:
+    dotnet publish "src\publish"
