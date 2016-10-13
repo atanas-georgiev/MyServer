@@ -11,7 +11,7 @@ build:
   verbosity: minimal
   
 after_build:
-- dotnet publish MyServer.Web\project.json -o AppOutput\DeployTest --configuration Release
+- dotnet publish src\Web\MyServer.Web\project.json -o AppOutput\DeployTest --configuration Release
 - dotnet publish C:\projects\myserver\src\Web\MyServer.Web\project.json -o C:\projects\myserver\src\Web\MyServer.Web\AppOutput\DeployTest --configuration Release
 
 test: off
