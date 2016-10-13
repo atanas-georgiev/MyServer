@@ -234,3 +234,7 @@ _Pvt_Extensions
 
 # FAKE - F# Make
 .fake/
+/src/Web/MyServer.Web/wwwroot/css/site.min.css
+/src/Web/MyServer.Web/wwwroot/Content/Images/2ecc308a-37cc-42fe-8672-61b47ec67797/Low/*.jpg
+/src/Web/MyServer.Web/wwwroot/Content/Images/2ecc308a-37cc-42fe-8672-61b47ec67797/Middle/*.jpg
+/src/Web/MyServer.Web/wwwroot/js/site.min.js
