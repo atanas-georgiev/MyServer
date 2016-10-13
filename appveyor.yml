@@ -11,7 +11,7 @@ build:
   verbosity: minimal
   
 after_build:
-    dotnet publish src/Web/MyServer.Web/project.json
-    dir src/Web/MyServer.Web/bin/Debug/netcoreapp1.0/publish
-    type src/Web/MyServer.Web/bin/Debug/netcoreapp1.0/publish/web.config
-    '"C:\Program Files (x86)\IIS\Microsoft Web Deploy V3\msdeploy.exe" -source:IisApp=''%appveyor_build_folder%/src/Web/MyServer.Web/bin/Debug/netcoreapp1.0/publish'' -dest:IisApp=''MyServer'',ComputerName=''http://atanas.it/msdeploy.axd'',UserName=''$avg123'',Password=''Godcheto1'',IncludeAcls=''False'',AuthType=''Basic'' -verb:sync -enableLink:contentLibExtension  -enableRule:DoNotDeleteRule -retryAttempts:2'
+- dotnet publish src/Web/MyServer.Web/project.json
+- dir src/Web/MyServer.Web/bin/Debug/netcoreapp1.0/publish
+- type src/Web/MyServer.Web/bin/Debug/netcoreapp1.0/publish/web.config
+- '"C:\Program Files (x86)\IIS\Microsoft Web Deploy V3\msdeploy.exe" -source:IisApp=''%appveyor_build_folder%/src/Web/MyServer.Web/bin/Debug/netcoreapp1.0/publish'' -dest:IisApp=''MyServer'',ComputerName=''http://atanas.it/msdeploy.axd'',UserName=''$avg123'',Password=''Godcheto1'',IncludeAcls=''False'',AuthType=''Basic'' -verb:sync -enableLink:contentLibExtension  -enableRule:DoNotDeleteRule -retryAttempts:2'
