@@ -12,7 +12,11 @@ build:
   
 after_build:
 - dotnet publish src/Web/MyServer.Web/project.json -o AppOutput\DeployTest --configuration Release
-- copy src/Web/MyServer.Web/Publish/web.config AppOutput\DeployTest
+- mkdir AppOutput
+- cd AppOutput
+- mkdir DeployTest
+- cd ..
+- copy src\Web\MyServer.Web\Publish\web.config AppOutput\DeployTest\web.config
 
 test: off
 
