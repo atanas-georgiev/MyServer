@@ -25,10 +25,12 @@ deploy:
   server: atanas.it
   website: MyServer
   username: Administrator
-  password: Godcheto1
+  password: 
+    secure: rE55/DZDA+/y1TX0DnrRSQ==
   ntlm: true
   do_not_use_checksum: true
   aspnet_core: true
 #  aspnet5: true
   aspnet_core_force_restart: true
   artifact: DeployTest
+  app_offline: true
