@@ -12,6 +12,8 @@ build:
   
 after_build:
 - dotnet publish src/Web/MyServer.Web/project.json -o AppOutput\DeployTest --configuration Release
+- dir AppOutput\DeployTest\wwwroot
+- type AppOutput\DeployTest\wwwroot\web.config
 
 test: off
 
@@ -22,11 +24,13 @@ artifacts:
   
 deploy:
 - provider: WebDeploy
-  server: http://atanas.it/msdeploy.axd
+  server: http://atanas.it/msdeploy.axd?site=MyServer
   website: atanas.it
   username: avg123
   password: Godcheto1
+  ntlm: true
   do_not_use_checksum: true
   aspnet_core: true
 #  aspnet5: true
   aspnet_core_force_restart: true
+  artifact: DeployTest
