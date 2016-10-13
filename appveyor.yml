@@ -16,7 +16,7 @@ after_build:
 test: off
 
 artifacts:
-- path: C:\projects\myserver\src\Web\MyServer.Web\AppOutput\DeployTest
+- path: AppOutput\DeployTest
   name: DeployTest
   type: WebDeployPackage
   
