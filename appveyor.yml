@@ -24,7 +24,7 @@ deploy:
 - provider: WebDeploy
   server: atanas.it
   website: MyServer
-  username: avg123
+  username: Administrator
   password: Godcheto1
   ntlm: true
   do_not_use_checksum: true
