@@ -22,7 +22,7 @@ artifacts:
   
 deploy:
 - provider: WebDeploy
-  server: http://atanas.it/msdeploy.axd?site=MyServer
+  server: atanas.it
   website: MyServer
   username: avg123
   password: Godcheto1
