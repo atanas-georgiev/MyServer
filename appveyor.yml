@@ -11,7 +11,7 @@ build:
   verbosity: minimal
   
 after_build:
-- dotnet publish src/Web/MyServer.Web/project.json -o AppOutput\DeployTest --configuration Release --no-source --wwwroot "wwwroot" --wwwroot-out "wwwroot" --iis-command "web" --quiet
+- dotnet publish src/Web/MyServer.Web/project.json -o AppOutput\DeployTest --configuration Release --wwwroot "wwwroot" --wwwroot-out "wwwroot" --iis-command "web" --quiet
 
 test: off
 
