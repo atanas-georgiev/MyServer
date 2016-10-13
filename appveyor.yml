@@ -11,4 +11,4 @@ build:
   verbosity: minimal
   
 after_build:
-    dotnet publish "src\publish"
+    dotnet publish
