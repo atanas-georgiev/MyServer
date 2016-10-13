@@ -11,8 +11,9 @@ build:
   verbosity: minimal
   
 after_build:
-- dotnet publish-iis src/Web/MyServer.Web/project.json -o AppOutput\DeployTest --configuration Release
-# - dotnet publish-iis src/Web/MyServer.Web/project.json --publish-folder AppOutput\DeployTest --framework %publish:FullTargetFramework%
+- dotnet publish src/Web/MyServer.Web/project.json -o AppOutput\DeployTest --configuration Release
+- copy src/Web/MyServer.Web/Publish/web.config AppOutput\DeployTest
+
 test: off
 
 artifacts:
