@@ -10,20 +10,19 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewData["Title"]</title>
 
-    <environment names="Development">
-        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.0/css/font-awesome.min.css">
-        <link href="~/css/bootstrap/bootstrap.css" rel="stylesheet" />
-        <link href="~/css/bootstrap-material-design/bootstrap-material-design.css" rel="stylesheet" />
-        <link href="~/css/bootstrap-material-design/ripples.css" rel="stylesheet" />
-        <link href="~/css/justified-gallery/justified-gallery.min.css" rel="stylesheet" />
-        <link href="~/css/image-picker/image-picker.css" rel="stylesheet" />
-        <link href="~/css/lightgallery/lightgallery.css" rel="stylesheet" />
-        <link href="~/css/lightgallery/lg-transitions.css" rel="stylesheet" />
-        <link href="~/css/lightgallery/lg-fb-comment-box.css" rel="stylesheet" />        
-        <link rel="stylesheet" href="~/css/site.css"/>
+    <environment names="Development">        
+        <link href="~/css/font-awesome.css" rel="stylesheet" />
+        <link href="~/css/bootstrap.css" rel="stylesheet" />
+        <link href="~/css/bootstrap-material-design.css" rel="stylesheet" />
+        <link href="~/css/ripples.css" rel="stylesheet" />
+        <link href="~/css/justified-gallery.min.css" rel="stylesheet" />
+        <link href="~/css/image-picker.css" rel="stylesheet" />
+        <link href="~/css/lightgallery.css" rel="stylesheet" />
+        <link href="~/css/lg-transitions.css" rel="stylesheet" />
+        <link href="~/css/lg-fb-comment-box.css" rel="stylesheet" />        
+        <link href="~/css/site.css" rel="stylesheet" />
     </environment>
-    <environment names="Staging,Production">
-        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.0/css/font-awesome.min.css">
+    <environment names="Staging,Production">        
         <link rel="stylesheet" href="~/css/site.min.css" asp-append-version="true"/>
     </environment>
     @Html.ApplicationInsightsJavaScript(TelemetryConfiguration)
