@@ -2,6 +2,7 @@
 {
     using System;
     using System.Collections.Generic;
+    using System.Globalization;
     using System.Linq;
     using System.Text;
 
@@ -145,6 +146,38 @@
         public static int MapWidth(Album source)
         {
             return source.CoverId == null ? Constants.ImageLowMaxSize : source.Cover.LowWidth;
+        }
+
+        public static string MapTitle(Album source)
+        {
+            var culture = CultureInfo.CurrentCulture.ToString();
+
+            if (culture == "bg-BG")
+            {
+                return source.TitleBg;
+            }
+            else if (culture == "en-US")
+            {
+                return source.TitleEn;
+            }
+
+            return null;
+        }
+
+        public static string MapDescription(Album source)
+        {
+            var culture = CultureInfo.CurrentCulture.ToString();
+
+            if (culture == "bg-BG")
+            {
+                return source.DescriptionBg;
+            }
+            else if (culture == "en-US")
+            {
+                return source.DescriptionEn;
+            }
+
+            return null;
         }
     }
 }

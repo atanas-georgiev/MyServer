@@ -7,17 +7,27 @@
         <hr/>
         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
         <div class="form-group">
-            <label asp-for="Title" class="col-md-2 control-label"></label>
-            <div class="col-md-10">
-                <input asp-for="Title" class="form-control"/>
-                <span asp-validation-for="Title" class="text-danger" />
+            <label asp-for="TitleEn" class="col-md-2 control-label"></label>
+            <div class="col-md-4">
+                <input asp-for="TitleEn" class="form-control"/>
+                <span asp-validation-for="TitleEn" class="text-danger" />
+            </div>
+            <label asp-for="TitleBg" class="col-md-2 control-label"></label>
+            <div class="col-md-4">
+                <input asp-for="TitleBg" class="form-control" />
+                <span asp-validation-for="TitleBg" class="text-danger" />
             </div>
         </div>
         <div class="form-group">
-            <label asp-for="Description" class="col-md-2 control-label"></label>
-            <div class="col-md-10">
-                @Html.Kendo().EditorFor(model => model.Description).HtmlAttributes(new { @class = "form-control" }).Encoded(false)
-                <span asp-validation-for="Description" class="text-danger" />
+            <label asp-for="DescriptionEn" class="col-md-2 control-label"></label>
+            <div class="col-md-4">
+                @Html.Kendo().EditorFor(model => model.DescriptionEn).HtmlAttributes(new { @class = "form-control" }).Encoded(false)
+                <span asp-validation-for="DescriptionEn" class="text-danger" />
+            </div>
+            <label asp-for="DescriptionBg" class="col-md-2 control-label"></label>
+            <div class="col-md-4">
+                @Html.Kendo().EditorFor(model => model.DescriptionBg).HtmlAttributes(new { @class = "form-control" }).Encoded(false)
+                <span asp-validation-for="DescriptionBg" class="text-danger" />
             </div>
         </div>
         <div class="form-group">

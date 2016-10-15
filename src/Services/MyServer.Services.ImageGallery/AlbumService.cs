@@ -86,8 +86,9 @@
                 }
             }
 
+            // TODO: change en/bg
             var archiveName = this.appEnvironment.WebRootPath + Constants.TempContentFolder + "\\"
-                              + this.fileService.MakeValidFileName(album.Title) + ".zip";
+                              + this.fileService.MakeValidFileName(album.TitleEn) + ".zip";
             File.Delete(archiveName);
             ZipFile.CreateFromDirectory(albumPathTemp, archiveName);
 

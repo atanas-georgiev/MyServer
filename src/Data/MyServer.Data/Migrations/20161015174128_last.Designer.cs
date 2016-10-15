@@ -8,7 +8,7 @@ using MyServer.Data;
 namespace MyServer.Data.Migrations
 {
     [DbContext(typeof(MyServerDbContext))]
-    [Migration("20161004135112_last")]
+    [Migration("20161015174128_last")]
     partial class last
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -139,14 +139,21 @@ namespace MyServer.Data.Migrations
 
                     b.Property<DateTime?>("DeletedOn");
 
-                    b.Property<string>("Description")
+                    b.Property<string>("DescriptionBg")
+                        .HasAnnotation("MaxLength", 3000);
+
+                    b.Property<string>("DescriptionEn")
                         .HasAnnotation("MaxLength", 3000);
 
                     b.Property<bool>("IsDeleted");
 
                     b.Property<DateTime?>("ModifiedOn");
 
-                    b.Property<string>("Title")
+                    b.Property<string>("TitleBg")
+                        .IsRequired()
+                        .HasAnnotation("MaxLength", 200);
+
+                    b.Property<string>("TitleEn")
                         .IsRequired()
                         .HasAnnotation("MaxLength", 200);
 

@@ -25,7 +25,10 @@
                     });
 
         [MaxLength(3000)]
-        public string Description { get; set; }
+        public string DescriptionBg { get; set; }
+
+        [MaxLength(3000)]
+        public string DescriptionEn { get; set; }
 
         [Key]
         [HiddenInput(DisplayValue = false)]
@@ -34,6 +37,11 @@
         [Required]
         [MinLength(3)]
         [MaxLength(150)]
-        public string Title { get; set; }
+        public string TitleBg { get; set; }
+
+        [Required]
+        [MinLength(3)]
+        [MaxLength(150)]
+        public string TitleEn { get; set; }
     }
 }

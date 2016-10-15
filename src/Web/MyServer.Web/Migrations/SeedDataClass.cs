@@ -63,7 +63,8 @@
                             {
                                 CreatedOn = DateTime.Now,
                                 AddedById = user.Id,
-                                Title = "No Image Album"
+                                TitleBg = "No Image Album",
+                                TitleEn = "No Image Album",
                             };
 
             context.Albums.Add(album);

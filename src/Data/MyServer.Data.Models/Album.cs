@@ -38,7 +38,10 @@
         public virtual Guid? CoverId { get; set; }
 
         [MaxLength(3000)]
-        public string Description { get; set; }
+        public string DescriptionBg { get; set; }
+
+        [MaxLength(3000)]
+        public string DescriptionEn { get; set; }
 
         [InverseProperty("Album")]
         public virtual ICollection<Image> Images { get; set; }
@@ -46,6 +49,11 @@
         [Required]
         [MinLength(3)]
         [MaxLength(200)]
-        public string Title { get; set; }
+        public string TitleBg { get; set; }
+
+        [Required]
+        [MinLength(3)]
+        [MaxLength(200)]
+        public string TitleEn { get; set; }
     }
 }

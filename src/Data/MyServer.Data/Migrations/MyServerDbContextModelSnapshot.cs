@@ -1,422 +1,454 @@
-﻿namespace MyServer.Data.Migrations
+﻿using System;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
+using MyServer.Data;
+
+namespace MyServer.Data.Migrations
 {
-    using System;
-
-    using Microsoft.EntityFrameworkCore;
-    using Microsoft.EntityFrameworkCore.Infrastructure;
-    using Microsoft.EntityFrameworkCore.Metadata;
-
     [DbContext(typeof(MyServerDbContext))]
     partial class MyServerDbContextModelSnapshot : ModelSnapshot
     {
         protected override void BuildModel(ModelBuilder modelBuilder)
         {
-            modelBuilder.HasAnnotation("ProductVersion", "1.0.1")
+            modelBuilder
+                .HasAnnotation("ProductVersion", "1.0.1")
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-            modelBuilder.Entity(
-                "Microsoft.AspNetCore.Identity.EntityFrameworkCore.IdentityRole",
-                b =>
-                    {
-                        b.Property<string>("Id");
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.EntityFrameworkCore.IdentityRole", b =>
+                {
+                    b.Property<string>("Id");
 
-                        b.Property<string>("ConcurrencyStamp").IsConcurrencyToken();
+                    b.Property<string>("ConcurrencyStamp")
+                        .IsConcurrencyToken();
 
-                        b.Property<string>("Name").HasAnnotation("MaxLength", 256);
+                    b.Property<string>("Name")
+                        .HasAnnotation("MaxLength", 256);
 
-                        b.Property<string>("NormalizedName").HasAnnotation("MaxLength", 256);
+                    b.Property<string>("NormalizedName")
+                        .HasAnnotation("MaxLength", 256);
 
-                        b.HasKey("Id");
+                    b.HasKey("Id");
 
-                        b.HasIndex("NormalizedName").HasName("RoleNameIndex");
+                    b.HasIndex("NormalizedName")
+                        .HasName("RoleNameIndex");
 
-                        b.ToTable("AspNetRoles");
-                    });
+                    b.ToTable("AspNetRoles");
+                });
 
-            modelBuilder.Entity(
-                "Microsoft.AspNetCore.Identity.EntityFrameworkCore.IdentityRoleClaim<string>",
-                b =>
-                    {
-                        b.Property<int>("Id").ValueGeneratedOnAdd();
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.EntityFrameworkCore.IdentityRoleClaim<string>", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
 
-                        b.Property<string>("ClaimType");
+                    b.Property<string>("ClaimType");
 
-                        b.Property<string>("ClaimValue");
+                    b.Property<string>("ClaimValue");
 
-                        b.Property<string>("RoleId").IsRequired();
+                    b.Property<string>("RoleId")
+                        .IsRequired();
 
-                        b.HasKey("Id");
+                    b.HasKey("Id");
 
-                        b.HasIndex("RoleId");
+                    b.HasIndex("RoleId");
 
-                        b.ToTable("AspNetRoleClaims");
-                    });
+                    b.ToTable("AspNetRoleClaims");
+                });
 
-            modelBuilder.Entity(
-                "Microsoft.AspNetCore.Identity.EntityFrameworkCore.IdentityUserClaim<string>",
-                b =>
-                    {
-                        b.Property<int>("Id").ValueGeneratedOnAdd();
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.EntityFrameworkCore.IdentityUserClaim<string>", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
 
-                        b.Property<string>("ClaimType");
+                    b.Property<string>("ClaimType");
 
-                        b.Property<string>("ClaimValue");
+                    b.Property<string>("ClaimValue");
 
-                        b.Property<string>("UserId").IsRequired();
+                    b.Property<string>("UserId")
+                        .IsRequired();
 
-                        b.HasKey("Id");
+                    b.HasKey("Id");
 
-                        b.HasIndex("UserId");
+                    b.HasIndex("UserId");
 
-                        b.ToTable("AspNetUserClaims");
-                    });
+                    b.ToTable("AspNetUserClaims");
+                });
 
-            modelBuilder.Entity(
-                "Microsoft.AspNetCore.Identity.EntityFrameworkCore.IdentityUserLogin<string>",
-                b =>
-                    {
-                        b.Property<string>("LoginProvider");
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.EntityFrameworkCore.IdentityUserLogin<string>", b =>
+                {
+                    b.Property<string>("LoginProvider");
 
-                        b.Property<string>("ProviderKey");
+                    b.Property<string>("ProviderKey");
 
-                        b.Property<string>("ProviderDisplayName");
+                    b.Property<string>("ProviderDisplayName");
 
-                        b.Property<string>("UserId").IsRequired();
+                    b.Property<string>("UserId")
+                        .IsRequired();
 
-                        b.HasKey("LoginProvider", "ProviderKey");
+                    b.HasKey("LoginProvider", "ProviderKey");
 
-                        b.HasIndex("UserId");
+                    b.HasIndex("UserId");
 
-                        b.ToTable("AspNetUserLogins");
-                    });
+                    b.ToTable("AspNetUserLogins");
+                });
 
-            modelBuilder.Entity(
-                "Microsoft.AspNetCore.Identity.EntityFrameworkCore.IdentityUserRole<string>",
-                b =>
-                    {
-                        b.Property<string>("UserId");
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.EntityFrameworkCore.IdentityUserRole<string>", b =>
+                {
+                    b.Property<string>("UserId");
 
-                        b.Property<string>("RoleId");
+                    b.Property<string>("RoleId");
 
-                        b.HasKey("UserId", "RoleId");
+                    b.HasKey("UserId", "RoleId");
 
-                        b.HasIndex("RoleId");
+                    b.HasIndex("RoleId");
 
-                        b.HasIndex("UserId");
+                    b.HasIndex("UserId");
 
-                        b.ToTable("AspNetUserRoles");
-                    });
+                    b.ToTable("AspNetUserRoles");
+                });
 
-            modelBuilder.Entity(
-                "Microsoft.AspNetCore.Identity.EntityFrameworkCore.IdentityUserToken<string>",
-                b =>
-                    {
-                        b.Property<string>("UserId");
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.EntityFrameworkCore.IdentityUserToken<string>", b =>
+                {
+                    b.Property<string>("UserId");
 
-                        b.Property<string>("LoginProvider");
+                    b.Property<string>("LoginProvider");
 
-                        b.Property<string>("Name");
+                    b.Property<string>("Name");
 
-                        b.Property<string>("Value");
+                    b.Property<string>("Value");
 
-                        b.HasKey("UserId", "LoginProvider", "Name");
+                    b.HasKey("UserId", "LoginProvider", "Name");
 
-                        b.ToTable("AspNetUserTokens");
-                    });
+                    b.ToTable("AspNetUserTokens");
+                });
 
-            modelBuilder.Entity(
-                "MyServer.Data.Models.Album",
-                b =>
-                    {
-                        b.Property<Guid>("Id").ValueGeneratedOnAdd();
+            modelBuilder.Entity("MyServer.Data.Models.Album", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd();
 
-                        b.Property<int>("Access");
+                    b.Property<int>("Access");
 
-                        b.Property<string>("AddedById");
+                    b.Property<string>("AddedById");
 
-                        b.Property<Guid?>("CoverId");
+                    b.Property<Guid?>("CoverId");
 
-                        b.Property<DateTime>("CreatedOn");
+                    b.Property<DateTime>("CreatedOn");
 
-                        b.Property<DateTime?>("DeletedOn");
+                    b.Property<DateTime?>("DeletedOn");
 
-                        b.Property<string>("Description").HasAnnotation("MaxLength", 3000);
+                    b.Property<string>("DescriptionBg")
+                        .HasAnnotation("MaxLength", 3000);
 
-                        b.Property<bool>("IsDeleted");
+                    b.Property<string>("DescriptionEn")
+                        .HasAnnotation("MaxLength", 3000);
 
-                        b.Property<DateTime?>("ModifiedOn");
+                    b.Property<bool>("IsDeleted");
 
-                        b.Property<string>("Title").IsRequired().HasAnnotation("MaxLength", 200);
+                    b.Property<DateTime?>("ModifiedOn");
 
-                        b.HasKey("Id");
+                    b.Property<string>("TitleBg")
+                        .IsRequired()
+                        .HasAnnotation("MaxLength", 200);
 
-                        b.HasIndex("AddedById");
+                    b.Property<string>("TitleEn")
+                        .IsRequired()
+                        .HasAnnotation("MaxLength", 200);
 
-                        b.HasIndex("CoverId");
+                    b.HasKey("Id");
 
-                        b.ToTable("Albums");
-                    });
+                    b.HasIndex("AddedById");
 
-            modelBuilder.Entity(
-                "MyServer.Data.Models.Comment",
-                b =>
-                    {
-                        b.Property<Guid>("Id").ValueGeneratedOnAdd();
+                    b.HasIndex("CoverId");
 
-                        b.Property<Guid?>("AlbumId");
+                    b.ToTable("Albums");
+                });
 
-                        b.Property<DateTime>("CreatedOn");
+            modelBuilder.Entity("MyServer.Data.Models.Comment", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd();
 
-                        b.Property<string>("Data").IsRequired().HasAnnotation("MaxLength", 1000);
+                    b.Property<Guid?>("AlbumId");
 
-                        b.Property<DateTime?>("DeletedOn");
+                    b.Property<DateTime>("CreatedOn");
 
-                        b.Property<Guid?>("ImageId");
+                    b.Property<string>("Data")
+                        .IsRequired()
+                        .HasAnnotation("MaxLength", 1000);
 
-                        b.Property<bool>("IsDeleted");
+                    b.Property<DateTime?>("DeletedOn");
 
-                        b.Property<DateTime?>("ModifiedOn");
+                    b.Property<Guid?>("ImageId");
 
-                        b.Property<string>("UserId").IsRequired();
+                    b.Property<bool>("IsDeleted");
 
-                        b.HasKey("Id");
+                    b.Property<DateTime?>("ModifiedOn");
 
-                        b.HasIndex("AlbumId");
+                    b.Property<string>("UserId")
+                        .IsRequired();
 
-                        b.HasIndex("ImageId");
+                    b.HasKey("Id");
 
-                        b.HasIndex("UserId");
+                    b.HasIndex("AlbumId");
 
-                        b.ToTable("Comments");
-                    });
+                    b.HasIndex("ImageId");
 
-            modelBuilder.Entity(
-                "MyServer.Data.Models.Image",
-                b =>
-                    {
-                        b.Property<Guid>("Id").ValueGeneratedOnAdd();
+                    b.HasIndex("UserId");
 
-                        b.Property<string>("AddedById");
+                    b.ToTable("Comments");
+                });
 
-                        b.Property<Guid?>("AlbumId");
+            modelBuilder.Entity("MyServer.Data.Models.Image", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd();
 
-                        b.Property<string>("Aperture").HasAnnotation("MaxLength", 50);
+                    b.Property<string>("AddedById");
 
-                        b.Property<string>("CameraMaker").HasAnnotation("MaxLength", 50);
+                    b.Property<Guid?>("AlbumId");
 
-                        b.Property<string>("CameraModel").HasAnnotation("MaxLength", 50);
+                    b.Property<string>("Aperture")
+                        .HasAnnotation("MaxLength", 50);
 
-                        b.Property<DateTime>("CreatedOn");
+                    b.Property<string>("CameraMaker")
+                        .HasAnnotation("MaxLength", 50);
 
-                        b.Property<DateTime?>("DateTaken");
+                    b.Property<string>("CameraModel")
+                        .HasAnnotation("MaxLength", 50);
 
-                        b.Property<DateTime?>("DeletedOn");
+                    b.Property<DateTime>("CreatedOn");
 
-                        b.Property<string>("ExposureBiasStep").HasAnnotation("MaxLength", 50);
+                    b.Property<DateTime?>("DateTaken");
 
-                        b.Property<string>("FileName").IsRequired().HasAnnotation("MaxLength", 200);
+                    b.Property<DateTime?>("DeletedOn");
 
-                        b.Property<string>("FocusLen").HasAnnotation("MaxLength", 50);
+                    b.Property<string>("ExposureBiasStep")
+                        .HasAnnotation("MaxLength", 50);
 
-                        b.Property<int>("Height");
+                    b.Property<string>("FileName")
+                        .IsRequired()
+                        .HasAnnotation("MaxLength", 200);
 
-                        b.Property<Guid?>("ImageGpsDataId");
+                    b.Property<string>("FocusLen")
+                        .HasAnnotation("MaxLength", 50);
 
-                        b.Property<bool>("IsDeleted");
+                    b.Property<int>("Height");
 
-                        b.Property<string>("Iso").HasAnnotation("MaxLength", 50);
+                    b.Property<Guid?>("ImageGpsDataId");
 
-                        b.Property<int>("LowHeight");
+                    b.Property<bool>("IsDeleted");
 
-                        b.Property<int>("LowWidth");
+                    b.Property<string>("Iso")
+                        .HasAnnotation("MaxLength", 50);
 
-                        b.Property<int>("MidHeight");
+                    b.Property<int>("LowHeight");
 
-                        b.Property<int>("MidWidth");
+                    b.Property<int>("LowWidth");
 
-                        b.Property<DateTime?>("ModifiedOn");
+                    b.Property<int>("MidHeight");
 
-                        b.Property<string>("OriginalFileName").IsRequired().HasAnnotation("MaxLength", 200);
+                    b.Property<int>("MidWidth");
 
-                        b.Property<string>("ShutterSpeed").HasAnnotation("MaxLength", 50);
+                    b.Property<DateTime?>("ModifiedOn");
 
-                        b.Property<string>("Title").HasAnnotation("MaxLength", 200);
+                    b.Property<string>("OriginalFileName")
+                        .IsRequired()
+                        .HasAnnotation("MaxLength", 200);
 
-                        b.Property<int>("Width");
+                    b.Property<string>("ShutterSpeed")
+                        .HasAnnotation("MaxLength", 50);
 
-                        b.HasKey("Id");
+                    b.Property<string>("Title")
+                        .HasAnnotation("MaxLength", 200);
 
-                        b.HasIndex("AddedById");
+                    b.Property<int>("Width");
 
-                        b.HasIndex("AlbumId");
+                    b.HasKey("Id");
 
-                        b.HasIndex("ImageGpsDataId");
+                    b.HasIndex("AddedById");
 
-                        b.ToTable("Images");
-                    });
+                    b.HasIndex("AlbumId");
 
-            modelBuilder.Entity(
-                "MyServer.Data.Models.ImageGpsData",
-                b =>
-                    {
-                        b.Property<Guid>("Id").ValueGeneratedOnAdd();
+                    b.HasIndex("ImageGpsDataId");
 
-                        b.Property<DateTime>("CreatedOn");
+                    b.ToTable("Images");
+                });
 
-                        b.Property<DateTime?>("DeletedOn");
+            modelBuilder.Entity("MyServer.Data.Models.ImageGpsData", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd();
 
-                        b.Property<bool>("IsDeleted");
+                    b.Property<DateTime>("CreatedOn");
 
-                        b.Property<double?>("Latitude").IsRequired();
+                    b.Property<DateTime?>("DeletedOn");
 
-                        b.Property<string>("LocationName").IsRequired().HasAnnotation("MaxLength", 200);
+                    b.Property<bool>("IsDeleted");
 
-                        b.Property<double?>("Longitude").IsRequired();
+                    b.Property<double?>("Latitude")
+                        .IsRequired();
 
-                        b.Property<DateTime?>("ModifiedOn");
+                    b.Property<string>("LocationName")
+                        .IsRequired()
+                        .HasAnnotation("MaxLength", 200);
 
-                        b.HasKey("Id");
+                    b.Property<double?>("Longitude")
+                        .IsRequired();
 
-                        b.ToTable("ImageGpsDatas");
-                    });
+                    b.Property<DateTime?>("ModifiedOn");
 
-            modelBuilder.Entity(
-                "MyServer.Data.Models.User",
-                b =>
-                    {
-                        b.Property<string>("Id");
+                    b.HasKey("Id");
 
-                        b.Property<int>("AccessFailedCount");
+                    b.ToTable("ImageGpsDatas");
+                });
 
-                        b.Property<string>("ConcurrencyStamp").IsConcurrencyToken();
+            modelBuilder.Entity("MyServer.Data.Models.User", b =>
+                {
+                    b.Property<string>("Id");
 
-                        b.Property<DateTime>("CreatedOn");
+                    b.Property<int>("AccessFailedCount");
 
-                        b.Property<DateTime?>("DeletedOn");
+                    b.Property<string>("ConcurrencyStamp")
+                        .IsConcurrencyToken();
 
-                        b.Property<string>("Email").HasAnnotation("MaxLength", 256);
+                    b.Property<DateTime>("CreatedOn");
 
-                        b.Property<bool>("EmailConfirmed");
+                    b.Property<DateTime?>("DeletedOn");
 
-                        b.Property<string>("FirstName").IsRequired().HasAnnotation("MaxLength", 50);
+                    b.Property<string>("Email")
+                        .HasAnnotation("MaxLength", 256);
 
-                        b.Property<bool>("IsDeleted");
+                    b.Property<bool>("EmailConfirmed");
 
-                        b.Property<string>("LastName").IsRequired().HasAnnotation("MaxLength", 50);
+                    b.Property<string>("FirstName")
+                        .IsRequired()
+                        .HasAnnotation("MaxLength", 50);
 
-                        b.Property<bool>("LockoutEnabled");
+                    b.Property<bool>("IsDeleted");
 
-                        b.Property<DateTimeOffset?>("LockoutEnd");
+                    b.Property<string>("LastName")
+                        .IsRequired()
+                        .HasAnnotation("MaxLength", 50);
 
-                        b.Property<DateTime?>("ModifiedOn");
+                    b.Property<bool>("LockoutEnabled");
 
-                        b.Property<string>("NormalizedEmail").HasAnnotation("MaxLength", 256);
+                    b.Property<DateTimeOffset?>("LockoutEnd");
 
-                        b.Property<string>("NormalizedUserName").HasAnnotation("MaxLength", 256);
+                    b.Property<DateTime?>("ModifiedOn");
 
-                        b.Property<int>("NotificationMask");
+                    b.Property<string>("NormalizedEmail")
+                        .HasAnnotation("MaxLength", 256);
 
-                        b.Property<string>("PasswordHash");
+                    b.Property<string>("NormalizedUserName")
+                        .HasAnnotation("MaxLength", 256);
 
-                        b.Property<string>("PhoneNumber");
+                    b.Property<int>("NotificationMask");
 
-                        b.Property<bool>("PhoneNumberConfirmed");
+                    b.Property<string>("PasswordHash");
 
-                        b.Property<string>("SecurityStamp");
+                    b.Property<string>("PhoneNumber");
 
-                        b.Property<bool>("TwoFactorEnabled");
+                    b.Property<bool>("PhoneNumberConfirmed");
 
-                        b.Property<string>("UserName").HasAnnotation("MaxLength", 256);
+                    b.Property<string>("SecurityStamp");
 
-                        b.HasKey("Id");
+                    b.Property<bool>("TwoFactorEnabled");
 
-                        b.HasIndex("NormalizedEmail").HasName("EmailIndex");
+                    b.Property<string>("UserName")
+                        .HasAnnotation("MaxLength", 256);
 
-                        b.HasIndex("NormalizedUserName").IsUnique().HasName("UserNameIndex");
+                    b.HasKey("Id");
 
-                        b.ToTable("AspNetUsers");
-                    });
+                    b.HasIndex("NormalizedEmail")
+                        .HasName("EmailIndex");
 
-            modelBuilder.Entity(
-                "Microsoft.AspNetCore.Identity.EntityFrameworkCore.IdentityRoleClaim<string>",
-                b =>
-                    {
-                        b.HasOne("Microsoft.AspNetCore.Identity.EntityFrameworkCore.IdentityRole")
-                            .WithMany("Claims")
-                            .HasForeignKey("RoleId")
-                            .OnDelete(DeleteBehavior.Cascade);
-                    });
+                    b.HasIndex("NormalizedUserName")
+                        .IsUnique()
+                        .HasName("UserNameIndex");
 
-            modelBuilder.Entity(
-                "Microsoft.AspNetCore.Identity.EntityFrameworkCore.IdentityUserClaim<string>",
-                b =>
-                    {
-                        b.HasOne("MyServer.Data.Models.User")
-                            .WithMany("Claims")
-                            .HasForeignKey("UserId")
-                            .OnDelete(DeleteBehavior.Cascade);
-                    });
+                    b.ToTable("AspNetUsers");
+                });
 
-            modelBuilder.Entity(
-                "Microsoft.AspNetCore.Identity.EntityFrameworkCore.IdentityUserLogin<string>",
-                b =>
-                    {
-                        b.HasOne("MyServer.Data.Models.User")
-                            .WithMany("Logins")
-                            .HasForeignKey("UserId")
-                            .OnDelete(DeleteBehavior.Cascade);
-                    });
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.EntityFrameworkCore.IdentityRoleClaim<string>", b =>
+                {
+                    b.HasOne("Microsoft.AspNetCore.Identity.EntityFrameworkCore.IdentityRole")
+                        .WithMany("Claims")
+                        .HasForeignKey("RoleId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
 
-            modelBuilder.Entity(
-                "Microsoft.AspNetCore.Identity.EntityFrameworkCore.IdentityUserRole<string>",
-                b =>
-                    {
-                        b.HasOne("Microsoft.AspNetCore.Identity.EntityFrameworkCore.IdentityRole")
-                            .WithMany("Users")
-                            .HasForeignKey("RoleId")
-                            .OnDelete(DeleteBehavior.Cascade);
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.EntityFrameworkCore.IdentityUserClaim<string>", b =>
+                {
+                    b.HasOne("MyServer.Data.Models.User")
+                        .WithMany("Claims")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
 
-                        b.HasOne("MyServer.Data.Models.User")
-                            .WithMany("Roles")
-                            .HasForeignKey("UserId")
-                            .OnDelete(DeleteBehavior.Cascade);
-                    });
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.EntityFrameworkCore.IdentityUserLogin<string>", b =>
+                {
+                    b.HasOne("MyServer.Data.Models.User")
+                        .WithMany("Logins")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
 
-            modelBuilder.Entity(
-                "MyServer.Data.Models.Album",
-                b =>
-                    {
-                        b.HasOne("MyServer.Data.Models.User", "AddedBy").WithMany("Albums").HasForeignKey("AddedById");
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.EntityFrameworkCore.IdentityUserRole<string>", b =>
+                {
+                    b.HasOne("Microsoft.AspNetCore.Identity.EntityFrameworkCore.IdentityRole")
+                        .WithMany("Users")
+                        .HasForeignKey("RoleId")
+                        .OnDelete(DeleteBehavior.Cascade);
 
-                        b.HasOne("MyServer.Data.Models.Image", "Cover").WithMany("Covers").HasForeignKey("CoverId");
-                    });
+                    b.HasOne("MyServer.Data.Models.User")
+                        .WithMany("Roles")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
 
-            modelBuilder.Entity(
-                "MyServer.Data.Models.Comment",
-                b =>
-                    {
-                        b.HasOne("MyServer.Data.Models.Album").WithMany("Comments").HasForeignKey("AlbumId");
+            modelBuilder.Entity("MyServer.Data.Models.Album", b =>
+                {
+                    b.HasOne("MyServer.Data.Models.User", "AddedBy")
+                        .WithMany("Albums")
+                        .HasForeignKey("AddedById");
 
-                        b.HasOne("MyServer.Data.Models.Image").WithMany("Comments").HasForeignKey("ImageId");
+                    b.HasOne("MyServer.Data.Models.Image", "Cover")
+                        .WithMany("Covers")
+                        .HasForeignKey("CoverId");
+                });
 
-                        b.HasOne("MyServer.Data.Models.User", "User")
-                            .WithMany("Comments")
-                            .HasForeignKey("UserId")
-                            .OnDelete(DeleteBehavior.Cascade);
-                    });
+            modelBuilder.Entity("MyServer.Data.Models.Comment", b =>
+                {
+                    b.HasOne("MyServer.Data.Models.Album")
+                        .WithMany("Comments")
+                        .HasForeignKey("AlbumId");
 
-            modelBuilder.Entity(
-                "MyServer.Data.Models.Image",
-                b =>
-                    {
-                        b.HasOne("MyServer.Data.Models.User", "AddedBy").WithMany("Images").HasForeignKey("AddedById");
+                    b.HasOne("MyServer.Data.Models.Image")
+                        .WithMany("Comments")
+                        .HasForeignKey("ImageId");
 
-                        b.HasOne("MyServer.Data.Models.Album", "Album").WithMany("Images").HasForeignKey("AlbumId");
+                    b.HasOne("MyServer.Data.Models.User", "User")
+                        .WithMany("Comments")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
 
-                        b.HasOne("MyServer.Data.Models.ImageGpsData", "ImageGpsData")
-                            .WithMany()
-                            .HasForeignKey("ImageGpsDataId");
-                    });
+            modelBuilder.Entity("MyServer.Data.Models.Image", b =>
+                {
+                    b.HasOne("MyServer.Data.Models.User", "AddedBy")
+                        .WithMany("Images")
+                        .HasForeignKey("AddedById");
+
+                    b.HasOne("MyServer.Data.Models.Album", "Album")
+                        .WithMany("Images")
+                        .HasForeignKey("AlbumId");
+
+                    b.HasOne("MyServer.Data.Models.ImageGpsData", "ImageGpsData")
+                        .WithMany()
+                        .HasForeignKey("ImageGpsDataId");
+                });
         }
     }
 }

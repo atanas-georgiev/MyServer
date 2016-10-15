@@ -44,6 +44,8 @@
         public void CreateMappings(IMapperConfigurationExpression configuration)
         {
             configuration.CreateMap<Album, AlbumViewModel>()
+                .ForMember(m => m.Title, opt => opt.MapFrom(c => MappingFunctions.MapTitle(c)))
+                .ForMember(m => m.Description, opt => opt.MapFrom(c => MappingFunctions.MapDescription(c)))
                 .ForMember(m => m.ImagesCountCover, opt => opt.MapFrom(c => MappingFunctions.MapImagesCountCover(c)))
                 .ForMember(m => m.CoverImage, opt => opt.MapFrom(c => MappingFunctions.MapCoverImage(c)))
                 .ForMember(m => m.ImageCoordinates, opt => opt.MapFrom(c => MappingFunctions.MapImageCoordinates(c)))

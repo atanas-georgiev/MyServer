@@ -4,6 +4,7 @@
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
 
+    using Microsoft.AspNetCore.Mvc;
     using Microsoft.AspNetCore.Mvc.Rendering;
 
     using MyServer.Common;
@@ -25,15 +26,25 @@
                     });
 
         [MaxLength(3000)]
-        public string Description { get; set; }
+        public string DescriptionBg { get; set; }
 
+        [MaxLength(3000)]
+        public string DescriptionEn { get; set; }
+
+        [Key]
+        [HiddenInput(DisplayValue = false)]
         public Guid Id { get; set; }
-
-        public ICollection<ImageViewModel> Images { get; set; }
 
         [Required]
         [MinLength(3)]
-        [MaxLength(200)]
-        public string Title { get; set; }
+        [MaxLength(150)]
+        public string TitleBg { get; set; }
+
+        [Required]
+        [MinLength(3)]
+        [MaxLength(150)]
+        public string TitleEn { get; set; }
+
+        public ICollection<ImageViewModel> Images { get; set; }
     }
 }

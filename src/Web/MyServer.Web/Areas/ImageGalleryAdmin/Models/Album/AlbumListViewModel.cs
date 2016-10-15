@@ -38,6 +38,7 @@
         public void CreateMappings(IMapperConfigurationExpression configuration)
         {
             configuration.CreateMap<Album, AlbumListViewModel>()
+                .ForMember(m => m.Title, opt => opt.MapFrom(c => MappingFunctions.MapTitle(c)))
                 .ForMember(m => m.Width, opt => opt.MapFrom(c => MappingFunctions.MapWidth(c)))
                 .ForMember(m => m.Height, opt => opt.MapFrom(c => MappingFunctions.MapHeight(c)))
                 .ForMember(m => m.ImagesCountCover, opt => opt.MapFrom(c => MappingFunctions.MapImagesCountCover(c)))

@@ -58,8 +58,10 @@ namespace MyServer.Web.Areas.ImageGalleryAdmin.Controllers
                 // {
                 // return this.NotFound();
                 // }
-                album.Title = model.Title;
-                album.Description = model.Description;
+                album.TitleBg = model.TitleBg;
+                album.TitleEn = model.TitleEn;
+                album.DescriptionBg = model.DescriptionBg;
+                album.DescriptionEn = model.DescriptionEn;
                 album.Access = model.Access;
 
                 this.albumService.Update(album);
@@ -74,7 +76,7 @@ namespace MyServer.Web.Areas.ImageGalleryAdmin.Controllers
 
         public IActionResult Create()
         {
-            return this.View(new AddAlbumViewModel() { Title = string.Empty, Access = MyServerAccessType.Registrated });
+            return this.View(new AddAlbumViewModel() { Access = MyServerAccessType.Private });
         }
 
         [HttpPost]
@@ -85,8 +87,10 @@ namespace MyServer.Web.Areas.ImageGalleryAdmin.Controllers
             {
                 var album = new Album()
                                 {
-                                    Title = model.Title,
-                                    Description = model.Description,
+                                    TitleBg = model.TitleBg,
+                                    TitleEn = model.TitleEn,
+                                    DescriptionBg = model.DescriptionBg,
+                                    DescriptionEn = model.DescriptionEn,
                                     CreatedOn = DateTime.UtcNow,
                                     AddedBy = this.UserProfile,
                                     Access = model.Access,
