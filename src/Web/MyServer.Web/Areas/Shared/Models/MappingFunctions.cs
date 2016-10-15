@@ -17,6 +17,12 @@
                    + source.Cover.FileName;
         }
 
+        public static string MapFbImage(Album source)
+        {
+            return Constants.MainContentFolder + "/" + source.Cover.AlbumId + "/" + Constants.ImageFolderMiddle + "/"
+                   + source.Cover.FileName;
+        }
+
         public static string MapDate(Album source)
         {
             if (source.Images == null)

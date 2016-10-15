@@ -55,7 +55,7 @@
                 </li>
             </ul>
         </div>
-        <div id="shareBtn" class="fb-share-button clearfix" data-type="button" data-size="large">Share</div>
+        <div id="shareBtn" class="fb-share-button clearfix" data-type="button" data-size="large"></div>
     </div>
     <hr />
 
@@ -90,7 +90,7 @@
     <meta property="og:type" content="article" />
     <meta property="og:title" content="@Model.Title" />
     <meta property="og:description" content="@Model.Description" />
-    <meta property="og:image" content='@("http://atanas.it" + Model.CoverImage)' />
+    <meta property="og:image" content='@("http://atanas.it" + Model.FbImage)' />
     <meta property="fb:app_id" content="521558431365642" />
 }
 
@@ -113,7 +113,7 @@
                 }
                 js = d.createElement(s);
                 js.id = id;
-                js.src = "//connect.facebook.net/en_US/sdk.js";
+                js.src = "//connect.facebook.net/@CultureInfo.CurrentCulture.ToString()/sdk.js";
                 fjs.parentNode.insertBefore(js, fjs);
             }(document, 'script', 'facebook-jssdk'));
 
