@@ -4,6 +4,10 @@
 @using MyServer.Web.Areas.ImageGallery.Models.Album
 @model MyServer.Web.Areas.ImageGallery.Models.Album.AlbumViewModel
 
+@{
+    ViewData["Title"] = Model.Title;
+}
+
 <div id="fb-root"></div>
 <div class="container well well-main well-mobile">
     <h2 class="well-title text-center">@Model.Title</h2>
@@ -34,20 +38,20 @@
     <div class="text-center">
         <div class="btn-group">
             <a href="#" data-target="#" class="btn dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
-                Download
+                @LocString["Download"]
                 <span id="loading" style="display: none">
                     <img src="~/img/ajax-loader.gif" alt="" />
                 </span>
             </a>
             <ul class="dropdown-menu">
                 <li>
-                    <a asp-action="Download" asp-controller="Album" asp-route-area="ImageGallery" asp-route-id="@Model.Id" asp-route-type="@ImageType.Low" data-ajax="true" data-ajax-method="GET" data-ajax-loading="#loading" data-ajax-success="window.location.href = data;" class="btn">Low</a>
+                    <a asp-action="Download" asp-controller="Album" asp-route-area="ImageGallery" asp-route-id="@Model.Id" asp-route-type="@ImageType.Low" data-ajax="true" data-ajax-method="GET" data-ajax-loading="#loading" data-ajax-success="window.location.href = data;" class="btn">@LocString["LowQuality"]</a>
                 </li>
                 <li>
-                    <a asp-action="Download" asp-controller="Album" asp-route-area="ImageGallery" asp-route-id="@Model.Id" asp-route-type="@ImageType.Medium" data-ajax="true" data-ajax-method="GET" data-ajax-loading="#loading" data-ajax-success="window.location.href = data;" class="btn">Middle</a>
+                    <a asp-action="Download" asp-controller="Album" asp-route-area="ImageGallery" asp-route-id="@Model.Id" asp-route-type="@ImageType.Medium" data-ajax="true" data-ajax-method="GET" data-ajax-loading="#loading" data-ajax-success="window.location.href = data;" class="btn">@LocString["MiddleQuality"]</a>
                 </li>
                 <li>
-                    <a asp-action="Download" asp-controller="Album" asp-route-area="ImageGallery" asp-route-id="@Model.Id" asp-route-type="@ImageType.Original" data-ajax="true" data-ajax-method="GET" data-ajax-loading="#loading" data-ajax-success="window.location.href = data;" class="btn">High</a>
+                    <a asp-action="Download" asp-controller="Album" asp-route-area="ImageGallery" asp-route-id="@Model.Id" asp-route-type="@ImageType.Original" data-ajax="true" data-ajax-method="GET" data-ajax-loading="#loading" data-ajax-success="window.location.href = data;" class="btn">@LocString["HighQuality"]</a>
                 </li>
             </ul>
         </div>
