@@ -70,13 +70,6 @@
         public async Task<ImageGpsData> GetGpsData(double latitude, double longitude)
         {
             var result = new ImageGpsData { Id = Guid.NewGuid(), CreatedOn = DateTime.Now };
-
-            var dbElement = this.gpsDbData.All().FirstOrDefault(x => x.Latitude == latitude && x.Longitude == longitude);
-            if (dbElement != null)
-            {
-                return dbElement;
-            }
-
             var httpClient = new HttpClient();
             var result1 =
                 await
@@ -89,24 +82,27 @@
 
             if (status.Value.ToLower() == "ok")
             {
-                var results = (from elm in xmlElm.Elements() where (elm.Name == "result" && (elm.Elements().First().Value == "locality" || elm.Elements().First().Value == "political")) select elm);                
+                var results = from elm in xmlElm.Elements() where elm.Name == "result" && (elm.Elements().First().Value == "locality" || elm.Elements().First().Value == "political") select elm;                
                 var res = (from elm in results.Descendants() where elm.Name == "formatted_address" select elm).FirstOrDefault();
                 if (res != null)
                 {
-                    result.Latitude = latitude;
-                    result.Longitude = longitude;
+                    var location = await this.GetGpsData(res.Value);
+                    var element = this.gpsDbData.All().FirstOrDefault(x => x.LocationName == location.LocationName);
+                    if (element != null)
+                    {
+                        return element;
+                    }
+
+                    result.Latitude = location.Latitude;
+                    result.Longitude = location.Longitude;
                     result.LocationName = res.Value;
                     return result;
                 }
-                else
-                {
-                    return null;
-                }
-            }
-            else
-            {
+
                 return null;
             }
+
+            return null;
         }
     }
 }
