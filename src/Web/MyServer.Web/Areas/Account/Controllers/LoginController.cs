@@ -168,7 +168,7 @@
                     this.signInManager.PasswordSignInAsync(
                         model.Email,
                         model.Password,
-                        model.RememberMe,
+                        true,
                         lockoutOnFailure: false);
 
             if (result.Succeeded)
