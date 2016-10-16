@@ -62,8 +62,8 @@
     <div class="overlay-album mygallery lightgallery">
         @foreach (var image in Model.Images.OrderBy(x => x.DateTaken))
         {
-            <a href='@image.MiddleImageSource' data-download-url="@image.OriginalDownloadPath">
-                <img class="b-lazy" src="@image.LowImageSource" alt="@image.Info" />
+            <hhh class="imageContainer" href='@image.MiddleImageSource' data-download-url="@image.OriginalDownloadPath">
+                <div class="image" src="@image.LowImageSource" alt="@image.Info"></div>
                 <div class="overlay-album-caption">
                     <div class="overlay-user-album-text">
                         @if (!string.IsNullOrEmpty(image.Title))
@@ -80,7 +80,7 @@
                         }
                     </div>
                 </div>
-            </a>
+            </hhh>
         }
     </div>
 </div>
@@ -95,8 +95,62 @@
 }
 
 <script>
+    var counter = 0;
+
     $(document)
         .ready(function () {
+            counter = 0;
+            (function ($) {
+                var $newTag = null;
+                $.fn.tagName = function (newTag) {
+                    this.each(function (i, el) {
+                        var $el = $(el);
+                        $newTag = $("<" + newTag + ">");
+
+                        // attributes
+                        $.each(el.attributes, function (i, attribute) {
+                            $newTag.attr(attribute.nodeName, attribute.nodeValue);
+                        });
+                        // content
+                        $newTag.html($el.html());
+
+                        $el.replaceWith($newTag);
+                    });
+                    return $newTag;
+                };
+            })(jQuery);
+
+            for (var i = 0; i < 10; i++) {
+                var src = $($(".imageContainer")[counter]);
+                src.tagName('a');
+                src = $($(".image")[i]);
+                src.tagName('img');
+                counter++;
+            }
+
+            $(window).scroll(function () {
+                if ($(window).scrollTop() + $(window).height() === $(document).height()) {
+                    console.log(counter);
+                    
+                    for (var i = counter; i < counter + 10; i++) {
+                        var src = $($(".imageContainer")[i]);
+                        src.tagName('a');
+                        src = $($(".image")[i]);
+                        src.tagName('img');
+                        $('.mygallery').justifiedGallery('norewind');
+                        $('.mygallery')
+                            .lightGallery({
+                                speed: 400,
+                                hideBarsDelay: 2000,
+                                controls: false,
+                                thumbnail: false,
+                                pause: 3000
+                            });
+                    }
+                    counter = counter + 10;
+                    
+                }
+            });
 
             window.fbAsyncInit = function () {
                 FB.init({
@@ -120,10 +174,10 @@
             document.getElementById('shareBtn').onclick = function () {
                 urlfb = 'http://atanas.it/ImageGallery/Album/Details/' + '@Model.Id';
                 FB.ui({
-                    method: 'share',
-                    display: 'popup',
-                    href: urlfb,
-                },
+                        method: 'share',
+                        display: 'popup',
+                        href: urlfb,
+                    },
                     function (response) { });
             }
 
@@ -135,22 +189,23 @@
                     thumbnail: false,
                     pause: 3000
                 });
-            $(".mygallery")
-                .justifiedGallery({
-                    rowHeight: 200,
-                    maxRowHeight: 300,
-                    fixedHeight: false,
-                    margins: 2,
-                    lastRow: 'nojustify',
-                    captions: false,                    
-                    border: 0,
-                    thumbnailPath: function (currentPath, width, height) {
-                        if (Math.max(width, height) > 300) {
-                            return currentPath.replace(/(.*)(_[a-z]+)(\..*)/, "$1Low$2");
-                        } else {
-                            return currentPath.replace(/(.*)(_[a-z]+)(\..*)/, "$1Medium$2");
-                        }
-                    }
-                });
+
+           $(".mygallery")
+               .justifiedGallery({
+                   rowHeight: 200,
+                   maxRowHeight: 300,
+                   fixedHeight: false,
+                   margins: 2,
+                   lastRow: 'nojustify',
+                   captions: false,                    
+                   border: 0,
+                   thumbnailPath: function (currentPath, width, height) {
+                       if (Math.max(width, height) > 300) {
+                           return currentPath.replace(/(.*)(_[a-z]+)(\..*)/, "$1Low$2");
+                       } else {
+                           return currentPath.replace(/(.*)(_[a-z]+)(\..*)/, "$1Medium$2");
+                       }
+                   }
+               });
         });
 </script>
