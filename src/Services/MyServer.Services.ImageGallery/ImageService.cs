@@ -307,6 +307,14 @@
                         break;
                 }
 
+                image.LowHeight = imageCoreLowRotated.Height;
+                image.LowWidth = imageCoreLowRotated.Width;
+                image.MidHeight = imageCoreMiddleRotated.Height;
+                image.MidWidth = imageCoreMiddleRotated.Width;
+                image.Height = imageCoreHighRotated.Height;
+                image.Width = imageCoreHighRotated.Width;
+                this.images.Update(image);
+
                 imageCoreLowRotated.Save(imageStreamLowRotated);
                 imageCoreMiddleRotated.Save(imageStreamMiddleRotated);
                 imageCoreHighRotated.Save(imageStreamHighRotated);
