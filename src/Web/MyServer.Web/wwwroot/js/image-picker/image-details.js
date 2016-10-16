@@ -65,6 +65,9 @@ function imageDetailsUpdateView() {
 
     $(".image-edit-box-delete-btn").attr("href", "/ImageGalleryAdmin/Album/DeleteImages/" + selectedIds);
 
+    $(".image-edit-box-rotate-left-btn").attr("href", "/ImageGalleryAdmin/Album/RotateImagesLeft/" + selectedIds);
+
+    $(".image-edit-box-rotate-right-btn").attr("href", "/ImageGalleryAdmin/Album/RotateImagesRight/" + selectedIds);
 };
 
 $(".image-edit-box-cover-btn").click(function () {

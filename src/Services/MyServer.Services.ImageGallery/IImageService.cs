@@ -4,6 +4,7 @@
     using System.IO;
     using System.Linq;
 
+    using MyServer.Common;
     using MyServer.Data.Models;
 
     public interface IImageService
@@ -23,5 +24,7 @@
         void Remove(Guid id);
 
         void Update(Image image);
+
+        void Rotate(Guid imageId, MyServerRotateType rotateType);
     }
 }

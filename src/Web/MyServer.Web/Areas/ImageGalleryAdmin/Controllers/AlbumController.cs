@@ -126,6 +126,50 @@ namespace MyServer.Web.Areas.ImageGalleryAdmin.Controllers
             return this.Content(string.Empty);
         }
 
+        [HttpPost]
+        public IActionResult RotateImagesLeft(string id)
+        {
+            if (!string.IsNullOrEmpty(id))
+            {
+                var ids = id.Split(',');
+                var imageId = Guid.Parse(ids.First());
+                var albumId = this.imageService.GetById(imageId).AlbumId;
+
+                foreach (var item in ids)
+                {
+                    this.imageService.Rotate(Guid.Parse(item), MyServerRotateType.Left);
+                }
+
+                var album =
+                    this.albumService.GetAllReqursive().Where(x => x.Id == albumId).To<AlbumEditViewModel>().First();
+                return this.PartialView("_ImageListPartial", album);
+            }
+
+            return this.Content(string.Empty);
+        }
+
+        [HttpPost]
+        public IActionResult RotateImagesRight(string id)
+        {
+            if (!string.IsNullOrEmpty(id))
+            {
+                var ids = id.Split(',');
+                var imageId = Guid.Parse(ids.First());
+                var albumId = this.imageService.GetById(imageId).AlbumId;
+
+                foreach (var item in ids)
+                {
+                    this.imageService.Rotate(Guid.Parse(item), MyServerRotateType.Right);
+                }
+
+                var album =
+                    this.albumService.GetAllReqursive().Where(x => x.Id == albumId).To<AlbumEditViewModel>().First();
+                return this.PartialView("_ImageListPartial", album);
+            }
+
+            return this.Content(string.Empty);
+        }
+
         public IActionResult Edit(string id)
         {
             this.Response.Cookies.Append("AlbumId", id);

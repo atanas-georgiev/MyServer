@@ -152,7 +152,7 @@ figure {
     font-size: 2em;
 }
 
-.image-edit-box-title-btn, .image-edit-box-date-btn, .image-edit-box-location-btn, .image-edit-box-cover-btn, .image-edit-box-delete-btn {
+.image-edit-box-title-btn, .image-edit-box-date-btn, .image-edit-box-location-btn, .image-edit-box-cover-btn, .image-edit-box-delete-btn, .image-edit-box-rotate-left-btn, .image-edit-box-rotate-right-btn {
     font-size: 1.5em;
     padding: 12px;
     margin: 0px;
