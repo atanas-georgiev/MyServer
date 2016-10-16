@@ -98,7 +98,7 @@ figure {
     height: auto;
 }
 
-.overlay-album-caption {
+a div.overlay-album-caption {
     position: absolute;
     font-size: 0.8em;
     top: 0;

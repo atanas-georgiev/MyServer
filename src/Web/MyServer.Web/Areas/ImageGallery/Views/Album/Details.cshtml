@@ -64,7 +64,7 @@
         {
             <hhh class="imageContainer" href='@image.MiddleImageSource' data-download-url="@image.OriginalDownloadPath">
                 <div class="image" src="@image.LowImageSource" alt="@image.Info"></div>
-                <div class="overlay-album-caption">
+                <div class="overlay-album-caption" style="display:none">
                     <div class="overlay-user-album-text">
                         @if (!string.IsNullOrEmpty(image.Title))
                         {
@@ -125,6 +125,7 @@
                 src.tagName('a');
                 src = $($(".image")[i]);
                 src.tagName('img');
+                $($(".overlay-album-caption")[i]).show();
                 counter++;
             }
 
@@ -137,6 +138,7 @@
                         src.tagName('a');
                         src = $($(".image")[i]);
                         src.tagName('img');
+                        $($(".overlay-album-caption")[i]).show();
                     }
                     counter = counter + 10;
                     $('.mygallery').justifiedGallery('norewind');
