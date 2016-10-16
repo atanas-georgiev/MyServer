@@ -137,18 +137,20 @@
                         src.tagName('a');
                         src = $($(".image")[i]);
                         src.tagName('img');
-                        $('.mygallery').justifiedGallery('norewind');
-                        $('.mygallery')
-                            .lightGallery({
-                                speed: 400,
-                                hideBarsDelay: 2000,
-                                controls: false,
-                                thumbnail: false,
-                                pause: 3000
-                            });
                     }
                     counter = counter + 10;
-                    
+                    $('.mygallery').justifiedGallery('norewind');
+                    if ($('.mygallery').data('lightGallery')) {
+                        $('.mygallery').data('lightGallery').destroy(true);
+                    }
+                    $('.mygallery')
+                        .lightGallery({
+                            speed: 400,
+                            hideBarsDelay: 2000,
+                            controls: false,
+                            thumbnail: false,
+                            pause: 3000
+                        });
                 }
             });
 
