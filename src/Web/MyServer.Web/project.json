@@ -20,6 +20,7 @@
       "Views",
       "**/*.cshtml",
       "appsettings.json",
+      "project.json",
       "web.config"
     ]
   },
