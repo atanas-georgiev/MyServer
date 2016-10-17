@@ -1,127 +1,53 @@
-@using System.Threading.Tasks
-@using MyServer.Web.Areas.ImageGalleryAdmin.Models.Album
 @model IEnumerable<MyServer.Web.Areas.ImageGalleryAdmin.Models.Album.AlbumListViewModel>
 
 @{
-    ViewBag.Title = "Albums";
+    ViewData["Title"] = LocString["Albums"];
 }
-<br/>
-<br/>
 
-<div class="demo-section k-content wide">
-    <a asp-action="Create" class="btn">Create New</a>
-    <br/>
-    <br/>
-    @(Html.Kendo().ListView(Model).Name("listAlbums").TagName("div").ClientTemplateId("template").DataSource(dataSource => dataSource.Ajax().Model(model => model.Id("Id")).PageSize(10).Read(read => read.Action("AlbumsRead", "Json")).Create(create => create.Action("AlbumsCreate", "Json")).Destroy(destroy => destroy.Action("AlbumsDestroy", "Json"))))
-</div>
-<script type="text/x-kendo-tmpl" id="template">
-    <div class="product-view k-widget" style="width:#:Width#px;height:#:Height#px; background-image: url(#:CoverImage#);background-size:contain; background-repeat: no-repeat">
-        <dl class="b">
-            <dt>Title</dt>
-            <dd>#:Title#</dd>
-        </dl>
-        <div class="edit-buttons">
-            <a class="k-button" href="/ImageGalleryAdmin/Album/Edit/#:Id#"><span class="k-icon k-edit"></span></a>
-            <a class="k-button k-delete-button" href="\\#"><span class="k-icon k-delete"></span></a>
+<div class="container well well-main well-mobile">
+    <div>
+        <h2 class="text-center">@LocString["Albums"]</h2>
+        <hr />
+    </div>
+    <div>
+        <a asp-action="Create" class="btn btn-default">New Album</a>
+        <div id="mygallery" class="overlay-album">
+            @foreach (var album in Model)
+            {
+                <a class="overlay-album-link" asp-action="Edit" asp-route-id="@album.Id">
+                    <img class="overlay-album-image" alt="@album.Title" src='@album.CoverImage' />
+                    <div class="overlay-album-caption">
+                        <h1 class="overlay-album-title">@album.Title</h1>
+                        <p class="overlay-album-content">
+                            <i class="fa fa-calendar" aria-hidden="true"></i> @album.Date<br />
+                            <i class="fa fa-file-image-o" aria-hidden="true"></i> @album.ImagesCountCover
+                        </p>
+                    </div>
+                </a>
+            }
         </div>
     </div>
-</script>
+</div>
+
 <script>
-    $(function() {
-        var listView = $("#listView").data("listAlbums");
-
-        $(".k-add-button")
-            .click(function(e) {
-                listView.add();
-                e.preventDefault();
-            });
-    });
+    $(document)
+        .ready(function() {
+            $("#mygallery")
+                .justifiedGallery({
+                    rowHeight: 200,
+                    maxRowHeight: 300,
+                    fixedHeight: false,
+                    margins: 2,
+                    lastRow: 'nojustify',
+                    captions: false,
+                    border: 0,
+                    thumbnailPath: function(currentPath, width, height) {
+                        if (Math.max(width, height) > 300) {
+                            return currentPath.replace(/(.*)(_[a-z]+)(\..*)/, "$1Low$2");
+                        } else {
+                            return currentPath.replace(/(.*)(_[a-z]+)(\..*)/, "$1Medium$2");
+                        }
+                    }
+                });
+        });
 </script>
-<style>
-    .product-view {
-        float: left;
-        width: 50%;
-        height: 300px;
-        box-sizing: border-box;
-        border-top: 0;
-        position: relative;
-    }
-
-    .product-view:nth-child(even) { border-left-width: 0; }
-
-    .product-view dl {
-        margin: 10px 10px 0;
-        padding: 0;
-        overflow: hidden;
-    }
-
-    .product-view dt, dd {
-        margin: 0;
-        padding: 0;
-        width: 100%;
-        line-height: 24px;
-        font-size: 18px;
-    }
-
-    .product-view dt {
-        font-size: 11px;
-        height: 16px;
-        line-height: 16px;
-        text-transform: uppercase;
-        opacity: 0.5;
-    }
-
-    .product-view dd {
-        height: 46px;
-        overflow: hidden;
-        white-space: nowrap;
-        text-overflow: ellipsis;
-    }
-
-    .product-view dd .k-widget,
-    .product-view dd .k-textbox { font-size: 14px; }
-
-    .k-listview {
-        border-width: 1px 0 0;
-        padding: 0;
-        overflow: hidden;
-        min-height: 298px;
-    }
-
-    .edit-buttons {
-        position: absolute;
-        bottom: 0;
-        left: 0;
-        right: 0;
-        text-align: left;
-        padding: 5px;
-        background-color: rgba(0, 0, 0, 0.1);
-    }
-
-    .k-pager-wrap { border-top: 0; }
-
-    span.k-invalid-msg {
-        position: absolute;
-        margin-left: 6px;
-    }
-
-    .k-add-button { margin-bottom: 2em; }
-
-    @@media only screen and (max-width: 620px) {
-        .product-view { width: 100%; }
-
-        .product-view:nth-child(even) { border-left-width: 1px; }
-    }
-</style>
-
-@section Scripts {
-    @{
-        await Html.RenderPartialAsync("_KendoScriptsPartial");
-    }
-}
-
-@section Styles {
-    @{
-        await Html.RenderPartialAsync("_KendoStylesPartial");
-    }
-}

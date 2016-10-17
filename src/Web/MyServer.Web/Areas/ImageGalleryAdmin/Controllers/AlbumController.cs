@@ -46,6 +46,26 @@ namespace MyServer.Web.Areas.ImageGalleryAdmin.Controllers
             this.fileService = fileService;
         }
 
+        public IActionResult Delete(Guid id)
+        {
+            var album = this.albumService.GetById(id);
+
+            if (album != null)
+            {
+                if (album.Images != null)
+                {
+                    foreach (var image in album.Images)
+                    {
+                        this.imageService.Remove(image.Id);
+                    }
+                }
+
+                this.albumService.Remove(album.Id);
+            }
+
+            return this.RedirectToAction("Index");
+        }
+
         [HttpPost]
         [ValidateAntiForgeryToken]
         public PartialViewResult AlbumDataPartial(AlbumEditViewModel model)
@@ -54,10 +74,6 @@ namespace MyServer.Web.Areas.ImageGalleryAdmin.Controllers
             {
                 var album = this.albumService.GetById(model.Id);
 
-                // if (album == null)
-                // {
-                // return this.NotFound();
-                // }
                 album.TitleBg = model.TitleBg;
                 album.TitleEn = model.TitleEn;
                 album.DescriptionBg = model.DescriptionBg;
@@ -98,7 +114,7 @@ namespace MyServer.Web.Areas.ImageGalleryAdmin.Controllers
                                 };
 
                 this.albumService.Add(album);
-                return this.RedirectToAction("Index");
+                return this.RedirectToAction("Edit", new { id = album.Id });
             }
 
             return this.View(model);
