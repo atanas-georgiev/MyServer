@@ -100,7 +100,9 @@
     @RenderBody()
     <hr>
     <footer class="text-center">
-        <p>&copy; 2016 - @LocString["Title"]</p>
+        <p class="copyright small">
+            <a href="https://github.com/atanas-georgiev/MyServer" target="_blank">MyServer System @Microsoft.Extensions.PlatformAbstractions.PlatformServices.Default.Application.ApplicationVersion</a> &copy; @DateTime.Now.Year.ToString() - @LocString["Title"]
+        </p>
     </footer>
 </div>
 
