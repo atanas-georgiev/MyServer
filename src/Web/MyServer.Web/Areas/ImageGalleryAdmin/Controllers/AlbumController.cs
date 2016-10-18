@@ -54,7 +54,7 @@ namespace MyServer.Web.Areas.ImageGalleryAdmin.Controllers
             {
                 if (album.Images != null)
                 {
-                    foreach (var image in album.Images)
+                    foreach (var image in album.Images.ToList())
                     {
                         this.imageService.Remove(image.Id);
                     }

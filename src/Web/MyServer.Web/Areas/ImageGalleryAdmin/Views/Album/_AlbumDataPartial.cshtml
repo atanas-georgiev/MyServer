@@ -44,7 +44,7 @@
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
                 <input type="submit" value="Save" class="btn btn-default"/>
-                <a class="btn btn-default" asp-action="Delete" asp-route-id="@Model.Id">Delete</a>
+                <a class="btn btn-default" data-href="/ImageGalleryAdmin/Album/Delete/@Model.Id" data-toggle="modal" data-target="#confirm-delete">Delete</a>
         </div>
         </div>
 
@@ -55,7 +55,25 @@
     </div>
 </form>
 
+<div class="modal fade" id="confirm-delete" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                Delete album?
+            </div>
+            <div class="modal-body text-center">
+                <a class="btn btn-danger btn-ok">Delete</a>
+                <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>                
+            </div>
+        </div>
+    </div>
+</div>
+
 <script>
+    $('#confirm-delete').on('show.bs.modal', function (e) {
+        $(this).find('.btn-ok').attr('href', $(e.relatedTarget).data('href'));
+    });
+
     function onComplete(e) {
         $.ajax({
             url: '/ImageGalleryAdmin/Album/UpdateImages',
