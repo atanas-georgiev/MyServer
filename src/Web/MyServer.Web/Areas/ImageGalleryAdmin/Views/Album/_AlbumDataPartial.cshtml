@@ -45,6 +45,7 @@
             <div class="col-md-offset-2 col-md-10">
                 <input type="submit" value="Save" class="btn btn-default"/>
                 <a class="btn btn-default" data-href="/ImageGalleryAdmin/Album/Delete/@Model.Id" data-toggle="modal" data-target="#confirm-delete">Delete</a>
+                <a class="btn btn-default" asp-action="Details" asp-controller="Album" asp-route-area="ImageGallery" asp-route-id="@Model.Id">Preview</a>
         </div>
         </div>
 
