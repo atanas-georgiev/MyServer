@@ -10,6 +10,7 @@
     using MyServer.Common;
     using MyServer.Data.Models;
     using MyServer.Services.Mappings;
+    using Resources;
 
     public class AddAlbumViewModel : IMapFrom<Album>
     {
@@ -34,12 +35,12 @@
         [HiddenInput(DisplayValue = false)]
         public Guid Id { get; set; }
 
-        [Required]
+        [Required(ErrorMessageResourceName = "ErrorRequired", ErrorMessageResourceType = typeof(Helpers_SharedResource))]
         [MinLength(3)]
         [MaxLength(150)]
         public string TitleBg { get; set; }
 
-        [Required]
+        [Required(ErrorMessageResourceName = "ErrorRequired", ErrorMessageResourceType = typeof(Helpers_SharedResource))]
         [MinLength(3)]
         [MaxLength(150)]
         public string TitleEn { get; set; }

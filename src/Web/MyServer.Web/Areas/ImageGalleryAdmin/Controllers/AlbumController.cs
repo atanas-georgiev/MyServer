@@ -95,11 +95,10 @@ namespace MyServer.Web.Areas.ImageGalleryAdmin.Controllers
             return this.View(new AddAlbumViewModel() { Access = MyServerAccessType.Private });
         }
 
-        [HttpPost]
-        [ValidateAntiForgeryToken]
+        [HttpPost]        
         public IActionResult Create(AddAlbumViewModel model)
         {
-            if (this.ModelState.IsValid && model != null)
+            if (this.ModelState.IsValid)
             {
                 var album = new Album()
                                 {
@@ -114,7 +113,7 @@ namespace MyServer.Web.Areas.ImageGalleryAdmin.Controllers
                                 };
 
                 this.albumService.Add(album);
-                return this.RedirectToAction("Edit", new { id = album.Id });
+                return this.RedirectToAction(nameof(Edit), new { id = album.Id });
             }
 
             return this.View(model);
