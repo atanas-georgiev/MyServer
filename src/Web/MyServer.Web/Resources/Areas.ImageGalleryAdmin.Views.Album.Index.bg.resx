@@ -117,67 +117,10 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="Access" xml:space="preserve">
-    <value>Access</value>
+  <data name="Albums" xml:space="preserve">
+    <value>Администрация албуми</value>
   </data>
-  <data name="ConfirmPassword" xml:space="preserve">
-    <value>Confirm Password</value>
-  </data>
-  <data name="DescriptionBg" xml:space="preserve">
-    <value>Description (bg)</value>
-  </data>
-  <data name="DescriptionEn" xml:space="preserve">
-    <value>Description (en)</value>
-  </data>
-  <data name="Email" xml:space="preserve">
-    <value>Email</value>
-  </data>
-  <data name="ErrorLength" xml:space="preserve">
-    <value>The {0} must be between {1} and {2} characters long</value>
-  </data>
-  <data name="ErrorMinLength" xml:space="preserve">
-    <value>The {0} must be at least {2} characters long</value>
-  </data>
-  <data name="ErrorPasswordNotMatch" xml:space="preserve">
-    <value>The password and confirmation password do not match.</value>
-  </data>
-  <data name="ErrorRequired" xml:space="preserve">
-    <value>The {0} is reqired.</value>
-  </data>
-  <data name="FirstName" xml:space="preserve">
-    <value>First Name</value>
-  </data>
-  <data name="Item" xml:space="preserve">
-    <value>item</value>
-  </data>
-  <data name="Items" xml:space="preserve">
-    <value>items</value>
-  </data>
-  <data name="LastName" xml:space="preserve">
-    <value>Last Name</value>
-  </data>
-  <data name="NoItems" xml:space="preserve">
-    <value>No items</value>
-  </data>
-  <data name="Password" xml:space="preserve">
-    <value>Password</value>
-  </data>
-  <data name="Private" xml:space="preserve">
-    <value>Private</value>
-  </data>
-  <data name="Public" xml:space="preserve">
-    <value>Public</value>
-  </data>
-  <data name="Registrated" xml:space="preserve">
-    <value>Registrated</value>
-  </data>
-  <data name="RememberMe" xml:space="preserve">
-    <value>Remember Me?</value>
-  </data>
-  <data name="TitleBg" xml:space="preserve">
-    <value>Title (bg)</value>
-  </data>
-  <data name="TitleEn" xml:space="preserve">
-    <value>Title (en)</value>
+  <data name="Create" xml:space="preserve">
+    <value>Нов албум</value>
   </data>
 </root>

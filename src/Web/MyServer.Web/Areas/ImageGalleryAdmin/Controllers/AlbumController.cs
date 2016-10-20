@@ -202,7 +202,11 @@ namespace MyServer.Web.Areas.ImageGalleryAdmin.Controllers
 
         public IActionResult Index()
         {
-            var albums = this.albumService.GetAllReqursive().To<AlbumListViewModel>().ToList();
+            var albums =
+                    this.albumService.GetAllReqursive()
+                        .OrderByDescending(x => x.Images.OrderBy(d => d.DateTaken).Last().DateTaken)
+                        .To<AlbumListViewModel>()
+                        .ToList();
             return this.View(albums);
         }
 

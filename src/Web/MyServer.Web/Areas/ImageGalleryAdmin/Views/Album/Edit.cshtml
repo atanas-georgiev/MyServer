@@ -4,19 +4,29 @@
 @model MyServer.Web.Areas.ImageGalleryAdmin.Models.Album.AlbumEditViewModel
 
 @{
-    ViewData["Title"] = "Edit";
-    ViewData["AccessTypes"] = ViewBag.AccessTypes;
+    ViewData["Title"] = LocString["Edit"];
 }
 
-<h2>Edit</h2>
+@Html.Partial("_KendoScriptsPartial");
 
-<div class="well" id="album-data-partial">
+@section Styles
+    {
+    @{
+        await Html.RenderPartialAsync("_KendoStylesPartial");
+    }
+}
+
+<div class="well well-mobile">
+    <div>
+        <h2 class="text-center">@LocString["Edit"]</h2>
+        <hr />
+    </div>
     @Html.Partial("_AlbumDataPartial", Model)
 </div>
 <div class="well well-mobile" id="image-edit-box" style="display: none">
     @Html.Partial("_ImageUpdate", new ImageUpdateViewModel())
 </div>
-<button class="btn select-all">Select All</button>
+<button class="btn select-all">@LocString["SelectAll"]</button>
 <div class="well well-mobile" id="image-list-box">
     @Html.Partial("_ImageListPartial", Model)
 </div>
@@ -24,9 +34,9 @@
 <script>
 
     $(document)
-        .ready(function() {
+        .ready(function () {
             $(".select-all")
-                .click(function() {
+                .click(function () {
                     $(".mygallery img").trigger("click");
 
                 });
@@ -34,7 +44,7 @@
             $("select.image-picker").imagepicker();
 
             $(".image-edit-box-title-btn")
-                .click(function() {
+                .click(function () {
                     $(".image-edit-box-modal-ids").attr("value", selectedIds);
                     if (selectedTitles.length === 1) {
                         $(".image-edit-box-modal-title").val(selectedTitles);
@@ -44,7 +54,7 @@
                 });
 
             $(".image-edit-box-location-btn")
-                .click(function() {
+                .click(function () {
                     $(".image-edit-box-modal-ids").attr("value", selectedIds);
                     if (selectedLocations.length === 1) {
                         $(".image-edit-box-modal-location").val(selectedLocations);
@@ -54,7 +64,7 @@
                 });
 
             $(".image-edit-box-date-btn")
-                .click(function() {
+                .click(function () {
                     $(".image-edit-box-modal-ids").attr("value", selectedIds);
                     if (selectedDates.length === 1) {
                         $("#image-edit-box-modal-date").data("kendoDatePicker").value(new Date(selectedDates[0]));
@@ -64,17 +74,17 @@
                 });
 
             $(".image-edit-box-modal-title-close")
-                .click(function() {
+                .click(function () {
                     $('#image-edit-box-title-modal').modal('toggle');
                 });
 
             $(".image-edit-box-modal-location-close")
-                .click(function() {
+                .click(function () {
                     $('#image-edit-box-location-modal').modal('toggle');
                 });
 
             $(".image-edit-box-modal-date-close")
-                .click(function() {
+                .click(function () {
                     $('#image-edit-box-date-modal').modal('toggle');
                 });
 
@@ -90,7 +100,7 @@
                     captions: true,
                     captionSettings: { animationDuration: 500, visibleOpacity: 0.9, nonVisibleOpacity: 0.4 },
                     border: 0,
-                    thumbnailPath: function(currentPath, width, height) {
+                    thumbnailPath: function (currentPath, width, height) {
                         if (Math.max(width, height) > 300) {
                             return currentPath.replace(/(.*)(_[a-z]+)(\..*)/, "$1Low$2");
                         } else {
@@ -110,24 +120,14 @@
         width: 100%;
         z-index: 100;
     }
-    
-    .modal-backdrop { z-index: -1; }
+
+    .modal-backdrop {
+        z-index: -1;
+    }
 
     .modal {
         position: fixed;
-        top: 50%;        
+        top: 50%;
         z-index: 100;
     }
 </style>
-
-@section Scripts {
-    @{
-        await Html.RenderPartialAsync("_KendoScriptsPartial");
-    }
-}
-
-@section Styles {
-    @{
-        await Html.RenderPartialAsync("_KendoStylesPartial");
-    }
-}

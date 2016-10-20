@@ -14,8 +14,6 @@
 
     public class AlbumListViewModel : IMapFrom<Album>, IHaveCustomMappings
     {
-        public MyServerAccessType Access { get; set; }
-
         public string CoverImage { get; set; }
 
         public string Date { get; set; }
@@ -24,13 +22,8 @@
 
         public Guid Id { get; set; }
 
-        public List<ImageViewModel> Images { get; set; }
-
         public string ImagesCountCover { get; set; }
 
-        [Required]
-        [MinLength(3)]
-        [MaxLength(200)]
         public string Title { get; set; }
 
         public int Width { get; set; }

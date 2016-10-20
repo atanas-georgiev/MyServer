@@ -60,11 +60,38 @@ namespace MyServer.Web.Resources {
         }
         
         /// <summary>
+        ///    Looks up a localized string similar to Access.
+        /// </summary>
+        public static string Access {
+            get {
+                return ResourceManager.GetString("Access", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///    Looks up a localized string similar to Confirm Password.
         /// </summary>
         public static string ConfirmPassword {
             get {
                 return ResourceManager.GetString("ConfirmPassword", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to Description (bg).
+        /// </summary>
+        public static string DescriptionBg {
+            get {
+                return ResourceManager.GetString("DescriptionBg", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to Description (en).
+        /// </summary>
+        public static string DescriptionEn {
+            get {
+                return ResourceManager.GetString("DescriptionEn", resourceCulture);
             }
         }
         
@@ -168,11 +195,56 @@ namespace MyServer.Web.Resources {
         }
         
         /// <summary>
+        ///    Looks up a localized string similar to Private.
+        /// </summary>
+        public static string Private {
+            get {
+                return ResourceManager.GetString("Private", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to Public.
+        /// </summary>
+        public static string Public {
+            get {
+                return ResourceManager.GetString("Public", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to Registrated.
+        /// </summary>
+        public static string Registrated {
+            get {
+                return ResourceManager.GetString("Registrated", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///    Looks up a localized string similar to Remember Me?.
         /// </summary>
         public static string RememberMe {
             get {
                 return ResourceManager.GetString("RememberMe", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to Title (bg).
+        /// </summary>
+        public static string TitleBg {
+            get {
+                return ResourceManager.GetString("TitleBg", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to Title (en).
+        /// </summary>
+        public static string TitleEn {
+            get {
+                return ResourceManager.GetString("TitleEn", resourceCulture);
             }
         }
     }

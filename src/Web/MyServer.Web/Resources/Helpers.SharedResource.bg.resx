@@ -117,8 +117,17 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="Access" xml:space="preserve">
+    <value>Видимост</value>
+  </data>
   <data name="ConfirmPassword" xml:space="preserve">
     <value>Потвърждение на паролата</value>
+  </data>
+  <data name="DescriptionBg" xml:space="preserve">
+    <value>Описание (бг)</value>
+  </data>
+  <data name="DescriptionEn" xml:space="preserve">
+    <value>Описание (ен)</value>
   </data>
   <data name="Email" xml:space="preserve">
     <value>Е-мейл</value>
@@ -153,7 +162,22 @@
   <data name="Password" xml:space="preserve">
     <value>Парола</value>
   </data>
+  <data name="Private" xml:space="preserve">
+    <value>Само за администратори</value>
+  </data>
+  <data name="Public" xml:space="preserve">
+    <value>Публичен</value>
+  </data>
+  <data name="Registrated" xml:space="preserve">
+    <value>Само за регистрирани</value>
+  </data>
   <data name="RememberMe" xml:space="preserve">
     <value>Запомни ме?</value>
+  </data>
+  <data name="TitleBg" xml:space="preserve">
+    <value>Заглавие (бг)</value>
+  </data>
+  <data name="TitleEn" xml:space="preserve">
+    <value>Заглавие (ен)</value>
   </data>
 </root>

@@ -5,9 +5,21 @@
     ViewData["Title"] = LocString["NewAlbum"];
 }
 
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_KendoScriptsPartial");
+    }
+}
+
+@section Styles {
+    @{
+        await Html.RenderPartialAsync("_KendoStylesPartial");
+    }
+}
+
 <div class="well well-mobile">
     <div>
-        <h2>@LocString["NewAlbum"]</h2>
+        <h2 class="text-center">@LocString["NewAlbum"]</h2>
         <hr />
     </div>
     <div>
@@ -53,15 +65,3 @@
         </form>
     </div>
 </div>
-
-@section Scripts {
-    @{
-        await Html.RenderPartialAsync("_KendoScriptsPartial");
-    }
-}
-
-@section Styles {
-    @{
-        await Html.RenderPartialAsync("_KendoStylesPartial");
-    }
-}
