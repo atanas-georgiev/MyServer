@@ -9,7 +9,8 @@
     "MyServer.Data": "1.0.0-*",
     "MyServer.Data.Common": "1.0.0-*",
     "MyServer.Data.Models": "1.0.0-*",
-    "NETStandard.Library": "1.6.0"
+    "NETStandard.Library": "1.6.0",
+    "StyleCop.Analyzers": "1.0.0"
   },
 
   "frameworks": {

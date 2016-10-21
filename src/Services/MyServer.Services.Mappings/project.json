@@ -1,10 +1,11 @@
-﻿{
+{
   "version": "1.0.0-*",
 
   "dependencies": {
     "AutoMapper": "5.1.1",
     "NETStandard.Library": "1.6.0",
-    "System.Reflection.TypeExtensions": "4.1.0"
+    "System.Reflection.TypeExtensions": "4.1.0",
+    "StyleCop.Analyzers": "1.0.0"
   },
 
   "frameworks": {
