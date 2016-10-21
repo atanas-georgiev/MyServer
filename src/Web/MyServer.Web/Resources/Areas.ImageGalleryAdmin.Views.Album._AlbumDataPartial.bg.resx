@@ -118,22 +118,22 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="Cancel" xml:space="preserve">
-    <value>Отказ</value>
+    <value>Откажи</value>
   </data>
   <data name="Delete" xml:space="preserve">
-    <value>Изтриване</value>
+    <value>Изтрий</value>
   </data>
   <data name="DeleteAlbum" xml:space="preserve">
-    <value>Изтриване на албума?</value>
+    <value>Изтрий албума?</value>
   </data>
   <data name="Edit" xml:space="preserve">
-    <value>Редактиране</value>
+    <value>Редактирай</value>
   </data>
   <data name="Preview" xml:space="preserve">
-    <value>Изглед</value>
+    <value>Прегледай</value>
   </data>
   <data name="Save" xml:space="preserve">
-    <value>Актуализация</value>
+    <value>Актуализирай</value>
   </data>
   <data name="SelectAll" xml:space="preserve">
     <value>Избери всички</value>

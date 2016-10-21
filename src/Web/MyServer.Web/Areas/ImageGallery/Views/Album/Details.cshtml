@@ -38,7 +38,7 @@
         <div class="text-center">
             @if (User.IsInRole(MyServer.Common.MyServerRoles.Admin))
             {
-                <a class="btn btn-default" asp-action="Edit" asp-controller="Album" asp-route-area="ImageGalleryAdmin" asp-route-id="@Model.Id"><i class="fa fa-lock" aria-hidden="true"></i> Edit</a>
+                <a class="btn btn-default" asp-action="Edit" asp-controller="Album" asp-route-area="ImageGalleryAdmin" asp-route-id="@Model.Id"><i class="fa fa-lock" aria-hidden="true"></i> @LocString["Edit"]</a>
             }
             <div class="btn-group">
                 <a href="#" data-target="#" class="btn dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
@@ -182,14 +182,16 @@
                     fjs.parentNode.insertBefore(js, fjs);
                 }(document, 'script', 'facebook-jssdk'));
 
-                document.getElementById('shareBtn').onclick = function () {
-                    urlfb = 'http://atanas.it/ImageGallery/Album/Details/' + '@Model.Id';
-                    FB.ui({
-                        method: 'share',
-                        display: 'popup',
-                        href: urlfb,
-                    },
-                        function (response) { });
+                if (document.getElementById('shareBtn')) {
+                    document.getElementById('shareBtn').onclick = function () {
+                        urlfb = 'http://atanas.it/ImageGallery/Album/Details/' + '@Model.Id';
+                        FB.ui({
+                            method: 'share',
+                            display: 'popup',
+                            href: urlfb,
+                        },
+                            function (response) { });
+                    }
                 }
 
                 $('.mygallery')

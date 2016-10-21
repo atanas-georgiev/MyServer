@@ -127,7 +127,7 @@
     <value>Описание (бг)</value>
   </data>
   <data name="DescriptionEn" xml:space="preserve">
-    <value>Описание (ен)</value>
+    <value>Описание (анг)</value>
   </data>
   <data name="Email" xml:space="preserve">
     <value>Е-мейл</value>
@@ -178,6 +178,6 @@
     <value>Заглавие (бг)</value>
   </data>
   <data name="TitleEn" xml:space="preserve">
-    <value>Заглавие (ен)</value>
+    <value>Заглавие (анг)</value>
   </data>
 </root>

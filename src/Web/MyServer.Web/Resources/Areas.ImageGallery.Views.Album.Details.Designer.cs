@@ -60,11 +60,20 @@ namespace MyServer.Web.Resources {
         }
         
         /// <summary>
-        ///    Looks up a localized string similar to Download.
+        ///    Looks up a localized string similar to Download Archive.
         /// </summary>
         public static string Download {
             get {
                 return ResourceManager.GetString("Download", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to Edit.
+        /// </summary>
+        public static string Edit {
+            get {
+                return ResourceManager.GetString("Edit", resourceCulture);
             }
         }
         

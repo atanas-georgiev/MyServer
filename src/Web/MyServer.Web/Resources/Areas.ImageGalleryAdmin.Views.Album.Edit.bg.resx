@@ -121,19 +121,19 @@
     <value>Отказ</value>
   </data>
   <data name="DeleteAlbum" xml:space="preserve">
-    <value>Изтриване на албума?</value>
+    <value>Изтрий албума?</value>
   </data>
   <data name="Detele" xml:space="preserve">
-    <value>Изтриване</value>
+    <value>Изтрий</value>
   </data>
   <data name="Edit" xml:space="preserve">
-    <value>Редакция</value>
+    <value>Редакция на албум</value>
   </data>
   <data name="Preview" xml:space="preserve">
-    <value>Преглед</value>
+    <value>Прегледай</value>
   </data>
   <data name="Save" xml:space="preserve">
-    <value>Актуализация</value>
+    <value>Запази</value>
   </data>
   <data name="SelectAll" xml:space="preserve">
     <value>Избери всички</value>
