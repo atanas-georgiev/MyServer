@@ -48,21 +48,7 @@ namespace MyServer.Web.Areas.ImageGalleryAdmin.Controllers
 
         public IActionResult Delete(Guid id)
         {
-            var album = this.albumService.GetById(id);
-
-            if (album != null)
-            {
-                if (album.Images != null)
-                {
-                    foreach (var image in album.Images.ToList())
-                    {
-                        this.imageService.Remove(image.Id);
-                    }
-                }
-
-                this.albumService.Remove(album.Id);
-            }
-
+            this.albumService.Remove(id);
             return this.RedirectToAction("Index");
         }
 
@@ -108,8 +94,7 @@ namespace MyServer.Web.Areas.ImageGalleryAdmin.Controllers
                                     DescriptionEn = model.DescriptionEn,
                                     CreatedOn = DateTime.UtcNow,
                                     AddedBy = this.UserProfile,
-                                    Access = model.Access,
-                                    Cover = this.imageService.GetAll().OrderBy(x => x.CreatedOn).First()
+                                    Access = model.Access                                    
                                 };
 
                 this.albumService.Add(album);

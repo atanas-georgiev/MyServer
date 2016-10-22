@@ -16,9 +16,7 @@
     using MyServer.Data.Models;
 
     using Image = MyServer.Data.Models.Image;
-
-    // using System.Drawing;
-    // using System.Drawing.Imaging;
+    
     public class ImageService : IImageService
     {
         private readonly IRepository<Album, Guid> albums;
@@ -123,17 +121,31 @@
 
         public IQueryable<Image> GetAll()
         {
-            return this.images.All();
+            var firstImageToBeExcludeGuid = Guid.Parse(Constants.NoCoverId);
+            var data = this.images.All().Where(x => x.IsDeleted == false && x.Id != firstImageToBeExcludeGuid);
+            return data;
         }
 
         public IQueryable<Image> GetAllReqursive()
         {
-            return this.images.All().Include(x => x.Album).Include(x => x.Comments).Include(x => x.ImageGpsData);
+            var firstImageToBeExcludeGuid = Guid.Parse(Constants.NoCoverId);
+            var data = this.images.All()
+                .Where(x => x.IsDeleted == false && x.Id != firstImageToBeExcludeGuid)
+                .Include(x => x.Album)
+                .Include(x => x.Comments)
+                .Include(x => x.ImageGpsData);
+            return data;
         }
 
         public Image GetById(Guid id)
         {
             return this.GetAllReqursive().FirstOrDefault(x => x.Id == id);
+        }
+
+        public string GetRandomImagePath()
+        {
+            this.GetAllReqursive();
+            return null;
         }
 
         public void PrepareFileForDownload(Guid id)
@@ -153,12 +165,12 @@
         public void Remove(Guid id)
         {
             var album = this.GetById(id).Album;
-            var coverId = album.CoverId;
 
-            if (id == coverId)
+            if (id == album.CoverId)
             {
-                var firstImage = this.images.All().First();
-                album.CoverId = firstImage.Id;
+                var noCoverImageGuid = Guid.Parse(Constants.NoCoverId);
+                var noCoverImage = this.images.All().FirstOrDefault(x => x.Id == noCoverImageGuid);
+                album.CoverId = noCoverImage.Id;
                 this.albums.Update(album);
             }
 

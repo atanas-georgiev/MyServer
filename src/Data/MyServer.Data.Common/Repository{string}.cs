@@ -36,7 +36,7 @@
 
         public DbSet<T> All()
         {
-            return this.DbSet; // .Where(x => !x.IsDeleted);
+            return this.DbSet;
         }
 
         public IQueryable<T> AllWithDeleted()
@@ -47,6 +47,7 @@
         public void Delete(T entity)
         {
             entity.DeletedOn = DateTime.Now;
+            entity.IsDeleted = true;
             this.Save();
             this.DbSet.Remove(entity);
             this.Save();

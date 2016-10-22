@@ -19,6 +19,8 @@
 
         Image GetById(Guid id);
 
+        string GetRandomImagePath();
+
         void PrepareFileForDownload(Guid id);
 
         void Remove(Guid id);

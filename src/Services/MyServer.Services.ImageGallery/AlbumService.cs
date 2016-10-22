@@ -36,6 +36,8 @@
 
         public void Add(Album album)
         {
+            var noCoverImageGuid = Guid.Parse(Constants.NoCoverId);
+            album.Cover = this.images.GetById(noCoverImageGuid);
             this.albums.Add(album);
             this.fileService.CreateInitialFolders(album.Id);
         }
@@ -100,7 +102,9 @@
         public IQueryable<Album> GetAll()
         {
             var firstAlbumToExcludeGuid = Guid.Parse(Constants.NoCoverId);
-            return this.albums.All().Where(x => x.Id != firstAlbumToExcludeGuid);
+            return
+                this.albums.All()
+                    .Where(x => x.IsDeleted == false && x.Id != firstAlbumToExcludeGuid);
         }
 
         public IQueryable<Album> GetAllReqursive()
@@ -109,8 +113,9 @@
             return
                 this.albums.All()
                     .Include(x => x.Cover)
-                    .Include(x => x.Images).ThenInclude(x => x.ImageGpsData)
-                    .Where(x => x.Id != firstAlbumToExcludeGuid);
+                    .Include(x => x.Images)
+                    .ThenInclude(x => x.ImageGpsData)
+                    .Where(x => x.IsDeleted == false && x.Id != firstAlbumToExcludeGuid);
         }
 
         public Album GetById(Guid id)
@@ -121,7 +126,19 @@
         public void Remove(Guid id)
         {
             var album = this.GetById(id);
-            this.albums.Delete(id);
+
+            if (album != null)
+            {
+                if (album.Images != null)
+                {
+                    foreach (var image in album.Images.ToList())
+                    {
+                        this.images.Delete(image.Id);
+                    }
+                }
+
+                this.albums.Delete(id);
+            }
         }
 
         public void Update(Album album)
