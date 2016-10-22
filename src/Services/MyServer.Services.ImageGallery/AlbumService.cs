@@ -57,18 +57,18 @@
             {
                 case ImageType.Low:
                     albumPath = this.appEnvironment.WebRootPath + Constants.MainContentFolder + "\\" + id + "\\"
-                                    + Constants.ImageFolderLow + "\\";
+                                + Constants.ImageFolderLow + "\\";
                     break;
                 case ImageType.Medium:
                     albumPath = this.appEnvironment.WebRootPath + Constants.MainContentFolder + "\\" + id + "\\"
-                                    + Constants.ImageFolderMiddle + "\\";
+                                + Constants.ImageFolderMiddle + "\\";
                     break;
                 case ImageType.Original:
                     albumPath = this.appEnvironment.WebRootPath + Constants.MainContentFolder + "\\" + id + "\\"
-                                    + Constants.ImageFolderOriginal + "\\";
+                                + Constants.ImageFolderOriginal + "\\";
                     break;
             }
-            
+
             var albumPathTemp = this.appEnvironment.WebRootPath + Constants.TempContentFolder + "\\" + id + "\\";
 
             this.fileService.EmptyTempFolder();
@@ -102,9 +102,7 @@
         public IQueryable<Album> GetAll()
         {
             var firstAlbumToExcludeGuid = Guid.Parse(Constants.NoCoverId);
-            return
-                this.albums.All()
-                    .Where(x => x.IsDeleted == false && x.Id != firstAlbumToExcludeGuid);
+            return this.albums.All().Where(x => x.IsDeleted == false && x.Id != firstAlbumToExcludeGuid);
         }
 
         public IQueryable<Album> GetAllReqursive()

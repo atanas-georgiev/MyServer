@@ -4,7 +4,8 @@
   "dependencies": {
     "Microsoft.EntityFrameworkCore.SqlServer": "1.0.1",
     "NETStandard.Library": "1.6.0",
-    "StyleCop.Analyzers": "1.0.0"
+    "StyleCop.Analyzers": "1.0.0",
+    "StyleCop.MSBuild": "4.7.54"
   },
 
   "frameworks": {

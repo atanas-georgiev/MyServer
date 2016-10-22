@@ -12,13 +12,13 @@
 <div class="container well well-main well-mobile">
     <h2 class="well-title text-center">@Model.Title</h2>
     <h4 class="text-center">@Model.Date</h4>
-    <hr />
+    <hr/>
     @if (Model.Description != null)
     {
         <p class="text-center">
             @Html.Raw(Model.Description)
         </p>
-        <hr />
+        <hr/>
     }
 
     @if (Model.ImageCoordinates != null && Model.ImageCoordinates.Count() != 0)
@@ -32,111 +32,117 @@
             </p>
         }
 
-        <hr />
+        <hr/>
     }
 
-        <div class="text-center">
-            @if (User.IsInRole(MyServer.Common.MyServerRoles.Admin))
-            {
-                <a class="btn btn-default" asp-action="Edit" asp-controller="Album" asp-route-area="ImageGalleryAdmin" asp-route-id="@Model.Id"><i class="fa fa-lock" aria-hidden="true"></i> @LocString["Edit"]</a>
-            }
-            <div class="btn-group">
-                <a href="#" data-target="#" class="btn dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
-                    @LocString["Download"]
-                    <span id="loading" style="display: none">
+    <div class="text-center">
+        @if (User.IsInRole(MyServer.Common.MyServerRoles.Admin))
+        {
+            <a class="btn btn-default" asp-action="Edit" asp-controller="Album" asp-route-area="ImageGalleryAdmin" asp-route-id="@Model.Id">
+                <i class="fa fa-lock" aria-hidden="true"></i> @LocString["Edit"]</a>
+        }
+        <div class="btn-group">
+            <a href="#" data-target="#" class="btn dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+                @LocString["Download"]
+                <span id="loading" style="display: none">
                         <img src="~/img/ajax-loader.gif" alt="" />
                     </span>
-                </a>
-                <ul class="dropdown-menu">
-                    <li>
-                        <a asp-action="Download" asp-controller="Album" asp-route-area="ImageGallery" asp-route-id="@Model.Id" asp-route-type="@ImageType.Low" data-ajax="true" data-ajax-method="GET" data-ajax-loading="#loading" data-ajax-success="window.location.href = data;" class="btn">@LocString["LowQuality"]</a>
-                    </li>
-                    <li>
-                        <a asp-action="Download" asp-controller="Album" asp-route-area="ImageGallery" asp-route-id="@Model.Id" asp-route-type="@ImageType.Medium" data-ajax="true" data-ajax-method="GET" data-ajax-loading="#loading" data-ajax-success="window.location.href = data;" class="btn">@LocString["MiddleQuality"]</a>
-                    </li>
-                    <li>
-                        <a asp-action="Download" asp-controller="Album" asp-route-area="ImageGallery" asp-route-id="@Model.Id" asp-route-type="@ImageType.Original" data-ajax="true" data-ajax-method="GET" data-ajax-loading="#loading" data-ajax-success="window.location.href = data;" class="btn">@LocString["HighQuality"]</a>
-                    </li>
-                </ul>
-            </div>
-            @if (Model.Access == MyServer.Common.MyServerAccessType.Public)
-            {
-                <div id="shareBtn" class="fb-share-button clearfix" data-type="button" data-size="large"></div>
-            }
+            </a>
+            <ul class="dropdown-menu">
+                <li>
+                    <a asp-action="Download" asp-controller="Album" asp-route-area="ImageGallery" asp-route-id="@Model.Id" asp-route-type="@ImageType.Low" data-ajax="true" data-ajax-method="GET" data-ajax-loading="#loading" data-ajax-success="window.location.href = data;" class="btn">@LocString["LowQuality"]</a>
+                </li>
+                <li>
+                    <a asp-action="Download" asp-controller="Album" asp-route-area="ImageGallery" asp-route-id="@Model.Id" asp-route-type="@ImageType.Medium" data-ajax="true" data-ajax-method="GET" data-ajax-loading="#loading" data-ajax-success="window.location.href = data;" class="btn">@LocString["MiddleQuality"]</a>
+                </li>
+                <li>
+                    <a asp-action="Download" asp-controller="Album" asp-route-area="ImageGallery" asp-route-id="@Model.Id" asp-route-type="@ImageType.Original" data-ajax="true" data-ajax-method="GET" data-ajax-loading="#loading" data-ajax-success="window.location.href = data;" class="btn">@LocString["HighQuality"]</a>
+                </li>
+            </ul>
         </div>
-        <hr />
-
-        <div class="overlay-album mygallery lightgallery">
-            @foreach (var image in Model.Images.OrderBy(x => x.DateTaken))
-            {
-                <hhh class="imageContainer" href='@image.MiddleImageSource' data-download-url="@image.OriginalDownloadPath">
-                    <div class="image" src="@image.LowImageSource" alt="@image.Info"></div>
-                    <div class="overlay-album-caption" style="display:none">
-                        <div class="overlay-user-album-text">
-                            @if (!string.IsNullOrEmpty(image.Title))
-                            {
-                                <i class="fa fa-pencil-square-o" aria-hidden="true"></i> @image.Title<br>
-                            }
-                            @if (!string.IsNullOrEmpty(image.DateTaken.ToString()))
-                            {
-                                <i class="fa fa-calendar" aria-hidden="true"></i> @image.DateTaken.Value.ToString("dd MMMM yyyy")<br>
-                            }
-                            @if (!string.IsNullOrEmpty(image.GpsName))
-                            {
-                                <i class="fa fa-map-marker" aria-hidden="true"></i> @image.GpsName
-                            }
-                        </div>
-                    </div>
-                </hhh>
-            }
-        </div>
+        @if (Model.Access == MyServer.Common.MyServerAccessType.Public)
+        {
+            <div id="shareBtn" class="fb-share-button clearfix" data-type="button" data-size="large"></div>
+        }
     </div>
+    <hr/>
 
-    @section Styles {
-        <meta property="og:url" content='@("http://atanas.it/ImageGallery/Album/Details/" + Model.Id)' />
-        <meta property="og:type" content="article" />
-        <meta property="og:title" content="@Model.Title" />
-        <meta property="og:description" content="@Model.Description" />
-        <meta property="og:image" content='@("http://atanas.it" + Model.FbImage)' />
-        <meta property="fb:app_id" content="521558431365642" />
-    }
+    <div class="overlay-album mygallery lightgallery">
+        @foreach (var image in Model.Images.OrderBy(x => x.DateTaken))
+        {
+            <hhh class="imageContainer" href='@image.MiddleImageSource' data-download-url="@image.OriginalDownloadPath">
+                <div class="image" src="@image.LowImageSource" alt="@image.Info"></div>
+                <div class="overlay-album-caption" style="display: none">
+                    <div class="overlay-user-album-text">
+                        @if (!string.IsNullOrEmpty(image.Title))
+                        {
+                            <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
+                            @image.Title<br>
+                        }
+                        @if (!string.IsNullOrEmpty(image.DateTaken.ToString()))
+                        {
+                            <i class="fa fa-calendar" aria-hidden="true"></i>
+                            @image.DateTaken.Value.ToString("dd MMMM yyyy")<br>
+                        }
+                        @if (!string.IsNullOrEmpty(image.GpsName))
+                        {
+                            <i class="fa fa-map-marker" aria-hidden="true"></i>
+                            @image.GpsName
+                        }
+                    </div>
+                </div>
+            </hhh>
+        }
+    </div>
+</div>
 
-    <script>
-        var counter = 0;
+@section Styles {
+    <meta property="og:url" content='@("http://atanas.it/ImageGallery/Album/Details/" + Model.Id)'/>
+    <meta property="og:type" content="article"/>
+    <meta property="og:title" content="@Model.Title"/>
+    <meta property="og:description" content="@Model.Description"/>
+    <meta property="og:image" content='@("http://atanas.it" + Model.FbImage)'/>
+    <meta property="fb:app_id" content="521558431365642"/>
+}
 
-        $(document)
-            .ready(function () {
-                counter = 0;
-                (function ($) {
-                    var $newTag = null;
-                    $.fn.tagName = function (newTag) {
-                        this.each(function (i, el) {
-                            var $el = $(el);
-                            $newTag = $("<" + newTag + ">");
+<script>
+    var counter = 0;
 
-                            // attributes
-                            $.each(el.attributes, function (i, attribute) {
+    $(document)
+        .ready(function() {
+            counter = 0;
+            (function($) {
+                var $newTag = null;
+                $.fn.tagName = function(newTag) {
+                    this.each(function(i, el) {
+                        var $el = $(el);
+                        $newTag = $("<" + newTag + ">");
+
+                        // attributes
+                        $.each(el.attributes,
+                            function(i, attribute) {
                                 $newTag.attr(attribute.nodeName, attribute.nodeValue);
                             });
-                            // content
-                            $newTag.html($el.html());
+                        // content
+                        $newTag.html($el.html());
 
-                            $el.replaceWith($newTag);
-                        });
-                        return $newTag;
-                    };
-                })(jQuery);
+                        $el.replaceWith($newTag);
+                    });
+                    return $newTag;
+                };
+            })(jQuery);
 
-                for (var i = 0; i < 20; i++) {
-                    var src = $($(".imageContainer")[counter]);
-                    src.tagName('a');
-                    src = $($(".image")[i]);
-                    src.tagName('img');
-                    $($(".overlay-album-caption")[i]).show();
-                    counter++;
-                }
+            for (var i = 0; i < 20; i++) {
+                var src = $($(".imageContainer")[counter]);
+                src.tagName('a');
+                src = $($(".image")[i]);
+                src.tagName('img');
+                $($(".overlay-album-caption")[i]).show();
+                counter++;
+            }
 
-                $(window).scroll(function () {
+            $(window)
+                .scroll(function() {
                     if ($(window).scrollTop() + $(window).height() === $(document).height()) {
                         console.log(counter);
 
@@ -163,62 +169,62 @@
                     }
                 });
 
-                window.fbAsyncInit = function () {
-                    FB.init({
-                        appId: '521558431365642',
-                        xfbml: true,
-                        version: 'v2.6'
-                    });
-                };
+            window.fbAsyncInit = function() {
+                FB.init({
+                    appId: '521558431365642',
+                    xfbml: true,
+                    version: 'v2.6'
+                });
+            };
 
-                (function (d, s, id) {
-                    var js, fjs = d.getElementsByTagName(s)[0];
-                    if (d.getElementById(id)) {
-                        return;
-                    }
-                    js = d.createElement(s);
-                    js.id = id;
-                    js.src = "//connect.facebook.net/@CultureInfo.CurrentCulture.ToString()/sdk.js";
-                    fjs.parentNode.insertBefore(js, fjs);
-                }(document, 'script', 'facebook-jssdk'));
+            (function(d, s, id) {
+                var js, fjs = d.getElementsByTagName(s)[0];
+                if (d.getElementById(id)) {
+                    return;
+                }
+                js = d.createElement(s);
+                js.id = id;
+                js.src = "//connect.facebook.net/@CultureInfo.CurrentCulture.ToString()/sdk.js";
+                fjs.parentNode.insertBefore(js, fjs);
+            }(document, 'script', 'facebook-jssdk'));
 
-                if (document.getElementById('shareBtn')) {
-                    document.getElementById('shareBtn').onclick = function () {
-                        urlfb = 'http://atanas.it/ImageGallery/Album/Details/' + '@Model.Id';
-                        FB.ui({
+            if (document.getElementById('shareBtn')) {
+                document.getElementById('shareBtn').onclick = function() {
+                    urlfb = 'http://atanas.it/ImageGallery/Album/Details/' + '@Model.Id';
+                    FB.ui({
                             method: 'share',
                             display: 'popup',
                             href: urlfb,
                         },
-                            function (response) { });
-                    }
+                        function(response) {});
                 }
+            }
 
-                $('.mygallery')
-                    .lightGallery({
-                        speed: 400,
-                        hideBarsDelay: 2000,
-                        controls: false,
-                        thumbnail: false,
-                        pause: 3000
-                    });
+            $('.mygallery')
+                .lightGallery({
+                    speed: 400,
+                    hideBarsDelay: 2000,
+                    controls: false,
+                    thumbnail: false,
+                    pause: 3000
+                });
 
-                $(".mygallery")
-                    .justifiedGallery({
-                        rowHeight: 200,
-                        maxRowHeight: 300,
-                        fixedHeight: false,
-                        margins: 2,
-                        lastRow: 'nojustify',
-                        captions: false,
-                        border: 0,
-                        thumbnailPath: function (currentPath, width, height) {
-                            if (Math.max(width, height) > 300) {
-                                return currentPath.replace(/(.*)(_[a-z]+)(\..*)/, "$1Low$2");
-                            } else {
-                                return currentPath.replace(/(.*)(_[a-z]+)(\..*)/, "$1Medium$2");
-                            }
+            $(".mygallery")
+                .justifiedGallery({
+                    rowHeight: 200,
+                    maxRowHeight: 300,
+                    fixedHeight: false,
+                    margins: 2,
+                    lastRow: 'nojustify',
+                    captions: false,
+                    border: 0,
+                    thumbnailPath: function(currentPath, width, height) {
+                        if (Math.max(width, height) > 300) {
+                            return currentPath.replace(/(.*)(_[a-z]+)(\..*)/, "$1Low$2");
+                        } else {
+                            return currentPath.replace(/(.*)(_[a-z]+)(\..*)/, "$1Medium$2");
                         }
-                    });
-            });
-    </script>
+                    }
+                });
+        });
+</script>

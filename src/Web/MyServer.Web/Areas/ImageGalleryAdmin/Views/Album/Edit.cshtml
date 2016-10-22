@@ -1,4 +1,3 @@
-@using System.Threading.Tasks
 @using MyServer.Web.Areas.ImageGalleryAdmin.Models.Album
 @using MyServer.Web.Areas.ImageGalleryAdmin.Models.Image
 @model MyServer.Web.Areas.ImageGalleryAdmin.Models.Album.AlbumEditViewModel
@@ -7,127 +6,126 @@
     ViewData["Title"] = LocString["Edit"];
 }
 
-@Html.Partial("_KendoScriptsPartial");
+@Html.Partial("_KendoScriptsPartial")
+    ;
 
 @section Styles
-    {
-    @{
-        await Html.RenderPartialAsync("_KendoStylesPartial");
+{
+@{
+    await Html.RenderPartialAsync("_KendoStylesPartial");
     }
-}
+    }
 
-<div class="well well-mobile">
-    <div>
-        <h2 class="text-center">@LocString["Edit"]</h2>
-        <hr />
+    <div class="well well-mobile">
+        <div>
+            <h2 class="text-center">@LocString["Edit"]</h2>
+            <hr/>
+        </div>
+        @Html.Partial("_AlbumDataPartial", Model)
     </div>
-    @Html.Partial("_AlbumDataPartial", Model)
-</div>
-<div class="well well-mobile" id="image-edit-box" style="display: none">
-    @Html.Partial("_ImageUpdate", new ImageUpdateViewModel())
-</div>
-<button class="btn select-all">@LocString["SelectAll"]</button>
-<div class="well well-mobile" id="image-list-box">
-    @Html.Partial("_ImageListPartial", Model)
-</div>
+    <div class="well well-mobile" id="image-edit-box" style="display: none">
+        @Html.Partial("_ImageUpdate", new ImageUpdateViewModel())
+    </div>
+    <button class="btn select-all">@LocString["SelectAll"]</button>
+    <div class="well well-mobile" id="image-list-box">
+        @Html.Partial("_ImageListPartial", Model)
+    </div>
 
-<script>
+    <script>
 
-    $(document)
-        .ready(function () {
-            $(".select-all")
-                .click(function () {
-                    $(".mygallery img").trigger("click");
+        $(document)
+            .ready(function() {
+                $(".select-all")
+                    .click(function() {
+                        $(".mygallery img").trigger("click");
 
-                });
+                    });
 
-            $("select.image-picker").imagepicker();
+                $("select.image-picker").imagepicker();
 
-            $(".image-edit-box-title-btn")
-                .click(function () {
-                    $(".image-edit-box-modal-ids").attr("value", selectedIds);
-                    if (selectedTitles.length === 1) {
-                        $(".image-edit-box-modal-title").val(selectedTitles);
-                    } else {
-                        $(".image-edit-box-modal-title").val("");
-                    }
-                });
-
-            $(".image-edit-box-location-btn")
-                .click(function () {
-                    $(".image-edit-box-modal-ids").attr("value", selectedIds);
-                    if (selectedLocations.length === 1) {
-                        $(".image-edit-box-modal-location").val(selectedLocations);
-                    } else {
-                        $(".image-edit-box-modal-location").val("");
-                    }
-                });
-
-            $(".image-edit-box-date-btn")
-                .click(function () {
-                    $(".image-edit-box-modal-ids").attr("value", selectedIds);
-                    if (selectedDates.length === 1) {
-                        $("#image-edit-box-modal-date").data("kendoDatePicker").value(new Date(selectedDates[0]));
-                    } else {
-                        $("#image-edit-box-modal-date").data("kendoDatePicker").value(new Date());
-                    }
-                });
-
-            $(".image-edit-box-modal-title-close")
-                .click(function () {
-                    $('#image-edit-box-title-modal').modal('toggle');
-                });
-
-            $(".image-edit-box-modal-location-close")
-                .click(function () {
-                    $('#image-edit-box-location-modal').modal('toggle');
-                });
-
-            $(".image-edit-box-modal-date-close")
-                .click(function () {
-                    $('#image-edit-box-date-modal').modal('toggle');
-                });
-
-            $("#image-edit-box-modal-date").kendoDatePicker();
-
-            $(".mygallery")
-                .justifiedGallery({
-                    rowHeight: 200,
-                    maxRowHeight: 300,
-                    fixedHeight: false,
-                    margins: 2,
-                    lastRow: 'nojustify',
-                    captions: true,
-                    captionSettings: { animationDuration: 500, visibleOpacity: 0.9, nonVisibleOpacity: 0.4 },
-                    border: 0,
-                    thumbnailPath: function (currentPath, width, height) {
-                        if (Math.max(width, height) > 300) {
-                            return currentPath.replace(/(.*)(_[a-z]+)(\..*)/, "$1Low$2");
+                $(".image-edit-box-title-btn")
+                    .click(function() {
+                        $(".image-edit-box-modal-ids").attr("value", selectedIds);
+                        if (selectedTitles.length === 1) {
+                            $(".image-edit-box-modal-title").val(selectedTitles);
                         } else {
-                            return currentPath.replace(/(.*)(_[a-z]+)(\..*)/, "$1Medium$2");
+                            $(".image-edit-box-modal-title").val("");
                         }
-                    }
-                });
+                    });
 
-            $(".image-edit-box-modal-location").geocomplete();
-        });
-</script>
+                $(".image-edit-box-location-btn")
+                    .click(function() {
+                        $(".image-edit-box-modal-ids").attr("value", selectedIds);
+                        if (selectedLocations.length === 1) {
+                            $(".image-edit-box-modal-location").val(selectedLocations);
+                        } else {
+                            $(".image-edit-box-modal-location").val("");
+                        }
+                    });
 
-<style>
-    #image-edit-box {
-        position: fixed;
-        top: 50px;
-        width: 100%;
-        z-index: 100;
-    }
+                $(".image-edit-box-date-btn")
+                    .click(function() {
+                        $(".image-edit-box-modal-ids").attr("value", selectedIds);
+                        if (selectedDates.length === 1) {
+                            $("#image-edit-box-modal-date").data("kendoDatePicker").value(new Date(selectedDates[0]));
+                        } else {
+                            $("#image-edit-box-modal-date").data("kendoDatePicker").value(new Date());
+                        }
+                    });
 
-    .modal-backdrop {
-        z-index: -1;
-    }
+                $(".image-edit-box-modal-title-close")
+                    .click(function() {
+                        $('#image-edit-box-title-modal').modal('toggle');
+                    });
 
-    .modal {
-        position: fixed;
-        top: 50%;
-        z-index: 100;
-    }
-</style>
+                $(".image-edit-box-modal-location-close")
+                    .click(function() {
+                        $('#image-edit-box-location-modal').modal('toggle');
+                    });
+
+                $(".image-edit-box-modal-date-close")
+                    .click(function() {
+                        $('#image-edit-box-date-modal').modal('toggle');
+                    });
+
+                $("#image-edit-box-modal-date").kendoDatePicker();
+
+                $(".mygallery")
+                    .justifiedGallery({
+                        rowHeight: 200,
+                        maxRowHeight: 300,
+                        fixedHeight: false,
+                        margins: 2,
+                        lastRow: 'nojustify',
+                        captions: true,
+                        captionSettings: { animationDuration: 500, visibleOpacity: 0.9, nonVisibleOpacity: 0.4 },
+                        border: 0,
+                        thumbnailPath: function(currentPath, width, height) {
+                            if (Math.max(width, height) > 300) {
+                                return currentPath.replace(/(.*)(_[a-z]+)(\..*)/, "$1Low$2");
+                            } else {
+                                return currentPath.replace(/(.*)(_[a-z]+)(\..*)/, "$1Medium$2");
+                            }
+                        }
+                    });
+
+                $(".image-edit-box-modal-location").geocomplete();
+            });
+    </script>
+
+    <style>
+        #image-edit-box {
+            position: fixed;
+            top: 50px;
+            width: 100%;
+            z-index: 100;
+        }
+
+        .modal-backdrop { z-index: -1; }
+
+        .modal {
+            position: fixed;
+            top: 50%;
+            z-index: 100;
+        }
+    </style>

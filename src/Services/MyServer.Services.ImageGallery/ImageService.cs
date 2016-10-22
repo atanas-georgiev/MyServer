@@ -147,15 +147,15 @@
         {
             var rand = new Random();
             var skip = rand.Next(0, this.GetAllReqursive().Count(x => x.Album.Access == MyServerAccessType.Public));
-            var randomImage = this.GetAllReqursive()
-                .Where(x => x.Album.Access == MyServerAccessType.Public)
-                .Skip(skip)
-                .FirstOrDefault();
+            var randomImage =
+                this.GetAllReqursive()
+                    .Where(x => x.Album.Access == MyServerAccessType.Public)
+                    .Skip(skip)
+                    .FirstOrDefault();
             if (randomImage != null)
             {
-                var randomImagePath = Constants.MainContentFolder + "/"
-                                      + randomImage.AlbumId + "/" + Constants.ImageFolderMiddle + "/"
-                                      + randomImage.FileName;
+                var randomImagePath = Constants.MainContentFolder + "/" + randomImage.AlbumId + "/"
+                                      + Constants.ImageFolderMiddle + "/" + randomImage.FileName;
                 return randomImagePath;
             }
 

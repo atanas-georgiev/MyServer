@@ -1,23 +1,21 @@
-@using System.Threading.Tasks
 @using MyServer.Web.Areas.ImageGalleryAdmin.Models.Album
-@using MyServer.Web.Areas.ImageGalleryAdmin.Controllers
 @model MyServer.Web.Areas.ImageGalleryAdmin.Models.Album.AlbumEditViewModel
 
 <form asp-action="@nameof(AlbumController.AlbumDataPartial)" data-ajax="true" data-ajax-method="POST" data-ajax-mode="replace" data-ajax-update="#album-data-partial">
     <div class="form-horizontal">
         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
-        <input type="hidden" asp-for="Id" class="form-control" />
+        <input type="hidden" asp-for="Id" class="form-control"/>
 
         <div class="form-group">
             <label asp-for="TitleEn" class="col-md-2 control-label"></label>
             <div class="col-md-4">
-                <input asp-for="TitleEn" class="form-control" />
+                <input asp-for="TitleEn" class="form-control"/>
                 <span asp-validation-for="TitleEn" class="text-danger" />
             </div>
             <label asp-for="TitleBg" class="col-md-2 control-label"></label>
             <div class="col-md-4">
-                <input asp-for="TitleBg" class="form-control" />
+                <input asp-for="TitleBg" class="form-control"/>
                 <span asp-validation-for="TitleBg" class="text-danger" />
             </div>
         </div>
@@ -42,7 +40,7 @@
 
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="@LocString["Save"]" class="btn btn-default" />
+                <input type="submit" value="@LocString["Save"]" class="btn btn-default"/>
                 <a class="btn btn-default" data-href="/ImageGalleryAdmin/Album/Delete/@Model.Id" data-toggle="modal" data-target="#confirm-delete">@LocString["Delete"]</a>
                 <a class="btn btn-default" asp-action="Details" asp-controller="Album" asp-route-area="ImageGallery" asp-route-id="@Model.Id">@LocString["Preview"]</a>
             </div>
@@ -70,17 +68,19 @@
 </div>
 
 <script>
-    $('#confirm-delete').on('show.bs.modal', function (e) {
-        $(this).find('.btn-ok').attr('href', $(e.relatedTarget).data('href'));
-    });
+    $('#confirm-delete')
+        .on('show.bs.modal',
+            function(e) {
+                $(this).find('.btn-ok').attr('href', $(e.relatedTarget).data('href'));
+            });
 
     function onComplete(e) {
         $.ajax({
             url: '/ImageGalleryAdmin/Album/UpdateImages',
-            error: function () {
+            error: function() {
                 //  $('#info').html('<p>An error has occurred</p>');
             },
-            success: function (data) {
+            success: function(data) {
                 $("#image-list-box").html(data);
                 ImageListUpdate();
             },

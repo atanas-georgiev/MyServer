@@ -63,12 +63,14 @@
                                     {
                                         if (provider.AuthenticationScheme.ToLower() == "facebook")
                                         {
-                                            <button type="submit" style="color: white" class="btn btn-social-icon btn-lg btn-facebook" name="provider" value="@provider.AuthenticationScheme" title="Log in using your @provider.DisplayName account"><span class="fa fa-facebook"></span></button>
+                                            <button type="submit" style="color: white" class="btn btn-social-icon btn-lg btn-facebook" name="provider" value="@provider.AuthenticationScheme" title="Log in using your @provider.DisplayName account">
+                                                <span class="fa fa-facebook"></span></button>
                                         }
 
                                         if (provider.AuthenticationScheme.ToLower() == "google")
                                         {
-                                            <button type="submit" style="color: white" class="btn btn-social-icon btn-lg btn-google" name="provider" value="@provider.AuthenticationScheme" title="Log in using your @provider.DisplayName account"><span class="fa fa-google"></span></button>
+                                            <button type="submit" style="color: white" class="btn btn-social-icon btn-lg btn-google" name="provider" value="@provider.AuthenticationScheme" title="Log in using your @provider.DisplayName account">
+                                                <span class="fa fa-google"></span></button>
                                         }
                                     }
                                 </p>

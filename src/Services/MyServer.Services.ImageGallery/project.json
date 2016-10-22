@@ -11,7 +11,7 @@
     "MyServer.Data.Models": "1.0.0-*",
     "MyServer.Services.Users": "1.0.0-*",
     "NETStandard.Library": "1.6.0",
-    "StyleCop.Analyzers": "1.0.0",
+    "StyleCop.MSBuild": "4.7.54",
     "System.Net.Http": "4.1.0",
     "System.Runtime.CompilerServices.Unsafe": "4.0.0",
     "System.Xml.XmlDocument": "4.0.1"

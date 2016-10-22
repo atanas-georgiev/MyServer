@@ -10,9 +10,6 @@
     using MyServer.Data.Models;
     using MyServer.Services.Mappings;
     using MyServer.Web.Areas.ImageGallery.Models.Image;
-    using MyServer.Web.Areas.ImageGalleryAdmin.Models.Album;
-    using System.Linq;
-
     using MyServer.Web.Areas.Shared.Models;
 
     public class AlbumViewModel : IMapFrom<Album>, IHaveCustomMappings
@@ -23,12 +20,12 @@
 
         public string CoverImage { get; set; }
 
-        public string FbImage { get; set; }
-
         public string Date { get; set; }
 
         [MaxLength(3000)]
         public string Description { get; set; }
+
+        public string FbImage { get; set; }
 
         public Guid Id { get; set; }
 

@@ -46,12 +46,6 @@ namespace MyServer.Web.Areas.ImageGalleryAdmin.Controllers
             this.fileService = fileService;
         }
 
-        public IActionResult Delete(Guid id)
-        {
-            this.albumService.Remove(id);
-            return this.RedirectToAction("Index");
-        }
-
         [HttpPost]
         [ValidateAntiForgeryToken]
         public PartialViewResult AlbumDataPartial(AlbumEditViewModel model)
@@ -81,7 +75,7 @@ namespace MyServer.Web.Areas.ImageGalleryAdmin.Controllers
             return this.View(new AddAlbumViewModel() { Access = MyServerAccessType.Private });
         }
 
-        [HttpPost]        
+        [HttpPost]
         public IActionResult Create(AddAlbumViewModel model)
         {
             if (this.ModelState.IsValid)
@@ -94,14 +88,20 @@ namespace MyServer.Web.Areas.ImageGalleryAdmin.Controllers
                                     DescriptionEn = model.DescriptionEn,
                                     CreatedOn = DateTime.UtcNow,
                                     AddedBy = this.UserProfile,
-                                    Access = model.Access                                    
+                                    Access = model.Access
                                 };
 
                 this.albumService.Add(album);
-                return this.RedirectToAction(nameof(Edit), new { id = album.Id });
+                return this.RedirectToAction(nameof(this.Edit), new { id = album.Id });
             }
 
             return this.View(model);
+        }
+
+        public IActionResult Delete(Guid id)
+        {
+            this.albumService.Remove(id);
+            return this.RedirectToAction("Index");
         }
 
         [HttpPost]
@@ -124,6 +124,31 @@ namespace MyServer.Web.Areas.ImageGalleryAdmin.Controllers
             }
 
             return this.Content(string.Empty);
+        }
+
+        public IActionResult Edit(string id)
+        {
+            this.Response.Cookies.Append("AlbumId", id);
+            var intId = Guid.Parse(id);
+            var result =
+                this.albumService.GetAllReqursive().Where(x => x.Id == intId).To<AlbumEditViewModel>().FirstOrDefault();
+
+            if (result == null)
+            {
+                return this.NotFound("Album not found");
+            }
+
+            return this.View(result);
+        }
+
+        public IActionResult Index()
+        {
+            var albums =
+                this.albumService.GetAllReqursive()
+                    .OrderByDescending(x => x.Images.OrderBy(d => d.DateTaken).Last().DateTaken)
+                    .To<AlbumListViewModel>()
+                    .ToList();
+            return this.View(albums);
         }
 
         [HttpPost]
@@ -168,31 +193,6 @@ namespace MyServer.Web.Areas.ImageGalleryAdmin.Controllers
             }
 
             return this.Content(string.Empty);
-        }
-
-        public IActionResult Edit(string id)
-        {
-            this.Response.Cookies.Append("AlbumId", id);
-            var intId = Guid.Parse(id);
-            var result =
-                this.albumService.GetAllReqursive().Where(x => x.Id == intId).To<AlbumEditViewModel>().FirstOrDefault();
-
-            if (result == null)
-            {
-                return this.NotFound("Album not found");
-            }
-
-            return this.View(result);
-        }
-
-        public IActionResult Index()
-        {
-            var albums =
-                    this.albumService.GetAllReqursive()
-                        .OrderByDescending(x => x.Images.OrderBy(d => d.DateTaken).Last().DateTaken)
-                        .To<AlbumListViewModel>()
-                        .ToList();
-            return this.View(albums);
         }
 
         [HttpPost]

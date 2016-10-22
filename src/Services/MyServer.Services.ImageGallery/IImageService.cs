@@ -25,8 +25,8 @@
 
         void Remove(Guid id);
 
-        void Update(Image image);
-
         void Rotate(Guid imageId, MyServerRotateType rotateType);
+
+        void Update(Image image);
     }
 }

@@ -164,12 +164,7 @@
             }
 
             var result =
-                await
-                    this.signInManager.PasswordSignInAsync(
-                        model.Email,
-                        model.Password,
-                        true,
-                        lockoutOnFailure: false);
+                await this.signInManager.PasswordSignInAsync(model.Email, model.Password, true, lockoutOnFailure: false);
 
             if (result.Succeeded)
             {

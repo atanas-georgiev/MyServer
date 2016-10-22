@@ -1,3 +1,4 @@
+@using MyServer.Web.Areas.ImageGalleryAdmin.Models.Album
 @model IEnumerable<MyServer.Web.Areas.ImageGalleryAdmin.Models.Album.AlbumListViewModel>
 
 @{
@@ -7,7 +8,7 @@
 <div class="container well well-main well-mobile">
     <div>
         <h2 class="text-center">@LocString["Albums"]</h2>
-        <hr />
+        <hr/>
     </div>
     <div>
         <a asp-action="@nameof(AlbumController.Create)" class="btn btn-default">@LocString["Create"]</a>
@@ -15,11 +16,11 @@
             @foreach (var album in Model)
             {
                 <a class="overlay-album-link" asp-action="@nameof(AlbumController.Edit)" asp-route-id="@album.Id">
-                    <img class="overlay-album-image" alt="@album.Title" src='@album.CoverImage' />
+                    <img class="overlay-album-image" alt="@album.Title" src='@album.CoverImage'/>
                     <div class="overlay-album-caption">
                         <h1 class="overlay-album-title">@album.Title</h1>
                         <p class="overlay-album-content">
-                            <i class="fa fa-calendar" aria-hidden="true"></i> @album.Date<br />
+                            <i class="fa fa-calendar" aria-hidden="true"></i> @album.Date<br/>
                             <i class="fa fa-file-image-o" aria-hidden="true"></i> @album.ImagesCountCover
                         </p>
                     </div>

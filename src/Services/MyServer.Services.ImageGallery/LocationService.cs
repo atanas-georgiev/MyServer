@@ -74,16 +74,25 @@
             var result1 =
                 await
                     httpClient.GetStringAsync(
-                        "https://maps.googleapis.com/maps/api/geocode/xml?latlng=" + longitude.ToString(CultureInfo.InvariantCulture) + ","
-                        + latitude.ToString(CultureInfo.InvariantCulture) + "&key=AIzaSyAJOGz_xyAi_2CdRPW4HX-g5E1WcTwQMSY");
-            var xmlElm = XElement.Parse(result1);            
+                        "https://maps.googleapis.com/maps/api/geocode/xml?latlng="
+                        + longitude.ToString(CultureInfo.InvariantCulture) + ","
+                        + latitude.ToString(CultureInfo.InvariantCulture)
+                        + "&key=AIzaSyAJOGz_xyAi_2CdRPW4HX-g5E1WcTwQMSY");
+            var xmlElm = XElement.Parse(result1);
 
             var status = (from elm in xmlElm.Descendants() where elm.Name == "status" select elm).FirstOrDefault();
 
             if (status.Value.ToLower() == "ok")
             {
-                var results = from elm in xmlElm.Elements() where elm.Name == "result" && (elm.Elements().First().Value == "locality" || elm.Elements().First().Value == "political") select elm;                
-                var res = (from elm in results.Descendants() where elm.Name == "formatted_address" select elm).FirstOrDefault();
+                var results = from elm in xmlElm.Elements()
+                              where
+                              elm.Name == "result"
+                              && (elm.Elements().First().Value == "locality"
+                                  || elm.Elements().First().Value == "political")
+                              select elm;
+                var res =
+                    (from elm in results.Descendants() where elm.Name == "formatted_address" select elm).FirstOrDefault(
+                    );
                 if (res != null)
                 {
                     var location = await this.GetGpsData(res.Value);

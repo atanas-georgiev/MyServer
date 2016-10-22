@@ -1,5 +1,5 @@
 {
-  "version": "0.1.0.244",
+  "version": "0.1.0.247",
   "userSecretsId": "aspnet-MyServer-186bb2c4-9782-4c4e-aedb-a6f55e5aa9af",
   "buildOptions": {
     "emitEntryPoint": true,
@@ -118,7 +118,7 @@
     "MyServer.Services.ImageGallery": "1.0.0-*",
     "MyServer.Services.Mappings": "1.0.0-*",
     "MyServer.Services.Users": "1.0.0-*",
-    "StyleCop.Analyzers": "1.0.0"
+    "StyleCop.MSBuild": "4.7.54"
   },
   "commands": {
     "web": "Microsoft.AspNet.Server.Kestrel --server.urls http://*:5000"

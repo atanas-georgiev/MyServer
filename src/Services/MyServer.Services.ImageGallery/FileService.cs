@@ -2,11 +2,11 @@
 {
     using System;
     using System.IO;
+    using System.Linq;
 
     using Microsoft.AspNetCore.Hosting;
 
     using MyServer.Common.ImageGallery;
-    using System.Linq;
 
     public class FileService : IFileService
     {
@@ -85,6 +85,13 @@
             return string.Empty;
         }
 
+        public string GetImageFolderSize()
+        {
+            var dir = this.appEnvironment.WebRootPath + Constants.MainContentFolder;
+            var size = GetDirectorySize(dir);
+            return (size / 1024 / 1024 / 1024).ToString("0.00");
+        }
+
         public string MakeValidFileName(string name)
         {
             var invalidChars = System.Text.RegularExpressions.Regex.Escape(new string(Path.GetInvalidFileNameChars()));
@@ -100,13 +107,6 @@
                 inputStream.Seek(0, SeekOrigin.Begin);
                 inputStream.CopyTo(fileStream);
             }
-        }
-
-        public string GetImageFolderSize()
-        {
-            var dir = this.appEnvironment.WebRootPath + Constants.MainContentFolder;
-            var size = GetDirectorySize(dir);
-            return (size / 1024 / 1024 / 1024).ToString("0.00");
         }
 
         private static decimal GetDirectorySize(string location)

@@ -15,7 +15,8 @@
     "MyServer.Common.ImageGallery": "1.0.0-*",
     "MyServer.Data.Common": "1.0.0-*",
     "MyServer.Data.Models": "1.0.0-*",
-    "StyleCop.Analyzers": "1.0.0"  },
+    "StyleCop.Analyzers": "1.0.0",
+    "StyleCop.MSBuild": "4.7.54"  },
 
   "frameworks": {
     "netcoreapp1.0": {

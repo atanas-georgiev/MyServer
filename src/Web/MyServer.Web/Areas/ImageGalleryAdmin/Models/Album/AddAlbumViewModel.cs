@@ -10,7 +10,7 @@
     using MyServer.Common;
     using MyServer.Data.Models;
     using MyServer.Services.Mappings;
-    using Resources;
+    using MyServer.Web.Resources;
 
     public class AddAlbumViewModel : IMapFrom<Album>
     {
@@ -21,19 +21,21 @@
             new SelectList(
                 new List<string>()
                     {
-                        //Startup.SharedLocalizer["Public"],
-                        //Startup.SharedLocalizer["Registrated"],
-                        //Startup.SharedLocalizer["Private"]
+                        // Startup.SharedLocalizer["Public"],
+                        // Startup.SharedLocalizer["Registrated"],
+                        // Startup.SharedLocalizer["Private"]
                         MyServerAccessType.Public.ToString(),
                         MyServerAccessType.Registrated.ToString(),
                         MyServerAccessType.Private.ToString()
                     });
 
-        [StringLength(3000, ErrorMessageResourceName = "ErrorLength", ErrorMessageResourceType = typeof(Helpers_SharedResource), MinimumLength = 0)]
+        [StringLength(3000, ErrorMessageResourceName = "ErrorLength",
+             ErrorMessageResourceType = typeof(Helpers_SharedResource), MinimumLength = 0)]
         [Display(Name = "DescriptionBg", ResourceType = typeof(Helpers_SharedResource))]
         public string DescriptionBg { get; set; }
 
-        [StringLength(3000, ErrorMessageResourceName = "ErrorLength", ErrorMessageResourceType = typeof(Helpers_SharedResource), MinimumLength = 0)]
+        [StringLength(3000, ErrorMessageResourceName = "ErrorLength",
+             ErrorMessageResourceType = typeof(Helpers_SharedResource), MinimumLength = 0)]
         [Display(Name = "DescriptionEn", ResourceType = typeof(Helpers_SharedResource))]
         public string DescriptionEn { get; set; }
 
@@ -41,13 +43,17 @@
         [HiddenInput(DisplayValue = false)]
         public Guid Id { get; set; }
 
-        [Required(ErrorMessageResourceName = "ErrorRequired", ErrorMessageResourceType = typeof(Helpers_SharedResource))]
-        [StringLength(150, ErrorMessageResourceName = "ErrorLength", ErrorMessageResourceType = typeof(Helpers_SharedResource), MinimumLength = 3)]
+        [Required(ErrorMessageResourceName = "ErrorRequired", ErrorMessageResourceType = typeof(Helpers_SharedResource))
+        ]
+        [StringLength(150, ErrorMessageResourceName = "ErrorLength",
+             ErrorMessageResourceType = typeof(Helpers_SharedResource), MinimumLength = 3)]
         [Display(Name = "TitleBg", ResourceType = typeof(Helpers_SharedResource))]
         public string TitleBg { get; set; }
 
-        [Required(ErrorMessageResourceName = "ErrorRequired", ErrorMessageResourceType = typeof(Helpers_SharedResource))]
-        [StringLength(150, ErrorMessageResourceName = "ErrorLength", ErrorMessageResourceType = typeof(Helpers_SharedResource), MinimumLength = 3)]
+        [Required(ErrorMessageResourceName = "ErrorRequired", ErrorMessageResourceType = typeof(Helpers_SharedResource))
+        ]
+        [StringLength(150, ErrorMessageResourceName = "ErrorLength",
+             ErrorMessageResourceType = typeof(Helpers_SharedResource), MinimumLength = 3)]
         [Display(Name = "TitleEn", ResourceType = typeof(Helpers_SharedResource))]
         public string TitleEn { get; set; }
     }

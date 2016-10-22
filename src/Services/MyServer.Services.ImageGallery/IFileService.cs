@@ -13,10 +13,10 @@
 
         string GetImageFolder(Guid albumId, ImageType type);
 
+        string GetImageFolderSize();
+
         string MakeValidFileName(string name);
 
         void Save(Stream inputStream, ImageType type, string originalFilename, Guid albumId);
-
-        string GetImageFolderSize();
     }
 }

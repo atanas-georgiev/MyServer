@@ -1,6 +1,7 @@
 ﻿namespace MyServer.Web.Models.Home
 {
     using System;
+
     using AutoMapper;
 
     using MyServer.Common;
@@ -12,9 +13,9 @@
     {
         public MyServerAccessType Access { get; set; }
 
-        public string Date { get; set; }
-
         public DateTime CreatedOn { get; set; }
+
+        public string Date { get; set; }
 
         public Guid Id { get; set; }
 
