@@ -1,7 +1,7 @@
 @using MyServer.Web.Models.Home
 <div class="well well-mobile">
     <div>
-        <h4>@LocString["Latest albums"]</h4>
+        <h4 class="text-center">@LocString["Latest albums"]</h4>
         @{
             var albums = ViewData["LatestAlbums"] as List<HomeAlbumViewModel>;
 
@@ -10,11 +10,15 @@
                 <table class="table">
                     @foreach (var album in albums)
                     {
-                    <tr>
-                        <td>@album.Title</td>
-                        <td>@album.Date</td>
-                        <td>@album.ImagesCountCover</td>
-                    </tr>
+                        <tr>
+                            <td class="col-md-5">
+                                <a asp-area="ImageGallery" asp-controller="Album" asp-action="Details" asp-route-id="@album.Id">
+                                    @album.Title
+                                </a>
+                            </td>
+                            <td class="col-md-5">@album.Date</td>
+                            <td class="col-md-2">@album.ImagesCountCover</td>
+                        </tr>                        
                     }
                 </table>
             }

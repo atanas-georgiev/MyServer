@@ -159,18 +159,24 @@ a div.overlay-album-caption, div div.overlay-album-caption {
 }
 
 .well {
-   text-shadow: 2px 2px 2px #000000;
-   color: #fff!important;
-   background: rgba(255, 255, 255, 0.6)!important;
+   text-shadow: 1px 1px 1px #fff;
+   color: #000!important;
+   background: rgba(222, 222, 222, 0.8)!important;
+}
+
+.well a:visited {
+   text-shadow: 1px 1px 1px #bbb;
+   color: #666!important;
+   background: rgba(222, 222, 222, 0.8)!important;
 }
 
 .btn, .btn:not(.btn-raised), .form-control, label {
-   text-shadow: 2px 2px 2px #000000;
-   color: rgba(255, 255, 255, 1)!important;
+   text-shadow: 1px 1px 1px #fff;
+   color: rgba(0, 0, 0, 1)!important;
 }
 
-footer p {
+footer p, footer p a:visited {
     color: #fff!important;
-    text-shadow: 2px 2px 2px #000000;
+    text-shadow: 1px 1px 1px #000;
 }
 
