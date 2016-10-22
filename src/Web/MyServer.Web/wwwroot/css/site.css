@@ -161,7 +161,7 @@ a div.overlay-album-caption, div div.overlay-album-caption {
 .well {
    text-shadow: 2px 2px 2px #000000;
    color: #fff!important;
-   background: rgba(255, 255, 255, 0.5)!important;
+   background: rgba(255, 255, 255, 0.6)!important;
 }
 
 .btn, .btn:not(.btn-raised), .form-control, label {
@@ -173,3 +173,4 @@ footer p {
     color: #fff!important;
     text-shadow: 2px 2px 2px #000000;
 }
+
