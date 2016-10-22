@@ -35,6 +35,8 @@
         public IActionResult Index()
         {
             var albums = new List<HomeAlbumViewModel>();
+            var albumsCount = this.albumService.GetAllReqursive().Count();
+            var imagesCount = this.imageService.GetAllReqursive().Count();
 
             if (!this.User.Identity.IsAuthenticated)
             {
@@ -67,6 +69,8 @@
             }
 
             this.ViewData["LatestAlbums"] = albums;
+            this.ViewData["AlbumsCount"] = albumsCount;
+            this.ViewData["ImagesCount"] = imagesCount;
             return this.View();
         }
 

@@ -22,13 +22,13 @@ namespace MyServer.Web.Resources {
     // with the /str option, or rebuild your VS project.
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    public class Views_Home__LatestAddedAlbums {
+    public class Views_Home__Statistics {
         
         private static global::System.Resources.ResourceManager resourceMan;
         
         private static global::System.Globalization.CultureInfo resourceCulture;
         
-        internal Views_Home__LatestAddedAlbums() {
+        internal Views_Home__Statistics() {
         }
         
         /// <summary>
@@ -38,7 +38,7 @@ namespace MyServer.Web.Resources {
         public static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("MyServer.Web.Resources.Views.Home._LatestAddedAlbums", typeof(Views_Home__LatestAddedAlbums).GetTypeInfo().Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("MyServer.Web.Resources.Views.Home._Statistics", typeof(Views_Home__Statistics).GetTypeInfo().Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;
@@ -60,16 +60,16 @@ namespace MyServer.Web.Resources {
         }
         
         /// <summary>
-        ///    Looks up a localized string similar to added on.
+        ///    Looks up a localized string similar to albums.
         /// </summary>
-        public static string AddedOn {
+        public static string Albums {
             get {
-                return ResourceManager.GetString("AddedOn", resourceCulture);
+                return ResourceManager.GetString("Albums", resourceCulture);
             }
         }
         
         /// <summary>
-        ///    Looks up a localized string similar to contains.
+        ///    Looks up a localized string similar to images.
         /// </summary>
         public static string Images {
             get {
@@ -78,20 +78,11 @@ namespace MyServer.Web.Resources {
         }
         
         /// <summary>
-        ///    Looks up a localized string similar to NEW ALBUMS.
+        ///    Looks up a localized string similar to STATISTICS.
         /// </summary>
-        public static string LatestAlbums {
+        public static string Statistics {
             get {
-                return ResourceManager.GetString("LatestAlbums", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///    Looks up a localized string similar to name.
-        /// </summary>
-        public static string Name {
-            get {
-                return ResourceManager.GetString("Name", resourceCulture);
+                return ResourceManager.GetString("Statistics", resourceCulture);
             }
         }
     }

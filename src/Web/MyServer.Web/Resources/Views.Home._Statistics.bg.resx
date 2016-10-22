@@ -117,16 +117,13 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="AddedOn" xml:space="preserve">
-    <value>added on</value>
+  <data name="Albums" xml:space="preserve">
+    <value>албума</value>
   </data>
   <data name="Images" xml:space="preserve">
-    <value>contains</value>
+    <value>снимки</value>
   </data>
-  <data name="LatestAlbums" xml:space="preserve">
-    <value>NEW ALBUMS</value>
-  </data>
-  <data name="Name" xml:space="preserve">
-    <value>name</value>
+  <data name="Statistics" xml:space="preserve">
+    <value>СТАТИСТИКА</value>
   </data>
 </root>
