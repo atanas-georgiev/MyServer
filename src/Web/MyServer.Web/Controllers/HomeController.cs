@@ -12,12 +12,15 @@
     {
         private readonly IAlbumService albumService;
 
+        private readonly IImageService imageService;
+
         private readonly IFileService fileService;
 
-        public HomeController(IFileService fileService, IAlbumService albumService)
+        public HomeController(IFileService fileService, IAlbumService albumService, IImageService imageService)
         {
             this.fileService = fileService;
             this.albumService = albumService;
+            this.imageService = imageService;
         }
 
         public IActionResult Error()

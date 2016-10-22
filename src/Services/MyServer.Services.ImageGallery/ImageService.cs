@@ -16,7 +16,7 @@
     using MyServer.Data.Models;
 
     using Image = MyServer.Data.Models.Image;
-    
+
     public class ImageService : IImageService
     {
         private readonly IRepository<Album, Guid> albums;
@@ -129,11 +129,12 @@
         public IQueryable<Image> GetAllReqursive()
         {
             var firstImageToBeExcludeGuid = Guid.Parse(Constants.NoCoverId);
-            var data = this.images.All()
-                .Where(x => x.IsDeleted == false && x.Id != firstImageToBeExcludeGuid)
-                .Include(x => x.Album)
-                .Include(x => x.Comments)
-                .Include(x => x.ImageGpsData);
+            var data =
+                this.images.All()
+                    .Where(x => x.IsDeleted == false && x.Id != firstImageToBeExcludeGuid)
+                    .Include(x => x.Album)
+                    .Include(x => x.Comments)
+                    .Include(x => x.ImageGpsData);
             return data;
         }
 
@@ -144,7 +145,17 @@
 
         public string GetRandomImagePath()
         {
-            this.GetAllReqursive();
+            var rand = new Random();
+            var skip = rand.Next(0, this.GetAllReqursive().Count() - 1);
+            var randomImage = this.GetAllReqursive().Skip(skip).FirstOrDefault();
+            if (randomImage != null)
+            {
+                var randomImagePath = Constants.MainContentFolder + "/"
+                                      + randomImage.AlbumId + "/" + Constants.ImageFolderMiddle + "/"
+                                      + randomImage.FileName;
+                return randomImagePath;
+            }
+
             return null;
         }
 

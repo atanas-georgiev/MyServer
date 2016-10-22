@@ -158,6 +158,7 @@
 
             services.AddDistributedMemoryCache();
             services.AddSession();
+            services.AddMemoryCache();
 
             // services.AddLocalization(options => options.ResourcesPath = "Resources");
             services.AddMvc()
