@@ -6,6 +6,7 @@
     using Microsoft.AspNetCore.Hosting;
 
     using MyServer.Common.ImageGallery;
+    using System.Linq;
 
     public class FileService : IFileService
     {
@@ -99,6 +100,19 @@
                 inputStream.Seek(0, SeekOrigin.Begin);
                 inputStream.CopyTo(fileStream);
             }
+        }
+
+        public string GetImageFolderSize()
+        {
+            var dir = this.appEnvironment.WebRootPath + Constants.MainContentFolder;
+            var size = GetDirectorySize(dir);
+            return (size / 1024 / 1024 / 1024).ToString("0.00");
+        }
+
+        private static decimal GetDirectorySize(string location)
+        {
+            var files = new DirectoryInfo(location).GetFiles("*.jpg", SearchOption.AllDirectories);
+            return files.Sum(file => file.Length);
         }
     }
 }

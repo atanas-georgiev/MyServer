@@ -69,6 +69,15 @@ namespace MyServer.Web.Resources {
         }
         
         /// <summary>
+        ///    Looks up a localized string similar to gigabytes.
+        /// </summary>
+        public static string Gigabytes {
+            get {
+                return ResourceManager.GetString("Gigabytes", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///    Looks up a localized string similar to images.
         /// </summary>
         public static string Images {

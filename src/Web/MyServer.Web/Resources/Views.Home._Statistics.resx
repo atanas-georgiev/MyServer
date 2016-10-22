@@ -120,6 +120,9 @@
   <data name="Albums" xml:space="preserve">
     <value>albums</value>
   </data>
+  <data name="Gigabytes" xml:space="preserve">
+    <value>gigabytes</value>
+  </data>
   <data name="Images" xml:space="preserve">
     <value>images</value>
   </data>

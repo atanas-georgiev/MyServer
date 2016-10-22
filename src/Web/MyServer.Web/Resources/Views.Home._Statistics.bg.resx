@@ -120,6 +120,9 @@
   <data name="Albums" xml:space="preserve">
     <value>албума</value>
   </data>
+  <data name="Gigabytes" xml:space="preserve">
+    <value>гигабайта</value>
+  </data>
   <data name="Images" xml:space="preserve">
     <value>снимки</value>
   </data>
