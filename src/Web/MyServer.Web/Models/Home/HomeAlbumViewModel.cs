@@ -14,6 +14,8 @@
 
         public string Date { get; set; }
 
+        public DateTime CreatedOn { get; set; }
+
         public Guid Id { get; set; }
 
         public string ImagesCountCover { get; set; }

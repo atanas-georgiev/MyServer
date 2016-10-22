@@ -10,23 +10,5 @@
     @await Html.PartialAsync("_LatestAddedAlbums")
 </div>
 <div class="col-md-3 text-center">
-    <div class="well well-mobile">
-        <div>
-            <button type="submit" style="color: white" class="btn btn-social-icon btn-lg btn-facebook" name="provider" value="" title=""><span class="fa fa-facebook"></span></button>
-            <button type="submit" style="color: white" class="btn btn-social-icon btn-lg btn-google" name="provider" value="" title=""><span class="fa fa-google"></span></button>
-            <button type="submit" style="color: white" class="btn btn-social-icon btn-lg btn-linkedin" name="provider" value="" title=""><span class="fa fa-linkedin"></span></button>
-            <button type="submit" style="color: white" class="btn btn-social-icon btn-lg btn-github" name="provider" value="" title=""><span class="fa fa-github"></span></button>
-            <button type="submit" style="color: white" class="btn btn-social-icon btn-lg btn-microsoft" name="provider" value="" title=""><span class="fa fa-microsoft"></span></button>
-            <button type="submit" style="color: white" class="btn btn-social-icon btn-lg btn-foursquare" name="provider" value="" title=""><span class="fa fa-foursquare"></span></button>
-
-            <div class="g-person" data-width="200" data-href="//plus.google.com/u/0/115663164281585493249" data-rel="author"></div>
-            <hr />
-            <iframe src="http://githubbadge.appspot.com/atanas-georgiev" style="border: 0; height: 142px; width: 200px; overflow: hidden;" frameBorder="0"></iframe>
-            <a href="https://bg.linkedin.com/pub/atanas-georgiev/88/b87/397">
-
-                <img src="https://static.licdn.com/scds/common/u/img/webpromo/btn_viewmy_160x33.png" width="160" height="33" border="0" alt="View Atanas Georgiev's profile on LinkedIn">
-
-            </a>
-        </div>
-    </div>
+    @await Html.PartialAsync("_Social")
 </div>
