@@ -8,8 +8,8 @@
     {
         Task<ImageGpsData> GetGpsData(string location);
 
-        Task<ImageGpsData> GetGpsDataOriginal(double latitude, double longitude);
-
         Task<ImageGpsData> GetGpsDataNormalized(double latitude, double longitude);
+
+        Task<ImageGpsData> GetGpsDataOriginal(double latitude, double longitude);
     }
 }

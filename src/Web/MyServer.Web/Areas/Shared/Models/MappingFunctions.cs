@@ -6,8 +6,10 @@
     using System.Linq;
     using System.Text;
 
+    using MyServer.Common;
     using MyServer.Common.ImageGallery;
     using MyServer.Data.Models;
+    using MyServer.Web.Helpers;
 
     public static class MappingFunctions
     {
@@ -179,6 +181,12 @@
             }
 
             return null;
+        }
+
+        public static MyServerRoles MapUserRole(User user)
+        {
+            var role = PathHelper.UserManager.GetRolesAsync(user).Result;
+            return (MyServerRoles)Enum.Parse(typeof(MyServerRoles), role.First(), true);
         }
 
         public static int MapWidth(Album source)

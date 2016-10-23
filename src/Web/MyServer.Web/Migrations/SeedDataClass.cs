@@ -54,7 +54,7 @@
             var res1 = PathHelper.UserManager.CreateAsync(user, "Godcheto!1").Result;
             context.SaveChanges();
 
-            var role = Queryable.First<IdentityRole>(context.Roles, x => x.Name == MyServerRoles.Admin);
+            var role = Queryable.First<IdentityRole>(context.Roles, x => x.Name == MyServerRoles.Admin.ToString());
 
             context.UserRoles.Add(new IdentityUserRole<string>() { RoleId = role.Id, UserId = user.Id });
             context.SaveChanges();
@@ -98,9 +98,9 @@
         private static void SeedRoles(MyServerDbContext context)
         {
             context.Roles.AddRange(
-                new IdentityRole(MyServerRoles.Admin),
-                new IdentityRole(MyServerRoles.User),
-                new IdentityRole(MyServerRoles.Public));
+                new IdentityRole(MyServerRoles.Admin.ToString()),
+                new IdentityRole(MyServerRoles.User.ToString()),
+                new IdentityRole(MyServerRoles.Public.ToString()));
             context.SaveChanges();
         }
     }

@@ -122,7 +122,7 @@
                     {
                         await this.signInManager.SignInAsync(user, isPersistent: false);
 
-                        var role = this.dbContext.Roles.First(x => x.Name == MyServerRoles.User);
+                        var role = this.dbContext.Roles.First(x => x.Name == MyServerRoles.User.ToString());
                         this.dbContext.UserRoles.Add(
                             new IdentityUserRole<string>() { RoleId = role.Id, UserId = user.Id });
                         this.dbContext.SaveChanges();

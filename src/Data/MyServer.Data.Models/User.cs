@@ -37,14 +37,5 @@
 
         [Required]
         public int NotificationMask { get; set; }
-
-        // public async Task<ClaimsIdentity> GenerateUserIdentityAsync(
-        // UserManager<User> manager, 
-        // string authenticationType)
-        // {
-        // var userIdentity = await manager.CreateIdentityAsync(this, authenticationType);
-        // return userIdentity;
-
-        // }
     }
 }

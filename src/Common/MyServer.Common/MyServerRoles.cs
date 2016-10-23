@@ -1,11 +1,11 @@
 ﻿namespace MyServer.Common
 {
-    public static class MyServerRoles
+    public enum MyServerRoles
     {
-        public const string Admin = "Admin";
+        Admin,
 
-        public const string Public = "Public";
+        Public,
 
-        public const string User = "User";
+        User
     }
 }

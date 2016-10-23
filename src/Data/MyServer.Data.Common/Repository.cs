@@ -9,8 +9,7 @@
     using MyServer.Data.Common.Models;
 
     public class Repository<T, TKey> : IRepository<T, TKey>
-        where T : BaseModel<TKey>, IHavePrimaryKey<TKey> 
-        where TKey : struct
+        where T : BaseModel<TKey>, IHavePrimaryKey<TKey> where TKey : struct
     {
         public Repository(DbContext context)
         {

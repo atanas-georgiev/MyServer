@@ -17,7 +17,7 @@ namespace MyServer.Web.Areas.ImageGalleryAdmin.Controllers
     using MyServer.Web.Areas.ImageGalleryAdmin.Models.Image;
     using MyServer.Web.Areas.Shared.Controllers;
 
-    [Authorize(Roles = MyServerRoles.Admin)]
+    [Authorize(Roles = "Admin")]
     [Area("ImageGalleryAdmin")]
     public class AlbumController : BaseController
     {

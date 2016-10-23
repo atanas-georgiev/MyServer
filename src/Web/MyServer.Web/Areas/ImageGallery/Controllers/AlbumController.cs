@@ -44,7 +44,8 @@ namespace MyServer.Web.Areas.ImageGallery.Controllers
             {
                 return this.Unauthorized();
             }
-            else if (this.User.IsInRole(Common.MyServerRoles.User) && (album.Access == Common.MyServerAccessType.Private))
+            else if (this.User.IsInRole(Common.MyServerRoles.User.ToString())
+                     && (album.Access == Common.MyServerAccessType.Private))
             {
                 return this.Unauthorized();
             }
@@ -71,7 +72,7 @@ namespace MyServer.Web.Areas.ImageGallery.Controllers
                         .To<AlbumViewModel>()
                         .ToList();
             }
-            else if (this.User.IsInRole(Common.MyServerRoles.User))
+            else if (this.User.IsInRole(Common.MyServerRoles.User.ToString()))
             {
                 albums =
                     this.albumService.GetAllReqursive()
@@ -80,7 +81,7 @@ namespace MyServer.Web.Areas.ImageGallery.Controllers
                         .To<AlbumViewModel>()
                         .ToList();
             }
-            else if (this.User.IsInRole(Common.MyServerRoles.Admin))
+            else if (this.User.IsInRole(Common.MyServerRoles.Admin.ToString()))
             {
                 albums =
                     this.albumService.GetAllReqursive()

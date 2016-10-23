@@ -1,0 +1,7 @@
+﻿@model MyServer.Common.MyServerRoles
+@using System.Threading.Tasks
+@using Kendo.Mvc.UI
+
+@Html.Kendo().DropDownList()
+            .Name("roles")
+            .BindTo(Enum.GetNames(typeof(MyServer.Common.MyServerRoles)).ToList()

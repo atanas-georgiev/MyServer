@@ -6,15 +6,14 @@
     ViewData["Title"] = LocString["Edit"];
 }
 
-@Html.Partial("_KendoScriptsPartial")
-    ;
+@Html.Partial("_KendoScriptsPartial");
 
 @section Styles
 {
-@{
-    await Html.RenderPartialAsync("_KendoStylesPartial");
-    }
-    }
+    @{
+        await Html.RenderPartialAsync("_KendoStylesPartial");
+     }
+}
 
     <div class="well well-mobile">
         <div>

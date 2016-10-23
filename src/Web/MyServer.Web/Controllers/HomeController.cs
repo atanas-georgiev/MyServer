@@ -1,7 +1,6 @@
 ﻿namespace MyServer.Web.Controllers
 {
     using System;
-    using System.Collections.Generic;
     using System.Linq;
 
     using Microsoft.AspNetCore.Http;
@@ -46,18 +45,16 @@
                         .Where(x => x.Access == Common.MyServerAccessType.Public)
                         .To<HomeAlbumViewModel>();
             }
-            else if (this.User.IsInRole(Common.MyServerRoles.User))
+            else if (this.User.IsInRole(Common.MyServerRoles.User.ToString()))
             {
                 albums =
                     this.albumService.GetAllReqursive()
                         .Where(x => x.Access != Common.MyServerAccessType.Private)
                         .To<HomeAlbumViewModel>();
             }
-            else if (this.User.IsInRole(Common.MyServerRoles.Admin))
+            else if (this.User.IsInRole(Common.MyServerRoles.Admin.ToString()))
             {
-                albums =
-                    this.albumService.GetAllReqursive()
-                        .To<HomeAlbumViewModel>();
+                albums = this.albumService.GetAllReqursive().To<HomeAlbumViewModel>();
             }
 
             this.ViewData["LatestAlbums"] = albums;
