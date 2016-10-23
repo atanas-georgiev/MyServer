@@ -44,8 +44,6 @@
                 albums =
                     this.albumService.GetAllReqursive()
                         .Where(x => x.Access == Common.MyServerAccessType.Public)
-                        .OrderByDescending(x => x.CreatedOn)
-                        .Take(5)
                         .To<HomeAlbumViewModel>();
             }
             else if (this.User.IsInRole(Common.MyServerRoles.User))
@@ -53,16 +51,12 @@
                 albums =
                     this.albumService.GetAllReqursive()
                         .Where(x => x.Access != Common.MyServerAccessType.Private)
-                        .OrderByDescending(x => x.CreatedOn)
-                        .Take(5)
                         .To<HomeAlbumViewModel>();
             }
             else if (this.User.IsInRole(Common.MyServerRoles.Admin))
             {
                 albums =
                     this.albumService.GetAllReqursive()
-                        .OrderByDescending(x => x.CreatedOn)
-                        .Take(5)
                         .To<HomeAlbumViewModel>();
             }
 

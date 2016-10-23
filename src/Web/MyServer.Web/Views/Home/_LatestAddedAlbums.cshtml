@@ -13,7 +13,7 @@
                         <th>@LocString["AddedOn"]</th>
                         <th>@LocString["Images"]</th>
                     </tr>
-                    @foreach (var album in albums)
+                    @foreach (var album in albums.OrderByDescending(x => x.CreatedOn).Take(5))
                     {
                         <tr>
                             <td class="col-md-5">
