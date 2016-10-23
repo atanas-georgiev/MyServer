@@ -177,3 +177,7 @@ footer p, footer p a:visited {
 .github-frame {
     background: rgba(222, 222, 222, 0.8)!important;
 }
+
+.form-control {
+    color: #fff!important;
+}
