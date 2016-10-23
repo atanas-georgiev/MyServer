@@ -36,7 +36,7 @@
     }
 
     <div class="text-center">
-        @if (User.IsInRole(MyServer.Common.MyServerRoles.Admin))
+        @if (User.IsInRole(MyServer.Common.MyServerRoles.Admin.ToString()))
         {
             <a class="btn btn-default" asp-action="Edit" asp-controller="Album" asp-route-area="ImageGalleryAdmin" asp-route-id="@Model.Id">
                 <i class="fa fa-lock" aria-hidden="true"></i> @LocString["Edit"]</a>
