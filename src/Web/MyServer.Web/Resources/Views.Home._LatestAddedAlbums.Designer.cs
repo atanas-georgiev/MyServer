@@ -69,6 +69,15 @@ namespace MyServer.Web.Resources {
         }
         
         /// <summary>
+        ///    Looks up a localized string similar to ALL ALBUMS.
+        /// </summary>
+        public static string AllAlbums {
+            get {
+                return ResourceManager.GetString("AllAlbums", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///    Looks up a localized string similar to contains.
         /// </summary>
         public static string Images {

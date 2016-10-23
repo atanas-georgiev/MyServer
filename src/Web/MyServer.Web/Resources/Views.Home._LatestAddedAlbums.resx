@@ -120,6 +120,9 @@
   <data name="AddedOn" xml:space="preserve">
     <value>added on</value>
   </data>
+  <data name="AllAlbums" xml:space="preserve">
+    <value>ALL ALBUMS</value>
+  </data>
   <data name="Images" xml:space="preserve">
     <value>contains</value>
   </data>

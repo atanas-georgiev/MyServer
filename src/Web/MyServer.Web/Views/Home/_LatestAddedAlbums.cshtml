@@ -3,7 +3,7 @@
     <div>
         <h4 class="text-center">@LocString["LatestAlbums"]</h4>
         @{
-            var albums = ViewData["LatestAlbums"] as List<HomeAlbumViewModel>;
+            var albums = ViewData["LatestAlbums"] as IQueryable<HomeAlbumViewModel>;
             <br/>
             if (albums != null)
             {
@@ -27,7 +27,9 @@
                     }
                 </table>
             }
-
+            <a asp-area="ImageGallery" asp-controller="Album" asp-action="Index">
+                <h5 class="text-center">@LocString["AllAlbums"]</h5>
+            </a>
         }
     </div>
 </div>

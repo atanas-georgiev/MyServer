@@ -34,7 +34,7 @@
 
         public IActionResult Index()
         {
-            var albums = new List<HomeAlbumViewModel>();
+            IQueryable<HomeAlbumViewModel> albums = null;
             var albumsCount = this.albumService.GetAllReqursive().Count();
             var imagesCount = this.imageService.GetAllReqursive().Count();
             var allSize = this.fileService.GetImageFolderSize();
@@ -46,8 +46,7 @@
                         .Where(x => x.Access == Common.MyServerAccessType.Public)
                         .OrderByDescending(x => x.CreatedOn)
                         .Take(5)
-                        .To<HomeAlbumViewModel>()
-                        .ToList();
+                        .To<HomeAlbumViewModel>();
             }
             else if (this.User.IsInRole(Common.MyServerRoles.User))
             {
@@ -56,8 +55,7 @@
                         .Where(x => x.Access != Common.MyServerAccessType.Private)
                         .OrderByDescending(x => x.CreatedOn)
                         .Take(5)
-                        .To<HomeAlbumViewModel>()
-                        .ToList();
+                        .To<HomeAlbumViewModel>();
             }
             else if (this.User.IsInRole(Common.MyServerRoles.Admin))
             {
@@ -65,8 +63,7 @@
                     this.albumService.GetAllReqursive()
                         .OrderByDescending(x => x.CreatedOn)
                         .Take(5)
-                        .To<HomeAlbumViewModel>()
-                        .ToList();
+                        .To<HomeAlbumViewModel>();
             }
 
             this.ViewData["LatestAlbums"] = albums;

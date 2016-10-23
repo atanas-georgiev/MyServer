@@ -120,6 +120,9 @@
   <data name="AddedOn" xml:space="preserve">
     <value>добавен на</value>
   </data>
+  <data name="AllAlbums" xml:space="preserve">
+    <value>ВСИЧКИ АЛБУМИ</value>
+  </data>
   <data name="Images" xml:space="preserve">
     <value>съдържа</value>
   </data>
