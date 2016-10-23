@@ -414,7 +414,7 @@
             if (gpdLong != null && gpdLat != null)
             {
                 inputImage.ImageGpsData =
-                    this.locationService.GetGpsData(
+                    this.locationService.GetGpsDataNormalized(
                         ExifGpsToDouble((Rational[])gpdLong.Value),
                         ExifGpsToDouble((Rational[])gpdLat.Value)).Result;
             }
