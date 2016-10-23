@@ -9,10 +9,10 @@
 
     using MyServer.Data;
     using MyServer.Data.Models;
+    using MyServer.Services.Mappings;
     using MyServer.Services.Users;
     using MyServer.Web.Areas.Shared.Controllers;
     using MyServer.Web.Areas.UsersAdmin.Models;
-    using Services.Mappings;
 
     [Authorize(Roles = "Admin")]
     [Area("UsersAdmin")]
@@ -32,7 +32,8 @@
         {
             if (user != null && this.ModelState.IsValid)
             {
-                // productService.Create(product);
+                var dbuser = new User() { FirstName = user.FirstName, LastName = user.LastName, Email = user.Email };
+                this.UserService.Add(dbuser, user.Role.ToString());
             }
 
             return this.Json(new[] { user }.ToDataSourceResult(request, this.ModelState));
@@ -43,7 +44,7 @@
         {
             if (user != null)
             {
-                // productService.Destroy(product);
+                this.UserService.Delete(user.Id);
             }
 
             return this.Json(new[] { user }.ToDataSourceResult(request, this.ModelState));
@@ -59,7 +60,15 @@
         {
             if (user != null && this.ModelState.IsValid)
             {
-                // productService.Update(product);
+                var dbuser = this.UserService.GetById(user.Id);
+                if (dbuser != null)
+                {
+                    dbuser.FirstName = user.FirstName;
+                    dbuser.LastName = user.LastName;
+                    dbuser.Email = user.Email;
+
+                    this.UserService.Update(dbuser, user.Role.ToString());
+                }
             }
 
             return this.Json(new[] { user }.ToDataSourceResult(request, this.ModelState));

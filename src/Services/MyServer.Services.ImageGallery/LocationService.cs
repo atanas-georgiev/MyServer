@@ -139,11 +139,11 @@
             if (status.Value.ToLower() == "ok")
             {
                 var results = from elm in xmlElm.Elements()
-                               where
-                               (elm.Name == "result"
-                                && (elm.Elements().First().Value == "locality"
-                                    || elm.Elements().First().Value == "political"))
-                               select elm;
+                              where
+                              elm.Name == "result"
+                               && (elm.Elements().First().Value == "locality"
+                                   || elm.Elements().First().Value == "political")
+                              select elm;
                 var res =
                     (from elm in results.Descendants() where elm.Name == "formatted_address" select elm).FirstOrDefault(
                     );

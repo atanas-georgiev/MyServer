@@ -151,9 +151,15 @@
             services.AddScoped<IImageService, ImageService>();
             services.AddScoped<ILocationService, LocationService>();
 
-            services.AddIdentity<User, IdentityRole>()
-                .AddEntityFrameworkStores<MyServerDbContext>()
-                .AddDefaultTokenProviders();
+            services.AddIdentity<User, IdentityRole>(
+                o =>
+                    {
+                        o.Password.RequireDigit = false;
+                        o.Password.RequireLowercase = false;
+                        o.Password.RequireUppercase = false;
+                        o.Password.RequireNonAlphanumeric = false;
+                        o.Password.RequiredLength = 6;
+                    }).AddEntityFrameworkStores<MyServerDbContext>().AddDefaultTokenProviders();
 
             services.AddDistributedMemoryCache();
             services.AddSession();

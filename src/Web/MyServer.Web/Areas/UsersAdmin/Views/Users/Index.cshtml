@@ -1,58 +1,58 @@
 ﻿@using System.Threading.Tasks
 @using Kendo.Mvc.UI
 @{
-    ViewData["Title"] = LocString["Users"];
+    ViewData["Title"] = LocString["UserAdministration"];
 }
 
-@Html.Partial("_KendoScriptsPartial");
+@Html.Partial("_KendoScriptsPartial")
+    
+
 
 @section Styles
 {
-    @{
-        await Html.RenderPartialAsync("_KendoStylesPartial");
+@{
+    await Html.RenderPartialAsync("_KendoStylesPartial");
     }
-}
+    }
 
-@(Html.Kendo().Grid<UsersViewModel>()
-    .Name("grid")
-    .Columns(columns =>
-    {
-        columns.Bound(p => p.Email);
-        columns.Bound(p => p.FirstName);
-        columns.Bound(p => p.LastName);
-        columns.Bound(p => p.Role);
-        columns.Command(command => { command.Edit(); command.Destroy(); });
-    })
-    .ToolBar(toolbar => toolbar.Create())
-    .Editable(editable => editable.Mode(GridEditMode.PopUp))
-    .Pageable()
-    .Sortable()
-    .Scrollable()
-    .HtmlAttributes(new { style = "height:550px;" })
-    .DataSource(dataSource => dataSource
-        .Ajax()
-        .PageSize(20)
-        .Events(events => events.Error("error_handler"))
-        .Model(model => model.Id(p => p.Id))
-        .Create(update => update.Action("EditingPopup_Create", "Json"))
-        .Read(read => read.Action("UsersRead", "Json"))
-        .Update(update => update.Action("EditingPopup_Update", "Json"))
-        .Destroy(update => update.Action("EditingPopup_Destroy", "Json"))
-    )
-      )
+    <div class="well">
+        <div class="text-center">
+            <h2>@LocString["UserAdministration"]</h2>
+            <hr/>
+        </div>
+        <div class="row">
 
-<script type="text/javascript">
-    function error_handler(e) {
-        if (e.errors) {
-            var message = "Errors:\n";
-            $.each(e.errors, function (key, value) {
-                if ('errors' in value) {
-                    $.each(value.errors, function () {
-                        message += this + "\n";
+            @(Html.Kendo().Grid<UsersViewModel>().Name("grid").Columns(columns =>
+                  {
+                      columns.Bound(p => p.Email).EditorTemplateName("KendoTextBox");
+                      columns.Bound(p => p.FirstName).EditorTemplateName("KendoTextBox");
+                      columns.Bound(p => p.LastName).EditorTemplateName("KendoTextBox");
+                      columns.Bound(p => p.Role).EditorTemplateName("KendoDropDownRoles");
+                      columns.Command(command =>
+                          {
+                              command.Edit();
+                              command.Destroy();
+                          });
+                  }).ToolBar(toolbar => toolbar.Create()).Editable(editable => editable.Mode(GridEditMode.PopUp)).Pageable().Sortable().Scrollable()
+
+                  // .HtmlAttributes(new { style = "height:550px;" })
+                  .DataSource(dataSource => dataSource.Ajax().PageSize(20).Events(events => events.Error("error_handler")).Model(model => model.Id(p => p.Id)).Create(update => update.Action("UsersCreate", "Json")).Read(read => read.Action("UsersRead", "Json")).Update(update => update.Action("UsersUpdate", "Json")).Destroy(update => update.Action("UsersDestroy", "Json"))))
+        </div>
+    </div>
+    <script type="text/javascript">
+        function error_handler(e) {
+            if (e.errors) {
+                var message = "Errors:\n";
+                $.each(e.errors,
+                    function(key, value) {
+                        if ('errors' in value) {
+                            $.each(value.errors,
+                                function() {
+                                    message += this + "\n";
+                                });
+                        }
                     });
-                }
-            });
-            alert(message);
+                alert(message);
+            }
         }
-    }
-</script>
+    </script>

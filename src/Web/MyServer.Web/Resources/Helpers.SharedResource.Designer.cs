@@ -231,6 +231,15 @@ namespace MyServer.Web.Resources {
         }
         
         /// <summary>
+        ///    Looks up a localized string similar to Role.
+        /// </summary>
+        public static string Role {
+            get {
+                return ResourceManager.GetString("Role", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///    Looks up a localized string similar to Title (bg).
         /// </summary>
         public static string TitleBg {

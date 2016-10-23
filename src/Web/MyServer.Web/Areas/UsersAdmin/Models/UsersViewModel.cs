@@ -4,6 +4,8 @@
 
     using AutoMapper;
 
+    using Microsoft.AspNetCore.Mvc;
+
     using MyServer.Common;
     using MyServer.Data.Models;
     using MyServer.Services.Mappings;
@@ -16,6 +18,7 @@
         ]
         [EmailAddress]
         [Display(Name = "Email", ResourceType = typeof(Helpers_SharedResource))]
+        [UIHint("KendoTextBox")]
         public string Email { get; set; }
 
         [Required(ErrorMessageResourceName = "ErrorRequired", ErrorMessageResourceType = typeof(Helpers_SharedResource))
@@ -23,19 +26,24 @@
         [StringLength(50, ErrorMessageResourceName = "ErrorLength",
              ErrorMessageResourceType = typeof(Helpers_SharedResource), MinimumLength = 2)]
         [Display(Name = "FirstName", ResourceType = typeof(Helpers_SharedResource))]
+        [UIHint("KendoTextBox")]
         public string FirstName { get; set; }
+
+        [Key]
+        [HiddenInput(DisplayValue = false)]
+        public string Id { get; set; }
 
         [Required(ErrorMessageResourceName = "ErrorRequired", ErrorMessageResourceType = typeof(Helpers_SharedResource))
         ]
         [StringLength(50, ErrorMessageResourceName = "ErrorLength",
              ErrorMessageResourceType = typeof(Helpers_SharedResource), MinimumLength = 2)]
         [Display(Name = "LastName", ResourceType = typeof(Helpers_SharedResource))]
+        [UIHint("KendoTextBox")]
         public string LastName { get; set; }
 
         [UIHint("KendoDropDownRoles")]
+        [Display(Name = "Role", ResourceType = typeof(Helpers_SharedResource))]
         public MyServerRoles Role { get; set; }
-
-        public string Id { get; set; }
 
         public void CreateMappings(IMapperConfigurationExpression configuration)
         {

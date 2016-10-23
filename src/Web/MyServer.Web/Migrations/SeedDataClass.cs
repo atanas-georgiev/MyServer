@@ -51,7 +51,7 @@
                                CreatedOn = DateTime.Now
                            };
 
-            var res1 = PathHelper.UserManager.CreateAsync(user, "Godcheto!1").Result;
+            var res1 = PathHelper.UserManager.CreateAsync(user, "chnageme").Result;
             context.SaveChanges();
 
             var role = Queryable.First<IdentityRole>(context.Roles, x => x.Name == MyServerRoles.Admin.ToString());
@@ -99,8 +99,7 @@
         {
             context.Roles.AddRange(
                 new IdentityRole(MyServerRoles.Admin.ToString()),
-                new IdentityRole(MyServerRoles.User.ToString()),
-                new IdentityRole(MyServerRoles.Public.ToString()));
+                new IdentityRole(MyServerRoles.User.ToString()));
             context.SaveChanges();
         }
     }

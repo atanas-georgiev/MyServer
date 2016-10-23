@@ -4,8 +4,6 @@
     {
         Admin,
 
-        Public,
-
         User
     }
 }

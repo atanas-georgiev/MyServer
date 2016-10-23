@@ -6,7 +6,7 @@
 
     public interface IUserService
     {
-        void Add(User user);
+        void Add(User user, string role);
 
         void Delete(string id);
 
@@ -14,6 +14,6 @@
 
         User GetById(string id);
 
-        void Update(User user);
+        void Update(User user, string role = null);
     }
 }
