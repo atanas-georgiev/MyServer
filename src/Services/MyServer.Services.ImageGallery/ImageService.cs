@@ -178,17 +178,18 @@
 
         public void Remove(Guid id)
         {
-            var album = this.GetById(id).Album;
+            var image = this.GetById(id);
 
-            if (id == album.CoverId)
+            if (id == image.Album.CoverId)
             {
                 var noCoverImageGuid = Guid.Parse(Constants.NoCoverId);
                 var noCoverImage = this.images.All().FirstOrDefault(x => x.Id == noCoverImageGuid);
-                album.CoverId = noCoverImage.Id;
-                this.albums.Update(album);
+                image.Album.CoverId = noCoverImage.Id;
+                this.albums.Update(image.Album);
             }
 
             this.images.Delete(id);
+            this.fileService.RemoveImage(image.AlbumId.Value, image.FileName);
         }
 
         public void Rotate(Guid imageId, MyServerRotateType rotateType)

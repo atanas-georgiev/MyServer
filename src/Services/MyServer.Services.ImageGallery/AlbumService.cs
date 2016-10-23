@@ -136,6 +136,7 @@
                 }
 
                 this.albums.Delete(id);
+                this.fileService.RemoveAlbum(id);
             }
         }
 

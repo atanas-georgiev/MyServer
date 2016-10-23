@@ -17,6 +17,10 @@
 
         string MakeValidFileName(string name);
 
+        void RemoveAlbum(Guid albumId);
+
+        void RemoveImage(Guid albumId, string fileName);
+
         void Save(Stream inputStream, ImageType type, string originalFilename, Guid albumId);
     }
 }

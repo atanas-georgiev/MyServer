@@ -100,6 +100,25 @@
             return System.Text.RegularExpressions.Regex.Replace(name, invalidRegStr, "_");
         }
 
+        public void RemoveAlbum(Guid albumId)
+        {
+            this.RemoveFolder(this.appEnvironment.WebRootPath + Constants.MainContentFolder + "/" + albumId);
+            Directory.Delete(this.appEnvironment.WebRootPath + Constants.MainContentFolder + "/" + albumId);
+        }
+
+        public void RemoveImage(Guid albumId, string fileName)
+        {
+            File.Delete(
+                this.appEnvironment.WebRootPath + Constants.MainContentFolder + "/" + albumId + "/"
+                + Constants.ImageFolderLow + "/" + fileName);
+            File.Delete(
+                this.appEnvironment.WebRootPath + Constants.MainContentFolder + "/" + albumId + "/"
+                + Constants.ImageFolderMiddle + "/" + fileName);
+            File.Delete(
+                this.appEnvironment.WebRootPath + Constants.MainContentFolder + "/" + albumId + "/"
+                + Constants.ImageFolderOriginal + "/" + fileName);
+        }
+
         public void Save(Stream inputStream, ImageType type, string originalFilename, Guid albumId)
         {
             using (var fileStream = File.Create(this.GetImageFolder(albumId, type) + originalFilename))
@@ -113,6 +132,22 @@
         {
             var files = new DirectoryInfo(location).GetFiles("*.jpg", SearchOption.AllDirectories);
             return files.Sum(file => file.Length);
+        }
+
+        private void RemoveFolder(string folder)
+        {
+            var dir = new DirectoryInfo(folder);
+
+            foreach (var fi in dir.GetFiles())
+            {
+                fi.Delete();
+            }
+
+            foreach (var di in dir.GetDirectories())
+            {
+                this.RemoveFolder(di.FullName);
+                di.Delete();
+            }
         }
     }
 }
