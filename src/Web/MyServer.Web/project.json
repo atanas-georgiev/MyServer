@@ -1,5 +1,5 @@
 {
-  "version": "0.1.0.343",
+  "version": "0.1.0.347",
   "userSecretsId": "aspnet-MyServer-186bb2c4-9782-4c4e-aedb-a6f55e5aa9af",
   "buildOptions": {
     "emitEntryPoint": true,
@@ -61,7 +61,7 @@
   },
   "dependencies": {
     "AutoMapper": "5.1.1",
-    "BundlerMinifier.Core": "2.2.296",
+    "BundlerMinifier.Core": "2.0.238",
     "lib": "2016.2.714",
     "Microsoft.ApplicationInsights.AspNetCore": "1.0.2",
     "Microsoft.AspNetCore.Authentication.Cookies": "1.1.0-preview1-final",
