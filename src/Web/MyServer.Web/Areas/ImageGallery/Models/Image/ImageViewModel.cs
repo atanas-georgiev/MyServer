@@ -86,7 +86,8 @@
                 .ForMember(m => m.GpsName, opt => opt.MapFrom(src => MappingFunctions.MapGpsName(src)))
                 .ForMember(
                     m => m.OriginalDownloadPath,
-                    opt => opt.MapFrom(c => Constants.TempContentFolder + "/" + c.Id + "/" + c.OriginalFileName))
+                    opt => opt.MapFrom(c => Constants.MainContentFolder + "/" + c.AlbumId + "/" + Constants.ImageFolderOriginal
+                                + "/" + c.FileName))
                 .ForMember(
                     m => m.MiddleImageSource,
                     opt =>
