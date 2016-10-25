@@ -28,5 +28,7 @@
         void Rotate(Guid imageId, MyServerRotateType rotateType);
 
         void Update(Image image);
+
+        void UpdateDateTaken(Guid id, DateTime date);
     }
 }

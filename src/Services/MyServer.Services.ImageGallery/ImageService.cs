@@ -110,12 +110,68 @@
 
         public void AddGpsDataToImage(Guid id, ImageGpsData gpsData)
         {
-            var image = this.GetById(id);
+            var image = this.images.GetById(id);
 
-            if (image != null)
+            if (image != null && gpsData?.Latitude != null && gpsData.Longitude.HasValue)
             {
                 image.ImageGpsData = gpsData;
                 this.Update(image);
+
+                var lowFileFolder = this.appEnvironment.WebRootPath + Constants.MainContentFolder + "/" + image.AlbumId
+                                    + "/" + Constants.ImageFolderLow + "/";
+                var middleFileFolder = this.appEnvironment.WebRootPath + Constants.MainContentFolder + "/"
+                                       + image.AlbumId + "/" + Constants.ImageFolderMiddle + "/";
+                var highFileFolder = this.appEnvironment.WebRootPath + Constants.MainContentFolder + "/" + image.AlbumId
+                                     + "/" + Constants.ImageFolderOriginal + "/";
+
+                File.Move(lowFileFolder + image.FileName, lowFileFolder + "_" + image.FileName);
+                File.Move(middleFileFolder + image.FileName, middleFileFolder + "_" + image.FileName);
+                File.Move(highFileFolder + image.FileName, highFileFolder + "_" + image.FileName);
+
+                var lowStream = new MemoryStream(File.ReadAllBytes(lowFileFolder + "_" + image.FileName));
+                var middleStream = new MemoryStream(File.ReadAllBytes(middleFileFolder + "_" + image.FileName));
+                var highStream = new MemoryStream(File.ReadAllBytes(highFileFolder + "_" + image.FileName));
+
+                var imageCoreLow = new ImageProcessorCore.Image(lowStream);
+                var imageCoreMiddle = new ImageProcessorCore.Image(middleStream);
+                var imageCoreHigh = new ImageProcessorCore.Image(highStream);
+
+                imageCoreLow.ExifProfile.SetValue(ExifTag.GPSLatitude, ExifDoubleToGps(gpsData.Latitude.Value));
+                imageCoreLow.ExifProfile.SetValue(ExifTag.GPSLongitude, ExifDoubleToGps(gpsData.Longitude.Value));
+                imageCoreMiddle.ExifProfile.SetValue(ExifTag.GPSLatitude, ExifDoubleToGps(gpsData.Latitude.Value));
+                imageCoreMiddle.ExifProfile.SetValue(ExifTag.GPSLongitude, ExifDoubleToGps(gpsData.Longitude.Value));
+                imageCoreHigh.ExifProfile.SetValue(ExifTag.GPSLatitude, ExifDoubleToGps(gpsData.Latitude.Value));
+                imageCoreHigh.ExifProfile.SetValue(ExifTag.GPSLongitude, ExifDoubleToGps(gpsData.Longitude.Value));
+
+                var imageStreamLowModified = new MemoryStream();
+                var imageStreamMiddleModified = new MemoryStream();
+                var imageStreamHighModified = new MemoryStream();
+
+                imageCoreLow.Save(imageStreamLowModified);
+                imageCoreMiddle.Save(imageStreamMiddleModified);
+                imageCoreHigh.Save(imageStreamHighModified);
+
+                using (var fileStream = File.Create(lowFileFolder + image.FileName))
+                {
+                    imageStreamLowModified.Seek(0, SeekOrigin.Begin);
+                    imageStreamLowModified.CopyTo(fileStream);
+                }
+
+                using (var fileStream = File.Create(middleFileFolder + image.FileName))
+                {
+                    imageStreamMiddleModified.Seek(0, SeekOrigin.Begin);
+                    imageStreamMiddleModified.CopyTo(fileStream);
+                }
+
+                using (var fileStream = File.Create(highFileFolder + image.FileName))
+                {
+                    imageStreamHighModified.Seek(0, SeekOrigin.Begin);
+                    imageStreamHighModified.CopyTo(fileStream);
+                }
+
+                File.Delete(lowFileFolder + "_" + image.FileName);
+                File.Delete(middleFileFolder + "_" + image.FileName);
+                File.Delete(highFileFolder + "_" + image.FileName);
             }
         }
 
@@ -189,7 +245,10 @@
             }
 
             this.images.Delete(id);
-            this.fileService.RemoveImage(image.AlbumId.Value, image.FileName);
+            if (image.AlbumId.HasValue)
+            {
+                this.fileService.RemoveImage(image.AlbumId.Value, image.FileName);
+            }
         }
 
         public void Rotate(Guid imageId, MyServerRotateType rotateType)
@@ -375,21 +434,110 @@
             this.images.Update(image);
         }
 
+        public void UpdateDateTaken(Guid id, DateTime date)
+        {
+            var image = this.images.GetById(id);
+
+            if (image != null)
+            {
+                var oldFilename = image.FileName;
+                image.DateTaken = date;
+                image.FileName = date.ToString("yyyy-MM-dd-HH-mm-ss-") + Guid.NewGuid() + Path.GetExtension(oldFilename);
+                this.Update(image);
+
+                var lowFileFolder = this.appEnvironment.WebRootPath + Constants.MainContentFolder + "/" + image.AlbumId
+                                    + "/" + Constants.ImageFolderLow + "/";
+                var middleFileFolder = this.appEnvironment.WebRootPath + Constants.MainContentFolder + "/"
+                                       + image.AlbumId + "/" + Constants.ImageFolderMiddle + "/";
+                var highFileFolder = this.appEnvironment.WebRootPath + Constants.MainContentFolder + "/" + image.AlbumId
+                                     + "/" + Constants.ImageFolderOriginal + "/";
+
+                File.Move(lowFileFolder + oldFilename, lowFileFolder + "_" + oldFilename);
+                File.Move(middleFileFolder + oldFilename, middleFileFolder + "_" + oldFilename);
+                File.Move(highFileFolder + oldFilename, highFileFolder + "_" + oldFilename);
+
+                var lowStream = new MemoryStream(File.ReadAllBytes(lowFileFolder + "_" + oldFilename));
+                var middleStream = new MemoryStream(File.ReadAllBytes(middleFileFolder + "_" + oldFilename));
+                var highStream = new MemoryStream(File.ReadAllBytes(highFileFolder + "_" + oldFilename));
+
+                var imageCoreLow = new ImageProcessorCore.Image(lowStream);
+                var imageCoreMiddle = new ImageProcessorCore.Image(middleStream);
+                var imageCoreHigh = new ImageProcessorCore.Image(highStream);
+
+                var format = "yyyy:MM:dd HH:mm:ss";
+
+                imageCoreLow.ExifProfile.SetValue(ExifTag.DateTimeOriginal, date.ToString(format));
+                imageCoreMiddle.ExifProfile.SetValue(ExifTag.DateTimeOriginal, date.ToString(format));
+                imageCoreHigh.ExifProfile.SetValue(ExifTag.DateTimeOriginal, date.ToString(format));
+
+                var imageStreamLowModified = new MemoryStream();
+                var imageStreamMiddleModified = new MemoryStream();
+                var imageStreamHighModified = new MemoryStream();
+
+                imageCoreLow.Save(imageStreamLowModified);
+                imageCoreMiddle.Save(imageStreamMiddleModified);
+                imageCoreHigh.Save(imageStreamHighModified);
+
+                using (var fileStream = File.Create(lowFileFolder + image.FileName))
+                {
+                    imageStreamLowModified.Seek(0, SeekOrigin.Begin);
+                    imageStreamLowModified.CopyTo(fileStream);
+                }
+
+                using (var fileStream = File.Create(middleFileFolder + image.FileName))
+                {
+                    imageStreamMiddleModified.Seek(0, SeekOrigin.Begin);
+                    imageStreamMiddleModified.CopyTo(fileStream);
+                }
+
+                using (var fileStream = File.Create(highFileFolder + image.FileName))
+                {
+                    imageStreamHighModified.Seek(0, SeekOrigin.Begin);
+                    imageStreamHighModified.CopyTo(fileStream);
+                }
+
+                File.Delete(lowFileFolder + "_" + oldFilename);
+                File.Delete(middleFileFolder + "_" + oldFilename);
+                File.Delete(highFileFolder + "_" + oldFilename);
+            }
+        }
+
+        private static Rational[] ExifDoubleToGps(double propItem)
+        {
+            double temp;
+            var result = new Rational[3];
+
+            temp = Math.Abs(propItem);
+            var degrees = Math.Truncate(temp);
+
+            temp = (temp - degrees) * 60;
+            var minutes = Math.Truncate(temp);
+
+            temp = (temp - minutes) * 60;
+            var seconds = Math.Truncate(temp);
+
+            result[0] = new Rational(degrees);
+            result[1] = new Rational(minutes);
+            result[2] = new Rational(seconds);
+
+            return result;
+        }
+
         private static double ExifGpsToDouble(Rational[] propItem)
         {
-            uint degreesNumerator = propItem[0].Numerator;
-            uint degreesDenominator = propItem[0].Denominator;
-            double degrees = degreesNumerator / (double)degreesDenominator;
+            var degreesNumerator = propItem[0].Numerator;
+            var degreesDenominator = propItem[0].Denominator;
+            var degrees = degreesNumerator / (double)degreesDenominator;
 
-            uint minutesNumerator = propItem[1].Numerator;
-            uint minutesDenominator = propItem[1].Denominator;
-            double minutes = minutesNumerator / (double)minutesDenominator;
+            var minutesNumerator = propItem[1].Numerator;
+            var minutesDenominator = propItem[1].Denominator;
+            var minutes = minutesNumerator / (double)minutesDenominator;
 
-            uint secondsNumerator = propItem[2].Numerator;
-            uint secondsDenominator = propItem[2].Denominator;
-            double seconds = secondsNumerator / (double)secondsDenominator;
+            var secondsNumerator = propItem[2].Numerator;
+            var secondsDenominator = propItem[2].Denominator;
+            var seconds = secondsNumerator / (double)secondsDenominator;
 
-            double coorditate = degrees + (minutes / 60f) + (seconds / 3600f);
+            var coorditate = degrees + (minutes / 60f) + (seconds / 3600f);
 
             return coorditate;
         }

@@ -209,16 +209,13 @@ namespace MyServer.Web.Areas.ImageGalleryAdmin.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult UpdateImageDate(ImageUpdateViewModel model)
         {
-            if (model != null && !string.IsNullOrEmpty(model.Items))
+            if (!string.IsNullOrEmpty(model?.Items))
             {
                 var ids = model.Items.Split(',');
 
                 foreach (var id in ids)
                 {
-                    var image = this.imageService.GetById(Guid.Parse(id));
-                    var date = DateTime.Parse(model.Data);
-                    image.DateTaken = date;
-                    this.imageService.Update(image);
+                    this.imageService.UpdateDateTaken(Guid.Parse(id), DateTime.Parse(model.Data));
                 }
 
                 var albumId = Guid.Parse(this.Request.Cookies["AlbumId"]);
