@@ -4,7 +4,8 @@
   "dependencies": {
     "NETStandard.Library": "1.6.1-preview1-24530-04",
     "StyleCop.Analyzers": "1.0.0",
-    "StyleCop.MSBuild": "4.7.54"
+    "StyleCop.MSBuild": "4.7.54",
+    "Microsoft.EntityFrameworkCore": "1.1.0-preview1-final"
   },
 
   "frameworks": {
