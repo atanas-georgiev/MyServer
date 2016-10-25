@@ -2,14 +2,14 @@
   "version": "1.0.0-*",
 
   "dependencies": {
-    "Microsoft.EntityFrameworkCore": "1.0.1",
-    "Microsoft.EntityFrameworkCore.SqlServer": "1.0.1",
+    "Microsoft.EntityFrameworkCore": "1.1.0-preview1-final",
+    "Microsoft.EntityFrameworkCore.SqlServer": "1.1.0-preview1-final",
     "MyServer.Common": "1.0.0-*",
     "MyServer.Common.ImageGallery": "1.0.0-*",
     "MyServer.Data": "1.0.0-*",
     "MyServer.Data.Common": "1.0.0-*",
     "MyServer.Data.Models": "1.0.0-*",
-    "NETStandard.Library": "1.6.0",
+    "NETStandard.Library": "1.6.1-preview1-24530-04",
     "StyleCop.MSBuild": "4.7.54"
   },
 
