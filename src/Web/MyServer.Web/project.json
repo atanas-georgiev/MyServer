@@ -1,5 +1,5 @@
 {
-  "version": "0.1.0.349",
+  "version": "0.1.0.351",
   "userSecretsId": "aspnet-MyServer-186bb2c4-9782-4c4e-aedb-a6f55e5aa9af",
   "buildOptions": {
     "emitEntryPoint": true,
@@ -20,7 +20,8 @@
       "Views",
       "**/*.cshtml",
       "appsettings.json",
-      "project.json"
+      "project.json",
+      "web.config"
     ]
   },
   "runtimeOptions": {
@@ -49,6 +50,7 @@
   "tools": {
     "Microsoft.AspNetCore.Razor.Tools": "1.0.0-preview3-final",
     "Microsoft.Extensions.SecretManager.Tools": "1.0.0-preview3-final",
+    "Microsoft.AspNetCore.Server.IISIntegration.Tools": "1.0.0-preview3-final",
     "dotnet-bump": "1.0.1",
     "BundlerMinifier.Core": "2.2.281",
     "Microsoft.VisualStudio.Web.CodeGeneration.Tools": {

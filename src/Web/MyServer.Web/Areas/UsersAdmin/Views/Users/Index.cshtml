@@ -4,16 +4,9 @@
     ViewData["Title"] = LocString["UserAdministration"];
 }
 
-@Html.Partial("_KendoScriptsPartial")
-    
+@Html.Partial("_KendoScriptsPartial");
+@Html.Partial("_KendoStylesPartial");
 
-
-@section Styles
-{
-@{
-    await Html.RenderPartialAsync("_KendoStylesPartial");
-    }
-    }
 
     <div class="well">
         <div class="text-center">

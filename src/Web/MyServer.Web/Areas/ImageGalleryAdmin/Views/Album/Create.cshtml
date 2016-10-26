@@ -5,17 +5,9 @@
     ViewData["Title"] = LocString["NewAlbum"];
 }
 
-@section Scripts {
-    @{
-        await Html.RenderPartialAsync("_KendoScriptsPartial");
-    }
-}
+@Html.Partial("_KendoScriptsPartial");
+@Html.Partial("_KendoStylesPartial");
 
-@section Styles {
-    @{
-        await Html.RenderPartialAsync("_KendoStylesPartial");
-    }
-}
 
 <div class="well well-mobile">
     <div>
