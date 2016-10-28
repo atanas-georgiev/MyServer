@@ -5,7 +5,7 @@
     using System.IO;
     using System.Linq;
 
-    using ImageProcessorCore;
+    //using ImageProcessorCore;
 
     using Microsoft.AspNetCore.Hosting;
     using Microsoft.EntityFrameworkCore;
@@ -85,24 +85,25 @@
                                 AddedById = userId
                             };
 
-            // Add exif data
-            var orientation = this.ExtractExifData(image, fileStream, fileName);
+            using (var imageMagick = new MagickImage(fileStream))
+            {
+                // Add exif data
+                var orientation = this.ExtractExifData(image, imageMagick, fileName);
 
-            // save files
-            this.fileService.Save(fileStream, ImageType.Original, image.FileName, albumId);
+                imageMagick.Write(this.fileService.GetImageFolder(albumId, ImageType.Original) + image.FileName);
 
-            var midStream = new MemoryStream();
-            var midImage = this.Resize(fileStream, ImageType.Medium).Save(midStream);
-            this.fileService.Save(midStream, ImageType.Medium, image.FileName, albumId);
+                imageMagick.Resize(Constants.ImageMiddleMaxSize, Constants.ImageMiddleMaxSize);
+                image.MidHeight = imageMagick.Height;
+                image.MidWidth = imageMagick.Width;
+                imageMagick.Write(this.fileService.GetImageFolder(albumId, ImageType.Medium) + image.FileName);
 
-            var lowStream = new MemoryStream();
-            var lowImage = this.Resize(fileStream, ImageType.Low).Save(lowStream);
-            this.fileService.Save(lowStream, ImageType.Low, image.FileName, albumId);
-
-            image.LowHeight = lowImage.Height;
-            image.LowWidth = lowImage.Width;
-            image.MidHeight = midImage.Height;
-            image.MidWidth = midImage.Width;
+                image.LowHeight = imageMagick.Height;
+                image.LowWidth = imageMagick.Width;                
+                imageMagick.Resize(Constants.ImageLowMaxSize, Constants.ImageLowMaxSize);
+                imageMagick.Quality = 70;
+                imageMagick.Interlace = Interlace.Plane;
+                imageMagick.Write(this.fileService.GetImageFolder(albumId, ImageType.Low) + image.FileName);
+            }
 
             // Store image in DB
             this.images.Add(image);
@@ -115,23 +116,23 @@
                 this.albums.Update(album);
             }
 
-            if (orientation != null && orientation != 1)
-            {
-                switch (orientation)
-                {
-                    case 8:
-                        this.Rotate(image.Id, MyServerRotateType.Left);
-                        break;
-                    case 3:
-                        this.Rotate(image.Id, MyServerRotateType.Flip);
-                        break;
-                    case 6:
-                        this.Rotate(image.Id, MyServerRotateType.Right);
-                        break;
-                }
-            }
+            //if (orientation != null && orientation != 1)
+            //{
+            //    switch (orientation)
+            //    {
+            //        case 8:
+            //            this.Rotate(image.Id, MyServerRotateType.Left);
+            //            break;
+            //        case 3:
+            //            this.Rotate(image.Id, MyServerRotateType.Flip);
+            //            break;
+            //        case 6:
+            //            this.Rotate(image.Id, MyServerRotateType.Right);
+            //            break;
+            //    }
+            //}
 
-            GC.Collect();
+            // GC.Collect();
         }
 
         public void AddGpsDataToImage(Guid id, ImageGpsData gpsData)
@@ -279,180 +280,180 @@
 
         public void Rotate(Guid imageId, MyServerRotateType rotateType)
         {
-            var image = this.images.GetById(imageId);
-            if (image != null)
-            {
-                var lowFileFolder = this.appEnvironment.WebRootPath + Constants.MainContentFolder + "/" + image.AlbumId
-                                    + "/" + Constants.ImageFolderLow + "/";
-                var middleFileFolder = this.appEnvironment.WebRootPath + Constants.MainContentFolder + "/"
-                                       + image.AlbumId + "/" + Constants.ImageFolderMiddle + "/";
-                var highFileFolder = this.appEnvironment.WebRootPath + Constants.MainContentFolder + "/" + image.AlbumId
-                                     + "/" + Constants.ImageFolderOriginal + "/";
+            //var image = this.images.GetById(imageId);
+            //if (image != null)
+            //{
+            //    var lowFileFolder = this.appEnvironment.WebRootPath + Constants.MainContentFolder + "/" + image.AlbumId
+            //                        + "/" + Constants.ImageFolderLow + "/";
+            //    var middleFileFolder = this.appEnvironment.WebRootPath + Constants.MainContentFolder + "/"
+            //                           + image.AlbumId + "/" + Constants.ImageFolderMiddle + "/";
+            //    var highFileFolder = this.appEnvironment.WebRootPath + Constants.MainContentFolder + "/" + image.AlbumId
+            //                         + "/" + Constants.ImageFolderOriginal + "/";
 
-                File.Move(lowFileFolder + image.FileName, lowFileFolder + "_" + image.FileName);
-                File.Move(middleFileFolder + image.FileName, middleFileFolder + "_" + image.FileName);
-                File.Move(highFileFolder + image.FileName, highFileFolder + "_" + image.FileName);
+            //    File.Move(lowFileFolder + image.FileName, lowFileFolder + "_" + image.FileName);
+            //    File.Move(middleFileFolder + image.FileName, middleFileFolder + "_" + image.FileName);
+            //    File.Move(highFileFolder + image.FileName, highFileFolder + "_" + image.FileName);
 
-                var lowStream = new MemoryStream(File.ReadAllBytes(lowFileFolder + "_" + image.FileName));
-                var middleStream = new MemoryStream(File.ReadAllBytes(middleFileFolder + "_" + image.FileName));
-                var highStream = new MemoryStream(File.ReadAllBytes(highFileFolder + "_" + image.FileName));
+            //    var lowStream = new MemoryStream(File.ReadAllBytes(lowFileFolder + "_" + image.FileName));
+            //    var middleStream = new MemoryStream(File.ReadAllBytes(middleFileFolder + "_" + image.FileName));
+            //    var highStream = new MemoryStream(File.ReadAllBytes(highFileFolder + "_" + image.FileName));
 
-                var imageCoreLow = new ImageProcessorCore.Image(lowStream);
-                var imageCoreMiddle = new ImageProcessorCore.Image(middleStream);
-                var imageCoreHigh = new ImageProcessorCore.Image(highStream);
+            //    var imageCoreLow = new ImageProcessorCore.Image(lowStream);
+            //    var imageCoreMiddle = new ImageProcessorCore.Image(middleStream);
+            //    var imageCoreHigh = new ImageProcessorCore.Image(highStream);
 
-                var orientation = imageCoreLow.ExifProfile.Values.FirstOrDefault(x => x.Tag == ImageProcessorCore.ExifTag.Orientation);
+            //    var orientation = imageCoreLow.ExifProfile.Values.FirstOrDefault(x => x.Tag == ImageProcessorCore.ExifTag.Orientation);
 
-                var imageStreamLowRotated = new MemoryStream();
-                var imageStreamMiddleRotated = new MemoryStream();
-                var imageStreamHighRotated = new MemoryStream();
+            //    var imageStreamLowRotated = new MemoryStream();
+            //    var imageStreamMiddleRotated = new MemoryStream();
+            //    var imageStreamHighRotated = new MemoryStream();
 
-                Image<Color, uint> imageCoreLowRotated = new Image<Color, uint>();
-                Image<Color, uint> imageCoreMiddleRotated = new Image<Color, uint>();
-                Image<Color, uint> imageCoreHighRotated = new Image<Color, uint>();
+            //    Image<Color, uint> imageCoreLowRotated = new Image<Color, uint>();
+            //    Image<Color, uint> imageCoreMiddleRotated = new Image<Color, uint>();
+            //    Image<Color, uint> imageCoreHighRotated = new Image<Color, uint>();
 
-                switch (rotateType)
-                {
-                    case MyServerRotateType.Left:
-                        imageCoreLowRotated = imageCoreLow.Rotate(RotateType.Rotate270);
-                        imageCoreMiddleRotated = imageCoreMiddle.Rotate(RotateType.Rotate270);
-                        imageCoreHighRotated = imageCoreHigh.Rotate(RotateType.Rotate270);
-                        if (orientation != null)
-                        {
-                            var orientationInt = int.Parse(orientation.Value.ToString());
+            //    switch (rotateType)
+            //    {
+            //        case MyServerRotateType.Left:
+            //            imageCoreLowRotated = imageCoreLow.Rotate(RotateType.Rotate270);
+            //            imageCoreMiddleRotated = imageCoreMiddle.Rotate(RotateType.Rotate270);
+            //            imageCoreHighRotated = imageCoreHigh.Rotate(RotateType.Rotate270);
+            //            if (orientation != null)
+            //            {
+            //                var orientationInt = int.Parse(orientation.Value.ToString());
 
-                            switch (orientationInt)
-                            {
-                                case 1:
-                                    imageCoreLowRotated.ExifProfile.SetValue(ImageProcessorCore.ExifTag.Orientation, (ushort)6);
-                                    imageCoreMiddleRotated.ExifProfile.SetValue(ImageProcessorCore.ExifTag.Orientation, (ushort)6);
-                                    imageCoreHighRotated.ExifProfile.SetValue(ImageProcessorCore.ExifTag.Orientation, (ushort)6);
-                                    break;
-                                case 8:
-                                    imageCoreLowRotated.ExifProfile.SetValue(ImageProcessorCore.ExifTag.Orientation, (ushort)1);
-                                    imageCoreMiddleRotated.ExifProfile.SetValue(ImageProcessorCore.ExifTag.Orientation, (ushort)1);
-                                    imageCoreHighRotated.ExifProfile.SetValue(ImageProcessorCore.ExifTag.Orientation, (ushort)1);
-                                    break;
-                                case 3:
-                                    imageCoreLowRotated.ExifProfile.SetValue(ImageProcessorCore.ExifTag.Orientation, (ushort)8);
-                                    imageCoreMiddleRotated.ExifProfile.SetValue(ImageProcessorCore.ExifTag.Orientation, (ushort)8);
-                                    imageCoreHighRotated.ExifProfile.SetValue(ImageProcessorCore.ExifTag.Orientation, (ushort)8);
-                                    break;
-                                case 6:
-                                    imageCoreLowRotated.ExifProfile.SetValue(ImageProcessorCore.ExifTag.Orientation, (ushort)3);
-                                    imageCoreMiddleRotated.ExifProfile.SetValue(ImageProcessorCore.ExifTag.Orientation, (ushort)3);
-                                    imageCoreHighRotated.ExifProfile.SetValue(ImageProcessorCore.ExifTag.Orientation, (ushort)3);
-                                    break;
-                            }
-                        }
+            //                switch (orientationInt)
+            //                {
+            //                    case 1:
+            //                        imageCoreLowRotated.ExifProfile.SetValue(ImageProcessorCore.ExifTag.Orientation, (ushort)6);
+            //                        imageCoreMiddleRotated.ExifProfile.SetValue(ImageProcessorCore.ExifTag.Orientation, (ushort)6);
+            //                        imageCoreHighRotated.ExifProfile.SetValue(ImageProcessorCore.ExifTag.Orientation, (ushort)6);
+            //                        break;
+            //                    case 8:
+            //                        imageCoreLowRotated.ExifProfile.SetValue(ImageProcessorCore.ExifTag.Orientation, (ushort)1);
+            //                        imageCoreMiddleRotated.ExifProfile.SetValue(ImageProcessorCore.ExifTag.Orientation, (ushort)1);
+            //                        imageCoreHighRotated.ExifProfile.SetValue(ImageProcessorCore.ExifTag.Orientation, (ushort)1);
+            //                        break;
+            //                    case 3:
+            //                        imageCoreLowRotated.ExifProfile.SetValue(ImageProcessorCore.ExifTag.Orientation, (ushort)8);
+            //                        imageCoreMiddleRotated.ExifProfile.SetValue(ImageProcessorCore.ExifTag.Orientation, (ushort)8);
+            //                        imageCoreHighRotated.ExifProfile.SetValue(ImageProcessorCore.ExifTag.Orientation, (ushort)8);
+            //                        break;
+            //                    case 6:
+            //                        imageCoreLowRotated.ExifProfile.SetValue(ImageProcessorCore.ExifTag.Orientation, (ushort)3);
+            //                        imageCoreMiddleRotated.ExifProfile.SetValue(ImageProcessorCore.ExifTag.Orientation, (ushort)3);
+            //                        imageCoreHighRotated.ExifProfile.SetValue(ImageProcessorCore.ExifTag.Orientation, (ushort)3);
+            //                        break;
+            //                }
+            //            }
 
-                        break;
-                    case MyServerRotateType.Right:
-                        imageCoreLowRotated = imageCoreLow.Rotate(RotateType.Rotate90);
-                        imageCoreMiddleRotated = imageCoreMiddle.Rotate(RotateType.Rotate90);
-                        imageCoreHighRotated = imageCoreHigh.Rotate(RotateType.Rotate90);
+            //            break;
+            //        case MyServerRotateType.Right:
+            //            imageCoreLowRotated = imageCoreLow.Rotate(RotateType.Rotate90);
+            //            imageCoreMiddleRotated = imageCoreMiddle.Rotate(RotateType.Rotate90);
+            //            imageCoreHighRotated = imageCoreHigh.Rotate(RotateType.Rotate90);
 
-                        if (orientation != null)
-                        {
-                            var orientationInt = int.Parse(orientation.Value.ToString());
+            //            if (orientation != null)
+            //            {
+            //                var orientationInt = int.Parse(orientation.Value.ToString());
 
-                            switch (orientationInt)
-                            {
-                                case 1:
-                                    imageCoreLowRotated.ExifProfile.SetValue(ImageProcessorCore.ExifTag.Orientation, (ushort)8);
-                                    imageCoreMiddleRotated.ExifProfile.SetValue(ImageProcessorCore.ExifTag.Orientation, (ushort)8);
-                                    imageCoreHighRotated.ExifProfile.SetValue(ImageProcessorCore.ExifTag.Orientation, (ushort)8);
-                                    break;
-                                case 8:
-                                    imageCoreLowRotated.ExifProfile.SetValue(ImageProcessorCore.ExifTag.Orientation, (ushort)3);
-                                    imageCoreMiddleRotated.ExifProfile.SetValue(ImageProcessorCore.ExifTag.Orientation, (ushort)3);
-                                    imageCoreHighRotated.ExifProfile.SetValue(ImageProcessorCore.ExifTag.Orientation, (ushort)3);
-                                    break;
-                                case 3:
-                                    imageCoreLowRotated.ExifProfile.SetValue(ImageProcessorCore.ExifTag.Orientation, (ushort)6);
-                                    imageCoreMiddleRotated.ExifProfile.SetValue(ImageProcessorCore.ExifTag.Orientation, (ushort)6);
-                                    imageCoreHighRotated.ExifProfile.SetValue(ImageProcessorCore.ExifTag.Orientation, (ushort)6);
-                                    break;
-                                case 6:
-                                    imageCoreLowRotated.ExifProfile.SetValue(ImageProcessorCore.ExifTag.Orientation, (ushort)1);
-                                    imageCoreMiddleRotated.ExifProfile.SetValue(ImageProcessorCore.ExifTag.Orientation, (ushort)1);
-                                    imageCoreHighRotated.ExifProfile.SetValue(ImageProcessorCore.ExifTag.Orientation, (ushort)1);
-                                    break;
-                            }
-                        }
+            //                switch (orientationInt)
+            //                {
+            //                    case 1:
+            //                        imageCoreLowRotated.ExifProfile.SetValue(ImageProcessorCore.ExifTag.Orientation, (ushort)8);
+            //                        imageCoreMiddleRotated.ExifProfile.SetValue(ImageProcessorCore.ExifTag.Orientation, (ushort)8);
+            //                        imageCoreHighRotated.ExifProfile.SetValue(ImageProcessorCore.ExifTag.Orientation, (ushort)8);
+            //                        break;
+            //                    case 8:
+            //                        imageCoreLowRotated.ExifProfile.SetValue(ImageProcessorCore.ExifTag.Orientation, (ushort)3);
+            //                        imageCoreMiddleRotated.ExifProfile.SetValue(ImageProcessorCore.ExifTag.Orientation, (ushort)3);
+            //                        imageCoreHighRotated.ExifProfile.SetValue(ImageProcessorCore.ExifTag.Orientation, (ushort)3);
+            //                        break;
+            //                    case 3:
+            //                        imageCoreLowRotated.ExifProfile.SetValue(ImageProcessorCore.ExifTag.Orientation, (ushort)6);
+            //                        imageCoreMiddleRotated.ExifProfile.SetValue(ImageProcessorCore.ExifTag.Orientation, (ushort)6);
+            //                        imageCoreHighRotated.ExifProfile.SetValue(ImageProcessorCore.ExifTag.Orientation, (ushort)6);
+            //                        break;
+            //                    case 6:
+            //                        imageCoreLowRotated.ExifProfile.SetValue(ImageProcessorCore.ExifTag.Orientation, (ushort)1);
+            //                        imageCoreMiddleRotated.ExifProfile.SetValue(ImageProcessorCore.ExifTag.Orientation, (ushort)1);
+            //                        imageCoreHighRotated.ExifProfile.SetValue(ImageProcessorCore.ExifTag.Orientation, (ushort)1);
+            //                        break;
+            //                }
+            //            }
 
-                        break;
-                    case MyServerRotateType.Flip:
-                        imageCoreLowRotated = imageCoreLow.Rotate(RotateType.Rotate180);
-                        imageCoreMiddleRotated = imageCoreMiddle.Rotate(RotateType.Rotate180);
-                        imageCoreHighRotated = imageCoreHigh.Rotate(RotateType.Rotate180);
+            //            break;
+            //        case MyServerRotateType.Flip:
+            //            imageCoreLowRotated = imageCoreLow.Rotate(RotateType.Rotate180);
+            //            imageCoreMiddleRotated = imageCoreMiddle.Rotate(RotateType.Rotate180);
+            //            imageCoreHighRotated = imageCoreHigh.Rotate(RotateType.Rotate180);
 
-                        if (orientation != null)
-                        {
-                            var orientationInt = int.Parse(orientation.Value.ToString());
+            //            if (orientation != null)
+            //            {
+            //                var orientationInt = int.Parse(orientation.Value.ToString());
 
-                            switch (orientationInt)
-                            {
-                                case 1:
-                                    imageCoreLowRotated.ExifProfile.SetValue(ImageProcessorCore.ExifTag.Orientation, (ushort)3);
-                                    imageCoreMiddleRotated.ExifProfile.SetValue(ImageProcessorCore.ExifTag.Orientation, (ushort)3);
-                                    imageCoreHighRotated.ExifProfile.SetValue(ImageProcessorCore.ExifTag.Orientation, (ushort)3);
-                                    break;
-                                case 8:
-                                    imageCoreLowRotated.ExifProfile.SetValue(ImageProcessorCore.ExifTag.Orientation, (ushort)6);
-                                    imageCoreMiddleRotated.ExifProfile.SetValue(ImageProcessorCore.ExifTag.Orientation, (ushort)6);
-                                    imageCoreHighRotated.ExifProfile.SetValue(ImageProcessorCore.ExifTag.Orientation, (ushort)6);
-                                    break;
-                                case 3:
-                                    imageCoreLowRotated.ExifProfile.SetValue(ImageProcessorCore.ExifTag.Orientation, (ushort)1);
-                                    imageCoreMiddleRotated.ExifProfile.SetValue(ImageProcessorCore.ExifTag.Orientation, (ushort)1);
-                                    imageCoreHighRotated.ExifProfile.SetValue(ImageProcessorCore.ExifTag.Orientation, (ushort)1);
-                                    break;
-                                case 6:
-                                    imageCoreLowRotated.ExifProfile.SetValue(ImageProcessorCore.ExifTag.Orientation, (ushort)8);
-                                    imageCoreMiddleRotated.ExifProfile.SetValue(ImageProcessorCore.ExifTag.Orientation, (ushort)8);
-                                    imageCoreHighRotated.ExifProfile.SetValue(ImageProcessorCore.ExifTag.Orientation, (ushort)8);
-                                    break;
-                            }
-                        }
+            //                switch (orientationInt)
+            //                {
+            //                    case 1:
+            //                        imageCoreLowRotated.ExifProfile.SetValue(ImageProcessorCore.ExifTag.Orientation, (ushort)3);
+            //                        imageCoreMiddleRotated.ExifProfile.SetValue(ImageProcessorCore.ExifTag.Orientation, (ushort)3);
+            //                        imageCoreHighRotated.ExifProfile.SetValue(ImageProcessorCore.ExifTag.Orientation, (ushort)3);
+            //                        break;
+            //                    case 8:
+            //                        imageCoreLowRotated.ExifProfile.SetValue(ImageProcessorCore.ExifTag.Orientation, (ushort)6);
+            //                        imageCoreMiddleRotated.ExifProfile.SetValue(ImageProcessorCore.ExifTag.Orientation, (ushort)6);
+            //                        imageCoreHighRotated.ExifProfile.SetValue(ImageProcessorCore.ExifTag.Orientation, (ushort)6);
+            //                        break;
+            //                    case 3:
+            //                        imageCoreLowRotated.ExifProfile.SetValue(ImageProcessorCore.ExifTag.Orientation, (ushort)1);
+            //                        imageCoreMiddleRotated.ExifProfile.SetValue(ImageProcessorCore.ExifTag.Orientation, (ushort)1);
+            //                        imageCoreHighRotated.ExifProfile.SetValue(ImageProcessorCore.ExifTag.Orientation, (ushort)1);
+            //                        break;
+            //                    case 6:
+            //                        imageCoreLowRotated.ExifProfile.SetValue(ImageProcessorCore.ExifTag.Orientation, (ushort)8);
+            //                        imageCoreMiddleRotated.ExifProfile.SetValue(ImageProcessorCore.ExifTag.Orientation, (ushort)8);
+            //                        imageCoreHighRotated.ExifProfile.SetValue(ImageProcessorCore.ExifTag.Orientation, (ushort)8);
+            //                        break;
+            //                }
+            //            }
 
-                        break;
-                }
+            //            break;
+            //    }
 
-                image.LowHeight = imageCoreLowRotated.Height;
-                image.LowWidth = imageCoreLowRotated.Width;
-                image.MidHeight = imageCoreMiddleRotated.Height;
-                image.MidWidth = imageCoreMiddleRotated.Width;
-                image.Height = imageCoreHighRotated.Height;
-                image.Width = imageCoreHighRotated.Width;
-                this.images.Update(image);
+            //    image.LowHeight = imageCoreLowRotated.Height;
+            //    image.LowWidth = imageCoreLowRotated.Width;
+            //    image.MidHeight = imageCoreMiddleRotated.Height;
+            //    image.MidWidth = imageCoreMiddleRotated.Width;
+            //    image.Height = imageCoreHighRotated.Height;
+            //    image.Width = imageCoreHighRotated.Width;
+            //    this.images.Update(image);
 
-                imageCoreLowRotated.Save(imageStreamLowRotated);
-                imageCoreMiddleRotated.Save(imageStreamMiddleRotated);
-                imageCoreHighRotated.Save(imageStreamHighRotated);
+            //    imageCoreLowRotated.Save(imageStreamLowRotated);
+            //    imageCoreMiddleRotated.Save(imageStreamMiddleRotated);
+            //    imageCoreHighRotated.Save(imageStreamHighRotated);
 
-                using (var fileStream = File.Create(lowFileFolder + image.FileName))
-                {
-                    imageStreamLowRotated.Seek(0, SeekOrigin.Begin);
-                    imageStreamLowRotated.CopyTo(fileStream);
-                }
+            //    using (var fileStream = File.Create(lowFileFolder + image.FileName))
+            //    {
+            //        imageStreamLowRotated.Seek(0, SeekOrigin.Begin);
+            //        imageStreamLowRotated.CopyTo(fileStream);
+            //    }
 
-                using (var fileStream = File.Create(middleFileFolder + image.FileName))
-                {
-                    imageStreamMiddleRotated.Seek(0, SeekOrigin.Begin);
-                    imageStreamMiddleRotated.CopyTo(fileStream);
-                }
+            //    using (var fileStream = File.Create(middleFileFolder + image.FileName))
+            //    {
+            //        imageStreamMiddleRotated.Seek(0, SeekOrigin.Begin);
+            //        imageStreamMiddleRotated.CopyTo(fileStream);
+            //    }
 
-                using (var fileStream = File.Create(highFileFolder + image.FileName))
-                {
-                    imageStreamHighRotated.Seek(0, SeekOrigin.Begin);
-                    imageStreamHighRotated.CopyTo(fileStream);
-                }
+            //    using (var fileStream = File.Create(highFileFolder + image.FileName))
+            //    {
+            //        imageStreamHighRotated.Seek(0, SeekOrigin.Begin);
+            //        imageStreamHighRotated.CopyTo(fileStream);
+            //    }
 
-                File.Delete(lowFileFolder + "_" + image.FileName);
-                File.Delete(middleFileFolder + "_" + image.FileName);
-                File.Delete(highFileFolder + "_" + image.FileName);
-            }
+            //    File.Delete(lowFileFolder + "_" + image.FileName);
+            //    File.Delete(middleFileFolder + "_" + image.FileName);
+            //    File.Delete(highFileFolder + "_" + image.FileName);
+            //}
         }
 
         public void Update(Image image)
@@ -568,12 +569,11 @@
             return coorditate;
         }
 
-        private ushort? ExtractExifData(Image inputImage, Stream inputStream, string originalFileName)
+        private ushort? ExtractExifData(Image inputImage, MagickImage inputImageMagick, string originalFileName)
         {
-            var image = new ImageProcessorCore.Image(inputStream);
-            var exif = image.ExifProfile;
-
-            var dateTimeTaken = exif.Values.FirstOrDefault(x => x.Tag == ImageProcessorCore.ExifTag.DateTimeOriginal);
+            var exif = inputImageMagick.GetExifProfile();
+                    
+            var dateTimeTaken = exif.Values.FirstOrDefault(x => x.Tag == ImageMagick.ExifTag.DateTimeOriginal);
             if (dateTimeTaken != null)
             {
                 var format = "yyyy:MM:dd HH:mm:ss";
@@ -583,8 +583,8 @@
                     CultureInfo.InvariantCulture);
             }
 
-            var gpdLong = exif.Values.FirstOrDefault(x => x.Tag == ImageProcessorCore.ExifTag.GPSLongitude);
-            var gpdLat = exif.Values.FirstOrDefault(x => x.Tag == ImageProcessorCore.ExifTag.GPSLatitude);
+            var gpdLong = exif.Values.FirstOrDefault(x => x.Tag == ImageMagick.ExifTag.GPSLongitude);
+            var gpdLat = exif.Values.FirstOrDefault(x => x.Tag == ImageMagick.ExifTag.GPSLatitude);
             if (gpdLong != null && gpdLat != null)
             {
                 inputImage.ImageGpsData =
@@ -593,63 +593,63 @@
                         ExifGpsToDouble((ImageProcessorCore.Rational[])gpdLat.Value)).Result;
             }
 
-            var make = exif.Values.FirstOrDefault(x => x.Tag == ImageProcessorCore.ExifTag.Make);
+            var make = exif.Values.FirstOrDefault(x => x.Tag == ImageMagick.ExifTag.Make);
             if (make != null)
             {
                 inputImage.CameraMaker = make.Value.ToString();
             }
 
-            var model = exif.Values.FirstOrDefault(x => x.Tag == ImageProcessorCore.ExifTag.Model);
+            var model = exif.Values.FirstOrDefault(x => x.Tag == ImageMagick.ExifTag.Model);
             if (model != null)
             {
                 inputImage.CameraModel = model.Value.ToString();
             }
 
-            var iso = exif.Values.FirstOrDefault(x => x.Tag == ImageProcessorCore.ExifTag.ISOSpeedRatings);
+            var iso = exif.Values.FirstOrDefault(x => x.Tag == ImageMagick.ExifTag.ISOSpeedRatings);
             if (iso != null)
             {
                 inputImage.Iso = iso.Value.ToString();
             }
 
-            var shutter = exif.Values.FirstOrDefault(x => x.Tag == ImageProcessorCore.ExifTag.ExposureTime);
+            var shutter = exif.Values.FirstOrDefault(x => x.Tag == ImageMagick.ExifTag.ExposureTime);
             if (shutter != null)
             {
                 inputImage.ShutterSpeed = shutter.Value.ToString();
             }
 
-            var aperture = exif.Values.FirstOrDefault(x => x.Tag == ImageProcessorCore.ExifTag.ApertureValue);
+            var aperture = exif.Values.FirstOrDefault(x => x.Tag == ImageMagick.ExifTag.ApertureValue);
             if (aperture != null)
             {
                 Rational<uint> val = new Rational<uint>(
-                                         ((ImageProcessorCore.Rational)aperture.Value).Numerator,
-                                         ((ImageProcessorCore.Rational)aperture.Value).Denominator);
+                                            ((Rational)aperture.Value).Numerator,
+                                            ((Rational)aperture.Value).Denominator);
                 double fstop = Math.Pow(2.0, Convert.ToDouble(val, CultureInfo.InvariantCulture) / 2.0);
                 inputImage.Aperture = string.Format(new CultureInfo("en-US"), "f/{0:#0.0}", fstop);
             }
 
-            var focuslen = exif.Values.FirstOrDefault(x => x.Tag == ImageProcessorCore.ExifTag.FocalLength);
+            var focuslen = exif.Values.FirstOrDefault(x => x.Tag == ImageMagick.ExifTag.FocalLength);
             if (focuslen != null)
             {
                 Rational<uint> val = new Rational<uint>(
-                                         ((ImageProcessorCore.Rational)focuslen.Value).Numerator,
-                                         ((ImageProcessorCore.Rational)focuslen.Value).Denominator);
+                                            ((Rational)focuslen.Value).Numerator,
+                                            ((Rational)focuslen.Value).Denominator);
                 inputImage.FocusLen = string.Format(
                     new CultureInfo("en-US"),
                     "{0:#0.#}",
                     Convert.ToDecimal(val, CultureInfo.InvariantCulture));
             }
 
-            var exposure = exif.Values.FirstOrDefault(x => x.Tag == ImageProcessorCore.ExifTag.ExposureBiasValue);
+            var exposure = exif.Values.FirstOrDefault(x => x.Tag == ImageMagick.ExifTag.ExposureBiasValue);
             if (exposure != null)
             {
                 var val = new Rational<int>(
-                              ((ImageProcessorCore.SignedRational)exposure.Value).Numerator,
-                              ((ImageProcessorCore.SignedRational)exposure.Value).Denominator);
+                                ((SignedRational)exposure.Value).Numerator,
+                                ((SignedRational)exposure.Value).Denominator);
                 inputImage.ExposureBiasStep = val.Numerator != 0 ? val.ToString(CultureInfo.InvariantCulture) : "0";
             }
 
-            inputImage.Width = image.Width;
-            inputImage.Height = image.Height;
+            inputImage.Width = inputImageMagick.Width;
+            inputImage.Height = inputImageMagick.Height;
 
             if (inputImage.DateTaken != null)
             {
@@ -662,45 +662,45 @@
 
             inputImage.FileName += Path.GetExtension(originalFileName);
 
-            var orientation = exif.Values.FirstOrDefault(x => x.Tag == ImageProcessorCore.ExifTag.Orientation);
+            var orientation = exif.Values.FirstOrDefault(x => x.Tag == ImageMagick.ExifTag.Orientation);
 
             if (orientation == null)
             {
                 return null;
             }
 
-            return (ushort)orientation.Value;
+            return (ushort)orientation.Value;         
         }
 
-        private Image<Color, uint> Resize(Stream inputStream, ImageType type)
-        {
-            var image = new ImageProcessorCore.Image(inputStream);
+        //private Image<Color, uint> Resize(Stream inputStream, ImageType type)
+        //{
+        //    var image = new ImageProcessorCore.Image(inputStream);
 
-            if (type == ImageType.Low)
-            {
-                var resizedImage =
-                    image.Resize(
-                        new ResizeOptions()
-                            {
-                                Mode = ResizeMode.Max,
-                                Size = new Size(Constants.ImageLowMaxSize, Constants.ImageLowMaxSize),
-                            });
-                resizedImage.Quality = 70;
-                return resizedImage;
-            }
-            else if (type == ImageType.Medium)
-            {
-                var resizedImage =
-                    image.Resize(
-                        new ResizeOptions()
-                            {
-                                Mode = ResizeMode.Max,
-                                Size = new Size(Constants.ImageMiddleMaxSize, Constants.ImageMiddleMaxSize)
-                            });
-                return resizedImage;
-            }
+        //    if (type == ImageType.Low)
+        //    {
+        //        var resizedImage =
+        //            image.Resize(
+        //                new ResizeOptions()
+        //                    {
+        //                        Mode = ResizeMode.Max,
+        //                        Size = new Size(Constants.ImageLowMaxSize, Constants.ImageLowMaxSize),
+        //                    });
+        //        resizedImage.Quality = 70;
+        //        return resizedImage;
+        //    }
+        //    else if (type == ImageType.Medium)
+        //    {
+        //        var resizedImage =
+        //            image.Resize(
+        //                new ResizeOptions()
+        //                    {
+        //                        Mode = ResizeMode.Max,
+        //                        Size = new Size(Constants.ImageMiddleMaxSize, Constants.ImageMiddleMaxSize)
+        //                    });
+        //        return resizedImage;
+        //    }
 
-            return null;
-        }
+        //    return null;
+        //}
     }
 }
