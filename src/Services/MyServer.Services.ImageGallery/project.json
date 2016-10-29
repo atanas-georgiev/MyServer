@@ -2,7 +2,6 @@
   "version": "1.0.0-*",
 
   "dependencies": {
-    "ChyImageProcessorCore": "1.0.0-alpha1031",    
     "Magick.NET.Core-Q8": "7.0.3.500",
     "Microsoft.NETCore.Portable.Compatibility": "1.0.1",
     "MyServer.Common": "1.0.0-*",

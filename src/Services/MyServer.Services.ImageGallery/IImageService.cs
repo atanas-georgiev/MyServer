@@ -11,7 +11,7 @@
     {
         void Add(Guid albumId, string userId, Stream fileStream, string fileName);
 
-        void AddGpsDataToImage(Guid id, ImageGpsData gpsData);
+        void AddGpsDataToImage(Guid imageId, ImageGpsData gpsData);
 
         IQueryable<Image> GetAll();
 
@@ -29,6 +29,6 @@
 
         void Update(Image image);
 
-        void UpdateDateTaken(Guid id, DateTime date);
+        void UpdateDateTaken(Guid imageId, DateTime date);
     }
 }

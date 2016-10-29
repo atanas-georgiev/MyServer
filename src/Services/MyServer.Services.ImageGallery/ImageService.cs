@@ -5,7 +5,7 @@
     using System.IO;
     using System.Linq;
 
-    //using ImageProcessorCore;
+    using ImageMagick;
 
     using Microsoft.AspNetCore.Hosting;
     using Microsoft.EntityFrameworkCore;
@@ -14,9 +14,6 @@
     using MyServer.Common.ImageGallery;
     using MyServer.Data.Common;
     using MyServer.Data.Models;
-
-    using Image = MyServer.Data.Models.Image;
-    using ImageMagick;
 
     public class ImageService : IImageService
     {
@@ -51,31 +48,6 @@
                 return;
             }
 
-            //// Read from stream.
-            //using (MagickImage image3 = new MagickImage(fileStream))
-            //{
-            //    var a = image3.Orientation;
-            //    image3.Rotate(90);
-            //    var b = image3.Orientation;
-
-            //    //image3.Resize(100, 100);
-            //    ImageMagick.ExifProfile info = image3.GetExifProfile();
-
-            //    var aaa = image3.ProfileNames;
-            //    image3.RemoveProfile("exif");
-
-            //    var make = info.Values.FirstOrDefault(x => x.Tag == ImageMagick.ExifTag.Make);
-            //    if (make != null)
-            //    {
-            //        make.Value = "this is sparta";
-            //    }
-
-            //    image3.AddProfile(info);
-
-            //    image3.Write("output.jpg");
-
-            //}
-
             var image = new Image
                             {
                                 Id = Guid.NewGuid(),
@@ -87,18 +59,36 @@
 
             using (var imageMagick = new MagickImage(fileStream))
             {
-                // Add exif data
                 var orientation = this.ExtractExifData(image, imageMagick, fileName);
 
+                if (orientation != null && orientation != 1)
+                {
+                    switch (orientation)
+                    {
+                        case 8:
+                            this.Rotate(imageMagick, MyServerRotateType.Left);
+                            break;
+                        case 3:
+                            this.Rotate(imageMagick, MyServerRotateType.Flip);
+                            break;
+                        case 6:
+                            this.Rotate(imageMagick, MyServerRotateType.Right);
+                            break;
+                    }
+                }
+
+                // write original quality
                 imageMagick.Write(this.fileService.GetImageFolder(albumId, ImageType.Original) + image.FileName);
 
+                // write middle quality
                 imageMagick.Resize(Constants.ImageMiddleMaxSize, Constants.ImageMiddleMaxSize);
                 image.MidHeight = imageMagick.Height;
                 image.MidWidth = imageMagick.Width;
                 imageMagick.Write(this.fileService.GetImageFolder(albumId, ImageType.Medium) + image.FileName);
 
+                // add low quality
                 image.LowHeight = imageMagick.Height;
-                image.LowWidth = imageMagick.Width;                
+                image.LowWidth = imageMagick.Width;
                 imageMagick.Resize(Constants.ImageLowMaxSize, Constants.ImageLowMaxSize);
                 imageMagick.Quality = 70;
                 imageMagick.Interlace = Interlace.Plane;
@@ -116,89 +106,50 @@
                 this.albums.Update(album);
             }
 
-            //if (orientation != null && orientation != 1)
-            //{
-            //    switch (orientation)
-            //    {
-            //        case 8:
-            //            this.Rotate(image.Id, MyServerRotateType.Left);
-            //            break;
-            //        case 3:
-            //            this.Rotate(image.Id, MyServerRotateType.Flip);
-            //            break;
-            //        case 6:
-            //            this.Rotate(image.Id, MyServerRotateType.Right);
-            //            break;
-            //    }
-            //}
-
             // GC.Collect();
         }
 
-        public void AddGpsDataToImage(Guid id, ImageGpsData gpsData)
+        public void AddGpsDataToImage(Guid imageId, ImageGpsData gpsData)
         {
-            var image = this.images.GetById(id);
-
+            var image = this.images.GetById(imageId);
             if (image != null && gpsData?.Latitude != null && gpsData.Longitude.HasValue)
             {
                 image.ImageGpsData = gpsData;
                 this.Update(image);
 
-                var lowFileFolder = this.appEnvironment.WebRootPath + Constants.MainContentFolder + "/" + image.AlbumId
-                                    + "/" + Constants.ImageFolderLow + "/";
-                var middleFileFolder = this.appEnvironment.WebRootPath + Constants.MainContentFolder + "/"
-                                       + image.AlbumId + "/" + Constants.ImageFolderMiddle + "/";
-                var highFileFolder = this.appEnvironment.WebRootPath + Constants.MainContentFolder + "/" + image.AlbumId
-                                     + "/" + Constants.ImageFolderOriginal + "/";
+                var lowFile = this.appEnvironment.WebRootPath + Constants.MainContentFolder + "/" + image.AlbumId + "/"
+                              + Constants.ImageFolderLow + "/" + image.FileName;
+                var middleFile = this.appEnvironment.WebRootPath + Constants.MainContentFolder + "/" + image.AlbumId
+                                 + "/" + Constants.ImageFolderMiddle + "/" + image.FileName;
+                var highFile = this.appEnvironment.WebRootPath + Constants.MainContentFolder + "/" + image.AlbumId + "/"
+                               + Constants.ImageFolderOriginal + "/" + image.FileName;
 
-                File.Move(lowFileFolder + image.FileName, lowFileFolder + "_" + image.FileName);
-                File.Move(middleFileFolder + image.FileName, middleFileFolder + "_" + image.FileName);
-                File.Move(highFileFolder + image.FileName, highFileFolder + "_" + image.FileName);
-
-                var lowStream = new MemoryStream(File.ReadAllBytes(lowFileFolder + "_" + image.FileName));
-                var middleStream = new MemoryStream(File.ReadAllBytes(middleFileFolder + "_" + image.FileName));
-                var highStream = new MemoryStream(File.ReadAllBytes(highFileFolder + "_" + image.FileName));
-
-                var imageCoreLow = new ImageProcessorCore.Image(lowStream);
-                var imageCoreMiddle = new ImageProcessorCore.Image(middleStream);
-                var imageCoreHigh = new ImageProcessorCore.Image(highStream);
-
-                imageCoreLow.ExifProfile.SetValue(ImageProcessorCore.ExifTag.GPSLatitude, ExifDoubleToGps(gpsData.Latitude.Value));
-                imageCoreLow.ExifProfile.SetValue(ImageProcessorCore.ExifTag.GPSLongitude, ExifDoubleToGps(gpsData.Longitude.Value));
-                imageCoreMiddle.ExifProfile.SetValue(ImageProcessorCore.ExifTag.GPSLatitude, ExifDoubleToGps(gpsData.Latitude.Value));
-                imageCoreMiddle.ExifProfile.SetValue(ImageProcessorCore.ExifTag.GPSLongitude, ExifDoubleToGps(gpsData.Longitude.Value));
-                imageCoreHigh.ExifProfile.SetValue(ImageProcessorCore.ExifTag.GPSLatitude, ExifDoubleToGps(gpsData.Latitude.Value));
-                imageCoreHigh.ExifProfile.SetValue(ImageProcessorCore.ExifTag.GPSLongitude, ExifDoubleToGps(gpsData.Longitude.Value));
-
-                var imageStreamLowModified = new MemoryStream();
-                var imageStreamMiddleModified = new MemoryStream();
-                var imageStreamHighModified = new MemoryStream();
-
-                imageCoreLow.Save(imageStreamLowModified);
-                imageCoreMiddle.Save(imageStreamMiddleModified);
-                imageCoreHigh.Save(imageStreamHighModified);
-
-                using (var fileStream = File.Create(lowFileFolder + image.FileName))
+                using (var imageMagick = new MagickImage(lowFile))
                 {
-                    imageStreamLowModified.Seek(0, SeekOrigin.Begin);
-                    imageStreamLowModified.CopyTo(fileStream);
+                    var exif = imageMagick.GetExifProfile();
+                    exif.SetValue(ExifTag.GPSLatitude, ExifDoubleToGps(gpsData.Latitude.Value));
+                    exif.SetValue(ExifTag.GPSLongitude, ExifDoubleToGps(gpsData.Longitude.Value));
+                    imageMagick.AddProfile(exif, true);
+                    imageMagick.Write(lowFile);
                 }
 
-                using (var fileStream = File.Create(middleFileFolder + image.FileName))
+                using (var imageMagick = new MagickImage(middleFile))
                 {
-                    imageStreamMiddleModified.Seek(0, SeekOrigin.Begin);
-                    imageStreamMiddleModified.CopyTo(fileStream);
+                    var exif = imageMagick.GetExifProfile();
+                    exif.SetValue(ExifTag.GPSLatitude, ExifDoubleToGps(gpsData.Latitude.Value));
+                    exif.SetValue(ExifTag.GPSLongitude, ExifDoubleToGps(gpsData.Longitude.Value));
+                    imageMagick.AddProfile(exif, true);
+                    imageMagick.Write(middleFile);
                 }
 
-                using (var fileStream = File.Create(highFileFolder + image.FileName))
+                using (var imageMagick = new MagickImage(highFile))
                 {
-                    imageStreamHighModified.Seek(0, SeekOrigin.Begin);
-                    imageStreamHighModified.CopyTo(fileStream);
+                    var exif = imageMagick.GetExifProfile();
+                    exif.SetValue(ExifTag.GPSLatitude, ExifDoubleToGps(gpsData.Latitude.Value));
+                    exif.SetValue(ExifTag.GPSLongitude, ExifDoubleToGps(gpsData.Longitude.Value));
+                    imageMagick.AddProfile(exif, true);
+                    imageMagick.Write(highFile);
                 }
-
-                File.Delete(lowFileFolder + "_" + image.FileName);
-                File.Delete(middleFileFolder + "_" + image.FileName);
-                File.Delete(highFileFolder + "_" + image.FileName);
             }
         }
 
@@ -280,180 +231,34 @@
 
         public void Rotate(Guid imageId, MyServerRotateType rotateType)
         {
-            //var image = this.images.GetById(imageId);
-            //if (image != null)
-            //{
-            //    var lowFileFolder = this.appEnvironment.WebRootPath + Constants.MainContentFolder + "/" + image.AlbumId
-            //                        + "/" + Constants.ImageFolderLow + "/";
-            //    var middleFileFolder = this.appEnvironment.WebRootPath + Constants.MainContentFolder + "/"
-            //                           + image.AlbumId + "/" + Constants.ImageFolderMiddle + "/";
-            //    var highFileFolder = this.appEnvironment.WebRootPath + Constants.MainContentFolder + "/" + image.AlbumId
-            //                         + "/" + Constants.ImageFolderOriginal + "/";
+            var image = this.images.GetById(imageId);
+            if (image != null)
+            {
+                var lowFile = this.appEnvironment.WebRootPath + Constants.MainContentFolder + "/" + image.AlbumId + "/"
+                              + Constants.ImageFolderLow + "/" + image.FileName;
+                var middleFile = this.appEnvironment.WebRootPath + Constants.MainContentFolder + "/" + image.AlbumId
+                                 + "/" + Constants.ImageFolderMiddle + "/" + image.FileName;
+                var highFile = this.appEnvironment.WebRootPath + Constants.MainContentFolder + "/" + image.AlbumId + "/"
+                               + Constants.ImageFolderOriginal + "/" + image.FileName;
 
-            //    File.Move(lowFileFolder + image.FileName, lowFileFolder + "_" + image.FileName);
-            //    File.Move(middleFileFolder + image.FileName, middleFileFolder + "_" + image.FileName);
-            //    File.Move(highFileFolder + image.FileName, highFileFolder + "_" + image.FileName);
+                using (var imageMagick = new MagickImage(lowFile))
+                {
+                    this.Rotate(imageMagick, rotateType);
+                    imageMagick.Write(lowFile);
+                }
 
-            //    var lowStream = new MemoryStream(File.ReadAllBytes(lowFileFolder + "_" + image.FileName));
-            //    var middleStream = new MemoryStream(File.ReadAllBytes(middleFileFolder + "_" + image.FileName));
-            //    var highStream = new MemoryStream(File.ReadAllBytes(highFileFolder + "_" + image.FileName));
+                using (var imageMagick = new MagickImage(middleFile))
+                {
+                    this.Rotate(imageMagick, rotateType);
+                    imageMagick.Write(middleFile);
+                }
 
-            //    var imageCoreLow = new ImageProcessorCore.Image(lowStream);
-            //    var imageCoreMiddle = new ImageProcessorCore.Image(middleStream);
-            //    var imageCoreHigh = new ImageProcessorCore.Image(highStream);
-
-            //    var orientation = imageCoreLow.ExifProfile.Values.FirstOrDefault(x => x.Tag == ImageProcessorCore.ExifTag.Orientation);
-
-            //    var imageStreamLowRotated = new MemoryStream();
-            //    var imageStreamMiddleRotated = new MemoryStream();
-            //    var imageStreamHighRotated = new MemoryStream();
-
-            //    Image<Color, uint> imageCoreLowRotated = new Image<Color, uint>();
-            //    Image<Color, uint> imageCoreMiddleRotated = new Image<Color, uint>();
-            //    Image<Color, uint> imageCoreHighRotated = new Image<Color, uint>();
-
-            //    switch (rotateType)
-            //    {
-            //        case MyServerRotateType.Left:
-            //            imageCoreLowRotated = imageCoreLow.Rotate(RotateType.Rotate270);
-            //            imageCoreMiddleRotated = imageCoreMiddle.Rotate(RotateType.Rotate270);
-            //            imageCoreHighRotated = imageCoreHigh.Rotate(RotateType.Rotate270);
-            //            if (orientation != null)
-            //            {
-            //                var orientationInt = int.Parse(orientation.Value.ToString());
-
-            //                switch (orientationInt)
-            //                {
-            //                    case 1:
-            //                        imageCoreLowRotated.ExifProfile.SetValue(ImageProcessorCore.ExifTag.Orientation, (ushort)6);
-            //                        imageCoreMiddleRotated.ExifProfile.SetValue(ImageProcessorCore.ExifTag.Orientation, (ushort)6);
-            //                        imageCoreHighRotated.ExifProfile.SetValue(ImageProcessorCore.ExifTag.Orientation, (ushort)6);
-            //                        break;
-            //                    case 8:
-            //                        imageCoreLowRotated.ExifProfile.SetValue(ImageProcessorCore.ExifTag.Orientation, (ushort)1);
-            //                        imageCoreMiddleRotated.ExifProfile.SetValue(ImageProcessorCore.ExifTag.Orientation, (ushort)1);
-            //                        imageCoreHighRotated.ExifProfile.SetValue(ImageProcessorCore.ExifTag.Orientation, (ushort)1);
-            //                        break;
-            //                    case 3:
-            //                        imageCoreLowRotated.ExifProfile.SetValue(ImageProcessorCore.ExifTag.Orientation, (ushort)8);
-            //                        imageCoreMiddleRotated.ExifProfile.SetValue(ImageProcessorCore.ExifTag.Orientation, (ushort)8);
-            //                        imageCoreHighRotated.ExifProfile.SetValue(ImageProcessorCore.ExifTag.Orientation, (ushort)8);
-            //                        break;
-            //                    case 6:
-            //                        imageCoreLowRotated.ExifProfile.SetValue(ImageProcessorCore.ExifTag.Orientation, (ushort)3);
-            //                        imageCoreMiddleRotated.ExifProfile.SetValue(ImageProcessorCore.ExifTag.Orientation, (ushort)3);
-            //                        imageCoreHighRotated.ExifProfile.SetValue(ImageProcessorCore.ExifTag.Orientation, (ushort)3);
-            //                        break;
-            //                }
-            //            }
-
-            //            break;
-            //        case MyServerRotateType.Right:
-            //            imageCoreLowRotated = imageCoreLow.Rotate(RotateType.Rotate90);
-            //            imageCoreMiddleRotated = imageCoreMiddle.Rotate(RotateType.Rotate90);
-            //            imageCoreHighRotated = imageCoreHigh.Rotate(RotateType.Rotate90);
-
-            //            if (orientation != null)
-            //            {
-            //                var orientationInt = int.Parse(orientation.Value.ToString());
-
-            //                switch (orientationInt)
-            //                {
-            //                    case 1:
-            //                        imageCoreLowRotated.ExifProfile.SetValue(ImageProcessorCore.ExifTag.Orientation, (ushort)8);
-            //                        imageCoreMiddleRotated.ExifProfile.SetValue(ImageProcessorCore.ExifTag.Orientation, (ushort)8);
-            //                        imageCoreHighRotated.ExifProfile.SetValue(ImageProcessorCore.ExifTag.Orientation, (ushort)8);
-            //                        break;
-            //                    case 8:
-            //                        imageCoreLowRotated.ExifProfile.SetValue(ImageProcessorCore.ExifTag.Orientation, (ushort)3);
-            //                        imageCoreMiddleRotated.ExifProfile.SetValue(ImageProcessorCore.ExifTag.Orientation, (ushort)3);
-            //                        imageCoreHighRotated.ExifProfile.SetValue(ImageProcessorCore.ExifTag.Orientation, (ushort)3);
-            //                        break;
-            //                    case 3:
-            //                        imageCoreLowRotated.ExifProfile.SetValue(ImageProcessorCore.ExifTag.Orientation, (ushort)6);
-            //                        imageCoreMiddleRotated.ExifProfile.SetValue(ImageProcessorCore.ExifTag.Orientation, (ushort)6);
-            //                        imageCoreHighRotated.ExifProfile.SetValue(ImageProcessorCore.ExifTag.Orientation, (ushort)6);
-            //                        break;
-            //                    case 6:
-            //                        imageCoreLowRotated.ExifProfile.SetValue(ImageProcessorCore.ExifTag.Orientation, (ushort)1);
-            //                        imageCoreMiddleRotated.ExifProfile.SetValue(ImageProcessorCore.ExifTag.Orientation, (ushort)1);
-            //                        imageCoreHighRotated.ExifProfile.SetValue(ImageProcessorCore.ExifTag.Orientation, (ushort)1);
-            //                        break;
-            //                }
-            //            }
-
-            //            break;
-            //        case MyServerRotateType.Flip:
-            //            imageCoreLowRotated = imageCoreLow.Rotate(RotateType.Rotate180);
-            //            imageCoreMiddleRotated = imageCoreMiddle.Rotate(RotateType.Rotate180);
-            //            imageCoreHighRotated = imageCoreHigh.Rotate(RotateType.Rotate180);
-
-            //            if (orientation != null)
-            //            {
-            //                var orientationInt = int.Parse(orientation.Value.ToString());
-
-            //                switch (orientationInt)
-            //                {
-            //                    case 1:
-            //                        imageCoreLowRotated.ExifProfile.SetValue(ImageProcessorCore.ExifTag.Orientation, (ushort)3);
-            //                        imageCoreMiddleRotated.ExifProfile.SetValue(ImageProcessorCore.ExifTag.Orientation, (ushort)3);
-            //                        imageCoreHighRotated.ExifProfile.SetValue(ImageProcessorCore.ExifTag.Orientation, (ushort)3);
-            //                        break;
-            //                    case 8:
-            //                        imageCoreLowRotated.ExifProfile.SetValue(ImageProcessorCore.ExifTag.Orientation, (ushort)6);
-            //                        imageCoreMiddleRotated.ExifProfile.SetValue(ImageProcessorCore.ExifTag.Orientation, (ushort)6);
-            //                        imageCoreHighRotated.ExifProfile.SetValue(ImageProcessorCore.ExifTag.Orientation, (ushort)6);
-            //                        break;
-            //                    case 3:
-            //                        imageCoreLowRotated.ExifProfile.SetValue(ImageProcessorCore.ExifTag.Orientation, (ushort)1);
-            //                        imageCoreMiddleRotated.ExifProfile.SetValue(ImageProcessorCore.ExifTag.Orientation, (ushort)1);
-            //                        imageCoreHighRotated.ExifProfile.SetValue(ImageProcessorCore.ExifTag.Orientation, (ushort)1);
-            //                        break;
-            //                    case 6:
-            //                        imageCoreLowRotated.ExifProfile.SetValue(ImageProcessorCore.ExifTag.Orientation, (ushort)8);
-            //                        imageCoreMiddleRotated.ExifProfile.SetValue(ImageProcessorCore.ExifTag.Orientation, (ushort)8);
-            //                        imageCoreHighRotated.ExifProfile.SetValue(ImageProcessorCore.ExifTag.Orientation, (ushort)8);
-            //                        break;
-            //                }
-            //            }
-
-            //            break;
-            //    }
-
-            //    image.LowHeight = imageCoreLowRotated.Height;
-            //    image.LowWidth = imageCoreLowRotated.Width;
-            //    image.MidHeight = imageCoreMiddleRotated.Height;
-            //    image.MidWidth = imageCoreMiddleRotated.Width;
-            //    image.Height = imageCoreHighRotated.Height;
-            //    image.Width = imageCoreHighRotated.Width;
-            //    this.images.Update(image);
-
-            //    imageCoreLowRotated.Save(imageStreamLowRotated);
-            //    imageCoreMiddleRotated.Save(imageStreamMiddleRotated);
-            //    imageCoreHighRotated.Save(imageStreamHighRotated);
-
-            //    using (var fileStream = File.Create(lowFileFolder + image.FileName))
-            //    {
-            //        imageStreamLowRotated.Seek(0, SeekOrigin.Begin);
-            //        imageStreamLowRotated.CopyTo(fileStream);
-            //    }
-
-            //    using (var fileStream = File.Create(middleFileFolder + image.FileName))
-            //    {
-            //        imageStreamMiddleRotated.Seek(0, SeekOrigin.Begin);
-            //        imageStreamMiddleRotated.CopyTo(fileStream);
-            //    }
-
-            //    using (var fileStream = File.Create(highFileFolder + image.FileName))
-            //    {
-            //        imageStreamHighRotated.Seek(0, SeekOrigin.Begin);
-            //        imageStreamHighRotated.CopyTo(fileStream);
-            //    }
-
-            //    File.Delete(lowFileFolder + "_" + image.FileName);
-            //    File.Delete(middleFileFolder + "_" + image.FileName);
-            //    File.Delete(highFileFolder + "_" + image.FileName);
-            //}
+                using (var imageMagick = new MagickImage(highFile))
+                {
+                    this.Rotate(imageMagick, rotateType);
+                    imageMagick.Write(highFile);
+                }
+            }
         }
 
         public void Update(Image image)
@@ -461,78 +266,66 @@
             this.images.Update(image);
         }
 
-        public void UpdateDateTaken(Guid id, DateTime date)
+        public void UpdateDateTaken(Guid imageId, DateTime date)
         {
-            var image = this.images.GetById(id);
-
+            var image = this.images.GetById(imageId);
             if (image != null)
             {
+                var lowFileOld = this.appEnvironment.WebRootPath + Constants.MainContentFolder + "/" + image.AlbumId
+                                 + "/" + Constants.ImageFolderLow + "/" + image.FileName;
+                var middleFileOld = this.appEnvironment.WebRootPath + Constants.MainContentFolder + "/" + image.AlbumId
+                                    + "/" + Constants.ImageFolderMiddle + "/" + image.FileName;
+                var highFileOld = this.appEnvironment.WebRootPath + Constants.MainContentFolder + "/" + image.AlbumId
+                                  + "/" + Constants.ImageFolderOriginal + "/" + image.FileName;
+
                 var oldFilename = image.FileName;
                 image.DateTaken = date;
                 image.FileName = date.ToString("yyyy-MM-dd-HH-mm-ss-") + Guid.NewGuid() + Path.GetExtension(oldFilename);
                 this.Update(image);
 
-                var lowFileFolder = this.appEnvironment.WebRootPath + Constants.MainContentFolder + "/" + image.AlbumId
-                                    + "/" + Constants.ImageFolderLow + "/";
-                var middleFileFolder = this.appEnvironment.WebRootPath + Constants.MainContentFolder + "/"
-                                       + image.AlbumId + "/" + Constants.ImageFolderMiddle + "/";
-                var highFileFolder = this.appEnvironment.WebRootPath + Constants.MainContentFolder + "/" + image.AlbumId
-                                     + "/" + Constants.ImageFolderOriginal + "/";
-
-                File.Move(lowFileFolder + oldFilename, lowFileFolder + "_" + oldFilename);
-                File.Move(middleFileFolder + oldFilename, middleFileFolder + "_" + oldFilename);
-                File.Move(highFileFolder + oldFilename, highFileFolder + "_" + oldFilename);
-
-                var lowStream = new MemoryStream(File.ReadAllBytes(lowFileFolder + "_" + oldFilename));
-                var middleStream = new MemoryStream(File.ReadAllBytes(middleFileFolder + "_" + oldFilename));
-                var highStream = new MemoryStream(File.ReadAllBytes(highFileFolder + "_" + oldFilename));
-
-                var imageCoreLow = new ImageProcessorCore.Image(lowStream);
-                var imageCoreMiddle = new ImageProcessorCore.Image(middleStream);
-                var imageCoreHigh = new ImageProcessorCore.Image(highStream);
-
                 var format = "yyyy:MM:dd HH:mm:ss";
 
-                imageCoreLow.ExifProfile.SetValue(ImageProcessorCore.ExifTag.DateTimeOriginal, date.ToString(format));
-                imageCoreMiddle.ExifProfile.SetValue(ImageProcessorCore.ExifTag.DateTimeOriginal, date.ToString(format));
-                imageCoreHigh.ExifProfile.SetValue(ImageProcessorCore.ExifTag.DateTimeOriginal, date.ToString(format));
+                var lowFile = this.appEnvironment.WebRootPath + Constants.MainContentFolder + "/" + image.AlbumId + "/"
+                              + Constants.ImageFolderLow + "/" + image.FileName;
+                var middleFile = this.appEnvironment.WebRootPath + Constants.MainContentFolder + "/" + image.AlbumId
+                                 + "/" + Constants.ImageFolderMiddle + "/" + image.FileName;
+                var highFile = this.appEnvironment.WebRootPath + Constants.MainContentFolder + "/" + image.AlbumId + "/"
+                               + Constants.ImageFolderOriginal + "/" + image.FileName;
 
-                var imageStreamLowModified = new MemoryStream();
-                var imageStreamMiddleModified = new MemoryStream();
-                var imageStreamHighModified = new MemoryStream();
-
-                imageCoreLow.Save(imageStreamLowModified);
-                imageCoreMiddle.Save(imageStreamMiddleModified);
-                imageCoreHigh.Save(imageStreamHighModified);
-
-                using (var fileStream = File.Create(lowFileFolder + image.FileName))
+                using (var imageMagick = new MagickImage(lowFileOld))
                 {
-                    imageStreamLowModified.Seek(0, SeekOrigin.Begin);
-                    imageStreamLowModified.CopyTo(fileStream);
+                    var exif = imageMagick.GetExifProfile();
+                    exif.SetValue(ExifTag.DateTimeOriginal, date.ToString(format));
+                    imageMagick.AddProfile(exif, true);
+                    imageMagick.Write(lowFile);
                 }
 
-                using (var fileStream = File.Create(middleFileFolder + image.FileName))
+                using (var imageMagick = new MagickImage(middleFileOld))
                 {
-                    imageStreamMiddleModified.Seek(0, SeekOrigin.Begin);
-                    imageStreamMiddleModified.CopyTo(fileStream);
+                    var exif = imageMagick.GetExifProfile();
+                    exif.SetValue(ExifTag.DateTimeOriginal, date.ToString(format));
+                    imageMagick.AddProfile(exif, true);
+                    imageMagick.Write(middleFile);
                 }
 
-                using (var fileStream = File.Create(highFileFolder + image.FileName))
+                using (var imageMagick = new MagickImage(highFileOld))
                 {
-                    imageStreamHighModified.Seek(0, SeekOrigin.Begin);
-                    imageStreamHighModified.CopyTo(fileStream);
+                    var exif = imageMagick.GetExifProfile();
+                    exif.SetValue(ExifTag.DateTimeOriginal, date.ToString(format));
+                    imageMagick.AddProfile(exif, true);
+                    imageMagick.Write(highFile);
                 }
 
-                File.Delete(lowFileFolder + "_" + oldFilename);
-                File.Delete(middleFileFolder + "_" + oldFilename);
-                File.Delete(highFileFolder + "_" + oldFilename);
+                File.Delete(lowFileOld);
+                File.Delete(middleFileOld);
+                File.Delete(highFileOld);
             }
         }
 
-        private static ImageProcessorCore.Rational[] ExifDoubleToGps(double propItem)
+        private static Rational[] ExifDoubleToGps(double propItem)
         {
             double temp;
-            var result = new ImageProcessorCore.Rational[3];
+            var result = new Rational[3];
 
             temp = Math.Abs(propItem);
             var degrees = Math.Truncate(temp);
@@ -543,14 +336,14 @@
             temp = (temp - minutes) * 60;
             var seconds = Math.Truncate(temp);
 
-            result[0] = new ImageProcessorCore.Rational(degrees);
-            result[1] = new ImageProcessorCore.Rational(minutes);
-            result[2] = new ImageProcessorCore.Rational(seconds);
+            result[0] = new Rational(degrees);
+            result[1] = new Rational(minutes);
+            result[2] = new Rational(seconds);
 
             return result;
         }
 
-        private static double ExifGpsToDouble(ImageProcessorCore.Rational[] propItem)
+        private static double ExifGpsToDouble(Rational[] propItem)
         {
             var degreesNumerator = propItem[0].Numerator;
             var degreesDenominator = propItem[0].Denominator;
@@ -572,8 +365,8 @@
         private ushort? ExtractExifData(Image inputImage, MagickImage inputImageMagick, string originalFileName)
         {
             var exif = inputImageMagick.GetExifProfile();
-                    
-            var dateTimeTaken = exif.Values.FirstOrDefault(x => x.Tag == ImageMagick.ExifTag.DateTimeOriginal);
+
+            var dateTimeTaken = exif.Values.FirstOrDefault(x => x.Tag == ExifTag.DateTimeOriginal);
             if (dateTimeTaken != null)
             {
                 var format = "yyyy:MM:dd HH:mm:ss";
@@ -583,68 +376,68 @@
                     CultureInfo.InvariantCulture);
             }
 
-            var gpdLong = exif.Values.FirstOrDefault(x => x.Tag == ImageMagick.ExifTag.GPSLongitude);
-            var gpdLat = exif.Values.FirstOrDefault(x => x.Tag == ImageMagick.ExifTag.GPSLatitude);
+            var gpdLong = exif.Values.FirstOrDefault(x => x.Tag == ExifTag.GPSLongitude);
+            var gpdLat = exif.Values.FirstOrDefault(x => x.Tag == ExifTag.GPSLatitude);
             if (gpdLong != null && gpdLat != null)
             {
                 inputImage.ImageGpsData =
                     this.locationService.GetGpsDataNormalized(
-                        ExifGpsToDouble((ImageProcessorCore.Rational[])gpdLong.Value),
-                        ExifGpsToDouble((ImageProcessorCore.Rational[])gpdLat.Value)).Result;
+                        ExifGpsToDouble((Rational[])gpdLong.Value),
+                        ExifGpsToDouble((Rational[])gpdLat.Value)).Result;
             }
 
-            var make = exif.Values.FirstOrDefault(x => x.Tag == ImageMagick.ExifTag.Make);
+            var make = exif.Values.FirstOrDefault(x => x.Tag == ExifTag.Make);
             if (make != null)
             {
                 inputImage.CameraMaker = make.Value.ToString();
             }
 
-            var model = exif.Values.FirstOrDefault(x => x.Tag == ImageMagick.ExifTag.Model);
+            var model = exif.Values.FirstOrDefault(x => x.Tag == ExifTag.Model);
             if (model != null)
             {
                 inputImage.CameraModel = model.Value.ToString();
             }
 
-            var iso = exif.Values.FirstOrDefault(x => x.Tag == ImageMagick.ExifTag.ISOSpeedRatings);
+            var iso = exif.Values.FirstOrDefault(x => x.Tag == ExifTag.ISOSpeedRatings);
             if (iso != null)
             {
                 inputImage.Iso = iso.Value.ToString();
             }
 
-            var shutter = exif.Values.FirstOrDefault(x => x.Tag == ImageMagick.ExifTag.ExposureTime);
+            var shutter = exif.Values.FirstOrDefault(x => x.Tag == ExifTag.ExposureTime);
             if (shutter != null)
             {
                 inputImage.ShutterSpeed = shutter.Value.ToString();
             }
 
-            var aperture = exif.Values.FirstOrDefault(x => x.Tag == ImageMagick.ExifTag.ApertureValue);
+            var aperture = exif.Values.FirstOrDefault(x => x.Tag == ExifTag.ApertureValue);
             if (aperture != null)
             {
                 Rational<uint> val = new Rational<uint>(
-                                            ((Rational)aperture.Value).Numerator,
-                                            ((Rational)aperture.Value).Denominator);
+                                         ((Rational)aperture.Value).Numerator,
+                                         ((Rational)aperture.Value).Denominator);
                 double fstop = Math.Pow(2.0, Convert.ToDouble(val, CultureInfo.InvariantCulture) / 2.0);
                 inputImage.Aperture = string.Format(new CultureInfo("en-US"), "f/{0:#0.0}", fstop);
             }
 
-            var focuslen = exif.Values.FirstOrDefault(x => x.Tag == ImageMagick.ExifTag.FocalLength);
+            var focuslen = exif.Values.FirstOrDefault(x => x.Tag == ExifTag.FocalLength);
             if (focuslen != null)
             {
                 Rational<uint> val = new Rational<uint>(
-                                            ((Rational)focuslen.Value).Numerator,
-                                            ((Rational)focuslen.Value).Denominator);
+                                         ((Rational)focuslen.Value).Numerator,
+                                         ((Rational)focuslen.Value).Denominator);
                 inputImage.FocusLen = string.Format(
                     new CultureInfo("en-US"),
                     "{0:#0.#}",
                     Convert.ToDecimal(val, CultureInfo.InvariantCulture));
             }
 
-            var exposure = exif.Values.FirstOrDefault(x => x.Tag == ImageMagick.ExifTag.ExposureBiasValue);
+            var exposure = exif.Values.FirstOrDefault(x => x.Tag == ExifTag.ExposureBiasValue);
             if (exposure != null)
             {
                 var val = new Rational<int>(
-                                ((SignedRational)exposure.Value).Numerator,
-                                ((SignedRational)exposure.Value).Denominator);
+                              ((SignedRational)exposure.Value).Numerator,
+                              ((SignedRational)exposure.Value).Denominator);
                 inputImage.ExposureBiasStep = val.Numerator != 0 ? val.ToString(CultureInfo.InvariantCulture) : "0";
             }
 
@@ -662,45 +455,32 @@
 
             inputImage.FileName += Path.GetExtension(originalFileName);
 
-            var orientation = exif.Values.FirstOrDefault(x => x.Tag == ImageMagick.ExifTag.Orientation);
+            var orientation = exif.Values.FirstOrDefault(x => x.Tag == ExifTag.Orientation);
 
             if (orientation == null)
             {
                 return null;
             }
 
-            return (ushort)orientation.Value;         
+            return (ushort)orientation.Value;
         }
 
-        //private Image<Color, uint> Resize(Stream inputStream, ImageType type)
-        //{
-        //    var image = new ImageProcessorCore.Image(inputStream);
+        private void Rotate(MagickImage image, MyServerRotateType rotateType)
+        {
+            switch (rotateType)
+            {
+                case MyServerRotateType.Left:
+                    image.Rotate(270);
+                    break;
+                case MyServerRotateType.Right:
+                    image.Rotate(90);
+                    break;
+                case MyServerRotateType.Flip:
+                    image.Rotate(180);
+                    break;
+            }
 
-        //    if (type == ImageType.Low)
-        //    {
-        //        var resizedImage =
-        //            image.Resize(
-        //                new ResizeOptions()
-        //                    {
-        //                        Mode = ResizeMode.Max,
-        //                        Size = new Size(Constants.ImageLowMaxSize, Constants.ImageLowMaxSize),
-        //                    });
-        //        resizedImage.Quality = 70;
-        //        return resizedImage;
-        //    }
-        //    else if (type == ImageType.Medium)
-        //    {
-        //        var resizedImage =
-        //            image.Resize(
-        //                new ResizeOptions()
-        //                    {
-        //                        Mode = ResizeMode.Max,
-        //                        Size = new Size(Constants.ImageMiddleMaxSize, Constants.ImageMiddleMaxSize)
-        //                    });
-        //        return resizedImage;
-        //    }
-
-        //    return null;
-        //}
+            image.Orientation = OrientationType.Undefined;
+        }
     }
 }
