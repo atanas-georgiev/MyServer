@@ -2,12 +2,15 @@
     var culture = System.Globalization.CultureInfo.CurrentCulture.ToString();
 }
 <environment names="Development">
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCwTwQMYg1fPJn532TT3o-_SQlbhEOf64g&libraries=places"></script>
     <script src="~/lib/kendo-ui/js/kendo.all.min.js"></script>
     <script src="~/lib/kendo-ui/js/kendo.aspnetmvc.min.js"></script>
     <script src="@Url.Content("~/lib/kendo-ui/js/cultures/kendo.culture." + culture + ".min.js")"></script>
     <script>kendo.culture("@culture");</script>
 </environment>
 <environment names="Staging,Production">
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCwTwQMYg1fPJn532TT3o-_SQlbhEOf64g&libraries=places"></script>
+
     <script src="~/lib/kendo-ui/js/kendo.all.min.js"
             asp-fallback-src="~/lib/kendo-ui/js/kendo.all.min.js"
             asp-fallback-test="window.kendo">

@@ -1,5 +1,6 @@
 ﻿namespace MyServer.Web
 {
+    using System;
     using System.Globalization;
     using System.Reflection;
 
@@ -13,6 +14,7 @@
     using Microsoft.Extensions.DependencyInjection;
     using Microsoft.Extensions.Localization;
     using Microsoft.Extensions.Logging;
+    using Microsoft.Net.Http.Headers;
 
     using MyServer.Data;
     using MyServer.Data.Common;
@@ -24,6 +26,7 @@
     using MyServer.Web.Migrations;
 
     using Newtonsoft.Json.Serialization;
+    using Microsoft.AspNetCore.Http;
 
     public class Startup
     {
@@ -99,7 +102,15 @@
 
             app.UseApplicationInsightsExceptionTelemetry();
 
-            app.UseStaticFiles();
+            app.UseStaticFiles(
+                new StaticFileOptions()
+                    {
+                        OnPrepareResponse = (context) =>
+                            {
+                                var headers = context.Context.Response.GetTypedHeaders();
+                                headers.CacheControl = new CacheControlHeaderValue() { MaxAge = TimeSpan.FromDays(100) };
+                            }
+                    });
 
             app.UseIdentity();
 
