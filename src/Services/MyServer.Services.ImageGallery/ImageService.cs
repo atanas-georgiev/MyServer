@@ -472,10 +472,17 @@
             var exposure = exif.Values.FirstOrDefault(x => x.Tag == ExifTag.ExposureBiasValue);
             if (exposure != null)
             {
-                var val = new Rational<int>(
-                              ((SignedRational)exposure.Value).Numerator,
-                              ((SignedRational)exposure.Value).Denominator);
-                inputImage.ExposureBiasStep = val.Numerator != 0 ? val.ToString(CultureInfo.InvariantCulture) : "0";
+                try
+                {
+                    var val = new Rational<int>(
+                              ((SignedRational) exposure.Value).Numerator,
+                              ((SignedRational) exposure.Value).Denominator);
+                    inputImage.ExposureBiasStep = val.Numerator != 0 ? val.ToString(CultureInfo.InvariantCulture) : "0";
+                }
+                catch (Exception)
+                {
+                    // ignored
+                }
             }
 
             inputImage.Width = inputImageMagick.Width;

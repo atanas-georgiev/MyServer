@@ -1,5 +1,5 @@
 {
-  "version": "0.1.0.435",
+  "version": "0.1.0.437",
   "userSecretsId": "aspnet-MyServer-186bb2c4-9782-4c4e-aedb-a6f55e5aa9af",
   "buildOptions": {
     "emitEntryPoint": true,
@@ -39,9 +39,7 @@
     "prepublish": [
       "dotnet bundle"
     ],
-    "postpublish": [
-      //"dotnet publish-iis --publish-folder %publish:OutputPath% --framework %publish:FullTargetFramework%"
-    ],
+    "postpublish": [],
     "postcompile": [
       "dotnet bump revision"
     ]
