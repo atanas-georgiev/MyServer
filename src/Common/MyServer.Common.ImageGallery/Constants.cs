@@ -10,7 +10,7 @@
 
         public const int ImageLowMaxSize = 400;
 
-        public const int ImageMiddleMaxSize = 2048;
+        public const int ImageMiddleMaxSize = 1600;
 
         public const string MainContentFolder = "/Content/Images";
 

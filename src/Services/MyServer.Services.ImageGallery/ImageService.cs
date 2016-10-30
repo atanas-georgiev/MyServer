@@ -86,15 +86,25 @@
                 imageMagick.Write(this.fileService.GetImageFolder(albumId, ImageType.Original) + image.FileName);
 
                 // write middle quality
-                imageMagick.Resize(Constants.ImageMiddleMaxSize, Constants.ImageMiddleMaxSize);
-                image.MidHeight = imageMagick.Height;
-                image.MidWidth = imageMagick.Width;
+                if (imageMagick.Height > Constants.ImageMiddleMaxSize
+                    || imageMagick.Width > Constants.ImageMiddleMaxSize)
+                {
+                    imageMagick.Resize(Constants.ImageMiddleMaxSize, Constants.ImageMiddleMaxSize);
+                    image.MidHeight = imageMagick.Height;
+                    image.MidWidth = imageMagick.Width;                    
+                }
+
                 imageMagick.Write(this.fileService.GetImageFolder(albumId, ImageType.Medium) + image.FileName);
 
                 // add low quality
-                image.LowHeight = imageMagick.Height;
-                image.LowWidth = imageMagick.Width;
-                imageMagick.Resize(Constants.ImageLowMaxSize, Constants.ImageLowMaxSize);
+                if (imageMagick.Height > Constants.ImageLowMaxSize
+                    || imageMagick.Width > Constants.ImageLowMaxSize)
+                {
+                    imageMagick.Resize(Constants.ImageLowMaxSize, Constants.ImageLowMaxSize);
+                    image.LowHeight = imageMagick.Height;
+                    image.LowWidth = imageMagick.Width;
+                }
+
                 imageMagick.Quality = 70;
                 imageMagick.Interlace = Interlace.Plane;
                 imageMagick.Write(this.fileService.GetImageFolder(albumId, ImageType.Low) + image.FileName);
