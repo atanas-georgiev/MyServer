@@ -19,9 +19,8 @@
       "wwwroot",
       "Views",
       "**/*.cshtml",
-      "appsettings.json",
-      "project.json",
-      "web.config"
+      "appsettings*.json",
+      "project.json"
     ]
   },
   "runtimeOptions": {
@@ -41,7 +40,7 @@
       "dotnet bundle"
     ],
     "postpublish": [
-      "dotnet publish-iis --publish-folder %publish:OutputPath% --framework %publish:FullTargetFramework%"
+      //"dotnet publish-iis --publish-folder %publish:OutputPath% --framework %publish:FullTargetFramework%"
     ],
     "postcompile": [
       "dotnet bump revision"
