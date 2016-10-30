@@ -33,6 +33,7 @@ deploy:
   aspnet_core_force_restart: true
   artifact: DeployTest
   app_offline: true
+  skip_files: web.config
   
 - provider: WebDeploy
   server: atanas.it
@@ -46,3 +47,4 @@ deploy:
   aspnet_core_force_restart: true
   artifact: DeployTest
   app_offline: true
+  skip_files: web.config
