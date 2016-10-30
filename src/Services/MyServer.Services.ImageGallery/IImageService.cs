@@ -13,8 +13,6 @@
 
         void AddGpsDataToImage(Guid imageId, ImageGpsData gpsData);
 
-        IQueryable<Image> GetAll();
-
         IQueryable<Image> GetAllReqursive();
 
         Image GetById(Guid id);

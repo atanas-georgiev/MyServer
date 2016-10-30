@@ -12,8 +12,6 @@
 
         string GenerateZipArchive(Guid id, ImageType type);
 
-        IQueryable<Album> GetAll();
-
         IQueryable<Album> GetAllReqursive();
 
         Album GetById(Guid id);

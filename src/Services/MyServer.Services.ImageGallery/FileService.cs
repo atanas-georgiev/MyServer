@@ -5,6 +5,7 @@
     using System.Linq;
 
     using Microsoft.AspNetCore.Hosting;
+    using Microsoft.Extensions.Caching.Memory;
 
     using MyServer.Common.ImageGallery;
 
@@ -12,9 +13,12 @@
     {
         private readonly IHostingEnvironment appEnvironment;
 
-        public FileService(IHostingEnvironment appEnvironment)
+        private readonly IMemoryCache memoryCache;
+
+        public FileService(IHostingEnvironment appEnvironment, IMemoryCache memoryCache)
         {
             this.appEnvironment = appEnvironment;
+            this.memoryCache = memoryCache;
         }
 
         public void CreateInitialFolders(Guid albumId)
@@ -87,9 +91,23 @@
 
         public string GetImageFolderSize()
         {
-            var dir = this.appEnvironment.WebRootPath + Constants.MainContentFolder;
-            var size = GetDirectorySize(dir);
-            return (size / 1024 / 1024 / 1024).ToString("0.00");
+            string result = null;
+
+            if (!this.memoryCache.TryGetValue(CacheKeys.FileServiceCacheKey, out result))
+            {
+                // fetch the value from the source
+                var dir = this.appEnvironment.WebRootPath + Constants.MainContentFolder;
+                var size = GetDirectorySize(dir);
+                result = (size / 1024 / 1024 / 1024).ToString("0.00");
+
+                // store in the cache
+                this.memoryCache.Set(
+                    CacheKeys.FileServiceCacheKey,
+                    result,
+                    new MemoryCacheEntryOptions().SetAbsoluteExpiration(TimeSpan.FromDays(365)));
+            }
+
+            return result;
         }
 
         public string MakeValidFileName(string name)

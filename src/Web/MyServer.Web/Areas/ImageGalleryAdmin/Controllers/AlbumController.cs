@@ -62,7 +62,7 @@ namespace MyServer.Web.Areas.ImageGalleryAdmin.Controllers
 
                 this.albumService.Update(album);
 
-                var result = this.albumService.GetAll().Where(a => a.Id == album.Id).To<AlbumEditViewModel>().First();
+                var result = this.albumService.GetAllReqursive().Where(a => a.Id == album.Id).To<AlbumEditViewModel>().First();
 
                 return this.PartialView("_AlbumDataPartial", result);
             }
@@ -243,7 +243,7 @@ namespace MyServer.Web.Areas.ImageGalleryAdmin.Controllers
 
                 var imageId = Guid.Parse(ids.First());
                 var albumId = this.imageService.GetById(imageId).AlbumId;
-                var album = this.albumService.GetAll().Where(x => x.Id == albumId).To<AlbumEditViewModel>().First();
+                var album = this.albumService.GetAllReqursive().Where(x => x.Id == albumId).To<AlbumEditViewModel>().First();
 
                 return this.PartialView("_ImageListPartial", album);
             }

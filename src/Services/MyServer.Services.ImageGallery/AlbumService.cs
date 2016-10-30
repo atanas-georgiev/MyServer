@@ -7,6 +7,7 @@
 
     using Microsoft.AspNetCore.Hosting;
     using Microsoft.EntityFrameworkCore;
+    using Microsoft.Extensions.Caching.Memory;
 
     using MyServer.Common.ImageGallery;
     using MyServer.Data.Common;
@@ -22,16 +23,20 @@
 
         private readonly IRepository<Image, Guid> images;
 
+        private readonly IMemoryCache memoryCache;
+
         public AlbumService(
             IRepository<Album, Guid> albums,
             IRepository<Image, Guid> images,
             IHostingEnvironment appEnvironment,
-            IFileService fileService)
+            IFileService fileService,
+            IMemoryCache memoryCache)
         {
             this.albums = albums;
             this.images = images;
             this.fileService = fileService;
             this.appEnvironment = appEnvironment;
+            this.memoryCache = memoryCache;
         }
 
         public void Add(Album album)
@@ -40,6 +45,9 @@
             album.Cover = this.images.GetById(noCoverImageGuid);
             this.albums.Add(album);
             this.fileService.CreateInitialFolders(album.Id);
+            this.memoryCache.Remove(CacheKeys.AlbumsServiceCacheKey);
+            this.memoryCache.Remove(CacheKeys.ImageServiceCacheKey);
+            this.memoryCache.Remove(CacheKeys.FileServiceCacheKey);
         }
 
         public string GenerateZipArchive(Guid id, ImageType type)
@@ -99,21 +107,31 @@
                 Constants.TempContentFolder);
         }
 
-        public IQueryable<Album> GetAll()
-        {
-            var firstAlbumToExcludeGuid = Guid.Parse(Constants.NoCoverId);
-            return this.albums.All().Where(x => x.IsDeleted == false && x.Id != firstAlbumToExcludeGuid);
-        }
-
         public IQueryable<Album> GetAllReqursive()
         {
-            var firstAlbumToExcludeGuid = Guid.Parse(Constants.NoCoverId);
-            return
-                this.albums.All()
-                    .Include(x => x.Cover)
-                    .Include(x => x.Images)
-                    .ThenInclude(x => x.ImageGpsData)
-                    .Where(x => x.IsDeleted == false && x.Id != firstAlbumToExcludeGuid);
+            IQueryable<Album> result = null;
+
+            if (!this.memoryCache.TryGetValue(CacheKeys.AlbumsServiceCacheKey, out result))
+            {
+                // fetch the value from the source
+                var firstAlbumToExcludeGuid = Guid.Parse(Constants.NoCoverId);
+                result =
+                    this.albums.All()
+                        .Include(x => x.Cover)
+                        .Include(x => x.Images)
+                        .ThenInclude(x => x.ImageGpsData)
+                        .Where(x => x.IsDeleted == false && x.Id != firstAlbumToExcludeGuid)
+                        .ToList()
+                        .AsQueryable();
+
+                // store in the cache
+                this.memoryCache.Set(
+                    CacheKeys.AlbumsServiceCacheKey,
+                    result,
+                    new MemoryCacheEntryOptions().SetAbsoluteExpiration(TimeSpan.FromDays(365)));
+            }
+
+            return result;
         }
 
         public Album GetById(Guid id)
@@ -137,12 +155,19 @@
 
                 this.albums.Delete(id);
                 this.fileService.RemoveAlbum(id);
+
+                this.memoryCache.Remove(CacheKeys.AlbumsServiceCacheKey);
+                this.memoryCache.Remove(CacheKeys.ImageServiceCacheKey);
+                this.memoryCache.Remove(CacheKeys.FileServiceCacheKey);
             }
         }
 
         public void Update(Album album)
         {
             this.albums.Update(album);
+            this.memoryCache.Remove(CacheKeys.AlbumsServiceCacheKey);
+            this.memoryCache.Remove(CacheKeys.ImageServiceCacheKey);
+            this.memoryCache.Remove(CacheKeys.FileServiceCacheKey);
         }
 
         public void UpdateCoverImage(Guid album, Guid image)
@@ -150,6 +175,9 @@
             var albumDb = this.GetById(album);
             albumDb.CoverId = image;
             this.Update(albumDb);
+            this.memoryCache.Remove(CacheKeys.AlbumsServiceCacheKey);
+            this.memoryCache.Remove(CacheKeys.ImageServiceCacheKey);
+            this.memoryCache.Remove(CacheKeys.FileServiceCacheKey);
         }
     }
 }

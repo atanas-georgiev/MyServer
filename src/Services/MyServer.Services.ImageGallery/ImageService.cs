@@ -9,6 +9,7 @@
 
     using Microsoft.AspNetCore.Hosting;
     using Microsoft.EntityFrameworkCore;
+    using Microsoft.Extensions.Caching.Memory;
 
     using MyServer.Common;
     using MyServer.Common.ImageGallery;
@@ -27,18 +28,22 @@
 
         private readonly ILocationService locationService;
 
+        private readonly IMemoryCache memoryCache;
+
         public ImageService(
             IRepository<Image, Guid> images,
             IRepository<Album, Guid> albums,
             ILocationService locationService,
             IFileService fileService,
-            IHostingEnvironment appEnvironment)
+            IHostingEnvironment appEnvironment,
+            IMemoryCache memoryCache)
         {
             this.images = images;
             this.albums = albums;
             this.locationService = locationService;
             this.fileService = fileService;
             this.appEnvironment = appEnvironment;
+            this.memoryCache = memoryCache;
         }
 
         public void Add(Guid albumId, string userId, Stream fileStream, string fileName)
@@ -107,6 +112,9 @@
             }
 
             // GC.Collect();
+            this.memoryCache.Remove(CacheKeys.AlbumsServiceCacheKey);
+            this.memoryCache.Remove(CacheKeys.ImageServiceCacheKey);
+            this.memoryCache.Remove(CacheKeys.FileServiceCacheKey);
         }
 
         public void AddGpsDataToImage(Guid imageId, ImageGpsData gpsData)
@@ -151,25 +159,38 @@
                     imageMagick.Write(highFile);
                 }
             }
-        }
 
-        public IQueryable<Image> GetAll()
-        {
-            var firstImageToBeExcludeGuid = Guid.Parse(Constants.NoCoverId);
-            var data = this.images.All().Where(x => x.IsDeleted == false && x.Id != firstImageToBeExcludeGuid);
-            return data;
+            this.memoryCache.Remove(CacheKeys.AlbumsServiceCacheKey);
+            this.memoryCache.Remove(CacheKeys.ImageServiceCacheKey);
+            this.memoryCache.Remove(CacheKeys.FileServiceCacheKey);
         }
 
         public IQueryable<Image> GetAllReqursive()
         {
-            var firstImageToBeExcludeGuid = Guid.Parse(Constants.NoCoverId);
-            var data =
-                this.images.All()
-                    .Where(x => x.IsDeleted == false && x.Id != firstImageToBeExcludeGuid)
-                    .Include(x => x.Album)
-                    .Include(x => x.Comments)
-                    .Include(x => x.ImageGpsData);
-            return data;
+            IQueryable<Image> result = null;
+
+            if (!this.memoryCache.TryGetValue(CacheKeys.ImageServiceCacheKey, out result))
+            {
+                var firstImageToBeExcludeGuid = Guid.Parse(Constants.NoCoverId);
+
+                // fetch the value from the source
+                result =
+                    this.images.All()
+                        .Where(x => x.IsDeleted == false && x.Id != firstImageToBeExcludeGuid)
+                        .Include(x => x.Album)
+                        .Include(x => x.Comments)
+                        .Include(x => x.ImageGpsData)
+                        .ToList()
+                        .AsQueryable();
+
+                // store in the cache
+                this.memoryCache.Set(
+                    CacheKeys.ImageServiceCacheKey,
+                    result,
+                    new MemoryCacheEntryOptions().SetAbsoluteExpiration(TimeSpan.FromDays(365)));
+            }
+
+            return result;
         }
 
         public Image GetById(Guid id)
@@ -227,6 +248,10 @@
             {
                 this.fileService.RemoveImage(image.AlbumId.Value, image.FileName);
             }
+
+            this.memoryCache.Remove(CacheKeys.AlbumsServiceCacheKey);
+            this.memoryCache.Remove(CacheKeys.ImageServiceCacheKey);
+            this.memoryCache.Remove(CacheKeys.FileServiceCacheKey);
         }
 
         public void Rotate(Guid imageId, MyServerRotateType rotateType)
@@ -259,11 +284,19 @@
                     imageMagick.Write(highFile);
                 }
             }
+
+            this.memoryCache.Remove(CacheKeys.AlbumsServiceCacheKey);
+            this.memoryCache.Remove(CacheKeys.ImageServiceCacheKey);
+            this.memoryCache.Remove(CacheKeys.FileServiceCacheKey);
         }
 
         public void Update(Image image)
         {
             this.images.Update(image);
+
+            this.memoryCache.Remove(CacheKeys.AlbumsServiceCacheKey);
+            this.memoryCache.Remove(CacheKeys.ImageServiceCacheKey);
+            this.memoryCache.Remove(CacheKeys.FileServiceCacheKey);
         }
 
         public void UpdateDateTaken(Guid imageId, DateTime date)
@@ -319,6 +352,10 @@
                 File.Delete(lowFileOld);
                 File.Delete(middleFileOld);
                 File.Delete(highFileOld);
+
+                this.memoryCache.Remove(CacheKeys.AlbumsServiceCacheKey);
+                this.memoryCache.Remove(CacheKeys.ImageServiceCacheKey);
+                this.memoryCache.Remove(CacheKeys.FileServiceCacheKey);
             }
         }
 
