@@ -44,7 +44,6 @@
       "dotnet publish-iis --publish-folder %publish:OutputPath% --framework %publish:FullTargetFramework%"
     ],
     "postcompile": [
-      "Microsoft.NETCore.App",
       "dotnet bump revision"
     ]
   },
