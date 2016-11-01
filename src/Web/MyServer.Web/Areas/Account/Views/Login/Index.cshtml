@@ -7,9 +7,9 @@
 }
 
 <div class="well">
-    <div>
-        <h2>@LocString["Login"]</h2>
-        <h4>@LocString["LoginLocal"]</h4>
+    <div class="text-center">
+        <h1>@LocString["Login"]</h1>
+        <h2>@LocString["LoginLocal"]</h2>
         <hr/>
     </div>
     <div class="row">
@@ -42,7 +42,7 @@
         </div>
         <div class="col-md-4">
             <section>
-                <h4>@LocString["ExternalProvider"]</h4>
+                <h2>@LocString["ExternalProvider"]</h2>
                 @{
                     var loginProviders = SignInManager.GetExternalAuthenticationSchemes().ToList();
                     if (loginProviders.Count == 0)
