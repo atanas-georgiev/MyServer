@@ -105,7 +105,7 @@ namespace MyServer.Web.Resources {
         }
         
         /// <summary>
-        ///    Looks up a localized string similar to The {0} must be between {1} and {2} characters long.
+        ///    Looks up a localized string similar to The {0} must be between {2} and {1} characters long.
         /// </summary>
         public static string ErrorLength {
             get {
@@ -123,7 +123,7 @@ namespace MyServer.Web.Resources {
         }
         
         /// <summary>
-        ///    Looks up a localized string similar to The password and confirmation password do not match..
+        ///    Looks up a localized string similar to The password and confirmation password do not match.
         /// </summary>
         public static string ErrorPasswordNotMatch {
             get {
@@ -132,7 +132,7 @@ namespace MyServer.Web.Resources {
         }
         
         /// <summary>
-        ///    Looks up a localized string similar to The {0} is reqired..
+        ///    Looks up a localized string similar to The {0} is reqired.
         /// </summary>
         public static string ErrorRequired {
             get {
@@ -146,6 +146,24 @@ namespace MyServer.Web.Resources {
         public static string FirstName {
             get {
                 return ResourceManager.GetString("FirstName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to Invalid username/password.
+        /// </summary>
+        public static string InvalidCredentials {
+            get {
+                return ResourceManager.GetString("InvalidCredentials", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to The {0} is not valid email address.
+        /// </summary>
+        public static string InvalidEmail {
+            get {
+                return ResourceManager.GetString("InvalidEmail", resourceCulture);
             }
         }
         
@@ -254,6 +272,15 @@ namespace MyServer.Web.Resources {
         public static string TitleEn {
             get {
                 return ResourceManager.GetString("TitleEn", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to Username already exist.
+        /// </summary>
+        public static string UsernameExist {
+            get {
+                return ResourceManager.GetString("UsernameExist", resourceCulture);
             }
         }
     }

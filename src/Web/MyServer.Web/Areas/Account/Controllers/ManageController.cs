@@ -1,5 +1,8 @@
 namespace MyServer.Web.Areas.Account.Controllers
 {
+    using Kendo.Mvc.Extensions;
+    using System.Linq;
+
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Identity;
     using Microsoft.AspNetCore.Mvc;
@@ -18,8 +21,8 @@ namespace MyServer.Web.Areas.Account.Controllers
             IUserService userService,
             UserManager<User> userManager,
             SignInManager<User> signInManager,
-            MyServerDbContext dbContext)
-            : base(userService, userManager, signInManager, dbContext)
+            MyServerDbContext dbcontext)
+            : base(userService, userManager, signInManager, dbcontext)
         {
         }
 
@@ -38,7 +41,13 @@ namespace MyServer.Web.Areas.Account.Controllers
         [HttpPost]
         public IActionResult Index(AccountManageViewModel model)
         {
-            if (this.ModelState.IsValid)
+            var user = this.UserService.GetAll().FirstOrDefault(x => x.UserName == model.Email);
+
+            if (user != null && user.UserName != this.UserProfile.UserName)
+            {
+                this.ModelState.AddModelError("Email", Startup.SharedLocalizer["UsernameExist"]);
+            }
+            else if (this.ModelState.IsValid)
             {
                 this.UserProfile.UserName = model.Email;
                 this.UserProfile.Email = model.Email;

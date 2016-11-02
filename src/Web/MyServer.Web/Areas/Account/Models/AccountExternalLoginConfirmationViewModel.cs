@@ -8,7 +8,8 @@
     {
         [Required(ErrorMessageResourceName = "ErrorRequired", ErrorMessageResourceType = typeof(Helpers_SharedResource))
         ]
-        [EmailAddress]
+        [EmailAddress(ErrorMessageResourceName = "InvalidEmail",
+             ErrorMessageResourceType = typeof(Helpers_SharedResource))]
         [Display(Name = "Email", ResourceType = typeof(Helpers_SharedResource))]
         public string Email { get; set; }
 

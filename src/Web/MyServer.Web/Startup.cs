@@ -6,6 +6,7 @@
 
     using Microsoft.AspNetCore.Builder;
     using Microsoft.AspNetCore.Hosting;
+    using Microsoft.AspNetCore.Http;
     using Microsoft.AspNetCore.Identity;
     using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
     using Microsoft.AspNetCore.Localization;
@@ -26,7 +27,6 @@
     using MyServer.Web.Migrations;
 
     using Newtonsoft.Json.Serialization;
-    using Microsoft.AspNetCore.Http;
 
     public class Startup
     {
@@ -122,7 +122,7 @@
                     {
                         ClientId = "18361776506-dphsr6a6eamnjcb5b144j5offcn3tndq.apps.googleusercontent.com",
                         ClientSecret = "gul1QEzDbz2-bq3tXi4r8hLI"
-                });
+                    });
 
             // Add external authentication middleware below. To configure them please see http://go.microsoft.com/fwlink/?LinkID=532715
             app.UseSession();

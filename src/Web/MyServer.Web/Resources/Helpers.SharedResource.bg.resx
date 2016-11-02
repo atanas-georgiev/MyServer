@@ -133,10 +133,10 @@
     <value>Е-мейл</value>
   </data>
   <data name="ErrorLength" xml:space="preserve">
-    <value>Полето {0} трябва да е с дължина между {1} и {2} символа.</value>
+    <value>Полето {0} трябва да е с дължина между {2} и {1} символа</value>
   </data>
   <data name="ErrorMinLength" xml:space="preserve">
-    <value>Полето {0} трябва да е с дължина поне {2} символа.</value>
+    <value>Полето {0} трябва да е с дължина поне {2} символа</value>
   </data>
   <data name="ErrorPasswordNotMatch" xml:space="preserve">
     <value>Въведените пароли не съвпадат.</value>
@@ -146,6 +146,12 @@
   </data>
   <data name="FirstName" xml:space="preserve">
     <value>Име</value>
+  </data>
+  <data name="InvalidCredentials" xml:space="preserve">
+    <value>Невалидно потребителско име/парола</value>
+  </data>
+  <data name="InvalidEmail" xml:space="preserve">
+    <value>Полето {0} е невалиден е-мейл адрес</value>
   </data>
   <data name="Item" xml:space="preserve">
     <value>снимка</value>
@@ -182,5 +188,8 @@
   </data>
   <data name="TitleEn" xml:space="preserve">
     <value>Заглавие (анг)</value>
+  </data>
+  <data name="UsernameExist" xml:space="preserve">
+    <value>Потребителското име е заето</value>
   </data>
 </root>

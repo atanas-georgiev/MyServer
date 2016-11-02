@@ -133,19 +133,25 @@
     <value>Email</value>
   </data>
   <data name="ErrorLength" xml:space="preserve">
-    <value>The {0} must be between {1} and {2} characters long</value>
+    <value>The {0} must be between {2} and {1} characters long</value>
   </data>
   <data name="ErrorMinLength" xml:space="preserve">
     <value>The {0} must be at least {2} characters long</value>
   </data>
   <data name="ErrorPasswordNotMatch" xml:space="preserve">
-    <value>The password and confirmation password do not match.</value>
+    <value>The password and confirmation password do not match</value>
   </data>
   <data name="ErrorRequired" xml:space="preserve">
-    <value>The {0} is reqired.</value>
+    <value>The {0} is reqired</value>
   </data>
   <data name="FirstName" xml:space="preserve">
     <value>First Name</value>
+  </data>
+  <data name="InvalidCredentials" xml:space="preserve">
+    <value>Invalid username/password</value>
+  </data>
+  <data name="InvalidEmail" xml:space="preserve">
+    <value>The {0} is not valid email address</value>
   </data>
   <data name="Item" xml:space="preserve">
     <value>item</value>
@@ -182,5 +188,8 @@
   </data>
   <data name="TitleEn" xml:space="preserve">
     <value>Title (en)</value>
+  </data>
+  <data name="UsernameExist" xml:space="preserve">
+    <value>Username already exist</value>
   </data>
 </root>

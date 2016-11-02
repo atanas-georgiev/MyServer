@@ -34,6 +34,7 @@
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         [AllowAnonymous]
         public async Task<ActionResult> Index(AccountRegisterViewModel model)
         {
@@ -59,8 +60,8 @@
                     await this.signInManager.SignInAsync(user, isPersistent: false);
                     return this.RedirectToAction("Index", "Home", new { area = string.Empty });
                 }
-
-                this.AddErrors(result);
+                
+                this.ModelState.AddModelError("Email", Startup.SharedLocalizer["UsernameExist"]);
             }
 
             return this.View(model);

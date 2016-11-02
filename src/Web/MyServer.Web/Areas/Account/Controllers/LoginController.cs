@@ -131,7 +131,7 @@
                     }
                 }
 
-                this.AddErrors(result);
+                this.ModelState.AddModelError("Email", Startup.SharedLocalizer["UsernameExist"]);
             }
 
             this.ViewData["ReturnUrl"] = returnUrl;
@@ -171,7 +171,7 @@
                 return this.RedirectToLocal(returnUrl);
             }
 
-            this.ModelState.AddModelError(string.Empty, "Invalid login attempt.");
+            this.ModelState.AddModelError(string.Empty, Startup.SharedLocalizer["InvalidCredentials"]);
             return this.View(model);
         }
     }
