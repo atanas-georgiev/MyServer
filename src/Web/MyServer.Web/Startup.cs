@@ -121,8 +121,8 @@
                 new GoogleOptions()
                     {
                         ClientId = "18361776506-dphsr6a6eamnjcb5b144j5offcn3tndq.apps.googleusercontent.com",
-                        ClientSecret = "PdTUR7GxKo40AV93WlvpcMQ7"
-                    });
+                        ClientSecret = "gul1QEzDbz2-bq3tXi4r8hLI"
+                });
 
             // Add external authentication middleware below. To configure them please see http://go.microsoft.com/fwlink/?LinkID=532715
             app.UseSession();
