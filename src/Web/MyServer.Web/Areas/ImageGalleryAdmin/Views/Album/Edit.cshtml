@@ -20,6 +20,7 @@
     @Html.Partial("_ImageUpdate", new ImageUpdateViewModel())
 </div>
 <button class="btn select-all">@LocString["SelectAll"]</button>
+
 <div class="well well-mobile" id="image-list-box">
     @Html.Partial("_ImageListPartial", Model)
 </div>
@@ -65,20 +66,46 @@
                         $("#image-edit-box-modal-date").data("kendoDatePicker").value(new Date());
                     }
                 });
+            
+            function worker() {
+                var isStarted = false;
+                var percent = 0;
+                $.ajax({
+                    url: '/ImageGalleryAdmin/Album/GetOperationStatus',
+                    success: function (data) {
+                        // $('.result').html(data);
+                        isStarted = data.isstarted;
+                        percent = data.status;
+                    },
+                    complete: function () {
+                        if (isStarted) {
+                            $(".progress").show();
+                            $(".progress-bar").attr("style", "width: " + percent + "%");
+                        } else {
+                            $(".progress").hide();
+                        }
+
+                        setTimeout(worker, 1000);
+                    }
+                });
+            };
 
             $(".image-edit-box-modal-title-close")
                 .click(function() {
                     $('#image-edit-box-title-modal').modal('toggle');
+                    worker();
                 });
 
             $(".image-edit-box-modal-location-close")
                 .click(function() {
                     $('#image-edit-box-location-modal').modal('toggle');
+                    worker();
                 });
 
             $(".image-edit-box-modal-date-close")
                 .click(function() {
                     $('#image-edit-box-date-modal').modal('toggle');
+                    worker();
                 });
 
             $("#image-edit-box-modal-date").kendoDatePicker();

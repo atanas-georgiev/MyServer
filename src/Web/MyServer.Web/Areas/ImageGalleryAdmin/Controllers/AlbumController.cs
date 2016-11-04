@@ -228,20 +228,40 @@ namespace MyServer.Web.Areas.ImageGalleryAdmin.Controllers
             return this.Content(string.Empty);
         }
 
+        public IActionResult GetOperationStatus()
+        {
+            int persentage = 0;
+            if (length != 0)
+            {
+                persentage = ((counter + 1) * 100) / length;
+            }
+            return this.Json(new { isstarted = started, status = persentage });
+        }
+
+        private static bool started = false;
+
+        private static int length;
+
+        private static int counter;
+
         [HttpPost]
         [ValidateAntiForgeryToken]
         public IActionResult UpdateImageLocation(ImageUpdateViewModel model)
         {
-            if (model != null && !string.IsNullOrEmpty(model.Items))
+            if (!string.IsNullOrEmpty(model?.Items))
             {
                 var ids = model.Items.Split(',');
                 var gpsData = this.locationService.GetGpsData(model.Data).Result;
 
-                foreach (var id in ids)
+                for (var i = 0; i < ids.Length; i++)
                 {
-                    this.imageService.AddGpsDataToImage(Guid.Parse(id), gpsData);
+                    started = true;
+                    length = ids.Length;
+                    counter = i;
+                    this.imageService.AddGpsDataToImage(Guid.Parse(ids[i]), gpsData);
                 }
 
+                started = false;
                 var imageId = Guid.Parse(ids.First());
                 var albumId = this.imageService.GetById(imageId).AlbumId;
                 var album =

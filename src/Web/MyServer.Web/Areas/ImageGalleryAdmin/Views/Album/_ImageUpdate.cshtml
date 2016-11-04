@@ -22,6 +22,9 @@
     <a asp-action="RotateImagesRight" asp-controller="Album" asp-route-area="ImageGalleryAdmin" asp-route-id="" data-ajax="true" data-ajax-method="POST" data-ajax-mode="replace" data-ajax-update="#image-list-box" class="btn image-edit-box-rotate-right-btn" data-ajax-success="ImageListUpdate">
         <i class="fa fa-repeat" aria-hidden="true"></i>
     </a>
+    <div class="progress progress-striped" style="display: none">
+        <div class="progress-bar progress-bar-info" style="width: 20%"></div>
+    </div>
 </div>
 <div class="modal fade" id="image-edit-box-title-modal" role="dialog">
     <div class="modal-dialog">
