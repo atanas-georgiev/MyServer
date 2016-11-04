@@ -13,9 +13,9 @@
 
         void AddGpsDataToImage(Guid imageId, ImageGpsData gpsData);
 
-        IQueryable<Image> GetAllReqursive();
+        IQueryable<Image> GetAllReqursive(bool cache = true);
 
-        Image GetById(Guid id);
+        Image GetById(Guid id, bool cache = true);
 
         string GetRandomImagePath();
 

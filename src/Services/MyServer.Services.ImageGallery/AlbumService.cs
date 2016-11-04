@@ -107,41 +107,54 @@
                 Constants.TempContentFolder);
         }
 
-        public IQueryable<Album> GetAllReqursive()
+        public IQueryable<Album> GetAllReqursive(bool cache = true)
         {
-            IQueryable<Album> result = null;
+            var firstAlbumToExcludeGuid = Guid.Parse(Constants.NoCoverId);
 
-            if (!this.memoryCache.TryGetValue(CacheKeys.AlbumsServiceCacheKey, out result))
+            if (cache)
             {
-                // fetch the value from the source
-                var firstAlbumToExcludeGuid = Guid.Parse(Constants.NoCoverId);
-                result =
-                    this.albums.All()
-                        .Include(x => x.Cover)
-                        .Include(x => x.Images)
-                        .ThenInclude(x => x.ImageGpsData)
-                        .Where(x => x.IsDeleted == false && x.Id != firstAlbumToExcludeGuid)
-                        .ToList()
-                        .AsQueryable();
+                IQueryable<Album> result = null;
 
-                // store in the cache
-                this.memoryCache.Set(
-                    CacheKeys.AlbumsServiceCacheKey,
-                    result,
-                    new MemoryCacheEntryOptions().SetAbsoluteExpiration(TimeSpan.FromDays(365)));
+                if (!this.memoryCache.TryGetValue(CacheKeys.AlbumsServiceCacheKey, out result))
+                {
+                    // fetch the value from the source
+                    result =
+                        this.albums.All()
+                            .Include(x => x.Cover)
+                            .Include(x => x.Images)
+                            .ThenInclude(x => x.ImageGpsData)
+                            .Where(x => x.IsDeleted == false && x.Id != firstAlbumToExcludeGuid)
+                            .ToList()
+                            .AsQueryable();
+
+                    // store in the cache
+                    this.memoryCache.Set(
+                        CacheKeys.AlbumsServiceCacheKey,
+                        result,
+                        new MemoryCacheEntryOptions().SetAbsoluteExpiration(TimeSpan.FromDays(365)));
+                }
+
+                return result;
             }
 
-            return result;
+            return
+                this.albums.All()
+                    .Include(x => x.Cover)
+                    .Include(x => x.Images)
+                    .ThenInclude(x => x.ImageGpsData)
+                    .Where(x => x.IsDeleted == false && x.Id != firstAlbumToExcludeGuid)
+                    .ToList()
+                    .AsQueryable();
         }
 
-        public Album GetById(Guid id)
+        public Album GetById(Guid id, bool cache = true)
         {
-            return this.GetAllReqursive().FirstOrDefault(x => x.Id == id);
+            return this.GetAllReqursive(cache).FirstOrDefault(x => x.Id == id);
         }
 
         public void Remove(Guid id)
         {
-            var album = this.GetById(id);
+            var album = this.GetById(id, false);
 
             if (album != null)
             {
@@ -172,7 +185,7 @@
 
         public void UpdateCoverImage(Guid album, Guid image)
         {
-            var albumDb = this.GetById(album);
+            var albumDb = this.GetById(album, false);
             albumDb.CoverId = image;
             this.Update(albumDb);
             this.memoryCache.Remove(CacheKeys.AlbumsServiceCacheKey);

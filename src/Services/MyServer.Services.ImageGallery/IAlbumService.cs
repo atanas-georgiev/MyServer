@@ -12,9 +12,9 @@
 
         string GenerateZipArchive(Guid id, ImageType type);
 
-        IQueryable<Album> GetAllReqursive();
+        IQueryable<Album> GetAllReqursive(bool cache = true);
 
-        Album GetById(Guid id);
+        Album GetById(Guid id, bool cache = true);
 
         void Remove(Guid id);
 

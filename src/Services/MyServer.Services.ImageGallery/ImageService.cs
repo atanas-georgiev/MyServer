@@ -91,14 +91,13 @@
                 {
                     imageMagick.Resize(Constants.ImageMiddleMaxSize, Constants.ImageMiddleMaxSize);
                     image.MidHeight = imageMagick.Height;
-                    image.MidWidth = imageMagick.Width;                    
+                    image.MidWidth = imageMagick.Width;
                 }
 
                 imageMagick.Write(this.fileService.GetImageFolder(albumId, ImageType.Medium) + image.FileName);
 
                 // add low quality
-                if (imageMagick.Height > Constants.ImageLowMaxSize
-                    || imageMagick.Width > Constants.ImageLowMaxSize)
+                if (imageMagick.Height > Constants.ImageLowMaxSize || imageMagick.Width > Constants.ImageLowMaxSize)
                 {
                     imageMagick.Resize(Constants.ImageLowMaxSize, Constants.ImageLowMaxSize);
                     image.LowHeight = imageMagick.Height;
@@ -175,37 +174,49 @@
             this.memoryCache.Remove(CacheKeys.FileServiceCacheKey);
         }
 
-        public IQueryable<Image> GetAllReqursive()
+        public IQueryable<Image> GetAllReqursive(bool cache = true)
         {
-            IQueryable<Image> result = null;
+            var firstImageToBeExcludeGuid = Guid.Parse(Constants.NoCoverId);
 
-            if (!this.memoryCache.TryGetValue(CacheKeys.ImageServiceCacheKey, out result))
+            if (cache)
             {
-                var firstImageToBeExcludeGuid = Guid.Parse(Constants.NoCoverId);
+                IQueryable<Image> result = null;
 
-                // fetch the value from the source
-                result =
-                    this.images.All()
-                        .Where(x => x.IsDeleted == false && x.Id != firstImageToBeExcludeGuid)
-                        .Include(x => x.Album)
-                        .Include(x => x.Comments)
-                        .Include(x => x.ImageGpsData)
-                        .ToList()
-                        .AsQueryable();
+                if (!this.memoryCache.TryGetValue(CacheKeys.ImageServiceCacheKey, out result))
+                {
+                    // fetch the value from the source
+                    result =
+                        this.images.All()
+                            .Where(x => x.IsDeleted == false && x.Id != firstImageToBeExcludeGuid)
+                            .Include(x => x.Album)
+                            .Include(x => x.Comments)
+                            .Include(x => x.ImageGpsData)
+                            .ToList()
+                            .AsQueryable();
 
-                // store in the cache
-                this.memoryCache.Set(
-                    CacheKeys.ImageServiceCacheKey,
-                    result,
-                    new MemoryCacheEntryOptions().SetAbsoluteExpiration(TimeSpan.FromDays(365)));
+                    // store in the cache
+                    this.memoryCache.Set(
+                        CacheKeys.ImageServiceCacheKey,
+                        result,
+                        new MemoryCacheEntryOptions().SetAbsoluteExpiration(TimeSpan.FromDays(365)));
+                }
+
+                return result;
             }
 
-            return result;
+            return
+                this.images.All()
+                    .Where(x => x.IsDeleted == false && x.Id != firstImageToBeExcludeGuid)
+                    .Include(x => x.Album)
+                    .Include(x => x.Comments)
+                    .Include(x => x.ImageGpsData)
+                    .ToList()
+                    .AsQueryable();
         }
 
-        public Image GetById(Guid id)
+        public Image GetById(Guid id, bool cache = true)
         {
-            return this.GetAllReqursive().FirstOrDefault(x => x.Id == id);
+            return this.GetAllReqursive(cache).FirstOrDefault(x => x.Id == id);
         }
 
         public string GetRandomImagePath()
@@ -243,7 +254,7 @@
 
         public void Remove(Guid id)
         {
-            var image = this.GetById(id);
+            var image = this.GetById(id, false);
 
             if (id == image.Album.CoverId)
             {
@@ -485,8 +496,8 @@
                 try
                 {
                     var val = new Rational<int>(
-                              ((SignedRational) exposure.Value).Numerator,
-                              ((SignedRational) exposure.Value).Denominator);
+                                  ((SignedRational)exposure.Value).Numerator,
+                                  ((SignedRational)exposure.Value).Denominator);
                     inputImage.ExposureBiasStep = val.Numerator != 0 ? val.ToString(CultureInfo.InvariantCulture) : "0";
                 }
                 catch (Exception)
