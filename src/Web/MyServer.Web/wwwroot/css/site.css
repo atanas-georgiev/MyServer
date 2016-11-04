@@ -91,16 +91,18 @@ figure {
 }
 
 .overlay-album h1{
-    font-size: 3em;
+    font-size: 2.2em;
+    font-weight: bold;
     text-transform: capitalize;
     margin: 0;
-    text-shadow: 0px 0px 10px #000, -1px -1px #000, 0px 0px #000;
+    text-shadow: 0px 0px 10px #000, -1px -1px #000, 2px 2px #000;
 }
 
 .overlay-album p{
-    font-size: 1.5em;
+    font-size: 1.3em;
+    font-weight: bold;
     margin: 0;
-    text-shadow: 0px 0px 10px #000, -1px -1px #000, 0px 0px #000;
+    text-shadow: 0px 0px 10px #000, -1px -1px #000, 1px 1px #000;
 }
 
 .overlay-album-link {
@@ -141,10 +143,10 @@ a div.overlay-album-caption, div div.overlay-album-caption {
 }
 
 .overlay-album-title {
-    transform: translateY( calc(-100% - 90px) );
+    transform: translateY( calc(-100% - 200px) );
 }
 .overlay-album-content {
-    transform: translateY( calc(-100% - 65px) );
+    transform: translateY( calc(-100% - 50px) );
 }
 
 .overlay-admin-album-checkbox {
