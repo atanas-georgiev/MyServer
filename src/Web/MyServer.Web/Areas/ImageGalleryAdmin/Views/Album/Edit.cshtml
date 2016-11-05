@@ -73,7 +73,7 @@
                 $.ajax({
                     url: '/ImageGalleryAdmin/Album/GetOperationStatus',
                     success: function (data) {
-                        // $('.result').html(data);
+                        $('.result').html(data);
                         isStarted = data.isstarted;
                         percent = data.status;
                     },

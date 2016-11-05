@@ -83,14 +83,14 @@ $(".image-edit-box-title-btn").click(function () {
     }
 });
 
-$(".image-edit-box-location-btn").click(function () {
-    $(".image-edit-box-modal-ids").attr("value", selectedIds);
-    if (selectedLocations.length === 1) {
-        $(".image-edit-box-modal-location").val(selectedLocations);
-    } else {
-        $(".image-edit-box-modal-location").val("");
-    }
-});
+//$(".image-edit-box-location-btn").click(function () {
+//    $(".image-edit-box-modal-ids").attr("value", selectedIds);
+//    if (selectedLocations.length === 1) {
+//        $(".image-edit-box-modal-location").val(selectedLocations);
+//    } else {
+//        $(".image-edit-box-modal-location").val("");
+//    }
+//});
 
 $(".image-edit-box-date-btn").click(function () {
     $(".image-edit-box-modal-ids").attr("value", selectedIds);

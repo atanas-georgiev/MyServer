@@ -235,7 +235,7 @@ namespace MyServer.Web.Areas.ImageGalleryAdmin.Controllers
             {
                 persentage = ((counter + 1) * 100) / length;
             }
-            return this.Json(new { isstarted = started, status = persentage });
+            return this.Json(new { isstarted = started, status = persentage, err = error });
         }
 
         private static bool started = false;
@@ -244,33 +244,44 @@ namespace MyServer.Web.Areas.ImageGalleryAdmin.Controllers
 
         private static int counter;
 
+        private static bool error = false;
+
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult UpdateImageLocation([FromBody]ImageUpdateViewModel model)
+        public IActionResult UpdateImageLocation(ImageUpdateViewModel model)
         {
-            //if (!string.IsNullOrEmpty(model?.Items))
+            try
             {
-                var ids = model.Items.Split(',');
-                var gpsData = this.locationService.GetGpsData(model.Data).Result;
-
-                for (var i = 0; i < ids.Length; i++)
+                if (model != null)
                 {
-                    started = true;
-                    length = ids.Length;
-                    counter = i;
-                    this.imageService.AddGpsDataToImage(Guid.Parse(ids[i]), gpsData);
+                    var ids = model.Items.Split(',');
+                    var gpsData = this.locationService.GetGpsData(model.Data).Result;
+
+                    for (var i = 0; i < ids.Length; i++)
+                    {
+                        started = true;
+                        length = ids.Length;
+                        counter = i;
+                        this.imageService.AddGpsDataToImage(Guid.Parse(ids[i]), gpsData);
+                    }
+
+                    started = false;
+                    var imageId = Guid.Parse(ids.First());
+                    var albumId = this.imageService.GetById(imageId).AlbumId;
+                    var album =
+                        this.albumService.GetAllReqursive().Where(x => x.Id == albumId).To<AlbumEditViewModel>().First();
+
+                    return this.PartialView("_ImageListPartial", album);
                 }
 
-                started = false;
-                var imageId = Guid.Parse(ids.First());
-                var albumId = this.imageService.GetById(imageId).AlbumId;
-                var album =
-                    this.albumService.GetAllReqursive().Where(x => x.Id == albumId).To<AlbumEditViewModel>().First();
-
-                return this.PartialView("_ImageListPartial", album);
+                error = true;
+                return this.NoContent();
             }
-
-            return this.Content(string.Empty);
+            catch (Exception)
+            {
+                error = true;
+                return this.NoContent();
+            }
         }
 
         [HttpPost]
