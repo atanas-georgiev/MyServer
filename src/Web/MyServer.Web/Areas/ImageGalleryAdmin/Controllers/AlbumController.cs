@@ -246,9 +246,9 @@ namespace MyServer.Web.Areas.ImageGalleryAdmin.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult UpdateImageLocation(ImageUpdateViewModel model)
+        public IActionResult UpdateImageLocation([FromBody]ImageUpdateViewModel model)
         {
-            if (!string.IsNullOrEmpty(model?.Items))
+            //if (!string.IsNullOrEmpty(model?.Items))
             {
                 var ids = model.Items.Split(',');
                 var gpsData = this.locationService.GetGpsData(model.Data).Result;
