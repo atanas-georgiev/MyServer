@@ -21,9 +21,10 @@
 
         public async Task<ImageGpsData> GetGpsData(string location)
         {
-            if (this.gpsDbData.All().Any(x => x.LocationName == location))
+            var gpsData = this.gpsDbData.All().FirstOrDefault(x => x.LocationName == location);
+            if (gpsData != null)
             {
-                return this.gpsDbData.All().First();
+                return gpsData;
             }
 
             var result = new ImageGpsData { Id = Guid.NewGuid(), CreatedOn = DateTime.Now };

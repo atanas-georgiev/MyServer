@@ -16,10 +16,13 @@
     </div>
     @Html.Partial("_AlbumDataPartial", Model)
 </div>
-<div class="well well-mobile" id="image-edit-box" style="display: none">
-    @Html.Partial("_ImageUpdate", new ImageUpdateViewModel())
+
+<div class="container">
+    <div class="well well-mobile" id="image-edit-box" style="display: none">
+        @Html.Partial("_ImageUpdate", new ImageUpdateViewModel())
+    </div>
+    <button class="btn select-all">@LocString["SelectAll"]</button>
 </div>
-<button class="btn select-all">@LocString["SelectAll"]</button>
 
 <div class="well well-mobile" id="image-list-box">
     @Html.Partial("_ImageListPartial", Model)
@@ -28,9 +31,9 @@
 <script>
 
     $(document)
-        .ready(function() {
+        .ready(function () {
             $(".select-all")
-                .click(function() {
+                .click(function () {
                     $(".mygallery img").trigger("click");
 
                 });
@@ -38,7 +41,7 @@
             $("select.image-picker").imagepicker();
 
             $(".image-edit-box-title-btn")
-                .click(function() {
+                .click(function () {
                     $(".image-edit-box-modal-ids").attr("value", selectedIds);
                     if (selectedTitles.length === 1) {
                         $(".image-edit-box-modal-title").val(selectedTitles);
@@ -48,7 +51,7 @@
                 });
 
             $(".image-edit-box-location-btn")
-                .click(function() {
+                .click(function () {
                     $(".image-edit-box-modal-ids").attr("value", selectedIds);
                     if (selectedLocations.length === 1) {
                         $(".image-edit-box-modal-location").val(selectedLocations);
@@ -58,7 +61,7 @@
                 });
 
             $(".image-edit-box-date-btn")
-                .click(function() {
+                .click(function () {
                     $(".image-edit-box-modal-ids").attr("value", selectedIds);
                     if (selectedDates.length === 1) {
                         $("#image-edit-box-modal-date").data("kendoDatePicker").value(new Date(selectedDates[0]));
@@ -66,46 +69,50 @@
                         $("#image-edit-box-modal-date").data("kendoDatePicker").value(new Date());
                     }
                 });
-            
+
             function worker() {
                 var isStarted = false;
                 var percent = 0;
+                var error = false;
                 $.ajax({
                     url: '/ImageGalleryAdmin/Album/GetOperationStatus',
                     success: function (data) {
                         $('.result').html(data);
-                        isStarted = data.isstarted;
+                        isStarted = data.started;
                         percent = data.status;
+                        error = data.error;
                     },
                     complete: function () {
-                        if (isStarted) {
+                        if (error) {
+                            $(".progress").hide();
+                        }
+                        else if (isStarted) {
                             $(".progress").show();
                             $(".progress-bar").attr("style", "width: " + percent + "%");
+                            setTimeout(worker, 1000);
                         } else {
                             $(".progress").hide();
                         }
-
-                        setTimeout(worker, 1000);
                     }
                 });
             };
 
             $(".image-edit-box-modal-title-close")
-                .click(function() {
+                .click(function () {
                     $('#image-edit-box-title-modal').modal('toggle');
-                    worker();
+                    setTimeout(worker, 200);
                 });
 
             $(".image-edit-box-modal-location-close")
-                .click(function() {
+                .click(function () {
                     $('#image-edit-box-location-modal').modal('toggle');
-                    worker();
+                    setTimeout(worker, 200);
                 });
 
             $(".image-edit-box-modal-date-close")
-                .click(function() {
+                .click(function () {
                     $('#image-edit-box-date-modal').modal('toggle');
-                    worker();
+                    setTimeout(worker, 200);
                 });
 
             $("#image-edit-box-modal-date").kendoDatePicker();
@@ -120,7 +127,7 @@
                     captions: true,
                     captionSettings: { animationDuration: 500, visibleOpacity: 0.9, nonVisibleOpacity: 0.4 },
                     border: 0,
-                    thumbnailPath: function(currentPath, width, height) {
+                    thumbnailPath: function (currentPath, width, height) {
                         if (Math.max(width, height) > 300) {
                             return currentPath.replace(/(.*)(_[a-z]+)(\..*)/, "$1Low$2");
                         } else {
@@ -136,12 +143,17 @@
 <style>
     #image-edit-box {
         position: fixed;
-        top: 50px;
-        width: 100%;
+        display: inline-block;
+        top: 60px;
+        left: calc(50% - 250px);
+        width: 500px;
+        background: rgba(0,0,0,1)!important;
         z-index: 100;
     }
 
-    .modal-backdrop { z-index: -1; }
+    .modal-backdrop {
+        z-index: -1;
+    }
 
     .modal {
         position: fixed;

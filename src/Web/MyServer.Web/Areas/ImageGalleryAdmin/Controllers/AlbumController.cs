@@ -21,6 +21,14 @@ namespace MyServer.Web.Areas.ImageGalleryAdmin.Controllers
     [Area("ImageGalleryAdmin")]
     public class AlbumController : BaseController
     {
+        private static int statusDataCurrentIndex;
+
+        private static bool statusDataError = false;
+
+        private static int statusDataLength;
+
+        private static bool statusIsStared = false;
+
         private readonly IAlbumService albumService;
 
         private readonly IFileService fileService;
@@ -36,9 +44,9 @@ namespace MyServer.Web.Areas.ImageGalleryAdmin.Controllers
             IUserService userService,
             UserManager<User> userManager,
             SignInManager<User> signInManager,
-            MyServerDbContext dbContext,
+            MyServerDbContext dbcontext,
             IFileService fileService)
-            : base(userService, userManager, signInManager, dbContext)
+            : base(userService, userManager, signInManager, dbcontext)
         {
             this.albumService = albumService;
             this.locationService = locationService;
@@ -142,6 +150,17 @@ namespace MyServer.Web.Areas.ImageGalleryAdmin.Controllers
             return this.View(result);
         }
 
+        public IActionResult GetOperationStatus()
+        {
+            var percentage = 0;
+            if (statusDataLength != 0)
+            {
+                percentage = ((statusDataCurrentIndex + 1) * 100) / statusDataLength;
+            }
+
+            return this.Json(new { started = statusIsStared, status = percentage, error = statusDataError });
+        }
+
         public IActionResult Index()
         {
             var albums =
@@ -228,43 +247,30 @@ namespace MyServer.Web.Areas.ImageGalleryAdmin.Controllers
             return this.Content(string.Empty);
         }
 
-        public IActionResult GetOperationStatus()
-        {
-            int persentage = 0;
-            if (length != 0)
-            {
-                persentage = ((counter + 1) * 100) / length;
-            }
-            return this.Json(new { isstarted = started, status = persentage, err = error });
-        }
-
-        private static bool started = false;
-
-        private static int length;
-
-        private static int counter;
-
-        private static bool error = false;
-
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public IActionResult UpdateImageLocation(ImageUpdateViewModel model)
         {
             try
             {
                 if (model != null)
                 {
+                    statusIsStared = true;
+                    statusDataError = false;
+                    statusDataLength = 0;
+                    statusDataCurrentIndex = 0;
+
                     var ids = model.Items.Split(',');
                     var gpsData = this.locationService.GetGpsData(model.Data).Result;
 
                     for (var i = 0; i < ids.Length; i++)
                     {
-                        started = true;
-                        length = ids.Length;
-                        counter = i;
+                        statusDataLength = ids.Length;
+                        statusDataCurrentIndex = i;
                         this.imageService.AddGpsDataToImage(Guid.Parse(ids[i]), gpsData);
                     }
 
-                    started = false;
+                    statusIsStared = false;
                     var imageId = Guid.Parse(ids.First());
                     var albumId = this.imageService.GetById(imageId).AlbumId;
                     var album =
@@ -273,12 +279,12 @@ namespace MyServer.Web.Areas.ImageGalleryAdmin.Controllers
                     return this.PartialView("_ImageListPartial", album);
                 }
 
-                error = true;
+                statusDataError = true;
                 return this.NoContent();
             }
             catch (Exception)
             {
-                error = true;
+                statusDataError = true;
                 return this.NoContent();
             }
         }
