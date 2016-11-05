@@ -247,7 +247,6 @@ namespace MyServer.Web.Areas.ImageGalleryAdmin.Controllers
         private static bool error = false;
 
         [HttpPost]
-        [ValidateAntiForgeryToken]
         public IActionResult UpdateImageLocation(ImageUpdateViewModel model)
         {
             try
