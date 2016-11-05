@@ -70,6 +70,12 @@
                     }
                 });
 
+            $(".image-edit-box-submit-button")
+                .click(function () {
+                    $(".image-edit-box-modal-ids").attr("value", selectedIds);
+                    setTimeout(worker, 200);
+                });
+
             function worker() {
                 var isStarted = false;
                 var percent = 0;

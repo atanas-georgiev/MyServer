@@ -114,25 +114,43 @@ namespace MyServer.Web.Areas.ImageGalleryAdmin.Controllers
         }
 
         [HttpPost]
-        public IActionResult DeleteImages(string id)
+        public IActionResult DeleteImages(ImageUpdateViewModel model)
         {
-            if (!string.IsNullOrEmpty(id))
+            try
             {
-                var ids = id.Split(',');
-                var imageId = Guid.Parse(ids.First());
-                var albumId = this.imageService.GetById(imageId).AlbumId;
-
-                foreach (var item in ids)
+                if (model != null)
                 {
-                    this.imageService.Remove(Guid.Parse(item));
+                    statusIsStared = true;
+                    statusDataError = false;
+                    statusDataLength = 0;
+                    statusDataCurrentIndex = 0;
+
+                    var ids = model.Items.Split(',');
+
+                    for (var i = 0; i < ids.Length; i++)
+                    {
+                        statusDataLength = ids.Length;
+                        statusDataCurrentIndex = i;
+                        this.imageService.Remove(Guid.Parse(ids[i]));
+                    }
+
+                    statusIsStared = false;
+                    var imageId = Guid.Parse(ids.First());
+                    var albumId = this.imageService.GetById(imageId).AlbumId;
+                    var album =
+                        this.albumService.GetAllReqursive().Where(x => x.Id == albumId).To<AlbumEditViewModel>().First();
+
+                    return this.PartialView("_ImageListPartial", album);
                 }
 
-                var album =
-                    this.albumService.GetAllReqursive().Where(x => x.Id == albumId).To<AlbumEditViewModel>().First();
-                return this.PartialView("_ImageListPartial", album);
+                statusDataError = true;
+                return this.NoContent();
             }
-
-            return this.Content(string.Empty);
+            catch (Exception)
+            {
+                statusDataError = true;
+                return this.NoContent();
+            }
         }
 
         public IActionResult Edit(string id)
@@ -172,79 +190,141 @@ namespace MyServer.Web.Areas.ImageGalleryAdmin.Controllers
         }
 
         [HttpPost]
-        public IActionResult RotateImagesLeft(string id)
+        public IActionResult RotateImagesLeft(ImageUpdateViewModel model)
         {
-            if (!string.IsNullOrEmpty(id))
+            try
             {
-                var ids = id.Split(',');
-                var imageId = Guid.Parse(ids.First());
-                var albumId = this.imageService.GetById(imageId).AlbumId;
-
-                foreach (var item in ids)
+                if (model != null)
                 {
-                    this.imageService.Rotate(Guid.Parse(item), MyServerRotateType.Left);
+                    statusIsStared = true;
+                    statusDataError = false;
+                    statusDataLength = 0;
+                    statusDataCurrentIndex = 0;
+
+                    var ids = model.Items.Split(',');
+
+                    for (var i = 0; i < ids.Length; i++)
+                    {
+                        statusDataLength = ids.Length;
+                        statusDataCurrentIndex = i;
+                        this.imageService.Rotate(Guid.Parse(ids[i]), MyServerRotateType.Left);
+                    }
+
+                    statusIsStared = false;
+                    var imageId = Guid.Parse(ids.First());
+                    var albumId = this.imageService.GetById(imageId).AlbumId;
+                    var album =
+                        this.albumService.GetAllReqursive().Where(x => x.Id == albumId).To<AlbumEditViewModel>().First();
+
+                    return this.PartialView("_ImageListPartial", album);
                 }
+
+                statusDataError = true;
+                return this.NoContent();
+            }
+            catch (Exception)
+            {
+                statusDataError = true;
+                return this.NoContent();
+            }
+        }
+
+        [HttpPost]
+        public IActionResult RotateImagesRight(ImageUpdateViewModel model)
+        {
+            try
+            {
+                if (model != null)
+                {
+                    statusIsStared = true;
+                    statusDataError = false;
+                    statusDataLength = 0;
+                    statusDataCurrentIndex = 0;
+
+                    var ids = model.Items.Split(',');
+
+                    for (var i = 0; i < ids.Length; i++)
+                    {
+                        statusDataLength = ids.Length;
+                        statusDataCurrentIndex = i;
+                        this.imageService.Rotate(Guid.Parse(ids[i]), MyServerRotateType.Right);
+                    }
+
+                    statusIsStared = false;
+                    var imageId = Guid.Parse(ids.First());
+                    var albumId = this.imageService.GetById(imageId).AlbumId;
+                    var album =
+                        this.albumService.GetAllReqursive().Where(x => x.Id == albumId).To<AlbumEditViewModel>().First();
+
+                    return this.PartialView("_ImageListPartial", album);
+                }
+
+                statusDataError = true;
+                return this.NoContent();
+            }
+            catch (Exception)
+            {
+                statusDataError = true;
+                return this.NoContent();
+            }
+        }
+
+        [HttpPost]
+        public IActionResult UpdateAlbumCover(ImageUpdateViewModel model)
+        {
+            if (model != null)
+            {
+                var albumId = Guid.Parse(this.Request.Cookies["AlbumId"]);
+                var coverId = Guid.Parse(model.Items);
+                this.albumService.UpdateCoverImage(albumId, coverId);
 
                 var album =
                     this.albumService.GetAllReqursive().Where(x => x.Id == albumId).To<AlbumEditViewModel>().First();
+
                 return this.PartialView("_ImageListPartial", album);
             }
 
-            return this.Content(string.Empty);
+            return this.NoContent();
         }
 
         [HttpPost]
-        public IActionResult RotateImagesRight(string id)
-        {
-            if (!string.IsNullOrEmpty(id))
-            {
-                var ids = id.Split(',');
-                var imageId = Guid.Parse(ids.First());
-                var albumId = this.imageService.GetById(imageId).AlbumId;
-
-                foreach (var item in ids)
-                {
-                    this.imageService.Rotate(Guid.Parse(item), MyServerRotateType.Right);
-                }
-
-                var album =
-                    this.albumService.GetAllReqursive().Where(x => x.Id == albumId).To<AlbumEditViewModel>().First();
-                return this.PartialView("_ImageListPartial", album);
-            }
-
-            return this.Content(string.Empty);
-        }
-
-        [HttpPost]
-        public IActionResult UpdateAlbumCover(string id)
-        {
-            var albumId = Guid.Parse(this.Request.Cookies["AlbumId"]);
-            var coverId = Guid.Parse(id);
-
-            this.albumService.UpdateCoverImage(albumId, coverId);
-            return this.Content(string.Empty);
-        }
-
-        [HttpPost]
-        [ValidateAntiForgeryToken]
         public IActionResult UpdateImageDate(ImageUpdateViewModel model)
         {
-            if (!string.IsNullOrEmpty(model?.Items))
+            try
             {
-                var ids = model.Items.Split(',');
-
-                foreach (var id in ids)
+                if (model != null)
                 {
-                    this.imageService.UpdateDateTaken(Guid.Parse(id), DateTime.Parse(model.Data));
+                    statusIsStared = true;
+                    statusDataError = false;
+                    statusDataLength = 0;
+                    statusDataCurrentIndex = 0;
+
+                    var ids = model.Items.Split(',');
+
+                    for (var i = 0; i < ids.Length; i++)
+                    {
+                        statusDataLength = ids.Length;
+                        statusDataCurrentIndex = i;
+                        this.imageService.UpdateDateTaken(Guid.Parse(ids[i]), DateTime.Parse(model.Data));
+                    }
+
+                    statusIsStared = false;
+                    var imageId = Guid.Parse(ids.First());
+                    var albumId = this.imageService.GetById(imageId).AlbumId;
+                    var album =
+                        this.albumService.GetAllReqursive().Where(x => x.Id == albumId).To<AlbumEditViewModel>().First();
+
+                    return this.PartialView("_ImageListPartial", album);
                 }
 
-                var albumId = Guid.Parse(this.Request.Cookies["AlbumId"]);
-                var album =
-                    this.albumService.GetAllReqursive().Where(x => x.Id == albumId).To<AlbumEditViewModel>().First();
-                return this.PartialView("_ImageListPartial", album);
+                statusDataError = true;
+                return this.NoContent();
             }
-
-            return this.Content(string.Empty);
+            catch (Exception)
+            {
+                statusDataError = true;
+                return this.NoContent();
+            }
         }
 
         [HttpPost]
@@ -297,27 +377,46 @@ namespace MyServer.Web.Areas.ImageGalleryAdmin.Controllers
         }
 
         [HttpPost]
-        [ValidateAntiForgeryToken]
         public IActionResult UpdateImageTitle(ImageUpdateViewModel model)
         {
-            if (model != null && !string.IsNullOrEmpty(model.Items))
+            try
             {
-                var ids = model.Items.Split(',');
-
-                foreach (var id in ids)
+                if (model != null)
                 {
-                    var image = this.imageService.GetById(Guid.Parse(id));
-                    image.Title = model.Data;
-                    this.imageService.Update(image);
+                    statusIsStared = true;
+                    statusDataError = false;
+                    statusDataLength = 0;
+                    statusDataCurrentIndex = 0;
+
+                    var ids = model.Items.Split(',');
+
+                    for (var i = 0; i < ids.Length; i++)
+                    {
+                        statusDataLength = ids.Length;
+                        statusDataCurrentIndex = i;
+
+                        var image = this.imageService.GetById(Guid.Parse(ids[i]));
+                        image.Title = model.Data;
+                        this.imageService.Update(image);
+                    }
+
+                    statusIsStared = false;
+                    var imageId = Guid.Parse(ids.First());
+                    var albumId = this.imageService.GetById(imageId).AlbumId;
+                    var album =
+                        this.albumService.GetAllReqursive().Where(x => x.Id == albumId).To<AlbumEditViewModel>().First();
+
+                    return this.PartialView("_ImageListPartial", album);
                 }
 
-                var albumId = Guid.Parse(this.Request.Cookies["AlbumId"]);
-                var album =
-                    this.albumService.GetAllReqursive().Where(x => x.Id == albumId).To<AlbumEditViewModel>().First();
-                return this.PartialView("_ImageListPartial", album);
+                statusDataError = true;
+                return this.NoContent();
             }
-
-            return this.Content(string.Empty);
+            catch (Exception)
+            {
+                statusDataError = true;
+                return this.NoContent();
+            }
         }
     }
 }

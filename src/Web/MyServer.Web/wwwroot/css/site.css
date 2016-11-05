@@ -187,12 +187,6 @@ a div.overlay-album-caption, div div.overlay-album-caption {
     font-size: 2em;
 }
 
-.image-edit-box-title-btn, .image-edit-box-date-btn, .image-edit-box-location-btn, .image-edit-box-cover-btn, .image-edit-box-delete-btn, .image-edit-box-rotate-left-btn, .image-edit-box-rotate-right-btn {
-    font-size: 1.5em;
-    padding: 12px;
-    margin: 0px;
-}
-
 .navbar, .well, .well a:visited, .btn {
    color: #fff!important;
    background: rgba(0, 0, 0, 0.5)!important;
@@ -211,4 +205,21 @@ footer p, footer p a:visited {
 
 .github-frame {
     background: rgba(222, 222, 222, 0.8)!important;
+}
+
+.modal input {
+    color: black;
+    text-shadow: none; 
+}
+
+#image-edit-box form {
+    display: inline-block;
+}
+
+.image-edit-box-title-btn, .image-edit-box-date-btn, .image-edit-box-location-btn, .image-edit-box-delete-btn, .image-edit-box-rotate-left-btn, .image-edit-box-rotate-right-btn, 
+#image-edit-box button {
+    font-size: 1.5em;
+    padding: 12px;
+    margin: 0px;
+    display: inline-block;
 }
