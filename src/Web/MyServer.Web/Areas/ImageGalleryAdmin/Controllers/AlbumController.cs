@@ -183,7 +183,7 @@ namespace MyServer.Web.Areas.ImageGalleryAdmin.Controllers
         {
             var albums =
                 this.albumService.GetAllReqursive()
-                    .OrderByDescending(x => x.Images.OrderBy(d => d.DateTaken).Last().DateTaken)
+                    .OrderByDescending(x => x.Images.OrderBy(d => d.DateTaken).LastOrDefault() != null ? x.Images.OrderBy(d => d.DateTaken).LastOrDefault().DateTaken : null)
                     .To<AlbumListViewModel>()
                     .ToList();
             return this.View(albums);

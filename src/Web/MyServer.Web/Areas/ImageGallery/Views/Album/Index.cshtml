@@ -34,20 +34,13 @@
         .ready(function() {
             $("#mygallery")
                 .justifiedGallery({
-                    rowHeight: 200,
-                    maxRowHeight: 400,
+                    rowHeight: 250,
+                    maxRowHeight: 300,
                     fixedHeight: false,
                     margins: 2,
                     lastRow: 'nojustify',
                     captions: false,
-                    border: 0,
-                    thumbnailPath: function(currentPath, width, height) {
-                        if (Math.max(width, height) > 300) {
-                            return currentPath.replace(/(.*)(_[a-z]+)(\..*)/, "$1Low$2");
-                        } else {
-                            return currentPath.replace(/(.*)(_[a-z]+)(\..*)/, "$1Medium$2");
-                        }
-                    }
+                    border: 0
                 });
         });
 </script>
