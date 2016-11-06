@@ -34,8 +34,10 @@
         .ready(function () {
             $(".select-all")
                 .click(function () {
-                    $(".mygallery img").trigger("click");
-
+                    $(".mygallery img").addClass("selected");
+                    $(".overlay-admin-album-checkbox i").removeClass("fa-square-o");
+                    $(".overlay-admin-album-checkbox i").addClass("fa-check-square-o");
+                    imageDetailsUpdateView();
                 });
 
             $("select.image-picker").imagepicker();

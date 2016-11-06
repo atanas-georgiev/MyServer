@@ -144,6 +144,7 @@
                 using (var imageMagick = new MagickImage(lowFile))
                 {
                     var exif = imageMagick.GetExifProfile() ?? new ExifProfile();
+                    exif.Parts = ExifParts.All; 
                     exif.SetValue(ExifTag.GPSLatitude, ExifDoubleToGps(gpsData.Latitude.Value));
                     exif.SetValue(ExifTag.GPSLongitude, ExifDoubleToGps(gpsData.Longitude.Value));
                     imageMagick.AddProfile(exif, true);
@@ -153,6 +154,7 @@
                 using (var imageMagick = new MagickImage(middleFile))
                 {
                     var exif = imageMagick.GetExifProfile() ?? new ExifProfile();
+                    exif.Parts = ExifParts.All;
                     exif.SetValue(ExifTag.GPSLatitude, ExifDoubleToGps(gpsData.Latitude.Value));
                     exif.SetValue(ExifTag.GPSLongitude, ExifDoubleToGps(gpsData.Longitude.Value));
                     imageMagick.AddProfile(exif, true);
@@ -162,6 +164,7 @@
                 using (var imageMagick = new MagickImage(highFile))
                 {
                     var exif = imageMagick.GetExifProfile() ?? new ExifProfile();
+                    exif.Parts = ExifParts.All;
                     exif.SetValue(ExifTag.GPSLatitude, ExifDoubleToGps(gpsData.Latitude.Value));
                     exif.SetValue(ExifTag.GPSLongitude, ExifDoubleToGps(gpsData.Longitude.Value));
                     imageMagick.AddProfile(exif, true);
