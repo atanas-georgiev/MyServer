@@ -143,7 +143,7 @@
 
                 using (var imageMagick = new MagickImage(lowFile))
                 {
-                    var exif = imageMagick.GetExifProfile();
+                    var exif = imageMagick.GetExifProfile() ?? new ExifProfile();
                     exif.SetValue(ExifTag.GPSLatitude, ExifDoubleToGps(gpsData.Latitude.Value));
                     exif.SetValue(ExifTag.GPSLongitude, ExifDoubleToGps(gpsData.Longitude.Value));
                     imageMagick.AddProfile(exif, true);
@@ -152,7 +152,7 @@
 
                 using (var imageMagick = new MagickImage(middleFile))
                 {
-                    var exif = imageMagick.GetExifProfile();
+                    var exif = imageMagick.GetExifProfile() ?? new ExifProfile();
                     exif.SetValue(ExifTag.GPSLatitude, ExifDoubleToGps(gpsData.Latitude.Value));
                     exif.SetValue(ExifTag.GPSLongitude, ExifDoubleToGps(gpsData.Longitude.Value));
                     imageMagick.AddProfile(exif, true);
@@ -161,7 +161,7 @@
 
                 using (var imageMagick = new MagickImage(highFile))
                 {
-                    var exif = imageMagick.GetExifProfile();
+                    var exif = imageMagick.GetExifProfile() ?? new ExifProfile();
                     exif.SetValue(ExifTag.GPSLatitude, ExifDoubleToGps(gpsData.Latitude.Value));
                     exif.SetValue(ExifTag.GPSLongitude, ExifDoubleToGps(gpsData.Longitude.Value));
                     imageMagick.AddProfile(exif, true);
@@ -180,7 +180,7 @@
 
             if (cache)
             {
-                IQueryable<Image> result = null;
+                IQueryable<Image> result;
 
                 if (!this.memoryCache.TryGetValue(CacheKeys.ImageServiceCacheKey, out result))
                 {
@@ -348,7 +348,7 @@
 
                 using (var imageMagick = new MagickImage(lowFileOld))
                 {
-                    var exif = imageMagick.GetExifProfile();
+                    var exif = imageMagick.GetExifProfile() ?? new ExifProfile();
                     exif.SetValue(ExifTag.DateTimeOriginal, date.ToString(format));
                     imageMagick.AddProfile(exif, true);
                     imageMagick.Write(lowFile);
@@ -356,7 +356,7 @@
 
                 using (var imageMagick = new MagickImage(middleFileOld))
                 {
-                    var exif = imageMagick.GetExifProfile();
+                    var exif = imageMagick.GetExifProfile() ?? new ExifProfile();
                     exif.SetValue(ExifTag.DateTimeOriginal, date.ToString(format));
                     imageMagick.AddProfile(exif, true);
                     imageMagick.Write(middleFile);
@@ -364,7 +364,7 @@
 
                 using (var imageMagick = new MagickImage(highFileOld))
                 {
-                    var exif = imageMagick.GetExifProfile();
+                    var exif = imageMagick.GetExifProfile() ?? new ExifProfile();
                     exif.SetValue(ExifTag.DateTimeOriginal, date.ToString(format));
                     imageMagick.AddProfile(exif, true);
                     imageMagick.Write(highFile);
@@ -424,7 +424,7 @@
         {
             var exif = inputImageMagick.GetExifProfile();
 
-            var dateTimeTaken = exif.Values.FirstOrDefault(x => x.Tag == ExifTag.DateTimeOriginal);
+            var dateTimeTaken = exif?.Values?.FirstOrDefault(x => x.Tag == ExifTag.DateTimeOriginal);
             if (dateTimeTaken != null)
             {
                 var format = "yyyy:MM:dd HH:mm:ss";
@@ -434,8 +434,8 @@
                     CultureInfo.InvariantCulture);
             }
 
-            var gpdLong = exif.Values.FirstOrDefault(x => x.Tag == ExifTag.GPSLongitude);
-            var gpdLat = exif.Values.FirstOrDefault(x => x.Tag == ExifTag.GPSLatitude);
+            var gpdLong = exif?.Values?.FirstOrDefault(x => x.Tag == ExifTag.GPSLongitude);
+            var gpdLat = exif?.Values?.FirstOrDefault(x => x.Tag == ExifTag.GPSLatitude);
             if (gpdLong != null && gpdLat != null)
             {
                 inputImage.ImageGpsData =
@@ -444,31 +444,31 @@
                         ExifGpsToDouble((Rational[])gpdLat.Value)).Result;
             }
 
-            var make = exif.Values.FirstOrDefault(x => x.Tag == ExifTag.Make);
+            var make = exif?.Values?.FirstOrDefault(x => x.Tag == ExifTag.Make);
             if (make != null)
             {
                 inputImage.CameraMaker = make.Value.ToString();
             }
 
-            var model = exif.Values.FirstOrDefault(x => x.Tag == ExifTag.Model);
+            var model = exif?.Values?.FirstOrDefault(x => x.Tag == ExifTag.Model);
             if (model != null)
             {
                 inputImage.CameraModel = model.Value.ToString();
             }
 
-            var iso = exif.Values.FirstOrDefault(x => x.Tag == ExifTag.ISOSpeedRatings);
+            var iso = exif?.Values?.FirstOrDefault(x => x.Tag == ExifTag.ISOSpeedRatings);
             if (iso != null)
             {
                 inputImage.Iso = iso.Value.ToString();
             }
 
-            var shutter = exif.Values.FirstOrDefault(x => x.Tag == ExifTag.ExposureTime);
+            var shutter = exif?.Values?.FirstOrDefault(x => x.Tag == ExifTag.ExposureTime);
             if (shutter != null)
             {
                 inputImage.ShutterSpeed = shutter.Value.ToString();
             }
 
-            var aperture = exif.Values.FirstOrDefault(x => x.Tag == ExifTag.ApertureValue);
+            var aperture = exif?.Values?.FirstOrDefault(x => x.Tag == ExifTag.ApertureValue);
             if (aperture != null)
             {
                 Rational<uint> val = new Rational<uint>(
@@ -478,7 +478,7 @@
                 inputImage.Aperture = string.Format(new CultureInfo("en-US"), "f/{0:#0.0}", fstop);
             }
 
-            var focuslen = exif.Values.FirstOrDefault(x => x.Tag == ExifTag.FocalLength);
+            var focuslen = exif?.Values?.FirstOrDefault(x => x.Tag == ExifTag.FocalLength);
             if (focuslen != null)
             {
                 Rational<uint> val = new Rational<uint>(
@@ -490,7 +490,7 @@
                     Convert.ToDecimal(val, CultureInfo.InvariantCulture));
             }
 
-            var exposure = exif.Values.FirstOrDefault(x => x.Tag == ExifTag.ExposureBiasValue);
+            var exposure = exif?.Values?.FirstOrDefault(x => x.Tag == ExifTag.ExposureBiasValue);
             if (exposure != null)
             {
                 try
@@ -520,7 +520,7 @@
 
             inputImage.FileName += Path.GetExtension(originalFileName);
 
-            var orientation = exif.Values.FirstOrDefault(x => x.Tag == ExifTag.Orientation);
+            var orientation = exif?.Values?.FirstOrDefault(x => x.Tag == ExifTag.Orientation);
 
             if (orientation == null)
             {
