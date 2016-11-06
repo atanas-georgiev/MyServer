@@ -68,7 +68,7 @@ namespace MyServer.Web.Areas.ImageGallery.Controllers
                 albums =
                     this.albumService.GetAllReqursive()
                         .Where(x => x.Access == Common.MyServerAccessType.Public)
-                        .OrderByDescending(x => x.Images.OrderBy(d => d.DateTaken).Last().DateTaken)
+                        .OrderByDescending(x => x.Images.OrderBy(d => d.DateTaken).LastOrDefault() != null ? x.Images.OrderBy(d => d.DateTaken).LastOrDefault().DateTaken : null)
                         .To<AlbumViewModel>()
                         .ToList();
             }
@@ -77,7 +77,7 @@ namespace MyServer.Web.Areas.ImageGallery.Controllers
                 albums =
                     this.albumService.GetAllReqursive()
                         .Where(x => x.Access != Common.MyServerAccessType.Private)
-                        .OrderByDescending(x => x.Images.OrderBy(d => d.DateTaken).Last().DateTaken)
+                        .OrderByDescending(x => x.Images.OrderBy(d => d.DateTaken).LastOrDefault() != null ? x.Images.OrderBy(d => d.DateTaken).LastOrDefault().DateTaken : null)
                         .To<AlbumViewModel>()
                         .ToList();
             }
@@ -85,7 +85,7 @@ namespace MyServer.Web.Areas.ImageGallery.Controllers
             {
                 albums =
                     this.albumService.GetAllReqursive()
-                        .OrderByDescending(x => x.Images.OrderBy(d => d.DateTaken).Last().DateTaken)
+                        .OrderByDescending(x => x.Images.OrderBy(d => d.DateTaken).LastOrDefault() != null ? x.Images.OrderBy(d => d.DateTaken).LastOrDefault().DateTaken : null)
                         .To<AlbumViewModel>()
                         .ToList();
             }
