@@ -10,9 +10,11 @@
     using Microsoft.AspNetCore.Identity;
     using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
     using Microsoft.AspNetCore.Localization;
+    using Microsoft.AspNetCore.Mvc.Razor;
     using Microsoft.EntityFrameworkCore;
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
+    using Microsoft.Extensions.FileProviders;
     using Microsoft.Extensions.Localization;
     using Microsoft.Extensions.Logging;
     using Microsoft.Net.Http.Headers;
@@ -23,10 +25,12 @@
     using MyServer.Services.ImageGallery;
     using MyServer.Services.Mappings;
     using MyServer.Services.Users;
+    using MyServer.ViewComponents.ImageGallery.LatestAddedAlbums.Controllers;
     using MyServer.Web.Helpers;
     using MyServer.Web.Migrations;
 
     using Newtonsoft.Json.Serialization;
+    using System.Collections.Generic;
 
     public class Startup
     {
@@ -141,7 +145,9 @@
             app.UseKendo(env);
 
             var autoMapperConfig = new AutoMapperConfig();
-            autoMapperConfig.Execute(Assembly.GetEntryAssembly());
+            autoMapperConfig.Execute(new List<Assembly> {
+                Assembly.GetEntryAssembly(),
+                typeof(LatestAddedAlbumsViewComponent).GetTypeInfo().Assembly });
         }
 
         // This method gets called by the runtime. Use this method to add services to the container.
@@ -185,6 +191,18 @@
             services.AddKendo();
 
             services.Configure<IISOptions>(options => { });
+
+            var assembly = typeof(LatestAddedAlbumsViewComponent).GetTypeInfo().Assembly;
+            //Create an EmbeddedFileProvider for that assembly
+            var embeddedFileProvider = new EmbeddedFileProvider(
+                assembly,
+                "MyServer.ViewComponents.ImageGallery"
+            );
+
+            services.Configure<RazorViewEngineOptions>(options =>
+            {
+                options.FileProviders.Add(embeddedFileProvider);
+            });
         }
     }
 }

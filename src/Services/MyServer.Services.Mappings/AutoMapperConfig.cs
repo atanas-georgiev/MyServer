@@ -11,12 +11,19 @@
     {
         public static MapperConfiguration Configuration { get; private set; }
 
-        public void Execute(Assembly assembly)
+        public void Execute(IEnumerable<Assembly> assemblies)
         {
+            List<Type> typesAssemblies = new List<Type>();
+
+            foreach (var assembly in assemblies)
+            {
+                typesAssemblies.AddRange(assembly.GetExportedTypes());
+            }
+
             Configuration = new MapperConfiguration(
                                 cfg =>
                                     {
-                                        var types = assembly.GetExportedTypes();
+                                        var types = typesAssemblies.ToArray();
                                         LoadStandardMappings(types, cfg);
                                         LoadCustomMappings(types, cfg);
                                     });

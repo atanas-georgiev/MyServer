@@ -37,6 +37,10 @@ Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "MyServer.Common.ImageGaller
 EndProject
 Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "MyServer.Services.Mappings", "src\Services\MyServer.Services.Mappings\MyServer.Services.Mappings.xproj", "{A0B5B9D0-0CDC-428B-936E-5C9338618763}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Components", "Components", "{4C30AE8E-743C-4528-BC53-1825120C4059}"
+EndProject
+Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "MyServer.ViewComponents.ImageGallery", "src\Components\MyServer.ViewComponents.ImageGallery\MyServer.ViewComponents.ImageGallery.xproj", "{D4FA73B3-6B6A-46E0-97E7-3EF678D7D094}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -79,6 +83,10 @@ Global
 		{A0B5B9D0-0CDC-428B-936E-5C9338618763}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A0B5B9D0-0CDC-428B-936E-5C9338618763}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A0B5B9D0-0CDC-428B-936E-5C9338618763}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D4FA73B3-6B6A-46E0-97E7-3EF678D7D094}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D4FA73B3-6B6A-46E0-97E7-3EF678D7D094}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D4FA73B3-6B6A-46E0-97E7-3EF678D7D094}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D4FA73B3-6B6A-46E0-97E7-3EF678D7D094}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -97,5 +105,7 @@ Global
 		{7C800FD5-864D-45CE-BCC9-82948E272F86} = {31ED47BC-1407-4E99-8443-C3EA5E8DDCDF}
 		{77018F56-B33A-412C-8461-B7969E511236} = {31ED47BC-1407-4E99-8443-C3EA5E8DDCDF}
 		{A0B5B9D0-0CDC-428B-936E-5C9338618763} = {C8B48800-C73F-48A1-8B5F-5B786520D62E}
+		{4C30AE8E-743C-4528-BC53-1825120C4059} = {A261F8DC-2880-4317-B567-F86EDE4C0428}
+		{D4FA73B3-6B6A-46E0-97E7-3EF678D7D094} = {4C30AE8E-743C-4528-BC53-1825120C4059}
 	EndGlobalSection
 EndGlobal

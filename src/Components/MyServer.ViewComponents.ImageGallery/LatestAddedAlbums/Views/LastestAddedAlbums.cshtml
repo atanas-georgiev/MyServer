@@ -1,0 +1,42 @@
+@using System.IO
+@using Microsoft.EntityFrameworkCore.Metadata.Internal
+@model IQueryable<LatestAddedAlbumsViewModel>
+
+@{
+    var LocString = ViewBag.StringLocalizer;
+}
+
+<div class="well well-mobile">
+    <div>
+        <h1 class="text-center">@LocString["LatestAlbums"]</h1>
+        @{
+            <br/>
+            if (Model != null)
+            {
+                <table class="table">
+                    <tr>
+                        <th>@LocString["Name"]</th>
+                        <th>@LocString["AddedOn"]</th>
+                        <th>@LocString["Images"]</th>
+                    </tr>
+                    @foreach (var album in Model.OrderByDescending(x => x.CreatedOn).Take(5))
+                    {
+                        <tr>
+                            <td class="col-md-5">
+                                <a asp-area="ImageGallery" asp-controller="Album" asp-action="Details" asp-route-id="@album.Id">
+                                    @album.Title
+                                </a>
+                            </td>
+                            <td class="col-md-5">@album.CreatedOn.ToString("dd MMMM yyyy")</td>
+                            <td class="col-md-2">@album.ImagesCountCover</td>
+                        </tr>
+                    }
+                </table>
+            }
+
+            <a asp-area="ImageGallery" asp-controller="Album" asp-action="Index">
+                <h2 class="text-center">@LocString["AllAlbums"]</h2>
+            </a>
+        }
+    </div>
+</div>

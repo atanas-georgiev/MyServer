@@ -1,9 +1,13 @@
-@model IQueryable<MyServer.Web.Models.Home.HomeAlbumViewModel>
+@model IQueryable<MyServer.ViewComponents.ImageGallery.LatestAddedAlbums.Models.LatestAddedAlbumsViewModel>
+
+@{
+    var LocString = ViewBag.StringLocalizer;
+}
 
 <div class="well well-mobile">
     <div>
         <h1 class="text-center">@LocString["LatestAlbums"]</h1>
-        @{            
+        @{
             <br/>
             if (Model != null)
             {
