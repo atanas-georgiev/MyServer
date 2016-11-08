@@ -33,31 +33,10 @@
 
         public IActionResult Index()
         {
-            IQueryable<HomeAlbumViewModel> albums = null;
             var albumsCount = this.albumService.GetAllReqursive().Count();
             var imagesCount = this.imageService.GetAllReqursive().Count();
             var allSize = this.fileService.GetImageFolderSize();
 
-            if (!this.User.Identity.IsAuthenticated)
-            {
-                albums =
-                    this.albumService.GetAllReqursive()
-                        .Where(x => x.Access == Common.MyServerAccessType.Public)
-                        .To<HomeAlbumViewModel>();
-            }
-            else if (this.User.IsInRole(Common.MyServerRoles.User.ToString()))
-            {
-                albums =
-                    this.albumService.GetAllReqursive()
-                        .Where(x => x.Access != Common.MyServerAccessType.Private)
-                        .To<HomeAlbumViewModel>();
-            }
-            else if (this.User.IsInRole(Common.MyServerRoles.Admin.ToString()))
-            {
-                albums = this.albumService.GetAllReqursive().To<HomeAlbumViewModel>();
-            }
-
-            this.ViewData["LatestAlbums"] = albums;
             this.ViewData["AlbumsCount"] = albumsCount;
             this.ViewData["ImagesCount"] = imagesCount;
             this.ViewData["AllSize"] = allSize;

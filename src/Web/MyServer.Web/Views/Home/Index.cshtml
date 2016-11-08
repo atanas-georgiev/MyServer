@@ -2,8 +2,8 @@
     ViewData["Title"] = LocString["Title"];
 }
 
-<div class="col-md-9">
-    @await Html.PartialAsync("_LatestAddedAlbums")
+<div class="col-md-9">    
+    @await Component.InvokeAsync("LatestAddedAlbums")
 </div>
 <div class="col-md-3 text-center">
     @await Html.PartialAsync("_Social")

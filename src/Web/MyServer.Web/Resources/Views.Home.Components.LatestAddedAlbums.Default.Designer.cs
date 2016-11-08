@@ -22,13 +22,13 @@ namespace MyServer.Web.Resources {
     // with the /str option, or rebuild your VS project.
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    public class Views_Home__LatestAddedAlbums {
+    public class Views_Home_Components_LatestAddedAlbums_Default {
         
         private static global::System.Resources.ResourceManager resourceMan;
         
         private static global::System.Globalization.CultureInfo resourceCulture;
         
-        internal Views_Home__LatestAddedAlbums() {
+        internal Views_Home_Components_LatestAddedAlbums_Default() {
         }
         
         /// <summary>
@@ -38,7 +38,7 @@ namespace MyServer.Web.Resources {
         public static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("MyServer.Web.Resources.Views.Home._LatestAddedAlbums", typeof(Views_Home__LatestAddedAlbums).GetTypeInfo().Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("MyServer.Web.Resources.Views.Home.Components.LatestAddedAlbums.Default", typeof(Views_Home_Components_LatestAddedAlbums_Default).GetTypeInfo().Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;
