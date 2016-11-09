@@ -87,6 +87,15 @@ namespace MyServer.ViewComponents.ImageGallery.Resources {
         }
         
         /// <summary>
+        ///    Looks up a localized string similar to Create.
+        /// </summary>
+        public static string Create {
+            get {
+                return ResourceManager.GetString("Create", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///    Looks up a localized string similar to gigabytes.
         /// </summary>
         public static string Gigabytes {

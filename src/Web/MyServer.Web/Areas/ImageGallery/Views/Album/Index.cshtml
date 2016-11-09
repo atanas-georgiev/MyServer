@@ -1,8 +1,5 @@
-﻿@using MyServer.Web.Areas.ImageGallery.Models.Album
-@model IEnumerable<MyServer.Web.Areas.ImageGallery.Models.Album.AlbumViewModel>
-
-@{
+﻿@{
     ViewData["Title"] = LocString["Albums"];
 }
 
-@await Component.InvokeAsync("AllAlbums") 
+@await Component.InvokeAsync("AllAlbums", new { ViewDetailsUrl = "Album/Details/" } ) 

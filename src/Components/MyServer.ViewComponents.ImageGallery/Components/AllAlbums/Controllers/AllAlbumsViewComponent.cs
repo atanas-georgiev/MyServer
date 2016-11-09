@@ -23,7 +23,7 @@ namespace MyServer.ViewComponents.ImageGallery.Components.AllAlbums.Controllers
             MappingFunctions.LoadResource(this.localizer);
         }
 
-        public IViewComponentResult Invoke()
+        public IViewComponentResult Invoke(string ViewDetailsUrl, string NewAlbumUrl = null)
         {
             List<AllAlbumsViewModel> albums = new List<AllAlbumsViewModel>();
 
@@ -55,6 +55,9 @@ namespace MyServer.ViewComponents.ImageGallery.Components.AllAlbums.Controllers
             }
 
             this.ViewBag.StringLocalizer = this.localizer;
+            this.ViewBag.ViewDetailsUrl = ViewDetailsUrl;
+            this.ViewBag.NewAlbumUrl = NewAlbumUrl;
+
             return this.View(albums);
         }
     }

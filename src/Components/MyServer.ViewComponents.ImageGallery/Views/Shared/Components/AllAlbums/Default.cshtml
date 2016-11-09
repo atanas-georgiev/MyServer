@@ -8,18 +8,22 @@
 <div class="container well well-main well-mobile">
     <div>
         <h1 class="text-center">@LocString["Albums"]</h1>
-        <hr/>
+        <hr />
     </div>
     <div>
+        @if (User.IsInRole("Admin"))
+        {
+            <a href="@Url.Content(ViewBag.NewAlbumUrl)" class="btn btn-default">@LocString["Create"]</a>
+        }
         <div id="mygallery" class="overlay-album">
             @foreach (var album in Model)
             {
-                <a class="overlay-album-link" href='@Url.Content("Album/Details/" + album.Id)'>
-                    <img class="overlay-album-image" alt="@album.Title" src='@album.CoverImage'/>
+                <a class="overlay-album-link" href='@Url.Content(ViewBag.ViewDetailsUrl + album.Id)'>
+                    <img class="overlay-album-image" alt="@album.Title" src='@album.CoverImage' />
                     <div class="overlay-album-caption">
                         <h1 class="overlay-album-title">@album.Title</h1>
                         <p class="overlay-album-content">
-                            <i class="fa fa-calendar" aria-hidden="true"></i> @album.Date<br/>
+                            <i class="fa fa-calendar" aria-hidden="true"></i> @album.Date<br />
                             <i class="fa fa-file-image-o" aria-hidden="true"></i> @album.ImagesCountCover
                         </p>
                     </div>
@@ -31,7 +35,7 @@
 
 <script>
     $(document)
-        .ready(function() {
+        .ready(function () {
             $("#mygallery")
                 .justifiedGallery({
                     rowHeight: 250,

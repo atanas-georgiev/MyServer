@@ -181,12 +181,7 @@ namespace MyServer.Web.Areas.ImageGalleryAdmin.Controllers
 
         public IActionResult Index()
         {
-            var albums =
-                this.albumService.GetAllReqursive()
-                    .OrderByDescending(x => x.Images.OrderBy(d => d.DateTaken).LastOrDefault() != null ? x.Images.OrderBy(d => d.DateTaken).LastOrDefault().DateTaken : null)
-                    .To<AlbumListViewModel>()
-                    .ToList();
-            return this.View(albums);
+            return this.View();
         }
 
         [HttpPost]

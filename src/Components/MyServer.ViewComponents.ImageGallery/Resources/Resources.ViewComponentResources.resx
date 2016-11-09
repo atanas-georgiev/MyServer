@@ -126,6 +126,9 @@
   <data name="AllAlbums" xml:space="preserve">
     <value>ALL ALBUMS</value>
   </data>
+  <data name="Create" xml:space="preserve">
+    <value>Create</value>
+  </data>
   <data name="Gigabytes" xml:space="preserve">
     <value>gigabytes</value>
   </data>

@@ -127,7 +127,7 @@
     <value>съдържа</value>
   </data>
   <data name="Item" xml:space="preserve">
-    <value>снима</value>
+    <value>снимка</value>
   </data>
   <data name="Items" xml:space="preserve">
     <value>снимки</value>
@@ -152,5 +152,8 @@
   </data>
   <data name="Statistics" xml:space="preserve">
     <value>Статистика</value>
+  </data>
+  <data name="Create" xml:space="preserve">
+    <value>Нов албум</value>
   </data>
 </root>
