@@ -18,18 +18,6 @@
         [Display(Name = "Access", ResourceType = typeof(Helpers_SharedResource))]
         public MyServerAccessType Access { get; set; }
 
-        public SelectList AccessTypes { get; set; } =
-            new SelectList(
-                new List<string>()
-                    {
-                        // Startup.SharedLocalizer["Public"],
-                        // Startup.SharedLocalizer["Registrated"],
-                        // Startup.SharedLocalizer["Private"]
-                        MyServerAccessType.Public.ToString(),
-                        MyServerAccessType.Registrated.ToString(),
-                        MyServerAccessType.Private.ToString()
-                    });
-
         [StringLength(3000, ErrorMessageResourceName = "ErrorLength",
              ErrorMessageResourceType = typeof(Helpers_SharedResource), MinimumLength = 0)]
         [Display(Name = "DescriptionBg", ResourceType = typeof(Helpers_SharedResource))]

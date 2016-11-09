@@ -1,0 +1,30 @@
+﻿@model Enum
+@inject Microsoft.AspNetCore.Mvc.ViewFeatures.IHtmlGenerator htmlGenerator
+
+@{
+    // Display Enum using same names(from [Display] attributes) as in editors
+    string displayName = null;
+    var currentValues = htmlGenerator.GetCurrentValues(ViewContext, ViewData.ModelExplorer, Model.GetType().Name, false);
+    foreach (SelectListItem item in Html.GetEnumSelectList(Model.GetType()))
+    {
+        if (currentValues.Contains(item.Value))
+        {
+            displayName = item.Text ?? item.Value;
+        }
+    }
+
+    // Handle the unexpected case that nothing is selected
+    if (String.IsNullOrEmpty(displayName))
+    {
+        if (Model == null)
+        {
+            displayName = String.Empty;
+        }
+        else
+        {
+            displayName = Model.ToString();
+        }
+    }
+    @Html.DisplayTextFor(model => displayName)
+
+}

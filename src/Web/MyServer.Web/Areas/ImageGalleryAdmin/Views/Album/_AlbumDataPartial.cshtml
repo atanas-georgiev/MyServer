@@ -34,7 +34,7 @@
         <div class="form-group">
             <label asp-for="Access" class="col-md-2 control-label"></label>
             <div class="col-md-10">
-                <select asp-for="Access" asp-items='@Model.AccessTypes' class="form-control"></select>
+                @Html.EditorFor(m => m.Access)
             </div>
         </div>
 

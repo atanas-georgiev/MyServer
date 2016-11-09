@@ -1,0 +1,33 @@
+﻿@using System.ComponentModel.DataAnnotations
+@using System.Reflection
+@model Enum
+
+@{
+
+    Func<object, string> GetDisplayName = o =>
+    {
+        var result = null as string;
+        var display = o.GetType()
+                       .GetTypeInfo()
+                       .GetMember(o.ToString()).First()
+                       .GetCustomAttributes(false)
+                       .OfType<DisplayAttribute>()
+                       .LastOrDefault();
+        if (display != null)
+        {
+            result = display.GetName();
+        }
+
+        return result ?? o.ToString();
+    };
+
+    var values = Enum.GetValues(typeof(MyServer.Common.MyServerAccessType)).Cast<object>()
+                     .Select(v => new SelectListItem
+                     {
+                         Selected = v.Equals(Model),
+                         Text = GetDisplayName(v),
+                         Value = v.ToString()
+                     });
+}
+
+@Html.DropDownList("", values, new { @class = "form-control" })
