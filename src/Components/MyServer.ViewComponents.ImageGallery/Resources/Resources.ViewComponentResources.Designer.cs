@@ -69,6 +69,15 @@ namespace MyServer.ViewComponents.ImageGallery.Resources {
         }
         
         /// <summary>
+        ///    Looks up a localized string similar to albums.
+        /// </summary>
+        public static string Albums {
+            get {
+                return ResourceManager.GetString("Albums", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///    Looks up a localized string similar to ALL ALBUMS.
         /// </summary>
         public static string AllAlbums {
@@ -78,11 +87,29 @@ namespace MyServer.ViewComponents.ImageGallery.Resources {
         }
         
         /// <summary>
-        ///    Looks up a localized string similar to contains.
+        ///    Looks up a localized string similar to gigabytes.
+        /// </summary>
+        public static string Gigabytes {
+            get {
+                return ResourceManager.GetString("Gigabytes", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to images.
         /// </summary>
         public static string Images {
             get {
                 return ResourceManager.GetString("Images", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to contains.
+        /// </summary>
+        public static string ImagesContains {
+            get {
+                return ResourceManager.GetString("ImagesContains", resourceCulture);
             }
         }
         
@@ -128,6 +155,15 @@ namespace MyServer.ViewComponents.ImageGallery.Resources {
         public static string NoItems {
             get {
                 return ResourceManager.GetString("NoItems", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to Statistics.
+        /// </summary>
+        public static string Statistics {
+            get {
+                return ResourceManager.GetString("Statistics", resourceCulture);
             }
         }
     }

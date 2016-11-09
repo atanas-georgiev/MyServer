@@ -13,19 +13,6 @@
 
     public class HomeController : Controller
     {
-        private readonly IAlbumService albumService;
-
-        private readonly IFileService fileService;
-
-        private readonly IImageService imageService;
-
-        public HomeController(IFileService fileService, IAlbumService albumService, IImageService imageService)
-        {
-            this.fileService = fileService;
-            this.albumService = albumService;
-            this.imageService = imageService;
-        }
-
         public IActionResult Error()
         {
             return this.View();
@@ -33,13 +20,6 @@
 
         public IActionResult Index()
         {
-            var albumsCount = this.albumService.GetAllReqursive().Count();
-            var imagesCount = this.imageService.GetAllReqursive().Count();
-            var allSize = this.fileService.GetImageFolderSize();
-
-            this.ViewData["AlbumsCount"] = albumsCount;
-            this.ViewData["ImagesCount"] = imagesCount;
-            this.ViewData["AllSize"] = allSize;
             return this.View();
         }
 

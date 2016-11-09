@@ -21,7 +21,7 @@
         {
             this.albumService = albumService;
             this.localizer = localizer;
-            MappingFunctions.LoadResource(localizer);
+            MappingFunctions.LoadResource(this.localizer);
         }
 
         public IViewComponentResult Invoke(string allImagesRoute)

@@ -123,7 +123,7 @@
   <data name="AllAlbums" xml:space="preserve">
     <value>ВСИЧКИ АЛБУМИ</value>
   </data>
-  <data name="Images" xml:space="preserve">
+  <data name="ImagesContains" xml:space="preserve">
     <value>съдържа</value>
   </data>
   <data name="item" xml:space="preserve">
@@ -140,5 +140,17 @@
   </data>
   <data name="NoItems" xml:space="preserve">
     <value>Няма снимки</value>
+  </data>
+  <data name="Albums" xml:space="preserve">
+    <value>албуми</value>
+  </data>
+  <data name="Gigabytes" xml:space="preserve">
+    <value>гигабайта</value>
+  </data>
+  <data name="Images" xml:space="preserve">
+    <value>снимки</value>
+  </data>
+  <data name="Statistics" xml:space="preserve">
+    <value>Статистика</value>
   </data>
 </root>

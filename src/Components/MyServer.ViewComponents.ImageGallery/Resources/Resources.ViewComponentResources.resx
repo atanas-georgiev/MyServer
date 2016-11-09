@@ -120,10 +120,19 @@
   <data name="AddedOn" xml:space="preserve">
     <value>added on</value>
   </data>
+  <data name="Albums" xml:space="preserve">
+    <value>albums</value>
+  </data>
   <data name="AllAlbums" xml:space="preserve">
     <value>ALL ALBUMS</value>
   </data>
+  <data name="Gigabytes" xml:space="preserve">
+    <value>gigabytes</value>
+  </data>
   <data name="Images" xml:space="preserve">
+    <value>images</value>
+  </data>
+  <data name="ImagesContains" xml:space="preserve">
     <value>contains</value>
   </data>
   <data name="Item" xml:space="preserve">
@@ -140,5 +149,8 @@
   </data>
   <data name="NoItems" xml:space="preserve">
     <value>No items</value>
+  </data>
+  <data name="Statistics" xml:space="preserve">
+    <value>Statistics</value>
   </data>
 </root>

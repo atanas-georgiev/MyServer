@@ -41,6 +41,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Components", "Components", 
 EndProject
 Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "MyServer.ViewComponents.ImageGallery", "src\Components\MyServer.ViewComponents.ImageGallery\MyServer.ViewComponents.ImageGallery.xproj", "{D4FA73B3-6B6A-46E0-97E7-3EF678D7D094}"
 EndProject
+Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "MyServer.ViewComponents.Common", "src\Components\MyServer.ViewComponents.Common\MyServer.ViewComponents.Common.xproj", "{D007C9D6-DD15-4B30-8959-F45C59933239}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -87,6 +89,10 @@ Global
 		{D4FA73B3-6B6A-46E0-97E7-3EF678D7D094}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D4FA73B3-6B6A-46E0-97E7-3EF678D7D094}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D4FA73B3-6B6A-46E0-97E7-3EF678D7D094}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D007C9D6-DD15-4B30-8959-F45C59933239}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D007C9D6-DD15-4B30-8959-F45C59933239}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D007C9D6-DD15-4B30-8959-F45C59933239}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D007C9D6-DD15-4B30-8959-F45C59933239}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -107,5 +113,6 @@ Global
 		{A0B5B9D0-0CDC-428B-936E-5C9338618763} = {C8B48800-C73F-48A1-8B5F-5B786520D62E}
 		{4C30AE8E-743C-4528-BC53-1825120C4059} = {A261F8DC-2880-4317-B567-F86EDE4C0428}
 		{D4FA73B3-6B6A-46E0-97E7-3EF678D7D094} = {4C30AE8E-743C-4528-BC53-1825120C4059}
+		{D007C9D6-DD15-4B30-8959-F45C59933239} = {4C30AE8E-743C-4528-BC53-1825120C4059}
 	EndGlobalSection
 EndGlobal

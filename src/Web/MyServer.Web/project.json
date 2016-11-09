@@ -1,5 +1,5 @@
 {
-  "version": "1.0.0.171",
+  "version": "1.0.0.180",
   "userSecretsId": "aspnet-MyServer-186bb2c4-9782-4c4e-aedb-a6f55e5aa9af",
   "buildOptions": {
     "emitEntryPoint": true,
@@ -107,6 +107,7 @@
     "MyServer.Services.Mappings": "1.0.0-*",
     "MyServer.Services.Users": "1.0.0-*",
     "MyServer.ViewComponents.ImageGallery": "1.0.0-*",
+    "MyServer.ViewComponents.Common": "1.0.0-*",
     "StyleCop.MSBuild": "4.7.54",
     "Microsoft.Extensions.FileProviders.Embedded": "1.1.0-preview1-final"
   },

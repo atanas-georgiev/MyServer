@@ -1,3 +1,7 @@
+@{
+    var LocString = ViewBag.StringLocalizer;
+}
+
 <div class="well well-mobile">
     <div>
         <h1>
@@ -5,13 +9,13 @@
         </h1>
         <hr/>
         <h2>
-            @ViewData["AlbumsCount"] @LocString["Albums"]
+            @ViewBag.AlbumsCount @LocString["Albums"]
         </h2>
         <h2>
-            @ViewData["ImagesCount"] @LocString["Images"]
+            @ViewBag.ImagesCount @LocString["Images"]
         </h2>
         <h2>
-            @ViewData["AllSize"] @LocString["Gigabytes"]
+            @ViewBag.AllSize @LocString["Gigabytes"]
         </h2>
     </div>
 </div>

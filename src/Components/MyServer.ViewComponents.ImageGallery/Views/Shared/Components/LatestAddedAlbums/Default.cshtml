@@ -16,7 +16,7 @@
                     <tr>
                         <th>@LocString["Name"]</th>
                         <th>@LocString["AddedOn"]</th>
-                        <th>@LocString["Images"]</th>
+                        <th>@LocString["ImagesContains"]</th>
                     </tr>
                     @foreach (var album in Model.OrderByDescending(x => x.CreatedOn).Take(5))
                     {
