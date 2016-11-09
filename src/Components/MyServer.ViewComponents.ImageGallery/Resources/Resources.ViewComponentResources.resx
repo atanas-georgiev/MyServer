@@ -126,10 +126,19 @@
   <data name="Images" xml:space="preserve">
     <value>contains</value>
   </data>
+  <data name="Item" xml:space="preserve">
+    <value>item</value>
+  </data>
+  <data name="Items" xml:space="preserve">
+    <value>items</value>
+  </data>
   <data name="LatestAlbums" xml:space="preserve">
     <value>NEW ALBUMS</value>
   </data>
   <data name="Name" xml:space="preserve">
     <value>name</value>
+  </data>
+  <data name="NoItems" xml:space="preserve">
+    <value>No items</value>
   </data>
 </root>

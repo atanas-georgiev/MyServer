@@ -126,10 +126,19 @@
   <data name="Images" xml:space="preserve">
     <value>съдържа</value>
   </data>
+  <data name="item" xml:space="preserve">
+    <value>снима</value>
+  </data>
+  <data name="items" xml:space="preserve">
+    <value>снимки</value>
+  </data>
   <data name="LatestAlbums" xml:space="preserve">
     <value>НОВИ АЛБУМИ</value>
   </data>
   <data name="Name" xml:space="preserve">
     <value>име</value>
+  </data>
+  <data name="NoItems" xml:space="preserve">
+    <value>Няма снимки</value>
   </data>
 </root>

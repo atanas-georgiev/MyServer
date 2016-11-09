@@ -1,4 +1,4 @@
-﻿namespace MyServer.ViewComponents.ImageGallery.LatestAddedAlbums.Controllers
+﻿namespace MyServer.ViewComponents.ImageGallery.Components.LatestAddedAlbums.Controllers
 {
     using System.Linq;
 
@@ -7,8 +7,9 @@
 
     using MyServer.Services.ImageGallery;
     using MyServer.Services.Mappings;
-    using MyServer.ViewComponents.ImageGallery.LatestAddedAlbums.Models;
     using Resources;
+    using Models;
+    using _Common.Models;
 
     public class LatestAddedAlbumsViewComponent : ViewComponent
     {
@@ -20,9 +21,10 @@
         {
             this.albumService = albumService;
             this.localizer = localizer;
+            MappingFunctions.LoadResource(localizer);
         }
 
-        public IViewComponentResult Invoke()
+        public IViewComponentResult Invoke(string allImagesRoute)
         {
             IQueryable<LatestAddedAlbumsViewModel> albums = null;
 
@@ -43,10 +45,12 @@
             else if (this.User.IsInRole(Common.MyServerRoles.Admin.ToString()))
             {
                 albums = this.albumService.GetAllReqursive().To<LatestAddedAlbumsViewModel>();
-            }
+            }            
 
             this.ViewBag.StringLocalizer = this.localizer;
-            return this.View("LastestAddedAlbums", albums);
+            this.ViewBag.AllImagesRoute = allImagesRoute;
+
+            return this.View(albums);
         }
     }
 }

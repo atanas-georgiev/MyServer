@@ -1,4 +1,5 @@
-@model IQueryable<MyServer.ViewComponents.ImageGallery.LatestAddedAlbums.Models.LatestAddedAlbumsViewModel>
+@using MyServer.ViewComponents.ImageGallery.Components.LatestAddedAlbums.Models
+@model IQueryable<LatestAddedAlbumsViewModel>
 
 @{
     var LocString = ViewBag.StringLocalizer;
@@ -32,7 +33,7 @@
                 </table>
             }
 
-            <a asp-area="ImageGallery" asp-controller="Album" asp-action="Index">
+            <a href="@ViewBag.AllImagesRoute">
                 <h2 class="text-center">@LocString["AllAlbums"]</h2>
             </a>
         }

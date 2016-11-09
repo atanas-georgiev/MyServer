@@ -87,6 +87,24 @@ namespace MyServer.ViewComponents.ImageGallery.Resources {
         }
         
         /// <summary>
+        ///    Looks up a localized string similar to item.
+        /// </summary>
+        public static string Item {
+            get {
+                return ResourceManager.GetString("Item", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to items.
+        /// </summary>
+        public static string Items {
+            get {
+                return ResourceManager.GetString("Items", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///    Looks up a localized string similar to NEW ALBUMS.
         /// </summary>
         public static string LatestAlbums {
@@ -101,6 +119,15 @@ namespace MyServer.ViewComponents.ImageGallery.Resources {
         public static string Name {
             get {
                 return ResourceManager.GetString("Name", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to No items.
+        /// </summary>
+        public static string NoItems {
+            get {
+                return ResourceManager.GetString("NoItems", resourceCulture);
             }
         }
     }

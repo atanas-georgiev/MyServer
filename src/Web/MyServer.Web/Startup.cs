@@ -25,12 +25,13 @@
     using MyServer.Services.ImageGallery;
     using MyServer.Services.Mappings;
     using MyServer.Services.Users;
-    using MyServer.ViewComponents.ImageGallery.LatestAddedAlbums.Controllers;
+    using MyServer.ViewComponents.ImageGallery.Components.LatestAddedAlbums.Controllers;
     using MyServer.Web.Helpers;
     using MyServer.Web.Migrations;
 
     using Newtonsoft.Json.Serialization;
     using System.Collections.Generic;
+    using ViewComponents.ImageGallery.Resources;
 
     public class Startup
     {
@@ -147,7 +148,7 @@
             var autoMapperConfig = new AutoMapperConfig();
             autoMapperConfig.Execute(new List<Assembly> {
                 Assembly.GetEntryAssembly(),
-                typeof(LatestAddedAlbumsViewComponent).GetTypeInfo().Assembly });
+                typeof(LatestAddedAlbumsViewComponent).GetTypeInfo().Assembly });            
         }
 
         // This method gets called by the runtime. Use this method to add services to the container.
@@ -163,11 +164,11 @@
             services.Add(ServiceDescriptor.Scoped(typeof(IRepository<,>), typeof(Repository<,>)));
             services.Add(ServiceDescriptor.Scoped(typeof(IRepository<>), typeof(Repository<>)));
             services.AddScoped<IUserService, UserService>();
-            services.AddScoped<IFileService, FileService>();
+            services.AddScoped<IFileService, FileService>();                                                                                                                                                                                                
             services.AddScoped<IAlbumService, AlbumService>();
             services.AddScoped<IImageService, ImageService>();
             services.AddScoped<ILocationService, LocationService>();
-
+            
             services.AddIdentity<User, IdentityRole>(
                 o =>
                     {

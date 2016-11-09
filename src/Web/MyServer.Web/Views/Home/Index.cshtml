@@ -3,7 +3,7 @@
 }
 
 <div class="col-md-9">    
-    @await Component.InvokeAsync("LatestAddedAlbums")
+    @await Component.InvokeAsync("LatestAddedAlbums", new { AllImagesRoute = "/ImageGallery/Album" })
 </div>
 <div class="col-md-3 text-center">
     @await Html.PartialAsync("_Social")

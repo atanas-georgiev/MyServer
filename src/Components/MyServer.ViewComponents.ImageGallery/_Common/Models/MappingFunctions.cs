@@ -8,13 +8,35 @@
 
     using MyServer.Common.ImageGallery;
     using MyServer.Data.Models;
+    using Microsoft.Extensions.Localization;
+    using Resources;
 
     public static class MappingFunctions
     {
+        public static IStringLocalizer<ViewComponentResources> SharedLocalizer { get; set; }
+        
+        public static void LoadResource(IStringLocalizer<ViewComponentResources> localizerParam)
+        {
+            SharedLocalizer = localizerParam;
+        }
+
         public static string MapCoverImage(Album source)
         {
             return Constants.MainContentFolder + "/" + source.Cover.AlbumId + "/" + Constants.ImageFolderLow + "/"
                    + source.Cover.FileName;
+        }
+
+        public static string MapImagesCountCover(Album source)
+        {
+            switch (source.Images.Count)
+            {
+                case 0:
+                    return SharedLocalizer["NoItems"];
+                case 1:
+                    return "1 " + SharedLocalizer["Item"];
+                default:
+                    return source.Images.Count + " " + SharedLocalizer["Items"];
+            }
         }
 
         public static string MapDate(Album source)
