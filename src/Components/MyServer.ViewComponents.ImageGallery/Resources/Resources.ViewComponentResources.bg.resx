@@ -126,10 +126,10 @@
   <data name="ImagesContains" xml:space="preserve">
     <value>съдържа</value>
   </data>
-  <data name="item" xml:space="preserve">
+  <data name="Item" xml:space="preserve">
     <value>снима</value>
   </data>
-  <data name="items" xml:space="preserve">
+  <data name="Items" xml:space="preserve">
     <value>снимки</value>
   </data>
   <data name="LatestAlbums" xml:space="preserve">

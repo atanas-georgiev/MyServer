@@ -61,36 +61,7 @@ namespace MyServer.Web.Areas.ImageGallery.Controllers
 
         public IActionResult Index()
         {
-            List<AlbumViewModel> albums = new List<AlbumViewModel>();
-
-            if (!this.User.Identity.IsAuthenticated)
-            {
-                albums =
-                    this.albumService.GetAllReqursive()
-                        .Where(x => x.Access == Common.MyServerAccessType.Public)
-                        .OrderByDescending(x => x.Images.OrderBy(d => d.DateTaken).LastOrDefault() != null ? x.Images.OrderBy(d => d.DateTaken).LastOrDefault().DateTaken : null)
-                        .To<AlbumViewModel>()
-                        .ToList();
-            }
-            else if (this.User.IsInRole(Common.MyServerRoles.User.ToString()))
-            {
-                albums =
-                    this.albumService.GetAllReqursive()
-                        .Where(x => x.Access != Common.MyServerAccessType.Private)
-                        .OrderByDescending(x => x.Images.OrderBy(d => d.DateTaken).LastOrDefault() != null ? x.Images.OrderBy(d => d.DateTaken).LastOrDefault().DateTaken : null)
-                        .To<AlbumViewModel>()
-                        .ToList();
-            }
-            else if (this.User.IsInRole(Common.MyServerRoles.Admin.ToString()))
-            {
-                albums =
-                    this.albumService.GetAllReqursive()
-                        .OrderByDescending(x => x.Images.OrderBy(d => d.DateTaken).LastOrDefault() != null ? x.Images.OrderBy(d => d.DateTaken).LastOrDefault().DateTaken : null)
-                        .To<AlbumViewModel>()
-                        .ToList();
-            }
-
-            return this.View(albums);
+            return this.View();
         }
     }
 }
