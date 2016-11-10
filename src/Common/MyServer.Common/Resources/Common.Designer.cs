@@ -85,5 +85,23 @@ namespace MyServer.Common.Resources {
                 return ResourceManager.GetString("Registrated", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to Album Added.
+        /// </summary>
+        public static string SortLatestAdded {
+            get {
+                return ResourceManager.GetString("SortLatestAdded", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to Album Date.
+        /// </summary>
+        public static string SortLatestDate {
+            get {
+                return ResourceManager.GetString("SortLatestDate", resourceCulture);
+            }
+        }
     }
 }

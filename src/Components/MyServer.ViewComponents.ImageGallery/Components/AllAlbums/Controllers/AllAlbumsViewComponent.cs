@@ -1,10 +1,12 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Localization;
+using MyServer.Data.Models;
 using MyServer.Services.ImageGallery;
 using MyServer.Services.Mappings;
 using MyServer.ViewComponents.ImageGallery._Common.Models;
 using MyServer.ViewComponents.ImageGallery.Components.AllAlbums.Models;
 using MyServer.ViewComponents.ImageGallery.Resources;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -23,42 +25,50 @@ namespace MyServer.ViewComponents.ImageGallery.Components.AllAlbums.Controllers
             MappingFunctions.LoadResource(this.localizer);
         }
 
-        public IViewComponentResult Invoke(string ViewDetailsUrl, string NewAlbumUrl = null)
+        public IViewComponentResult Invoke(string ViewDetailsUrl, string NewAlbumUrl = null, string Filter = null)
         {
-            List<AllAlbumsViewModel> albums = new List<AllAlbumsViewModel>();
+            var albums = this.albumService.GetAllReqursive();
 
             if (!this.User.Identity.IsAuthenticated)
             {
-                albums =
-                    this.albumService.GetAllReqursive()
+                albums = albums
                         .Where(x => x.Access == Common.MyServerAccessType.Public)
-                        .OrderByDescending(x => x.Images.OrderBy(d => d.DateTaken).LastOrDefault() != null ? x.Images.OrderBy(d => d.DateTaken).LastOrDefault().DateTaken : null)
-                        .To<AllAlbumsViewModel>()
-                        .ToList();
+                        .OrderByDescending(x => x.Images.OrderBy(d => d.DateTaken).LastOrDefault() != null ? x.Images.OrderBy(d => d.DateTaken).LastOrDefault().DateTaken : null);
             }
             else if (this.User.IsInRole(Common.MyServerRoles.User.ToString()))
             {
-                albums =
-                    this.albumService.GetAllReqursive()
+                albums = albums
                         .Where(x => x.Access != Common.MyServerAccessType.Private)
-                        .OrderByDescending(x => x.Images.OrderBy(d => d.DateTaken).LastOrDefault() != null ? x.Images.OrderBy(d => d.DateTaken).LastOrDefault().DateTaken : null)
-                        .To<AllAlbumsViewModel>()
-                        .ToList();
+                        .OrderByDescending(x => x.Images.OrderBy(d => d.DateTaken).LastOrDefault() != null ? x.Images.OrderBy(d => d.DateTaken).LastOrDefault().DateTaken : null);
             }
             else if (this.User.IsInRole(Common.MyServerRoles.Admin.ToString()))
             {
-                albums =
-                    this.albumService.GetAllReqursive()
-                        .OrderByDescending(x => x.Images.OrderBy(d => d.DateTaken).LastOrDefault() != null ? x.Images.OrderBy(d => d.DateTaken).LastOrDefault().DateTaken : null)
-                        .To<AllAlbumsViewModel>()
-                        .ToList();
+                albums = albums
+                        .OrderByDescending(x => x.Images.OrderBy(d => d.DateTaken).LastOrDefault() != null ? x.Images.OrderBy(d => d.DateTaken).LastOrDefault().DateTaken : null);
+            }
+
+            if (!string.IsNullOrEmpty(Filter))
+            {
+                Filter = Filter.ToLower();
+                albums = albums.Where(x => (x.TitleBg != null && x.TitleBg.ToLower().Contains(Filter))
+                                        || (x.TitleEn != null && x.TitleEn.ToLower().Contains(Filter))
+                                        || (x.DescriptionBg != null && x.DescriptionBg.ToLower().Contains(Filter))
+                                        || (x.DescriptionEn != null && x.DescriptionEn.ToLower().Contains(Filter)));
             }
 
             this.ViewBag.StringLocalizer = this.localizer;
             this.ViewBag.ViewDetailsUrl = ViewDetailsUrl;
             this.ViewBag.NewAlbumUrl = NewAlbumUrl;
 
-            return this.View(albums);
+            try
+            {
+                return this.View(albums?.To<AllAlbumsViewModel>()?.ToList());
+            }
+            catch (NullReferenceException)
+            {
+                return View(new List<AllAlbumsViewModel>());
+            }
+            
         }
     }
 }

@@ -1,7 +1,7 @@
-﻿using System.ComponentModel.DataAnnotations;
-
-namespace MyServer.Common
+﻿namespace MyServer.Common
 {
+    using System.ComponentModel.DataAnnotations;
+
     public enum MyServerAccessType
     {
         [Display(Name = "Public", ResourceType = typeof(MyServer.Common.Resources.Common))]

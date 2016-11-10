@@ -126,4 +126,10 @@
   <data name="Registrated" xml:space="preserve">
     <value>Registrated</value>
   </data>
+  <data name="SortLatestAdded" xml:space="preserve">
+    <value>Album Added</value>
+  </data>
+  <data name="SortLatestDate" xml:space="preserve">
+    <value>Album Date</value>
+  </data>
 </root>

@@ -1,5 +1,17 @@
-﻿@{
+﻿@model MyServer.Web.Areas.ImageGallery.Models.Album.SortFilterAlbumViewModel
+@{
     ViewData["Title"] = LocString["Albums"];
 }
 
-@await Component.InvokeAsync("AllAlbums", new { ViewDetailsUrl = "Album/Details/" } ) 
+<div class="well well-mobile">
+    <div>
+        <h2 class="text-center">aaaaaaaa</h2>
+        <hr />
+    </div>
+    @Html.Partial("_SortFilterPartial", Model)
+</div>
+
+<div id="image-container">
+    @await Component.InvokeAsync("AllAlbums", new { ViewDetailsUrl = "Album/Details/" })
+</div>
+    

@@ -126,4 +126,10 @@
   <data name="Registrated" xml:space="preserve">
     <value>Потребители</value>
   </data>
+  <data name="SortLatestAdded" xml:space="preserve">
+    <value>Добавени</value>
+  </data>
+  <data name="SortLatestDate" xml:space="preserve">
+    <value>Дата на албум</value>
+  </data>
 </root>

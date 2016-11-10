@@ -16,6 +16,7 @@
     public class AlbumEditViewModel : IMapFrom<Album>
     {
         [Display(Name = "Access", ResourceType = typeof(Helpers_SharedResource))]
+        [UIHint("EnumAccess")]
         public MyServerAccessType Access { get; set; }
 
         [StringLength(3000, ErrorMessageResourceName = "ErrorLength",

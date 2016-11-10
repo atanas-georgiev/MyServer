@@ -1,0 +1,68 @@
+@using MyServer.Web.Areas.ImageGallery.Controllers
+@model MyServer.Web.Areas.ImageGallery.Models.Album.SortFilterAlbumViewModel
+
+<form asp-action="@nameof(AlbumController.SortFilter)" data-ajax="true" data-ajax-method="POST" data-ajax-mode="replace" data-ajax-update="#image-container">
+    <div class="form-horizontal">
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <div class="form-group">
+            <label asp-for="SearchString" class="col-md-2 control-label"></label>
+            <div class="col-md-4">
+                <input asp-for="SearchString" class="form-control"/>
+                <span asp-validation-for="SearchString" class="text-danger" />
+            </div>
+            <label asp-for="IsAscending" class="col-md-2 control-label"></label>
+            <div class="col-md-4">
+                <input asp-for="IsAscending" class="form-control"/>
+                <span asp-validation-for="IsAscending" class="text-danger" />
+            </div>
+        </div>
+        <div class="form-group">
+            <label asp-for="SortType" class="col-md-2 control-label"></label>
+            <div class="col-md-10">
+                @Html.EditorFor(m => m.SortType)
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="@LocString["Save"]" class="btn btn-default"/>
+            </div>
+        </div>
+    </div>
+</form>
+
+<div class="modal fade" id="confirm-delete" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                @LocString["DeleteAlbum"]
+            </div>
+            <div class="modal-body text-center">
+                <a class="btn btn-danger btn-ok">@LocString["Delete"]</a>
+                <button type="button" class="btn btn-default" data-dismiss="modal">@LocString["Cancel"]</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    $('#confirm-delete')
+        .on('show.bs.modal',
+            function(e) {
+                $(this).find('.btn-ok').attr('href', $(e.relatedTarget).data('href'));
+            });
+
+    function onComplete(e) {
+        $.ajax({
+            url: '/ImageGalleryAdmin/Album/UpdateImages',
+            error: function() {
+                //  $('#info').html('<p>An error has occurred</p>');
+            },
+            success: function(data) {
+                $("#image-list-box").html(data);
+                ImageListUpdate();
+            },
+            type: 'POST'
+        });
+    }
+</script>

@@ -63,5 +63,11 @@ namespace MyServer.Web.Areas.ImageGallery.Controllers
         {
             return this.View();
         }
+
+        [HttpPost]
+        public IActionResult SortFilter(SortFilterAlbumViewModel model)
+        {
+            return this.ViewComponent("AllAlbums", new { ViewDetailsUrl = "Album/Details/", Filter = model.SearchString });
+        }
     }
 }
