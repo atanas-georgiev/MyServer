@@ -1,34 +1,18 @@
 @using MyServer.Web.Areas.ImageGallery.Controllers
 @model MyServer.Web.Areas.ImageGallery.Models.Album.SortFilterAlbumViewModel
 
-<form asp-action="@nameof(AlbumController.SortFilter)" data-ajax="true" data-ajax-method="POST" data-ajax-mode="replace" data-ajax-update="#image-container">
-    <div class="form-horizontal">
-        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-        <div class="form-group">
-            <label asp-for="SearchString" class="col-md-2 control-label"></label>
-            <div class="col-md-4">
-                <input asp-for="SearchString" class="form-control"/>
-                <span asp-validation-for="SearchString" class="text-danger" />
-            </div>
-            <label asp-for="IsAscending" class="col-md-2 control-label"></label>
-            <div class="col-md-4">
-                <input asp-for="IsAscending" class="form-control"/>
-                <span asp-validation-for="IsAscending" class="text-danger" />
-            </div>
+<form asp-action="@nameof(AlbumController.SortFilter)" data-ajax="true" data-ajax-method="POST" data-ajax-mode="replace" data-ajax-update="#image-container">       
+    <div class="row">
+        <label asp-for="SearchString" class="col-sm-1 control-label"></label>
+        <div class="col-sm-3">
+            <input asp-for="SearchString" class="form-control" />            
         </div>
-        <div class="form-group">
-            <label asp-for="SortType" class="col-md-2 control-label"></label>
-            <div class="col-md-10">
-                @Html.EditorFor(m => m.SortType)
-            </div>
-        </div>
-
-        <div class="form-group">
-            <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="@LocString["Save"]" class="btn btn-default"/>
-            </div>
+        <label asp-for="SortType" class="col-sm-1 control-label"></label>
+        <div class="col-sm-3">
+            @Html.EditorFor(m => m.SortType)
         </div>
     </div>
+    <input type="submit" value="@LocString["Save"]" class="btn btn-default" style="display:none" id="submit-button"/>            
 </form>
 
 <div class="modal fade" id="confirm-delete" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
@@ -46,6 +30,13 @@
 </div>
 
 <script>
+    $(document).ready(function () {
+        $('#SearchString').on('input', function (e) {
+            $('#submit-button').click();
+        });
+    });
+
+
     $('#confirm-delete')
         .on('show.bs.modal',
             function(e) {
