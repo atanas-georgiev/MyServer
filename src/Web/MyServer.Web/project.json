@@ -1,5 +1,5 @@
 {
-  "version": "1.0.0.227",
+  "version": "1.0.0.237",
   "userSecretsId": "aspnet-MyServer-186bb2c4-9782-4c4e-aedb-a6f55e5aa9af",
   "buildOptions": {
     "emitEntryPoint": true,
@@ -110,7 +110,8 @@
     "MyServer.ViewComponents.ImageGallery": "1.0.0-*",
     "MyServer.ViewComponents.Common": "1.0.0-*",
     "StyleCop.MSBuild": "4.7.54",
-    "Microsoft.Extensions.FileProviders.Embedded": "1.1.0-preview1-final"
+    "Microsoft.Extensions.FileProviders.Embedded": "1.1.0-preview1-final",
+    "SimpleMvcSitemap": "3.0.0"
   },
   "commands": {
     "web": "Microsoft.AspNet.Server.Kestrel --server.urls http://*:5000"
