@@ -3,7 +3,22 @@
 <head>
     <meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    <title>@ViewData["Title"]</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta name="robots" content="index, follow">
+    <link rel=”author” href=”https://plus.google.com/115663164281585493249” />
+
+    @if (System.Globalization.CultureInfo.CurrentCulture.ToString() == "bg-BG")
+    {
+        <title>Атанас Георгиев - @ViewData["Title"]</title>
+        <link rel="alternate" hreflang="en" href="http://atanas.it/?culture=en-US" />
+        <meta name="description" content="Личен портал на Атанас Георгиев. Съдържа информация за контакт, албуми, снимки, видеа и връзки към някои мои проекти." />
+    }
+    else
+    {
+        <title>Atanas Georgiev - @ViewData["Title"]</title>
+        <link rel="alternate" hreflang="bg" href="http://atanas.it/?culture=bg-BG" />
+        <meta name="description" content="Atanas Georgiev's personal portal. Contains contact information, albums, photos, videos and some of my works." />
+    }
 
     <environment names="Development">
         <link href="~/css/font-awesome.css" rel="stylesheet"/>

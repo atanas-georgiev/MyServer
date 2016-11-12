@@ -60,7 +60,7 @@ namespace MyServer.Web.Resources {
         }
         
         /// <summary>
-        ///    Looks up a localized string similar to Atanas Georgiev.
+        ///    Looks up a localized string similar to Personal Portal.
         /// </summary>
         public static string Title {
             get {
