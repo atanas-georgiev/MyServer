@@ -17,8 +17,6 @@
         [UIHint("EnumSort")]
         public MyServerSortType SortType { get; set; }
         
-        public string SearchString { get; set; }
-
-        public bool IsAscending { get; set; }
+        public string SearchString { get; set; }        
     }
 }

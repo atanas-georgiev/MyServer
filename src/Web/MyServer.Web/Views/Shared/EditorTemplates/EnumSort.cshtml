@@ -25,9 +25,9 @@
                      .Select(v => new SelectListItem
                      {
                          Selected = v.Equals(Model),
-                         Text = GetDisplayName(v),
+                         Text = Html.Raw(GetDisplayName(v)).ToString(),
                          Value = v.ToString()
                      });
 }
 
-@Html.DropDownList("", values, new { @class = "form-control" })
+@Html.DropDownList("", values, new { @class = "form-control col-sm-4" })
