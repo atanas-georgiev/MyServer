@@ -117,11 +117,29 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="About" xml:space="preserve">
+    <value>About Me</value>
+  </data>
   <data name="Access" xml:space="preserve">
     <value>Access</value>
   </data>
+  <data name="Admin" xml:space="preserve">
+    <value>Administration</value>
+  </data>
+  <data name="Albums" xml:space="preserve">
+    <value>Albums</value>
+  </data>
+  <data name="Blog" xml:space="preserve">
+    <value>Blog</value>
+  </data>
   <data name="ConfirmPassword" xml:space="preserve">
     <value>Confirm Password</value>
+  </data>
+  <data name="Contacts" xml:space="preserve">
+    <value>Contacts</value>
+  </data>
+  <data name="CV" xml:space="preserve">
+    <value>CV</value>
   </data>
   <data name="DescriptionBg" xml:space="preserve">
     <value>Description (bg)</value>
@@ -144,8 +162,14 @@
   <data name="ErrorRequired" xml:space="preserve">
     <value>The {0} is reqired</value>
   </data>
+  <data name="FileManager" xml:space="preserve">
+    <value>File Manager</value>
+  </data>
   <data name="FirstName" xml:space="preserve">
     <value>First Name</value>
+  </data>
+  <data name="Home" xml:space="preserve">
+    <value>Home</value>
   </data>
   <data name="InvalidCredentials" xml:space="preserve">
     <value>Invalid username/password</value>
@@ -162,11 +186,20 @@
   <data name="LastName" xml:space="preserve">
     <value>Last Name</value>
   </data>
+  <data name="Media" xml:space="preserve">
+    <value>Media</value>
+  </data>
+  <data name="MyProjects" xml:space="preserve">
+    <value>My Works</value>
+  </data>
   <data name="NoItems" xml:space="preserve">
     <value>No items</value>
   </data>
   <data name="Password" xml:space="preserve">
     <value>Password</value>
+  </data>
+  <data name="Photos" xml:space="preserve">
+    <value>Photos</value>
   </data>
   <data name="Private" xml:space="preserve">
     <value>Private</value>
@@ -183,6 +216,9 @@
   <data name="Role" xml:space="preserve">
     <value>Role</value>
   </data>
+  <data name="Title" xml:space="preserve">
+    <value>Atanas Georgiev</value>
+  </data>
   <data name="TitleBg" xml:space="preserve">
     <value>Title (bg)</value>
   </data>
@@ -191,5 +227,11 @@
   </data>
   <data name="UsernameExist" xml:space="preserve">
     <value>Username already exist</value>
+  </data>
+  <data name="Users" xml:space="preserve">
+    <value>Users</value>
+  </data>
+  <data name="Videos" xml:space="preserve">
+    <value>Videos</value>
   </data>
 </root>

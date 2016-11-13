@@ -9,3 +9,5 @@
 @addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
 @inject TelemetryConfiguration TelemetryConfiguration
 @inject IViewLocalizer LocString
+@using Microsoft.Extensions.Localization
+@inject IStringLocalizer<MyServer.Web.Helpers.SharedResource> SharedLocalizer

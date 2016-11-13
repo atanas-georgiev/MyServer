@@ -60,6 +60,15 @@ namespace MyServer.Web.Resources {
         }
         
         /// <summary>
+        ///    Looks up a localized string similar to About Me.
+        /// </summary>
+        public static string About {
+            get {
+                return ResourceManager.GetString("About", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///    Looks up a localized string similar to Access.
         /// </summary>
         public static string Access {
@@ -69,11 +78,56 @@ namespace MyServer.Web.Resources {
         }
         
         /// <summary>
+        ///    Looks up a localized string similar to Administration.
+        /// </summary>
+        public static string Admin {
+            get {
+                return ResourceManager.GetString("Admin", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to Albums.
+        /// </summary>
+        public static string Albums {
+            get {
+                return ResourceManager.GetString("Albums", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to Blog.
+        /// </summary>
+        public static string Blog {
+            get {
+                return ResourceManager.GetString("Blog", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///    Looks up a localized string similar to Confirm Password.
         /// </summary>
         public static string ConfirmPassword {
             get {
                 return ResourceManager.GetString("ConfirmPassword", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to Contacts.
+        /// </summary>
+        public static string Contacts {
+            get {
+                return ResourceManager.GetString("Contacts", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to CV.
+        /// </summary>
+        public static string CV {
+            get {
+                return ResourceManager.GetString("CV", resourceCulture);
             }
         }
         
@@ -141,11 +195,29 @@ namespace MyServer.Web.Resources {
         }
         
         /// <summary>
+        ///    Looks up a localized string similar to File Manager.
+        /// </summary>
+        public static string FileManager {
+            get {
+                return ResourceManager.GetString("FileManager", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///    Looks up a localized string similar to First Name.
         /// </summary>
         public static string FirstName {
             get {
                 return ResourceManager.GetString("FirstName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to Home.
+        /// </summary>
+        public static string Home {
+            get {
+                return ResourceManager.GetString("Home", resourceCulture);
             }
         }
         
@@ -195,6 +267,24 @@ namespace MyServer.Web.Resources {
         }
         
         /// <summary>
+        ///    Looks up a localized string similar to Media.
+        /// </summary>
+        public static string Media {
+            get {
+                return ResourceManager.GetString("Media", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to My Works.
+        /// </summary>
+        public static string MyProjects {
+            get {
+                return ResourceManager.GetString("MyProjects", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///    Looks up a localized string similar to No items.
         /// </summary>
         public static string NoItems {
@@ -209,6 +299,15 @@ namespace MyServer.Web.Resources {
         public static string Password {
             get {
                 return ResourceManager.GetString("Password", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to Photos.
+        /// </summary>
+        public static string Photos {
+            get {
+                return ResourceManager.GetString("Photos", resourceCulture);
             }
         }
         
@@ -258,6 +357,15 @@ namespace MyServer.Web.Resources {
         }
         
         /// <summary>
+        ///    Looks up a localized string similar to Atanas Georgiev.
+        /// </summary>
+        public static string Title {
+            get {
+                return ResourceManager.GetString("Title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///    Looks up a localized string similar to Title (bg).
         /// </summary>
         public static string TitleBg {
@@ -281,6 +389,24 @@ namespace MyServer.Web.Resources {
         public static string UsernameExist {
             get {
                 return ResourceManager.GetString("UsernameExist", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to Users.
+        /// </summary>
+        public static string Users {
+            get {
+                return ResourceManager.GetString("Users", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to Videos.
+        /// </summary>
+        public static string Videos {
+            get {
+                return ResourceManager.GetString("Videos", resourceCulture);
             }
         }
     }

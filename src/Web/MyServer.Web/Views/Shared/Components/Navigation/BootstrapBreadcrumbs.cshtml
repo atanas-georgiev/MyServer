@@ -8,11 +8,11 @@
                 if (!Model.ShouldAllowView(node)) { continue; }
                 if (node.EqualsNode(Model.CurrentNode))
                 {
-                    <li class="active">@LocString[Model.AdjustText(node)]</li>
+                    <li class="active">@SharedLocalizer[Model.AdjustText(node)]</li>
                 }
                 else
                 {
-                    <li><a href="@Url.Content(Model.AdjustUrl(node))">@LocString[Model.AdjustText(node)]</a><span class="divider"></span></li>
+                    <li><a href="@Url.Content(Model.AdjustUrl(node))">@SharedLocalizer[Model.AdjustText(node)]</a><span class="divider"></span></li>
                 }
             }
         </ul>
