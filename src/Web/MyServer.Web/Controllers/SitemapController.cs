@@ -39,15 +39,125 @@ namespace MyServer.Web.Controllers
                         new SitemapPageTranslation(Url.Action("Index", "Home") + "?culture=en-US", "en")
                     }
                 },
-                new SitemapNode("/ImageGallery/Album")
+                new SitemapNode("/About/AboutMe")
+                {
+                    ChangeFrequency = ChangeFrequency.Daily,
+                    LastModificationDate = DateTime.UtcNow,
+                    Priority = 0.8M,
+                    Translations = new List<SitemapPageTranslation>
+                    {
+                        new SitemapPageTranslation("/About/AboutMe?culture=bg-BG", "bg"),
+                        new SitemapPageTranslation("/About/AboutMe?culture=en-US", "en")
+                    }
+                },
+                new SitemapNode("/About/CV")
+                {
+                    ChangeFrequency = ChangeFrequency.Daily,
+                    LastModificationDate = DateTime.UtcNow,
+                    Priority = 0.8M,
+                    Translations = new List<SitemapPageTranslation>
+                    {
+                        new SitemapPageTranslation("/About/CV?culture=bg-BG", "bg"),
+                        new SitemapPageTranslation("/About/CV?culture=en-US", "en")
+                    }
+                },
+                new SitemapNode("/About/Contacts")
+                {
+                    ChangeFrequency = ChangeFrequency.Daily,
+                    LastModificationDate = DateTime.UtcNow,
+                    Priority = 0.8M,
+                    Translations = new List<SitemapPageTranslation>
+                    {
+                        new SitemapPageTranslation("/About/Contacts?culture=bg-BG", "bg"),
+                        new SitemapPageTranslation("/About/Contacts?culture=en-US", "en")
+                    }
+                },
+                new SitemapNode("/About/MyProjects")
+                {
+                    ChangeFrequency = ChangeFrequency.Daily,
+                    LastModificationDate = DateTime.UtcNow,
+                    Priority = 0.8M,
+                    Translations = new List<SitemapPageTranslation>
+                    {
+                        new SitemapPageTranslation("/About/MyProjects?culture=bg-BG", "bg"),
+                        new SitemapPageTranslation("/About/MyProjects?culture=en-US", "en")
+                    }
+                },
+                new SitemapNode("/Blog")
                 {
                     ChangeFrequency = ChangeFrequency.Daily,
                     LastModificationDate = DateTime.UtcNow,
                     Priority = 0.9M,
                     Translations = new List<SitemapPageTranslation>
                     {
+                        new SitemapPageTranslation("/Blog?culture=bg-BG", "bg"),
+                        new SitemapPageTranslation("/Blog?culture=en-US", "en")
+                    }
+                },
+                new SitemapNode("/FileManager")
+                {
+                    ChangeFrequency = ChangeFrequency.Daily,
+                    LastModificationDate = DateTime.UtcNow,
+                    Priority = 0.9M,
+                    Translations = new List<SitemapPageTranslation>
+                    {
+                        new SitemapPageTranslation("/FileManager?culture=bg-BG", "bg"),
+                        new SitemapPageTranslation("/FileManager?culture=en-US", "en")
+                    }
+                },
+                new SitemapNode("/ImageGallery/Album")
+                {
+                    ChangeFrequency = ChangeFrequency.Daily,
+                    LastModificationDate = DateTime.UtcNow,
+                    Priority = 0.8M,
+                    Translations = new List<SitemapPageTranslation>
+                    {
                         new SitemapPageTranslation("/ImageGallery/Album?culture=bg-BG", "bg"),
                         new SitemapPageTranslation("/ImageGallery/Album?culture=en-US", "en")
+                    },
+                },
+                new SitemapNode("/ImageGallery/Image")
+                {
+                    ChangeFrequency = ChangeFrequency.Daily,
+                    LastModificationDate = DateTime.UtcNow,
+                    Priority = 0.8M,
+                    Translations = new List<SitemapPageTranslation>
+                    {
+                        new SitemapPageTranslation("/ImageGallery/Image?culture=bg-BG", "bg"),
+                        new SitemapPageTranslation("/ImageGallery/Image?culture=en-US", "en")
+                    },
+                },
+                new SitemapNode("/ImageGallery/Video")
+                {
+                    ChangeFrequency = ChangeFrequency.Daily,
+                    LastModificationDate = DateTime.UtcNow,
+                    Priority = 0.8M,
+                    Translations = new List<SitemapPageTranslation>
+                    {
+                        new SitemapPageTranslation("/ImageGallery/Video?culture=bg-BG", "bg"),
+                        new SitemapPageTranslation("/ImageGallery/Video?culture=en-US", "en")
+                    },
+                },
+                new SitemapNode("/Account/Register")
+                {
+                    ChangeFrequency = ChangeFrequency.Daily,
+                    LastModificationDate = DateTime.UtcNow,
+                    Priority = 0.8M,
+                    Translations = new List<SitemapPageTranslation>
+                    {
+                        new SitemapPageTranslation("/Account/Register?culture=bg-BG", "bg"),
+                        new SitemapPageTranslation("/Account/Register?culture=en-US", "en")
+                    },
+                },
+                new SitemapNode("/Account/Login")
+                {
+                    ChangeFrequency = ChangeFrequency.Daily,
+                    LastModificationDate = DateTime.UtcNow,
+                    Priority = 0.8M,
+                    Translations = new List<SitemapPageTranslation>
+                    {
+                        new SitemapPageTranslation("/Account/Login?culture=bg-BG", "bg"),
+                        new SitemapPageTranslation("/Account/Login?culture=en-US", "en")
                     },
                 }
             };
@@ -58,7 +168,7 @@ namespace MyServer.Web.Controllers
                 {
                     ChangeFrequency = ChangeFrequency.Weekly,
                     LastModificationDate = album.CreatedOn,
-                    Priority = 0.8M,
+                    Priority = 0.7M,
                     Translations = new List<SitemapPageTranslation>
                     {
                         new SitemapPageTranslation("/ImageGallery/Album/Details/" + album.Id + "?culture=bg-BG", "bg"),

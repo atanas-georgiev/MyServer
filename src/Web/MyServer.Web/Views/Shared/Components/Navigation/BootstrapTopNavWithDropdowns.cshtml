@@ -12,7 +12,7 @@
             if (!Model.ShouldAllowView(node)) { continue; }
             if (!Model.HasVisibleChildren(node))
             {
-                <li class='@Model.GetClass(node.Value)' cwn-data-attributes="@node.Value.DataAttributes"><a href="@Url.Content(Model.AdjustUrl(node))" data-target="#" data-toggle="dropdown" aria-expanded="false" class="dropdown-toggle">@Html.Raw(Model.GetIcon(node.Value))@LocString[Model.AdjustText(node)]</a></li>
+                <li class='@Model.GetClass(node.Value)' cwn-data-attributes="@node.Value.DataAttributes"><a href="@Url.Content(Model.AdjustUrl(node))">@Html.Raw(Model.GetIcon(node.Value))@LocString[Model.AdjustText(node)]</a></li>
             }
             else
             {
