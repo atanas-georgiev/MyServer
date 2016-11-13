@@ -25,7 +25,7 @@
     using MyServer.Services.ImageGallery;
     using MyServer.Services.Mappings;
     using MyServer.Services.Users;
-    using MyServer.ViewComponents.ImageGallery.Components.LatestAddedAlbums.Controllers;    
+    using MyServer.ViewComponents.ImageGallery.Components.LatestAddedAlbums.Controllers;
     using MyServer.Web.Helpers;
     using MyServer.Web.Migrations;
 
@@ -33,6 +33,7 @@
     using System.Collections.Generic;
     using ViewComponents.ImageGallery.Resources;
     using ViewComponents.Common.Components.Social.Controllers;
+    using Helpers.Middlewares;
 
     public class Startup
     {
@@ -117,6 +118,8 @@
                                 headers.CacheControl = new CacheControlHeaderValue() { MaxAge = TimeSpan.FromDays(100) };
                             }
                     });
+
+            app.Map("/sitemap.xml", SitemapMiddleware.HandleSitemap);
 
             app.UseIdentity();
 
