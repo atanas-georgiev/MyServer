@@ -51,7 +51,8 @@
                         <span class="icon-bar"></span>
                         <span class="icon-bar"></span>
                     </button>
-                    <a asp-area="" asp-controller="Home" asp-action="@nameof(HomeController.Index)" class="navbar-brand">@LocString["Title"]</a>
+     
+                    @*<a asp-area="" asp-controller="Home" asp-action="@nameof(HomeController.Index)" class="navbar-brand">@LocString["Title"]</a>*@
                     <a asp-area="" asp-controller="Home" asp-action="@nameof(HomeController.SetLanguage)" asp-route-culture="bg-BG" asp-route-returnUrl="@Context.Request.Path" class="navbar-brand">
                         <img src="~/img/bg-icon.png"/>
                     </a>
@@ -59,41 +60,8 @@
                         <img src="~/img/us-icon.png"/>
                     </a>
                 </div>
-                <div class="navbar-collapse collapse navbar-inverse-collapse">
-                    <ul class="nav navbar-nav">
-                        <li class="active">
-                            <a asp-area="" asp-controller="Home" asp-action="@nameof(HomeController.Index)" class="nav-link">
-                                <i class="fa fa-home" aria-hidden="true"></i> @LocString["Home"]
-                            </a>
-                        </li>
-                        <li>
-                            <a asp-area="ImageGallery" asp-controller="Album" asp-action="@nameof(MyServer.Web.Areas.ImageGallery.Controllers.AlbumController.Index)" class="nav-link">
-                                <i class="fa fa-file-image-o" aria-hidden="true"></i> @LocString["Albums"]
-                            </a>
-                        </li>
-                        @if (User.IsInRole("Admin"))
-                        {
-                            <li class="dropdown">
-                                <a href="#" data-target="#" class="dropdown-toggle" data-toggle="dropdown">
-                                    <i class="fa fa-lock" aria-hidden="true"></i> @LocString["Admin"]
-                                    <b class="caret"></b>
-                                    <div class="ripple-container"></div>
-                                </a>
-                                <ul class="dropdown-menu">
-                                    <li>
-                                        <a class="dropdown-item" asp-area="UsersAdmin" asp-controller="Users" asp-action="@nameof(MyServer.Web.Areas.UsersAdmin.Controllers.UsersController.Index)">
-                                            <i class="fa fa-user" aria-hidden="true"></i> @LocString["Users"]
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a class="dropdown-item" asp-area="ImageGalleryAdmin" asp-controller="Album" asp-action="@nameof(MyServer.Web.Areas.ImageGalleryAdmin.Controllers.AlbumController.Index)">
-                                            <i class="fa fa-file-image-o" aria-hidden="true"></i> @LocString["Albums"]
-                                        </a>
-                                    </li>
-                                </ul>
-                            </li>
-                        }
-                    </ul>
+                <div class="navbar-collapse navbar-inverse-collapse collapse">
+                    @await Component.InvokeAsync("Navigation", new { viewName = "BootstrapTopNavWithDropdowns", filterName = NamedNavigationFilters.TopNav, startingNodeKey = "" })
                     @await Html.PartialAsync("_LoginPartial")
                 </div>
             </div>
@@ -146,6 +114,7 @@
                 }
             </style>
         }
+        @await Component.InvokeAsync("Navigation", new { viewName = "BootstrapBreadcrumbs", filterName = NamedNavigationFilters.Breadcrumbs, startingNodeKey = "" })
         @RenderBody()
     </div>
 </main>

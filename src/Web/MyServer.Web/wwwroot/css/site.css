@@ -63,8 +63,8 @@ h2 {
     text-shadow: 0px 0px 10px #000, -1px -1px #000, 0px 0px #000;
 }
 
-th, tr, a, p, .form-control, label, .form-group label.control-label, .text-danger {
-    color: white;
+th, tr, a, p, .form-control, label, .form-group label.control-label, .text-danger, .active {
+    color: white !important;
     text-shadow: 0px 0px 10px #000, -1px -1px #000, 0px 0px #000;
 }
 
@@ -187,9 +187,10 @@ a div.overlay-album-caption, div div.overlay-album-caption {
     font-size: 2em;
 }
 
-.navbar, .well, .well a:visited, .btn {
+.navbar, .well, .well a:visited, .btn, .dropdown-menu, .dropdown-menu li a {
    color: #fff!important;
-   background: rgba(0, 0, 0, 0.5)!important;
+   background: rgba(0, 0, 0, 0.5) !important;
+   text-shadow: none !important;
 }
 
 footer p, footer p a:visited {

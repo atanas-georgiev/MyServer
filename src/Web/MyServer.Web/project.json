@@ -1,5 +1,5 @@
 {
-  "version": "1.0.0.240",
+  "version": "1.0.0.289",
   "userSecretsId": "aspnet-MyServer-186bb2c4-9782-4c4e-aedb-a6f55e5aa9af",
   "buildOptions": {
     "emitEntryPoint": true,
@@ -111,7 +111,8 @@
     "MyServer.ViewComponents.Common": "1.0.0-*",
     "StyleCop.MSBuild": "4.7.54",
     "Microsoft.Extensions.FileProviders.Embedded": "1.1.0-preview1-final",
-    "SimpleMvcSitemap": "3.0.0"
+    "SimpleMvcSitemap": "3.0.0",
+    "cloudscribe.Web.Navigation": "1.0.2-rc20160922"
   },
   "commands": {
     "web": "Microsoft.AspNet.Server.Kestrel --server.urls http://*:5000"

@@ -34,7 +34,7 @@
     using ViewComponents.ImageGallery.Resources;
     using ViewComponents.Common.Components.Social.Controllers;
     using Helpers.Middlewares;
-
+    
     public class Startup
     {
         public Startup(IHostingEnvironment env)
@@ -188,6 +188,7 @@
             services.AddSession();
             services.AddMemoryCache();
 
+            services.AddCloudscribeNavigation(Configuration.GetSection("NavigationOptions"));
             // services.AddLocalization(options => options.ResourcesPath = "Resources");
             services.AddMvc()
                 .AddViewLocalization(x => x.ResourcesPath = "Resources")

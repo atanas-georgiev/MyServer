@@ -48,7 +48,7 @@ namespace MyServer.Web.Controllers
                     {
                         new SitemapPageTranslation("/ImageGallery/Album?culture=bg-BG", "bg"),
                         new SitemapPageTranslation("/ImageGallery/Album?culture=en-US", "en")
-                    }
+                    },
                 }
             };
 
