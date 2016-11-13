@@ -1,5 +1,5 @@
 {
-  "version": "1.0.0.289",
+  "version": "1.0.0.299",
   "userSecretsId": "aspnet-MyServer-186bb2c4-9782-4c4e-aedb-a6f55e5aa9af",
   "buildOptions": {
     "emitEntryPoint": true,
@@ -20,7 +20,8 @@
       "Views",
       "**/*.cshtml",
       "appsettings*.json",
-      "project.json"
+      "project.json",
+      "navigation.xml"
     ]
   },
   "runtimeOptions": {
