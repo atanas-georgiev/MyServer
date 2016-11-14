@@ -138,6 +138,9 @@
   <data name="Contacts" xml:space="preserve">
     <value>Контакти</value>
   </data>
+  <data name="CreateAlbum" xml:space="preserve">
+    <value>Нов Албум</value>
+  </data>
   <data name="CV" xml:space="preserve">
     <value>Автобиография</value>
   </data>
@@ -216,6 +219,12 @@
   <data name="Role" xml:space="preserve">
     <value>Роля</value>
   </data>
+  <data name="Search" xml:space="preserve">
+    <value>Търси</value>
+  </data>
+  <data name="Sort" xml:space="preserve">
+    <value>Сортирай</value>
+  </data>
   <data name="Title" xml:space="preserve">
     <value>Атанас Георгиев</value>
   </data>
@@ -233,5 +242,8 @@
   </data>
   <data name="Videos" xml:space="preserve">
     <value>Видеа</value>
+  </data>
+  <data name="AlbumsAdmin" xml:space="preserve">
+    <value>Администрация Албуми</value>
   </data>
 </root>

@@ -126,10 +126,22 @@
   <data name="Registrated" xml:space="preserve">
     <value>Потребители</value>
   </data>
-  <data name="SortLatestAdded" xml:space="preserve">
-    <value>Добавени</value>
+  <data name="SortDateAddedAsc" xml:space="preserve">
+    <value>^ Дата добавен</value>
   </data>
-  <data name="SortLatestDate" xml:space="preserve">
-    <value>Дата на албум</value>
+  <data name="SortDateAddedDesc" xml:space="preserve">
+    <value>v Дата добавен</value>
+  </data>
+  <data name="SortImagesCountAsc" xml:space="preserve">
+    <value>^ Брой снимки</value>
+  </data>
+  <data name="SortImagesCountDesc" xml:space="preserve">
+    <value>v Брой снимки</value>
+  </data>
+  <data name="SortImagesDateAsc" xml:space="preserve">
+    <value>^ Дата снимки</value>
+  </data>
+  <data name="SortImagesDateDesc" xml:space="preserve">
+    <value>v Дата снимки</value>
   </data>
 </root>

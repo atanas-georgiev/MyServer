@@ -138,6 +138,9 @@
   <data name="Contacts" xml:space="preserve">
     <value>Contacts</value>
   </data>
+  <data name="CreateAlbum" xml:space="preserve">
+    <value>Create Album</value>
+  </data>
   <data name="CV" xml:space="preserve">
     <value>CV</value>
   </data>
@@ -216,6 +219,12 @@
   <data name="Role" xml:space="preserve">
     <value>Role</value>
   </data>
+  <data name="Search" xml:space="preserve">
+    <value>Search</value>
+  </data>
+  <data name="Sort" xml:space="preserve">
+    <value>Sort</value>
+  </data>
   <data name="Title" xml:space="preserve">
     <value>Atanas Georgiev</value>
   </data>
@@ -233,5 +242,8 @@
   </data>
   <data name="Videos" xml:space="preserve">
     <value>Videos</value>
+  </data>
+  <data name="AlbumsAdmin" xml:space="preserve">
+    <value>Albums Administration</value>
   </data>
 </root>

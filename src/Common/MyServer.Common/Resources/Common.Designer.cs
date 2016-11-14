@@ -87,20 +87,56 @@ namespace MyServer.Common.Resources {
         }
         
         /// <summary>
-        ///    Looks up a localized string similar to Album Added.
+        ///    Looks up a localized string similar to ^ Date added.
         /// </summary>
-        public static string SortLatestAdded {
+        public static string SortDateAddedAsc {
             get {
-                return ResourceManager.GetString("SortLatestAdded", resourceCulture);
+                return ResourceManager.GetString("SortDateAddedAsc", resourceCulture);
             }
         }
         
         /// <summary>
-        ///    Looks up a localized string similar to Album Date.
+        ///    Looks up a localized string similar to v Date added.
         /// </summary>
-        public static string SortLatestDate {
+        public static string SortDateAddedDesc {
             get {
-                return ResourceManager.GetString("SortLatestDate", resourceCulture);
+                return ResourceManager.GetString("SortDateAddedDesc", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to ^ Image count.
+        /// </summary>
+        public static string SortImagesCountAsc {
+            get {
+                return ResourceManager.GetString("SortImagesCountAsc", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to v Image count.
+        /// </summary>
+        public static string SortImagesCountDesc {
+            get {
+                return ResourceManager.GetString("SortImagesCountDesc", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to ^ Date images.
+        /// </summary>
+        public static string SortImagesDateAsc {
+            get {
+                return ResourceManager.GetString("SortImagesDateAsc", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to v Date images.
+        /// </summary>
+        public static string SortImagesDateDesc {
+            get {
+                return ResourceManager.GetString("SortImagesDateDesc", resourceCulture);
             }
         }
     }

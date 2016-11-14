@@ -96,6 +96,15 @@ namespace MyServer.Web.Resources {
         }
         
         /// <summary>
+        ///    Looks up a localized string similar to Albums Administration.
+        /// </summary>
+        public static string AlbumsAdmin {
+            get {
+                return ResourceManager.GetString("AlbumsAdmin", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///    Looks up a localized string similar to Blog.
         /// </summary>
         public static string Blog {
@@ -119,6 +128,15 @@ namespace MyServer.Web.Resources {
         public static string Contacts {
             get {
                 return ResourceManager.GetString("Contacts", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to Create Album.
+        /// </summary>
+        public static string CreateAlbum {
+            get {
+                return ResourceManager.GetString("CreateAlbum", resourceCulture);
             }
         }
         
@@ -353,6 +371,24 @@ namespace MyServer.Web.Resources {
         public static string Role {
             get {
                 return ResourceManager.GetString("Role", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to Search.
+        /// </summary>
+        public static string Search {
+            get {
+                return ResourceManager.GetString("Search", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to Sort.
+        /// </summary>
+        public static string Sort {
+            get {
+                return ResourceManager.GetString("Sort", resourceCulture);
             }
         }
         

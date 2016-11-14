@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Localization;
+using MyServer.Common;
 using MyServer.Data.Models;
 using MyServer.Services.ImageGallery;
 using MyServer.Services.Mappings;
@@ -25,26 +26,43 @@ namespace MyServer.ViewComponents.ImageGallery.Components.AllAlbums.Controllers
             MappingFunctions.LoadResource(this.localizer);
         }
 
-        public IViewComponentResult Invoke(string ViewDetailsUrl, string NewAlbumUrl = null, string Filter = null)
+        public IViewComponentResult Invoke(string ViewDetailsUrl, string NewAlbumUrl = null, string Filter = null, MyServerSortType Sort = MyServerSortType.SortImagesDateDesc)
         {
             var albums = this.albumService.GetAllReqursive();
 
             if (!this.User.Identity.IsAuthenticated)
             {
-                albums = albums
-                        .Where(x => x.Access == Common.MyServerAccessType.Public)
-                        .OrderByDescending(x => x.Images.OrderBy(d => d.DateTaken).LastOrDefault() != null ? x.Images.OrderBy(d => d.DateTaken).LastOrDefault().DateTaken : null);
+                albums = albums.Where(x => x.Access == Common.MyServerAccessType.Public);
             }
             else if (this.User.IsInRole(Common.MyServerRoles.User.ToString()))
             {
-                albums = albums
-                        .Where(x => x.Access != Common.MyServerAccessType.Private)
-                        .OrderByDescending(x => x.Images.OrderBy(d => d.DateTaken).LastOrDefault() != null ? x.Images.OrderBy(d => d.DateTaken).LastOrDefault().DateTaken : null);
+                albums = albums.Where(x => x.Access != Common.MyServerAccessType.Private);
             }
             else if (this.User.IsInRole(Common.MyServerRoles.Admin.ToString()))
             {
-                albums = albums
-                        .OrderByDescending(x => x.Images.OrderBy(d => d.DateTaken).LastOrDefault() != null ? x.Images.OrderBy(d => d.DateTaken).LastOrDefault().DateTaken : null);
+                // Display all
+            }
+
+            switch (Sort)
+            {
+                case MyServerSortType.SortDateAddedAsc:
+                    albums = albums.OrderBy(x => x.CreatedOn);
+                    break;
+                case MyServerSortType.SortDateAddedDesc:
+                    albums = albums.OrderByDescending(x => x.CreatedOn);
+                    break;
+                case MyServerSortType.SortImagesCountAsc:
+                    albums = albums.OrderBy(x => x.Images.Count);
+                    break;
+                case MyServerSortType.SortImagesCountDesc:
+                    albums = albums.OrderByDescending(x => x.Images.Count);
+                    break;
+                case MyServerSortType.SortImagesDateAsc:
+                    albums = albums.OrderBy(x => x.Images.OrderBy(d => d.DateTaken).LastOrDefault() != null ? x.Images.OrderBy(d => d.DateTaken).LastOrDefault().DateTaken : null);
+                    break;
+                case MyServerSortType.SortImagesDateDesc:
+                    albums = albums.OrderByDescending(x => x.Images.OrderBy(d => d.DateTaken).LastOrDefault() != null ? x.Images.OrderBy(d => d.DateTaken).LastOrDefault().DateTaken : null);
+                    break;
             }
 
             if (!string.IsNullOrEmpty(Filter))

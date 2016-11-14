@@ -9,6 +9,8 @@
 @using MyServer.Web.Areas
 @using MyServer.Web.Areas.ImageGallery
 @using MyServer.Web.Areas.ImageGallery.Models
+@using Microsoft.Extensions.Localization
 @addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
 @inject TelemetryConfiguration TelemetryConfiguration
 @inject IViewLocalizer LocString
+@inject IStringLocalizer<MyServer.Web.Helpers.SharedResource> SharedLocalizer

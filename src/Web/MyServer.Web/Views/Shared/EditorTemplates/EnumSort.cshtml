@@ -30,4 +30,9 @@
                      });
 }
 
-@Html.DropDownList("", values, new { @class = "form-control col-sm-4" })
+<select class="form-control" id="SortType" name="SortType">
+    @foreach (var value in values)
+    {
+        <option value="@value.Value">@value.Text</option>
+    }
+</select>

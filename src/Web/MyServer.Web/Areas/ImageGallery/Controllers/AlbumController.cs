@@ -15,6 +15,7 @@ namespace MyServer.Web.Areas.ImageGallery.Controllers
     using MyServer.Services.Users;
     using MyServer.Web.Areas.ImageGallery.Models.Album;
     using MyServer.Web.Areas.Shared.Controllers;
+    using Shared.Models;
 
     [Area("ImageGallery")]
     public class AlbumController : BaseController
@@ -61,13 +62,13 @@ namespace MyServer.Web.Areas.ImageGallery.Controllers
 
         public IActionResult Index()
         {
-            return this.View();
+            return this.View(new SortFilterAlbumViewModel() { SearchString = "", SortType = Common.MyServerSortType.SortImagesDateDesc });
         }
 
         [HttpPost]
         public IActionResult SortFilter(SortFilterAlbumViewModel model)
         {
-            return this.ViewComponent("AllAlbums", new { ViewDetailsUrl = "Album/Details/", Filter = model.SearchString });
+            return this.ViewComponent("AllAlbums", new { ViewDetailsUrl = "Album/Details/", Filter = model.SearchString, Sort = model.SortType });
         }
     }
 }

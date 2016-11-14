@@ -126,10 +126,22 @@
   <data name="Registrated" xml:space="preserve">
     <value>Registrated</value>
   </data>
-  <data name="SortLatestAdded" xml:space="preserve">
-    <value>Album Added</value>
+  <data name="SortDateAddedAsc" xml:space="preserve">
+    <value>^ Date added</value>
   </data>
-  <data name="SortLatestDate" xml:space="preserve">
-    <value>Album Date</value>
+  <data name="SortDateAddedDesc" xml:space="preserve">
+    <value>v Date added</value>
+  </data>
+  <data name="SortImagesCountAsc" xml:space="preserve">
+    <value>^ Image count</value>
+  </data>
+  <data name="SortImagesCountDesc" xml:space="preserve">
+    <value>v Image count</value>
+  </data>
+  <data name="SortImagesDateAsc" xml:space="preserve">
+    <value>^ Date images</value>
+  </data>
+  <data name="SortImagesDateDesc" xml:space="preserve">
+    <value>v Date images</value>
   </data>
 </root>

@@ -16,6 +16,7 @@ namespace MyServer.Web.Areas.ImageGalleryAdmin.Controllers
     using MyServer.Web.Areas.ImageGalleryAdmin.Models.Album;
     using MyServer.Web.Areas.ImageGalleryAdmin.Models.Image;
     using MyServer.Web.Areas.Shared.Controllers;
+    using Shared.Models;
 
     [Authorize(Roles = "Admin")]
     [Area("ImageGalleryAdmin")]
@@ -181,7 +182,7 @@ namespace MyServer.Web.Areas.ImageGalleryAdmin.Controllers
 
         public IActionResult Index()
         {
-            return this.View();
+            return this.View(new SortFilterAlbumViewModel() { SearchString = "", SortType = Common.MyServerSortType.SortImagesDateDesc });
         }
 
         [HttpPost]
@@ -412,6 +413,12 @@ namespace MyServer.Web.Areas.ImageGalleryAdmin.Controllers
                 statusDataError = true;
                 return this.NoContent();
             }
+        }
+
+        [HttpPost]
+        public IActionResult SortFilter(SortFilterAlbumViewModel model)
+        {
+            return this.ViewComponent("AllAlbums", new { ViewDetailsUrl = "Album/Details/", Filter = model.SearchString, Sort = model.SortType });
         }
     }
 }
