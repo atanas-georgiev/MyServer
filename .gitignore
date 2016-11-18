@@ -240,3 +240,4 @@ _Pvt_Extensions
 /src/Web/MyServer.Web/wwwroot/js/site.min.js
 /src/Web/MyServer.Web/wwwroot/Content/Images/617c0e5a-d52a-4d18-b9ef-04dc09747b7f
 /src/Web/MyServer.Web/wwwroot/Content/Images
+*.aiis

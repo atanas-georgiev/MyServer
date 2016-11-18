@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using MyServer.Data;
 using MyServer.Data.Models;
@@ -7,6 +8,7 @@ using MyServer.Web.Areas.Shared.Controllers;
 
 namespace MyServer.Web.Areas.FileManager.Controllers
 {
+    [Authorize(Roles = "Admin")]
     [Area("FileManager")]
     public class HomeController : BaseController
     {

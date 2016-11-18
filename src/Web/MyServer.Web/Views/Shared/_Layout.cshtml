@@ -56,6 +56,8 @@
     <environment names="Staging,Production">
         <link rel="stylesheet" href="~/css/site.min.css" asp-append-version="true"/>
     </environment>
+    <link rel="stylesheet" href="~/lib/kendo-ui/styles/kendo.common-material.min.css" />
+    <link rel="stylesheet" href="~/lib/kendo-ui/styles/kendo.materialblack.min.css" />
     @Html.ApplicationInsightsJavaScript(TelemetryConfiguration)
     @RenderSection("styles", required: false)
 </head>
