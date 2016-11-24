@@ -171,7 +171,9 @@
             services.AddDistributedMemoryCache();
             services.AddSession();
             services.AddMemoryCache();
-            
+
+            services.AddCloudscribeNavigation(Configuration.GetSection("NavigationOptions"));
+
             services.AddMvc()
                 .AddViewLocalization(x => x.ResourcesPath = "Resources")
                 .AddDataAnnotationsLocalization()
