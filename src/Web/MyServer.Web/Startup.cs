@@ -39,21 +39,12 @@
     {
         public Startup(IHostingEnvironment env)
         {
-            var builder =
-                new ConfigurationBuilder().SetBasePath(env.ContentRootPath)
-                    .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
-                    .AddJsonFile($"appsettings.{env.EnvironmentName}.json", optional: true);
-
-            // if (env.IsDevelopment())
-
-            // For more details on using the user secret store see http://go.microsoft.com/fwlink/?LinkID=532709
-            builder.AddUserSecrets();
-
-            // This will push telemetry data through Application Insights pipeline faster, allowing you to view results immediately.
-            builder.AddApplicationInsightsSettings(developerMode: true);
-
-            builder.AddEnvironmentVariables();
-            this.Configuration = builder.Build();
+            var builder = new ConfigurationBuilder()
+                .SetBasePath(env.ContentRootPath)
+                .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
+                .AddJsonFile($"appsettings.{env.EnvironmentName}.json", optional: true)
+                .AddEnvironmentVariables();
+            Configuration = builder.Build();
         }
 
         public static IStringLocalizer<SharedResource> SharedLocalizer { get; private set; }
@@ -88,9 +79,7 @@
             loggerFactory.AddConsole(this.Configuration.GetSection("Logging"));
             loggerFactory.AddDebug();
 
-            scopeFactory.SeedData();
-
-            app.UseApplicationInsightsRequestTelemetry();
+            scopeFactory.SeedData();            
 
             if (env.IsDevelopment())
             {
@@ -105,9 +94,7 @@
                 app.UseBrowserLink();
 
                 // app.UseExceptionHandler("/Home/Error");
-            }
-
-            app.UseApplicationInsightsExceptionTelemetry();
+            }            
 
             app.UseStaticFiles(
                 new StaticFileOptions()
@@ -159,9 +146,6 @@
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            // Add framework services.
-            services.AddApplicationInsightsTelemetry(this.Configuration);
-
             services.AddDbContext<MyServerDbContext>(
                 options => options.UseSqlServer(this.Configuration.GetConnectionString("MyServerDb")));
 
@@ -187,9 +171,7 @@
             services.AddDistributedMemoryCache();
             services.AddSession();
             services.AddMemoryCache();
-
-            services.AddCloudscribeNavigation(Configuration.GetSection("NavigationOptions"));
-            // services.AddLocalization(options => options.ResourcesPath = "Resources");
+            
             services.AddMvc()
                 .AddViewLocalization(x => x.ResourcesPath = "Resources")
                 .AddDataAnnotationsLocalization()
