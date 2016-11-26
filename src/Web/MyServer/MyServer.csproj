@@ -4,9 +4,7 @@
     <OutputType>Exe</OutputType>
     <TargetFramework>netcoreapp1.6</TargetFramework>
     <PreserveCompilationContext>true</PreserveCompilationContext>
-  </PropertyGroup>
-  <PropertyGroup>
-    <PackageTargetFallback>$(PackageTargetFallback);portable-net45+win8+wp8+wpa81;</PackageTargetFallback>
+    <UserSecretsId>0d1399ab-4cbd-4a2b-a64b-a0daf1570e1e</UserSecretsId>
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="**\*.cs" Exclude="$(GlobalExclude)" />
@@ -118,19 +116,16 @@
     </PackageReference>
   </ItemGroup>
   <ItemGroup>
-    <DotNetCliToolReference Include="BundlerMinifier.Core">
-      <Version>2.2.301</Version>
-    </DotNetCliToolReference>
+    <ProjectReference Include="..\..\Common\MyServer.Common.ImageGallery\MyServer.Common.ImageGallery.csproj" />
+    <ProjectReference Include="..\..\Common\MyServer.Common\MyServer.Common.csproj" />
+    <ProjectReference Include="..\..\Components\MyServer.ViewComponents.Common\MyServer.ViewComponents.Common.csproj" />
+    <ProjectReference Include="..\..\Components\MyServer.ViewComponents.ImageGallery\MyServer.ViewComponents.ImageGallery.csproj" />
+    <ProjectReference Include="..\..\Data\MyServer.Data.Common\MyServer.Data.Common.csproj" />
+    <ProjectReference Include="..\..\Data\MyServer.Data.Models\MyServer.Data.Models.csproj" />
+    <ProjectReference Include="..\..\Data\MyServer.Data\MyServer.Data.csproj" />
+    <ProjectReference Include="..\..\Services\MyServer.Services.ImageGallery\MyServer.Services.ImageGallery.csproj" />
+    <ProjectReference Include="..\..\Services\MyServer.Services.Mappings\MyServer.Services.Mappings.csproj" />
+    <ProjectReference Include="..\..\Services\MyServer.Services.Users\MyServer.Services.Users.csproj" />
   </ItemGroup>
-
-
-
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
-
-<!--
-   <Target Name="BeforePublish">
-    <Exec Command="bower install" />
-    <Exec Command="dotnet bundle" />
-  </Target>
--->
 </Project>
