@@ -1,14 +1,18 @@
-﻿<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" />
+  <PropertyGroup Label="Configuration">
+    <PreBuildEvent>
+    </PreBuildEvent>
+  </PropertyGroup>
   <PropertyGroup>
     <OutputType>Exe</OutputType>
-    <TargetFramework>netcoreapp1.6</TargetFramework>
+    <TargetFramework>netcoreapp1.0</TargetFramework>
     <PreserveCompilationContext>true</PreserveCompilationContext>
-    <UserSecretsId>0d1399ab-4cbd-4a2b-a64b-a0daf1570e1e</UserSecretsId>
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="**\*.cs" Exclude="$(GlobalExclude)" />
     <EmbeddedResource Include="**\*.resx" Exclude="$(GlobalExclude)" />
+    <EmbeddedResource Include="**\*.json" />
     <Folder Include="wwwroot\" />
   </ItemGroup>
   <ItemGroup>
@@ -127,5 +131,16 @@
     <ProjectReference Include="..\..\Services\MyServer.Services.Mappings\MyServer.Services.Mappings.csproj" />
     <ProjectReference Include="..\..\Services\MyServer.Services.Users\MyServer.Services.Users.csproj" />
   </ItemGroup>
+  <ItemGroup>
+    <DotNetCliToolReference Include="BundlerMinifier.Core">
+      <Version>2.2.301</Version>
+    </DotNetCliToolReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <Target Name="BeforePublish">
+    <Exec Command="dotnet bundle" />
+  </Target>
+  <Target  Name="BeforeBuild">
+    <Exec Command="dotnet bundle" />
+  </Target>
 </Project>
