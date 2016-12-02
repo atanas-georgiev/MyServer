@@ -26,27 +26,8 @@
 
         public IViewComponentResult Invoke(string allImagesRoute)
         {
-            IQueryable<LatestAddedAlbumsViewModel> albums = null;
-
-            if (!this.User.Identity.IsAuthenticated)
-            {
-                albums =
-                    this.albumService.GetAllReqursive()
-                        .Where(x => x.Access == Common.MyServerAccessType.Public)
-                        .To<LatestAddedAlbumsViewModel>();
-            }
-            else if (this.User.IsInRole(Common.MyServerRoles.User.ToString()))
-            {
-                albums =
-                    this.albumService.GetAllReqursive()
-                        .Where(x => x.Access != Common.MyServerAccessType.Private)
-                        .To<LatestAddedAlbumsViewModel>();
-            }
-            else if (this.User.IsInRole(Common.MyServerRoles.Admin.ToString()))
-            {
-                albums = this.albumService.GetAllReqursive().To<LatestAddedAlbumsViewModel>();
-            }            
-
+            var albums = this.albumService.GetAllReqursive().To<LatestAddedAlbumsViewModel>();
+                       
             this.ViewBag.StringLocalizer = this.localizer;
             this.ViewBag.AllImagesRoute = allImagesRoute;
 

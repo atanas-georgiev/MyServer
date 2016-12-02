@@ -41,16 +41,6 @@ namespace MyServer.Web.Areas.ImageGallery.Controllers
                     .To<AlbumViewModel>()
                     .FirstOrDefault();
 
-            if (!this.User.Identity.IsAuthenticated && album.Access != Common.MyServerAccessType.Public)
-            {
-                return this.Unauthorized();
-            }
-            else if (this.User.IsInRole(Common.MyServerRoles.User.ToString())
-                     && (album.Access == Common.MyServerAccessType.Private))
-            {
-                return this.Unauthorized();
-            }
-
             return this.View(album);
         }
 

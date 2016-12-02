@@ -3,6 +3,7 @@
     using System.ComponentModel.DataAnnotations;
 
     using MyServer.Web.Resources;
+    using Microsoft.AspNetCore.Mvc;
 
     public class AccountRegisterViewModel
     {
@@ -40,5 +41,8 @@
         [DataType(DataType.Password)]
         [Display(Name = "Password", ResourceType = typeof(Helpers_SharedResource))]
         public string Password { get; set; }
+
+        [HiddenInput(DisplayValue = false)]
+        public string returnUrl { get; set; }
     }
 }

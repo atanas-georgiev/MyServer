@@ -246,4 +246,13 @@
   <data name="AlbumsAdmin" xml:space="preserve">
     <value>Albums Administration</value>
   </data>
+  <data name="AccessDeninedAdminText" xml:space="preserve">
+    <value>The album is private</value>
+  </data>
+  <data name="AccessDeninedUserBtn" xml:space="preserve">
+    <value>Login / Register</value>
+  </data>
+  <data name="AccessDeninedUserText" xml:space="preserve">
+    <value>The album is accessible only for registered users</value>
+  </data>
 </root>

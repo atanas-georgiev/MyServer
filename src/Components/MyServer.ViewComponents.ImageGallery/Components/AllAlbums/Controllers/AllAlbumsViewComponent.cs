@@ -30,19 +30,6 @@ namespace MyServer.ViewComponents.ImageGallery.Components.AllAlbums.Controllers
         {
             var albums = this.albumService.GetAllReqursive();
 
-            if (!this.User.Identity.IsAuthenticated)
-            {
-                albums = albums.Where(x => x.Access == Common.MyServerAccessType.Public);
-            }
-            else if (this.User.IsInRole(Common.MyServerRoles.User.ToString()))
-            {
-                albums = albums.Where(x => x.Access != Common.MyServerAccessType.Private);
-            }
-            else if (this.User.IsInRole(Common.MyServerRoles.Admin.ToString()))
-            {
-                // Display all
-            }
-
             switch (Sort)
             {
                 case MyServerSortType.SortDateAddedAsc:

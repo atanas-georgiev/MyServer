@@ -28,9 +28,9 @@
         {
         }
 
-        public ActionResult Index()
+        public ActionResult Index(string returnUrl)
         {
-            return this.View();
+            return this.View(new AccountRegisterViewModel() { returnUrl = returnUrl });
         }
 
         [HttpPost]
@@ -58,7 +58,12 @@
                     this.dbContext.SaveChanges();
 
                     await this.signInManager.SignInAsync(user, isPersistent: false);
-                    return this.RedirectToAction("Index", "Home", new { area = string.Empty });
+                    if (string.IsNullOrEmpty(model.returnUrl))
+                    {
+                        return this.RedirectToAction("Index", "Home", new { area = string.Empty });
+                    }
+
+                    return RedirectToLocal(model.returnUrl);
                 }
                 
                 this.ModelState.AddModelError("Email", Startup.SharedLocalizer["UsernameExist"]);

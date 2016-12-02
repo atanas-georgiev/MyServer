@@ -13,6 +13,7 @@
     <div>
         <form asp-controller="Register" asp-action="Index" asp-route-returnurl="@ViewData["ReturnUrl"]" method="post" class="form-horizontal">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input asp-for="returnUrl"></input>
             <div class="form-group">
                 <label asp-for="Email" class="col-md-2 control-label"></label>
                 <div class="col-md-10">

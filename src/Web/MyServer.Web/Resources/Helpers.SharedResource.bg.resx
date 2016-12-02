@@ -246,4 +246,13 @@
   <data name="AlbumsAdmin" xml:space="preserve">
     <value>Администрация Албуми</value>
   </data>
+  <data name="AccessDeninedAdminText" xml:space="preserve">
+    <value>Албума не е достъпен</value>
+  </data>
+  <data name="AccessDeninedUserBtn" xml:space="preserve">
+    <value>Вход / Регистрация</value>
+  </data>
+  <data name="AccessDeninedUserText" xml:space="preserve">
+    <value>Албума е достъпен само за регистрирани потребители</value>
+  </data>
 </root>
