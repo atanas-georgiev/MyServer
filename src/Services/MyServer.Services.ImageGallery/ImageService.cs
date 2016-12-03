@@ -225,10 +225,10 @@
         public string GetRandomImagePath()
         {
             var rand = new Random();
-            var skip = rand.Next(0, this.GetAllReqursive().Count(x => x.Album.Access == MyServerAccessType.Public));
+            var skip = rand.Next(0, this.GetAllReqursive().Count(x => x.Album.Access != MyServerAccessType.Private));
             var randomImage =
                 this.GetAllReqursive()
-                    .Where(x => x.Album.Access == MyServerAccessType.Public)
+                    .Where(x => x.Album.Access != MyServerAccessType.Private)
                     .Skip(skip)
                     .FirstOrDefault();
             if (randomImage != null)

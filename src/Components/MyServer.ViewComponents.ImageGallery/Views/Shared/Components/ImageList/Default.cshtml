@@ -1,0 +1,166 @@
+﻿@using MyServer.ViewComponents.ImageGallery.Components.ImageList.Models
+@model IEnumerable<ImageListViewModel>
+
+@{
+    var LocString = ViewBag.StringLocalizer;
+    var uniqueGuid = Guid.NewGuid().ToString("N");
+    var lightGalleryClass = "lightgallery" + uniqueGuid;
+    var justifiedGalleryClass = "justifiedgallery" + uniqueGuid;
+    var imageContainerClass = "imageContainer" + uniqueGuid;
+    var counter = "counter" + uniqueGuid;
+    var finished = "finished" + uniqueGuid;
+}
+
+@if (!string.IsNullOrEmpty(ViewBag.Caption))
+{
+    <h2 class="text-center">@ViewBag.Caption</h2>
+    <hr />
+}
+
+<div class="overlay-album @lightGalleryClass @justifiedGalleryClass">
+    @foreach (var image in Model.OrderBy(x => x.DateTaken))
+    {
+        <hhh class="@imageContainerClass" href='@image.MiddleImageSource' data-download-url="@image.OriginalDownloadPath">
+            <div class="image" src="@image.LowImageSource" alt="@image.Info"></div>
+            <div class="overlay-album-caption" style="display: none">
+                <div class="overlay-user-album-text">
+                    @if (!string.IsNullOrEmpty(image.Title))
+                    {
+                        <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
+                        @image.Title<br>
+                    }
+                    @if (!string.IsNullOrEmpty(image.DateTaken.ToString()))
+                    {
+                        <i class="fa fa-calendar" aria-hidden="true"></i>
+                        @image.DateTaken.Value.ToString("dd MMMM yyyy")<br>
+                    }
+                    @if (!string.IsNullOrEmpty(image.GpsName))
+                    {
+                        <i class="fa fa-map-marker" aria-hidden="true"></i>
+                        @image.GpsName
+                    }
+                </div>
+            </div>
+        </hhh>
+    }
+</div>
+
+<script>
+    var @counter = 0;
+    var @finished = false;
+
+    (function() {
+        var $newTag = null;
+        $.fn.tagName = function(newTag) {
+            this.each(function(i, el) {
+                var $el = $(el);
+                $newTag = $("<" + newTag + ">");
+
+                // attributes
+                $.each(el.attributes,
+                    function(i, attribute) {
+                        $newTag.attr(attribute.nodeName, attribute.nodeValue);
+                    });
+                // content
+                $newTag.html($el.html());
+
+                $el.replaceWith($newTag);
+            });
+            return $newTag;
+        };
+    })(jQuery);
+
+    for (var i = 0; i < 20 && !@finished; i++) {
+        var src = $($(".@imageContainerClass")[@counter]);
+        if (src.length > 0) {
+            console.log(i);
+            src.tagName('a');
+            src = $($(".@imageContainerClass .image")[i]);
+            src.tagName('img');
+            $($(".overlay-album-caption")[i]).show();
+            @counter++;
+        } else {
+            @finished = true;
+            $.ajax({
+                url: window.location.pathname + "/FinishRender",
+                success: function (data) {
+                    console.log(data);
+                    $("#images-container").append(data);
+                    eval($(data).find("script").text());
+                }
+            });
+        }
+
+    }
+
+    $(window)
+        .scroll(function () {
+            if (!@finished) {
+                if ($(window).scrollTop() + $(window).height() === $(document).height()) {
+                    console.log(@counter);
+
+                    for (var i = @counter; i < @counter + 20 && !@finished; i++) {
+                        var src = $($(".@imageContainerClass")[i]);
+                        if (src.length > 0) {
+                            src.tagName('a');
+                            src = $($(".@imageContainerClass .image")[i]);
+                            src.tagName('img');
+                            $($(".overlay-album-caption")[i]).show();
+                        } else {
+                            @finished = true;
+                            $.ajax({
+                                url: window.location.pathname + "/FinishRender",
+                                success: function (data) {
+                                    $("#images-container").append(data);
+                                    $("script").each(function (index, value) {
+                                        console.log($(data).find("script").text());
+                                        eval($(data).find("script").text());
+                                    });
+                                }
+                            });
+                        }
+                    }
+                @counter = @counter + 20;
+                    $('.@justifiedGalleryClass').justifiedGallery('norewind');
+                    if ($('.@justifiedGalleryClass').data('lightGallery')) {
+                        $('.@justifiedGalleryClass').data('lightGallery').destroy(true);
+                    }
+                    $('.@lightGalleryClass')
+                        .lightGallery({
+                            speed: 400,
+                            hideBarsDelay: 2000,
+                            controls: false,
+                            thumbnail: false,
+                            pause: 3000
+                        });
+                }
+            }
+        });
+
+    $(".@lightGalleryClass")
+        .lightGallery({
+            speed: 400,
+            hideBarsDelay: 2000,
+            controls: false,
+            thumbnail: false,
+            pause: 3000
+        });
+
+    $(".@justifiedGalleryClass")
+        .justifiedGallery({
+            rowHeight: 200,
+            maxRowHeight: 300,
+            fixedHeight: false,
+            margins: 2,
+            lastRow: 'nojustify',
+            captions: false,
+            border: 0,
+            thumbnailPath: function(currentPath, width, height) {
+                if (Math.max(width, height) > 300) {
+                    return currentPath.replace(/(.*)(_[a-z]+)(\..*)/, "$1Low$2");
+                } else {
+                    return currentPath.replace(/(.*)(_[a-z]+)(\..*)/, "$1Medium$2");
+                }
+            }
+        });
+</script>

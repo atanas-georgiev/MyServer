@@ -1,0 +1,69 @@
+﻿@model MyServer.Web.Areas.ImageGallery.Models.Image.ImageListViewModel
+
+<div class="container well well-main well-mobile">
+    <h1 class="well-title text-center">Images</h1>
+
+    @*<h2 class="text-center">asa</h2>*@
+    <hr/>
+
+    @*@if (Model.Access == MyServer.Common.MyServerAccessType.Registrated && !User.Identity.IsAuthenticated)
+    {
+        @Html.Partial("_AccessDenidedUser");
+    }
+    else if (Model.Access == MyServer.Common.MyServerAccessType.Private)
+    {
+        @Html.Partial("_AccessDenidedAdmin");
+    }
+    else
+    {*@
+        <div id="images-container">
+            @await Component.InvokeAsync("ImageList", new { type = Model.Type, caption = Model.Caption, data = Model.Data })
+        </div>
+@*    }*@
+</div>
+
+@*@section Styles {
+    <meta property="og:url" content='@("http://atanas.it/ImageGallery/Album/Details/" + Model.Id)'/>
+    <meta property="og:type" content="article"/>
+    <meta property="og:title" content="@Model.Title"/>
+    <meta property="og:description" content="@Model.Description"/>
+    <meta property="og:image" content='@("http://atanas.it" + Model.FbImage)'/>
+    <meta property="fb:app_id" content="521558431365642"/>
+}*@
+
+@*<script>
+    $(document)
+        .ready(function() {
+           
+            window.fbAsyncInit = function() {
+                FB.init({
+                    appId: '521558431365642',
+                    xfbml: true,
+                    version: 'v2.6'
+                });
+            };
+
+            (function(d, s, id) {
+                var js, fjs = d.getElementsByTagName(s)[0];
+                if (d.getElementById(id)) {
+                    return;
+                }
+                js = d.createElement(s);
+                js.id = id;
+                js.src = "//connect.facebook.net/@CultureInfo.CurrentCulture.ToString()/sdk.js";
+                fjs.parentNode.insertBefore(js, fjs);
+            }(document, 'script', 'facebook-jssdk'));
+
+            if (document.getElementById('shareBtn')) {
+                document.getElementById('shareBtn').onclick = function() {
+                    urlfb = 'http://atanas.it/ImageGallery/Album/Details/' + '@Model.Id';
+                    FB.ui({
+                            method: 'share',
+                            display: 'popup',
+                            href: urlfb,
+                        },
+                        function(response) {});
+                }
+            }
+        });
+</script>*@

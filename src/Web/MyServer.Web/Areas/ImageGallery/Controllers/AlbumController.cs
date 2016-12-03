@@ -35,6 +35,16 @@ namespace MyServer.Web.Areas.ImageGallery.Controllers
 
         public IActionResult Details(string id)
         {
+            //if (id == "FinishRender")
+            //{
+            //    var album2 =
+            //        this.albumService.GetAllReqursive()
+            //            .To<AlbumViewModel>()
+            //            .FirstOrDefault();
+
+            //    return this.ViewComponent("ImageList", new { albumId = album2.Id });
+            //}
+
             var album =
                 this.albumService.GetAllReqursive()
                     .Where(x => x.Id.ToString() == id)
@@ -59,6 +69,16 @@ namespace MyServer.Web.Areas.ImageGallery.Controllers
         public IActionResult SortFilter(SortFilterAlbumViewModel model)
         {
             return this.ViewComponent("AllAlbums", new { ViewDetailsUrl = "Album/Details/", Filter = model.SearchString, Sort = model.SortType });
+        }
+
+        public IActionResult FinishRender()
+        {
+            var album =
+                this.albumService.GetAllReqursive()
+                    .To<AlbumViewModel>()
+                    .FirstOrDefault();
+
+            return this.ViewComponent("ImageList", new { albumId = album.Id });
         }
     }
 }

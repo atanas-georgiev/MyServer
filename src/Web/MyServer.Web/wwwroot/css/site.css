@@ -1,9 +1,4 @@
-﻿body {
-    /*padding-top: 50px;
-    padding-bottom: 20px;*/
-}
-
-/* Set widths on the form inputs since otherwise they're 100% wide */
+﻿/* Set widths on the form inputs since otherwise they're 100% wide */
 input,
 select,
 textarea {
@@ -74,13 +69,47 @@ figure {
     display: inline;
 }
 
-.body-content, .well-mobile {
-    padding: 10px;
+@media only screen and (min-width: 768px) {
+    .body-content, .well-mobile {
+        padding: 10px !important;
+    }
+
+    .navbar, .well, .well a:visited, .btn, .dropdown-menu, .dropdown-menu li a {
+        color: #fff !important;
+        background: rgba(0, 0, 0, 0.5) !important;
+        text-shadow: none !important;
+    }
 }
 
 @media only screen and (max-width: 768px) {
     .body-content, .well-mobile {
         padding: 2px !important
+    }
+
+    .body-content div {
+        padding: 0px;
+    }
+
+    .navbar {
+        color: #fff !important;
+        background: rgba(0, 0, 0, 1) !important;
+        text-shadow: none !important;
+    }
+
+    .well, .well a:visited, .btn {
+        color: #fff !important;
+        background: rgba(0, 0, 0, 0.5) !important;
+        text-shadow: none !important;
+    }
+
+    .form-group {
+        margin-left: 0!important;
+        margin-right: 0!important;
+    }
+
+    .form-group > div {
+        padding-left: 15px!important;
+        padding-right: 15px!important;
     }
 }
 
@@ -164,7 +193,6 @@ a div.overlay-album-caption, div div.overlay-album-caption {
     text-shadow: 2px 2px 2px #000000;
 }
 
-
 .modal form, .modal .form-control, .modal button, .modal input, .modal .modal-body {
     display: inline !important;
 } 
@@ -179,12 +207,6 @@ a div.overlay-album-caption, div div.overlay-album-caption {
 
 .overlay-admin-album-checkbox i {
     font-size: 2em;
-}
-
-.navbar, .well, .well a:visited, .btn, .dropdown-menu, .dropdown-menu li a {
-   color: #fff!important;
-   background: rgba(0, 0, 0, 0.5) !important;
-   text-shadow: none !important;
 }
 
 footer p, footer p a:visited {
@@ -221,4 +243,8 @@ footer p, footer p a:visited {
 
 .navbar-brand img {
     padding-top: 10px;
+}
+
+.text-danger, .field-validation-error {
+    color: red!important;
 }

@@ -2,6 +2,7 @@
 @using System.Threading.Tasks
 @using MyServer.Common.ImageGallery
 @using MyServer.Web.Areas.ImageGallery.Models.Album
+@using MyServer.ViewComponents.ImageGallery.Components.ImageList.Controllers
 @model MyServer.Web.Areas.ImageGallery.Models.Album.AlbumViewModel
 
 @{
@@ -77,32 +78,8 @@
         </div>
         <hr />
 
-        <div class="overlay-album mygallery lightgallery">
-            @foreach (var image in Model.Images.OrderBy(x => x.DateTaken))
-            {
-                <hhh class="imageContainer" href='@image.MiddleImageSource' data-download-url="@image.OriginalDownloadPath">
-                    <div class="image" src="@image.LowImageSource" alt="@image.Info"></div>
-                    <div class="overlay-album-caption" style="display: none">
-                        <div class="overlay-user-album-text">
-                            @if (!string.IsNullOrEmpty(image.Title))
-                            {
-                                <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
-                                @image.Title<br>
-                            }
-                            @if (!string.IsNullOrEmpty(image.DateTaken.ToString()))
-                            {
-                                <i class="fa fa-calendar" aria-hidden="true"></i>
-                                @image.DateTaken.Value.ToString("dd MMMM yyyy")<br>
-                            }
-                            @if (!string.IsNullOrEmpty(image.GpsName))
-                            {
-                                <i class="fa fa-map-marker" aria-hidden="true"></i>
-                                @image.GpsName
-                            }
-                        </div>
-                    </div>
-                </hhh>
-            }
+        <div id="images-container">
+            @await Component.InvokeAsync("ImageList", new { type = ImageListType.Album, data = Model.Id })
         </div>
     }
 </div>
@@ -117,69 +94,9 @@
 }
 
 <script>
-    var counter = 0;
-
     $(document)
         .ready(function() {
-            counter = 0;
-            (function($) {
-                var $newTag = null;
-                $.fn.tagName = function(newTag) {
-                    this.each(function(i, el) {
-                        var $el = $(el);
-                        $newTag = $("<" + newTag + ">");
-
-                        // attributes
-                        $.each(el.attributes,
-                            function(i, attribute) {
-                                $newTag.attr(attribute.nodeName, attribute.nodeValue);
-                            });
-                        // content
-                        $newTag.html($el.html());
-
-                        $el.replaceWith($newTag);
-                    });
-                    return $newTag;
-                };
-            })(jQuery);
-
-            for (var i = 0; i < 20; i++) {
-                var src = $($(".imageContainer")[counter]);
-                src.tagName('a');
-                src = $($(".image")[i]);
-                src.tagName('img');
-                $($(".overlay-album-caption")[i]).show();
-                counter++;
-            }
-
-            $(window)
-                .scroll(function() {
-                    if ($(window).scrollTop() + $(window).height() === $(document).height()) {
-                        console.log(counter);
-
-                        for (var i = counter; i < counter + 20; i++) {
-                            var src = $($(".imageContainer")[i]);
-                            src.tagName('a');
-                            src = $($(".image")[i]);
-                            src.tagName('img');
-                            $($(".overlay-album-caption")[i]).show();
-                        }
-                        counter = counter + 20;
-                        $('.mygallery').justifiedGallery('norewind');
-                        if ($('.mygallery').data('lightGallery')) {
-                            $('.mygallery').data('lightGallery').destroy(true);
-                        }
-                        $('.mygallery')
-                            .lightGallery({
-                                speed: 400,
-                                hideBarsDelay: 2000,
-                                controls: false,
-                                thumbnail: false,
-                                pause: 3000
-                            });
-                    }
-                });
-
+           
             window.fbAsyncInit = function() {
                 FB.init({
                     appId: '521558431365642',
@@ -210,32 +127,5 @@
                         function(response) {});
                 }
             }
-
-            $('.mygallery')
-                .lightGallery({
-                    speed: 400,
-                    hideBarsDelay: 2000,
-                    controls: false,
-                    thumbnail: false,
-                    pause: 3000
-                });
-
-            $(".mygallery")
-                .justifiedGallery({
-                    rowHeight: 200,
-                    maxRowHeight: 300,
-                    fixedHeight: false,
-                    margins: 2,
-                    lastRow: 'nojustify',
-                    captions: false,
-                    border: 0,
-                    thumbnailPath: function(currentPath, width, height) {
-                        if (Math.max(width, height) > 300) {
-                            return currentPath.replace(/(.*)(_[a-z]+)(\..*)/, "$1Low$2");
-                        } else {
-                            return currentPath.replace(/(.*)(_[a-z]+)(\..*)/, "$1Medium$2");
-                        }
-                    }
-                });
         });
 </script>
