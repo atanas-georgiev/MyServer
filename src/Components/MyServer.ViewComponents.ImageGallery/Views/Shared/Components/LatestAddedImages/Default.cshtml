@@ -1,0 +1,59 @@
+@using MyServer.ViewComponents.ImageGallery.Components.LastestAddedImages.Models
+@model IEnumerable<LatestAddedImagesViewModel>
+
+@{
+    var LocString = ViewBag.StringLocalizer;
+}
+
+<div class="well well-mobile">
+    <div>
+        <h1 class="text-center">@LocString["LatestImages"]</h1>
+        <br />
+        @if (Model != null)
+        {
+            <div id="lastest-images-gallery">
+                @foreach (var image in Model)
+                {
+                    <a href='@image.MiddleImageSource' data-download-url="@image.OriginalDownloadPath">
+                        <img class="image" src="@image.LowImageSource" alt="@image.Info"></img>
+                    </a>
+                }
+            </div>
+        }
+
+        <br />
+        <a href="@ViewBag.AllImagesRoute">
+            <h2 class="text-center">@LocString["AllImages"]</h2>
+        </a>
+    </div>
+</div>
+
+<script>
+    var heightRes = 80;
+
+    if ($(window).width() > 768) {
+        heightRes = 80;
+    } else {
+        heightRes = 80;
+    }
+
+    $("#lastest-images-gallery")
+        .justifiedGallery({
+            rowHeight: heightRes,
+            maxRowHeight: heightRes * 2,
+            fixedHeight: false,
+            margins: 2,
+            lastRow: 'nojustify',
+            captions: false,
+            border: 0
+        });
+
+    $("#lastest-images-gallery")
+        .lightGallery({
+            speed: 400,
+            hideBarsDelay: 2000,
+            controls: false,
+            thumbnail: false,
+            pause: 3000
+        });
+</script>

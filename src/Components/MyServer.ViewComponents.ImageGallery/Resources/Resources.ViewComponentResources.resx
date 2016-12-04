@@ -126,6 +126,9 @@
   <data name="AllAlbums" xml:space="preserve">
     <value>ALL ALBUMS</value>
   </data>
+  <data name="AllImages" xml:space="preserve">
+    <value>ALL IMAGES</value>
+  </data>
   <data name="Create" xml:space="preserve">
     <value>Create</value>
   </data>
@@ -146,6 +149,9 @@
   </data>
   <data name="LatestAlbums" xml:space="preserve">
     <value>NEW ALBUMS</value>
+  </data>
+  <data name="LatestImages" xml:space="preserve">
+    <value>NEW IMAGES</value>
   </data>
   <data name="Name" xml:space="preserve">
     <value>name</value>

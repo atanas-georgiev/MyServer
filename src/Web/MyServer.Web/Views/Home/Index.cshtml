@@ -3,7 +3,8 @@
 }
 
 <div class="col-md-9">    
-    @await Component.InvokeAsync("LatestAddedAlbums", new { AllImagesRoute = "/ImageGallery/Album" })
+    @await Component.InvokeAsync("LatestAddedAlbums", new { AllAlbumsRoute = "/ImageGallery/Album" })
+    @await Component.InvokeAsync("LatestAddedImages", new { AllImagesRoute = "/ImageGallery/Image" })
 </div>
 <div class="col-md-3 text-center">   
     @await Component.InvokeAsync("Social") 

@@ -24,12 +24,12 @@
             MappingFunctions.LoadResource(this.localizer);
         }
 
-        public IViewComponentResult Invoke(string allImagesRoute)
+        public IViewComponentResult Invoke(string allAlbumsRoute)
         {
             var albums = this.albumService.GetAllReqursive().To<LatestAddedAlbumsViewModel>();
                        
             this.ViewBag.StringLocalizer = this.localizer;
-            this.ViewBag.AllImagesRoute = allImagesRoute;
+            this.ViewBag.AllAlbumsRoute = allAlbumsRoute;
 
             return this.View(albums);
         }

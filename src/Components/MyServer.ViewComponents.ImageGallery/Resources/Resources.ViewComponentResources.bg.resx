@@ -156,4 +156,10 @@
   <data name="Create" xml:space="preserve">
     <value>Нов албум</value>
   </data>
+  <data name="AllImages" xml:space="preserve">
+    <value>ВСИЧКИ СНИМКИ</value>
+  </data>
+  <data name="LatestImages" xml:space="preserve">
+    <value>НОВИ СНИМКИ</value>
+  </data>
 </root>
