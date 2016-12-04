@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Localization;
+using MyServer.Common;
 using MyServer.Common.ImageGallery;
 using MyServer.Services.ImageGallery;
 using MyServer.Services.Mappings;
@@ -31,7 +32,7 @@ namespace MyServer.ViewComponents.ImageGallery.Components.ImageList.Controllers
         public IViewComponentResult Invoke(ImageListType type, string caption, object data)
         {
             this.ViewBag.Caption = caption;
-            IQueryable<ImageListViewModel> images = null;
+            List<ImageListViewModel> images = null;
 
             if (type == ImageListType.Album)
             {
@@ -39,7 +40,9 @@ namespace MyServer.ViewComponents.ImageGallery.Components.ImageList.Controllers
                 images =
                     this.imageService.GetAllReqursive()
                         .Where(x => x.AlbumId == id)
-                        .To<ImageListViewModel>();
+                        .To<ImageListViewModel>()
+                        .OrderBy(x => x.DateTaken)
+                        .ToList();
             }
             else if (type == ImageListType.Date)
             {
@@ -48,7 +51,20 @@ namespace MyServer.ViewComponents.ImageGallery.Components.ImageList.Controllers
                 images =
                     this.imageService.GetAllReqursive()
                         .Where(x => x.DateTaken != null && x.DateTaken.Value.Date == date)
-                        .To<ImageListViewModel>();
+                        .To<ImageListViewModel>()
+                        .OrderByDescending(x => x.DateTaken)
+                        .ToList(); ;
+            }
+            else if (type == ImageListType.Location)
+            {
+                var location = data as string;
+
+                images =
+                    this.imageService.GetAllReqursive()
+                        .Where(x => x.ImageGpsData != null && x.ImageGpsData.LocationName == location)
+                        .To<ImageListViewModel>()
+                        .OrderByDescending(x => x.DateTaken)
+                        .ToList(); ;
             }
 
             return this.View(images);

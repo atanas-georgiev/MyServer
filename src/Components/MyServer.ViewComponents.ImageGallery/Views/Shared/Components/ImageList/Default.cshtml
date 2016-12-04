@@ -13,12 +13,13 @@
 
 @if (!string.IsNullOrEmpty(ViewBag.Caption))
 {
+    <hr />
     <h2 class="text-center">@ViewBag.Caption</h2>
     <hr />
 }
 
 <div class="overlay-album @lightGalleryClass @justifiedGalleryClass">
-    @foreach (var image in Model.OrderBy(x => x.DateTaken))
+    @foreach (var image in Model)
     {
         <hhh class="@imageContainerClass" href='@image.MiddleImageSource' data-download-url="@image.OriginalDownloadPath">
             <div class="image" src="@image.LowImageSource" alt="@image.Info"></div>
@@ -146,10 +147,18 @@
             pause: 3000
         });
 
+    var heightRes = 200;
+
+    if ($(window).width() > 768) {
+        heightRes = 200;
+    } else {
+        heightRes = 110;
+    }
+    
     $(".@justifiedGalleryClass")
         .justifiedGallery({
-            rowHeight: 200,
-            maxRowHeight: 300,
+            rowHeight: heightRes,
+            maxRowHeight: heightRes * 2,
             fixedHeight: false,
             margins: 2,
             lastRow: 'nojustify',

@@ -1,0 +1,96 @@
+@using MyServer.Web.Areas.ImageGallery.Controllers
+@model MyServer.Web.Areas.ImageGallery.Models.Image.ImageListViewModel
+
+<form asp-action="@nameof(AlbumController.SortFilter)" data-ajax="true" data-ajax-method="POST" data-ajax-mode="replace" data-ajax-update="#image-container">
+    <div class="row">
+        <label asp-for="Type" class="col-sm-1 control-label"></label>
+        <div class="col-sm-5">
+            @(Html.Kendo().DropDownList()
+              .Name("imageType")
+              .HtmlAttributes(new { style = "width:80%" })
+              .DataTextField("Text")
+              .DataValueField("Value")
+              .Events(evt =>
+              {
+                  evt.Change("imgSelect.imgTypeChange");
+              })
+              .DataSource(source =>
+              {
+                  source.Read(read =>
+                  {
+                      read.Action("ReadImageListTypes", "Json");
+                  });
+              })
+            )
+        </div>
+        <label class="col-sm-1 control-label">@SharedLocalizer["Filter"]</label>
+        <div class="col-sm-5">
+            @(Html.Kendo().MultiSelect()
+              .Name("imageData")
+              .HtmlAttributes(new { style = "width:80%" })
+              .Placeholder("")
+              .DataTextField("Text")
+              .DataValueField("Value")
+              .HighlightFirst(true)
+              .Events(evt =>
+              {
+                  evt.Change("imgSelect.imgDataChange");
+              })
+              .DataSource(source =>
+              {
+                  source.Read(read =>
+                  {
+                      read.Action("ReadImageListData", "Json");
+                  });
+              })
+            )
+        </div>
+    </div>
+</form>
+<script>
+    var imgSelect = (function () {
+        var _imgTypeChange = function() {
+            var type = $('#imageType').data('kendoDropDownList');
+            
+            var opts = {
+                value: type.value().toString()
+            };
+
+            _bindTypeData(opts);
+        };
+
+        var _bindTypeData = function(opts) {
+            var kendoDs = new kendo.data.DataSource({
+                transport: {
+                    read: {
+                        url: 'Json/ReadImageListData?type=' + opts.value
+                    }
+                }
+            });
+
+            var msReadImageListData = $('#imageData').data('kendoMultiSelect');
+
+            msReadImageListData.setDataSource(kendoDs);
+            msReadImageListData.refresh();
+            _imgDataChange();
+        };
+
+        var _imgDataChange = function () {
+            var msReadImageListType = $('#imageType').data('kendoDropDownList').value().toString();
+            var msReadImageListData = $('#imageData').data('kendoMultiSelect').dataItems().map(function (a) { return a.Value; }).join('|');
+
+            $.ajax({
+                url: window.location.pathname + "/GetImageListData?type=" + msReadImageListType + "&data=" + msReadImageListData,
+                success: function (data) {
+                    $("#images-container").html(data);
+                    eval($(data).find("script").text());
+                }
+            });
+        };
+
+        return {
+            imgTypeChange: _imgTypeChange,
+            imgDataChange: _imgDataChange
+        };
+    }());
+</script>

@@ -253,6 +253,15 @@
     <value>Login / Register</value>
   </data>
   <data name="AccessDeninedUserText" xml:space="preserve">
-    <value>The album is accessible only for registered users</value>
+    <value>The page is accessible only for registered users</value>
+  </data>
+  <data name="Group" xml:space="preserve">
+    <value>Group</value>
+  </data>
+  <data name="Filter" xml:space="preserve">
+    <value>Filter</value>
+  </data>
+  <data name="Images" xml:space="preserve">
+    <value>Images</value>
   </data>
 </root>

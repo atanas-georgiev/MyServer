@@ -253,6 +253,18 @@
     <value>Вход / Регистрация</value>
   </data>
   <data name="AccessDeninedUserText" xml:space="preserve">
-    <value>Албума е достъпен само за регистрирани потребители</value>
+    <value>Страницата е достъпна само за регистрирани потребители</value>
+  </data>
+  <data name="ImageListType" xml:space="preserve">
+    <value>Групирай</value>
+  </data>
+  <data name="Group" xml:space="preserve">
+    <value>Групирай</value>
+  </data>
+  <data name="Filter" xml:space="preserve">
+    <value>Филтрирай</value>
+  </data>
+  <data name="Images" xml:space="preserve">
+    <value>Снимки</value>
   </data>
 </root>

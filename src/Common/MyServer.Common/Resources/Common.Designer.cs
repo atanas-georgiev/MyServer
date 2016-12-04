@@ -67,7 +67,40 @@ namespace MyServer.Common.Resources {
                 return ResourceManager.GetString("Private", resourceCulture);
             }
         }
-        
+
+        /// <summary>
+        ///    Looks up a localized string similar to Album.
+        /// </summary>
+        public static string Album
+        {
+            get
+            {
+                return ResourceManager.GetString("Album", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///    Looks up a localized string similar to Date.
+        /// </summary>
+        public static string Date
+        {
+            get
+            {
+                return ResourceManager.GetString("Date", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///    Looks up a localized string similar to Location.
+        /// </summary>
+        public static string Location
+        {
+            get
+            {
+                return ResourceManager.GetString("Location", resourceCulture);
+            }
+        }
+
         /// <summary>
         ///    Looks up a localized string similar to Public.
         /// </summary>

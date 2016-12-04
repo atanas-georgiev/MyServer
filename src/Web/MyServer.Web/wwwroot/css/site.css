@@ -106,11 +106,11 @@ figure {
         margin-left: 0!important;
         margin-right: 0!important;
     }
+}
 
-    .form-group > div {
-        padding-left: 15px!important;
-        padding-right: 15px!important;
-    }
+.form-group > div, form > .row, form > .row > div {
+    padding-left: 15px !important;
+    padding-right: 15px !important;
 }
 
 .overlay-album h1{

@@ -67,7 +67,18 @@ namespace MyServer.Web.Resources {
                 return ResourceManager.GetString("About", resourceCulture);
             }
         }
-        
+
+        /// <summary>
+        ///    Looks up a localized string similar to Group Me.
+        /// </summary>
+        public static string Group
+        {
+            get
+            {
+                return ResourceManager.GetString("Group", resourceCulture);
+            }
+        }
+
         /// <summary>
         ///    Looks up a localized string similar to Access.
         /// </summary>
