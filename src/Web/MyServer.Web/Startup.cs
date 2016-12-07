@@ -34,7 +34,8 @@
     using ViewComponents.ImageGallery.Resources;
     using ViewComponents.Common.Components.Social.Controllers;
     using Helpers.Middlewares;
-    
+    using Microsoft.AspNetCore.Mvc;
+
     public class Startup
     {
         public Startup(IHostingEnvironment env)
@@ -174,7 +175,7 @@
 
             services.AddCloudscribeNavigation(Configuration.GetSection("NavigationOptions"));
 
-            services.AddMvc()
+            services.AddMvc(options => options.Filters.Add(typeof(RequireHttpsAttribute)))
                 .AddViewLocalization(x => x.ResourcesPath = "Resources")
                 .AddDataAnnotationsLocalization()
                 .AddJsonOptions(options => options.SerializerSettings.ContractResolver = new DefaultContractResolver());
