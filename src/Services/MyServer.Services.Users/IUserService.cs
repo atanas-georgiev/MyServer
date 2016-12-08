@@ -3,10 +3,12 @@
     using System.Linq;
 
     using MyServer.Data.Models;
+    using MyServer.Common;
+    using System.Threading.Tasks;
 
     public interface IUserService
-    {
-        void Add(User user, string role);
+    {        
+        Task<string> Add(string email, string firstName = "", string lastName = "", string password = UserConstants.InitialPassword, string role = null);
 
         void Delete(string id);
 

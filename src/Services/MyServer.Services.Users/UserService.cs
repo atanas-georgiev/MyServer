@@ -9,37 +9,65 @@
     using MyServer.Data;
     using MyServer.Data.Common;
     using MyServer.Data.Models;
+    using MyServer.Common;
+    using System.Threading.Tasks;
 
     public class UserService : IUserService
-    {
-        private const string InitialPassword = "changeme";
-
+    {     
         private readonly MyServerDbContext context;
 
         private readonly UserManager<User> userManager;
 
+        private readonly RoleManager<User> roleManager;
+
         private readonly IRepository<User, string> users;
 
-        public UserService(IRepository<User> users, MyServerDbContext context, UserManager<User> userManager)
+        public UserService(IRepository<User> users, MyServerDbContext context, UserManager<User> userManager, RoleManager<User> roleManager)
         {
             this.users = users;
             this.context = context;
             this.userManager = userManager;
+            this.roleManager = roleManager;
         }
 
-        public void Add(User user, string role)
+        public async Task<string> Add(string email, string firstName = "", string lastName = "", string password = UserConstants.InitialPassword, string role = null)
         {
-            if (user != null && !string.IsNullOrEmpty(role))
+            if (RegexUtilities.IsValidEmail(email))
             {
-                user.CreatedOn = DateTime.Now;
-                user.UserName = user.Email;
-                var result = this.userManager.CreateAsync(user, InitialPassword).Result;
-
-                if (result.Succeeded)
+                var user = new User
                 {
-                    this.Update(user, role);
+                    UserName = email,
+                    Email = email,
+                    FirstName = firstName,
+                    LastName = lastName,
+                    CreatedOn = DateTime.UtcNow
+                };
+
+                var userResult = await this.userManager.CreateAsync(user, password);
+
+                if (userResult.Succeeded)
+                {
+                    role = role ?? MyServerRoles.User.ToString();
+
+                    var roleResult = await this.userManager.AddToRoleAsync(user, role);
+                    if (!roleResult.Succeeded)
+                    {
+                        return roleResult.Errors.First().ToString();
+                    }
+
+                    return string.Empty;
                 }
+                else
+                {
+                    return userResult.Errors.First().ToString();
+                }         
             }
+            else
+            {
+                return "Email is not valid.";
+            }
+
+            return "Fail.";
         }
 
         public void Delete(string id)

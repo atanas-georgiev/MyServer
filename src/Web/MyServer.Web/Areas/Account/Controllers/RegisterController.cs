@@ -40,33 +40,28 @@
         {
             if (this.ModelState.IsValid)
             {
-                var user = new User
-                               {
-                                   UserName = model.Email,
-                                   Email = model.Email,
-                                   FirstName = model.FirstName,
-                                   LastName = model.LastName,
-                                   CreatedOn = DateTime.UtcNow
-                               };
+                var result = await this.UserService.Add(model.Email, model.FirstName, model.LastName, model.Password);                
 
-                var result = await this.userManager.CreateAsync(user, model.Password);
-
-                if (result.Succeeded)
+                if (string.IsNullOrEmpty(result))
                 {
-                    var role = this.dbContext.Roles.First(x => x.Name == MyServerRoles.User.ToString());
-                    this.dbContext.UserRoles.Add(new IdentityUserRole<string>() { RoleId = role.Id, UserId = user.Id });
-                    this.dbContext.SaveChanges();
+                    var user = this.UserService.GetAll().FirstOrDefault(x => x.Email == model.Email);
 
-                    await this.signInManager.SignInAsync(user, isPersistent: false);
-                    if (string.IsNullOrEmpty(model.returnUrl))
+                    if (user != null)
                     {
-                        return this.RedirectToAction("Index", "Home", new { area = string.Empty });
+                        await this.signInManager.SignInAsync(user, isPersistent: false);
                     }
-
-                    return RedirectToLocal(model.returnUrl);
+                }
+                else
+                {
+                    this.ModelState.AddModelError("Email", Startup.SharedLocalizer["UsernameExist"]);
                 }
                 
-                this.ModelState.AddModelError("Email", Startup.SharedLocalizer["UsernameExist"]);
+                if (string.IsNullOrEmpty(model.returnUrl))
+                {
+                    return this.RedirectToAction("Index", "Home", new { area = string.Empty });
+                }
+
+                return RedirectToLocal(model.returnUrl);                
             }
 
             return this.View(model);
