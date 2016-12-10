@@ -25,18 +25,16 @@
     @*favicon*@
 
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <meta name="robots" content="index, follow">
-    <link rel=”author” href=”https://plus.google.com/115663164281585493249” />    
 
     @if (System.Globalization.CultureInfo.CurrentCulture.ToString() == "bg-BG")
     {
-        <link rel="alternate" hreflang="en" href="http://atanas.it/?culture=en-US" />
+        <link rel="alternate" hreflang="en" href="https://atanas.it/?culture=en-US" />
         <meta name="description" content="Личен портал на Атанас Георгиев. Съдържа информация за контакт, албуми, снимки, видеа и връзки към някои мои проекти." />
     }
     else
     {
-        <link rel="alternate" hreflang="bg" href="http://atanas.it/?culture=bg-BG" />
+        <link rel="alternate" hreflang="bg" href="https://atanas.it/?culture=bg-BG" />
         <meta name="description" content="Atanas Georgiev's personal portal. Contains contact information, albums, photos, videos and some of my works." />
     }
 
@@ -56,11 +54,42 @@
     <environment names="Staging,Production">
         <link rel="stylesheet" href="~/css/site.min.css" asp-append-version="true"/>
     </environment>
-    <link rel="stylesheet" href="~/lib/kendo-ui/styles/kendo.common-material.min.css" />
-    <link rel="stylesheet" href="~/lib/kendo-ui/styles/kendo.materialblack.min.css" />
     @RenderSection("styles", required: false)
+
+    <link rel="stylesheet" href="@Url.Content("https://kendo.cdn.telerik.com/2016.2.714/styles/kendo.common-material.min.css")" />
+    <link rel="stylesheet" href="@Url.Content("https://kendo.cdn.telerik.com/2016.2.714/styles/kendo.materialblack.min.css")" />
+
+    @*Background*@
+    @{
+        string backgroudImage;
+        if (!MemoryCache.TryGetValue("background", out backgroudImage))
+        {
+            backgroudImage = ImageService.GetRandomImagePath();
+            MemoryCache.Set("background", backgroudImage, new MemoryCacheEntryOptions().SetAbsoluteExpiration(TimeSpan.FromDays(1)));
+        }
+    }
+
+    <style>
+    @@media only screen and (min-width: 768px) {
+        body {
+            background-image: url(@backgroudImage);
+            background-size: cover;
+            background-attachment: fixed;
+        }
+    }
+
+    @@media only screen and (max-width: 768px) {
+        body {
+            background-image: url(/img/water-abstract-water-repeating-image.jpg);
+            background-size: cover;
+            background-attachment: fixed;
+        }
+    }
+    </style>
+    @*Background*@
 </head>
 <body>
+
 <header>
     <nav>
         <div class="navbar navbar-inverse navbar-fixed-top">
@@ -74,10 +103,10 @@
      
                     @*<a asp-area="" asp-controller="Home" asp-action="@nameof(HomeController.Index)" class="navbar-brand">@LocString["Title"]</a>*@
                     <a asp-area="" asp-controller="Home" asp-action="@nameof(HomeController.SetLanguage)" asp-route-culture="bg-BG" asp-route-returnUrl="@Context.Request.Path" class="navbar-brand">
-                        <img src="~/img/bg-icon.png"/>
+                        <img src="~/img/bg-icon.png" alt="bg icon"/>
                     </a>
                     <a asp-area="" asp-controller="Home" asp-action="@nameof(HomeController.SetLanguage)" asp-route-culture="en-US" asp-route-returnUrl="@Context.Request.Path" class="navbar-brand">
-                        <img src="~/img/us-icon.png"/>
+                        <img src="~/img/us-icon.png" alt="en icon"/>
                     </a>
                 </div>
                 <div class="navbar-collapse navbar-inverse-collapse collapse">
@@ -107,37 +136,23 @@
             <script src="~/js/site.min.js" asp-append-version="true"></script>
         </environment>
 
-        <br/>
-        <br/>
-        <br/>
-        <br/>
-
+        <script src="https://kendo.cdn.telerik.com/2016.2.714/js/kendo.all.min.js"></script>
+        <script src="https://kendo.cdn.telerik.com/2016.2.714/js/kendo.aspnetmvc.min.js"></script>
+        
         @{
-            string backgroudImage;
-            if (!MemoryCache.TryGetValue("background", out backgroudImage))
-            {
-                backgroudImage = ImageService.GetRandomImagePath();
-                MemoryCache.Set("background", backgroudImage, new MemoryCacheEntryOptions().SetAbsoluteExpiration(TimeSpan.FromDays(1)));
-            }
-
-            <style>
-                @@media only screen and (min-width: 768px) {
-                    body {
-                        background-image: url(@backgroudImage);
-                        background-size: cover;
-                        background-attachment: fixed;
-                    }
-                }
-
-                @@media only screen and (max-width: 768px) {
-                    body {
-                        background-image: url(/img/water-abstract-water-repeating-image.jpg);
-                        background-size: cover;
-                        background-attachment: fixed;
-                    }
-                }
-            </style>
+            var culture = System.Globalization.CultureInfo.CurrentCulture.ToString();
+            var cultureKendoScript = "https://kendo.cdn.telerik.com/2016.2.714/js/cultures/kendo.culture." + culture + ".min.js";
         }
+        
+        <script src="@cultureKendoScript"></script>
+        <script>kendo.culture("@culture");</script>
+        <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCwTwQMYg1fPJn532TT3o-_SQlbhEOf64g&libraries=places"></script>
+
+        <br/>
+        <br/>
+        <br/>
+        <br/>
+
         @await Component.InvokeAsync("Navigation", new { viewName = "BootstrapBreadcrumbs", filterName = NamedNavigationFilters.Breadcrumbs, startingNodeKey = "" })
         @RenderBody()
     </div>

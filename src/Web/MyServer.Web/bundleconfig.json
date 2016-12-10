@@ -15,6 +15,7 @@
       "wwwroot/css/lg-fb-comment-box.css",
       "wwwroot/css/bootstrap-material-design.css",
       "wwwroot/css/ripples.css",
+      "wwwroot/lib/kendo-ui/styles/kendo.common-material.min.css",
       "wwwroot/css/site.css"
     ]
   },

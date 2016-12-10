@@ -15,7 +15,7 @@
                 @foreach (var image in Model)
                 {
                     <a href='@image.MiddleImageSource' data-download-url="@image.OriginalDownloadPath">
-                        <img class="image" src="@image.LowImageSource" alt="@image.Info"></img>
+                        <img class="image" src="@image.LowImageSource" alt="@image.Info" />
                     </a>
                 }
             </div>
