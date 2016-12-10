@@ -79,8 +79,8 @@
             var helper = new PathHelper(env, userManager);
 
             //NLog
-            loggerFactory.AddNLog();
-            env.ConfigureNLog("nlog.config");
+            //loggerFactory.AddNLog();
+            //env.ConfigureNLog("nlog.config");
 
             scopeFactory.SeedData();
 

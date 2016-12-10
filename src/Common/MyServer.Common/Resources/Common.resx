@@ -136,21 +136,21 @@
     <value>Registrated</value>
   </data>
   <data name="SortDateAddedAsc" xml:space="preserve">
-    <value>^ Date added</value>
+    <value>&lt;i class="fa fa-sort-amount-asc" aria-hidden="true"&gt;&lt;/i&gt; Date added</value>
   </data>
   <data name="SortDateAddedDesc" xml:space="preserve">
-    <value>v Date added</value>
+    <value>&lt;i class="fa fa-sort-amount-desc" aria-hidden="true"&gt;&lt;/i&gt; Date added</value>
   </data>
   <data name="SortImagesCountAsc" xml:space="preserve">
-    <value>^ Image count</value>
+    <value>&lt;i class="fa fa-sort-amount-asc" aria-hidden="true"&gt;&lt;/i&gt; Image count</value>
   </data>
   <data name="SortImagesCountDesc" xml:space="preserve">
-    <value>v Image count</value>
+    <value>&lt;i class="fa fa-sort-amount-desc" aria-hidden="true"&gt;&lt;/i&gt; Image count</value>
   </data>
   <data name="SortImagesDateAsc" xml:space="preserve">
-    <value>^ Date images</value>
+    <value>&lt;i class="fa fa-sort-amount-asc" aria-hidden="true"&gt;&lt;/i&gt; Date images</value>
   </data>
   <data name="SortImagesDateDesc" xml:space="preserve">
-    <value>v Date images</value>
+    <value>&lt;i class="fa fa-sort-amount-desc" aria-hidden="true"&gt;&lt;/i&gt; Date images</value>
   </data>
 </root>

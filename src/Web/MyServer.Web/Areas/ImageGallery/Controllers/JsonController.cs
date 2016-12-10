@@ -115,5 +115,34 @@ namespace MyServer.Web.Areas.ImageGallery.Controllers
 
             return this.Json("");
         }
+
+        public IActionResult ReadSortListTypes([DataSourceRequest] DataSourceRequest request)
+        {
+            Func<object, string> GetDisplayName = o =>
+            {
+                var result = null as string;
+                var display = o.GetType()
+                               .GetTypeInfo()
+                               .GetMember(o.ToString()).First()
+                               .GetCustomAttributes(false)
+                               .OfType<DisplayAttribute>()
+                               .LastOrDefault();
+                if (display != null)
+                {
+                    result = display.GetName();
+                }
+
+                return result ?? o.ToString();
+            };
+
+            var values = Enum.GetValues(typeof(MyServer.Common.MyServerSortType)).Cast<object>()
+                             .Select(v => new
+                             {
+                                 Text = GetDisplayName(v).ToString(),
+                                 Value = v.ToString()
+                             });
+
+            return Json(values);
+        }
     }
 }

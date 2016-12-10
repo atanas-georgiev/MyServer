@@ -136,16 +136,6 @@
             <script src="~/js/site.min.js" asp-append-version="true"></script>
         </environment>
 
-        <script src="https://kendo.cdn.telerik.com/2016.2.714/js/kendo.all.min.js"></script>
-        <script src="https://kendo.cdn.telerik.com/2016.2.714/js/kendo.aspnetmvc.min.js"></script>
-        
-        @{
-            var culture = System.Globalization.CultureInfo.CurrentCulture.ToString();
-            var cultureKendoScript = "https://kendo.cdn.telerik.com/2016.2.714/js/cultures/kendo.culture." + culture + ".min.js";
-        }
-        
-        <script src="@cultureKendoScript"></script>
-        <script>kendo.culture("@culture");</script>
         <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCwTwQMYg1fPJn532TT3o-_SQlbhEOf64g&libraries=places"></script>
 
         <br/>

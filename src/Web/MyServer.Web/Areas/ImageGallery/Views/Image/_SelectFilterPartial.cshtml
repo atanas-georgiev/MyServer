@@ -3,11 +3,10 @@
 
 <form asp-action="@nameof(AlbumController.SortFilter)" data-ajax="true" data-ajax-method="POST" data-ajax-mode="replace" data-ajax-update="#image-container">
     <div class="row">
-        <label asp-for="Type" class="col-sm-1 control-label"></label>
-        <div class="col-sm-5">
+        <div class="col-md-2">
+            <div>@SharedLocalizer["Group"]</div>
             @(Html.Kendo().DropDownList()
               .Name("imageType")
-              .HtmlAttributes(new { style = "width:80%" })
               .DataTextField("Text")
               .DataValueField("Value")
               .Events(evt =>
@@ -23,11 +22,10 @@
               })
             )
         </div>
-        <label class="col-sm-1 control-label">@SharedLocalizer["Filter"]</label>
-        <div class="col-sm-5">
+        <div class="col-md-4">
+            <div>@SharedLocalizer["Filter"]</div>
             @(Html.Kendo().MultiSelect()
               .Name("imageData")
-              .HtmlAttributes(new { style = "width:80%" })
               .Placeholder("")
               .DataTextField("Text")
               .DataValueField("Value")

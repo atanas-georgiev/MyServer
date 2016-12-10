@@ -3,6 +3,8 @@
     ViewData["Title"] = SharedLocalizer["Albums"];
 }
 
+@await Html.PartialAsync("_KendoScripts")
+
 <div class="well well-mobile">
     <div>
         <h1 class="text-center">@SharedLocalizer["Albums"]</h1>

@@ -3,21 +3,38 @@
 
 <form asp-action="@nameof(AlbumController.SortFilter)" data-ajax="true" data-ajax-method="POST" data-ajax-mode="replace" data-ajax-update="#image-container">
     <div class="row">
-        <div class="col-sm-2">
-            @if (User.IsInRole("Admin"))
-            {
+
+        @if (User.IsInRole("Admin"))
+        {
+            <div class="col-md-2">
                 <a asp-action="Create" asp-controller="Album" asp-route-area="ImageGalleryAdmin" class="btn btn-default">@SharedLocalizer["CreateAlbum"]</a>
-            }
+            </div>
+        }
+
+        <div class="col-md-2">
+            <div>@SharedLocalizer["Search"]</div>
+            @(Html.Kendo()
+                .TextBoxFor(m => m.SearchString)
+            )
         </div>
-        <label asp-for="SearchString" class="col-sm-1 control-label"></label>
-        <div class="col-sm-3">
-            <input asp-for="SearchString" class="form-control" />
+
+        <div class="col-sm-2">
+            <div>@SharedLocalizer["Sort"]</div>
+            @(Html.Kendo().DropDownList()
+              .Name("SortType")
+              .DataTextField("Text")
+              .DataValueField("Value")
+              .ValueTemplate("#= data.Text #")
+              .Template("#= data.Text #")
+              .DataSource(source =>
+              {
+                  source.Read(read =>
+                  {
+                      read.Action("ReadSortListTypes", "Json");
+                  });
+              })
+            )
         </div>
-        <label asp-for="SortType" class="col-sm-1 control-label"></label>
-        <div class="col-sm-3">
-            @Html.EditorFor(m => m.SortType)
-        </div>
-        <div class="col-sm-2"></div>
     </div>
     <input type="submit" value="" class="btn btn-default" style="display:none" id="submit-button" />
 </form>

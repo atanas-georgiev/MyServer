@@ -9,12 +9,12 @@
 
     public class HomeController : Controller
     {
-        private static Logger Logger = LogManager.GetCurrentClassLogger();
+        //private static Logger Logger = LogManager.GetCurrentClassLogger();
 
         public IActionResult Index()
         {
-            var user = string.IsNullOrEmpty(this.User.Identity.Name) ? "Annonymous" : this.User.Identity.Name;
-            Logger.Info("Home page, user -> " + user + " -> " +  this.Request.HttpContext.Connection.RemoteIpAddress);
+            //var user = string.IsNullOrEmpty(this.User.Identity.Name) ? "Annonymous" : this.User.Identity.Name;
+            //Logger.Info("Home page, user -> " + user + " -> " +  this.Request.HttpContext.Connection.RemoteIpAddress);
             return this.View();
         }
 

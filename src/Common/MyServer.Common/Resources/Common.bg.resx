@@ -136,21 +136,21 @@
     <value>Потребители</value>
   </data>
   <data name="SortDateAddedAsc" xml:space="preserve">
-    <value>^ Дата добавен</value>
+    <value>&lt;i class="fa fa-sort-amount-asc" aria-hidden="true"&gt;&lt;/i&gt; Дата добавен</value>
   </data>
   <data name="SortDateAddedDesc" xml:space="preserve">
-    <value>v Дата добавен</value>
+    <value>&lt;i class="fa fa-sort-amount-desc" aria-hidden="true"&gt;&lt;/i&gt; Дата добавен</value>
   </data>
   <data name="SortImagesCountAsc" xml:space="preserve">
-    <value>^ Брой снимки</value>
+    <value>&lt;i class="fa fa-sort-amount-asc" aria-hidden="true"&gt;&lt;/i&gt; Брой снимки</value>
   </data>
   <data name="SortImagesCountDesc" xml:space="preserve">
-    <value>v Брой снимки</value>
+    <value>&lt;i class="fa fa-sort-amount-desc" aria-hidden="true"&gt;&lt;/i&gt; Брой снимки</value>
   </data>
   <data name="SortImagesDateAsc" xml:space="preserve">
-    <value>^ Дата снимки</value>
+    <value>&lt;i class="fa fa-sort-amount-asc" aria-hidden="true"&gt;&lt;/i&gt; Дата снимки</value>
   </data>
   <data name="SortImagesDateDesc" xml:space="preserve">
-    <value>v Дата снимки</value>
+    <value>&lt;i class="fa fa-sort-amount-desc" aria-hidden="true"&gt;&lt;/i&gt; Дата снимки</value>
   </data>
 </root>
