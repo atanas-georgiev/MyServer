@@ -248,3 +248,7 @@ footer p, footer p a:visited {
 .text-danger, .field-validation-error {
     color: red!important;
 }
+
+.text-error {
+    font-size: 3em;
+}

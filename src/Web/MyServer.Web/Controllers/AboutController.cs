@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace MyServer.Web.Controllers
 {
-    public class About : Controller
+    public class AboutController : Controller
     {
         public IActionResult AboutMe()
         {

@@ -8,11 +8,6 @@
 
     public class HomeController : Controller
     {
-        public IActionResult Error()
-        {
-            return this.View();
-        }
-
         public IActionResult Index()
         {
             return this.View();

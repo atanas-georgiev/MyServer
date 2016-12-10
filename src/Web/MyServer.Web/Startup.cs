@@ -80,7 +80,17 @@
             loggerFactory.AddConsole(this.Configuration.GetSection("Logging"));
             loggerFactory.AddDebug();
 
-            scopeFactory.SeedData();            
+            scopeFactory.SeedData();
+
+            app.UseStaticFiles(
+                new StaticFileOptions()
+                {
+                    OnPrepareResponse = (context) =>
+                    {
+                        var headers = context.Context.Response.GetTypedHeaders();
+                        headers.CacheControl = new CacheControlHeaderValue() { MaxAge = TimeSpan.FromDays(100) };
+                    }
+                });
 
             if (env.IsDevelopment())
             {
@@ -90,22 +100,9 @@
             }
             else
             {
-                app.UseDeveloperExceptionPage();
-                app.UseDatabaseErrorPage();
-                app.UseBrowserLink();
-
-                // app.UseExceptionHandler("/Home/Error");
+                app.UseExceptionHandler("/Error/StatusCode/500");
+                app.UseStatusCodePagesWithReExecute("/Error/StatusCode/{0}");
             }            
-
-            app.UseStaticFiles(
-                new StaticFileOptions()
-                    {
-                        OnPrepareResponse = (context) =>
-                            {
-                                var headers = context.Context.Response.GetTypedHeaders();
-                                headers.CacheControl = new CacheControlHeaderValue() { MaxAge = TimeSpan.FromDays(100) };
-                            }
-                    });
 
             app.Map("/sitemap.xml", SitemapMiddleware.HandleSitemap);
 

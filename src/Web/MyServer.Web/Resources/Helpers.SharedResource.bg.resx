@@ -267,4 +267,13 @@
   <data name="Images" xml:space="preserve">
     <value>Снимки</value>
   </data>
+  <data name="Error" xml:space="preserve">
+    <value>Грешка</value>
+  </data>
+  <data name="ErrorCritical" xml:space="preserve">
+    <value>Възникна грешка. Моля опитайте по-късно.</value>
+  </data>
+  <data name="ErrorNotFound" xml:space="preserve">
+    <value>Страницата не е намерена</value>
+  </data>
 </root>

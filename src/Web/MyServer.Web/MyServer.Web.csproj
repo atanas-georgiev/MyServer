@@ -143,4 +143,9 @@
   <Target Name="BeforeBuild">
     <Exec Command="dotnet bundle" />
   </Target>
+  <ItemGroup>
+    <Content Update="wwwroot\img\error.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
 </Project>

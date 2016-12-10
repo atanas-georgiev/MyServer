@@ -264,4 +264,13 @@
   <data name="Images" xml:space="preserve">
     <value>Images</value>
   </data>
+  <data name="Error" xml:space="preserve">
+    <value>Error</value>
+  </data>
+  <data name="ErrorCritical" xml:space="preserve">
+    <value>Error. Please try again later.</value>
+  </data>
+  <data name="ErrorNotFound" xml:space="preserve">
+    <value>Not found</value>
+  </data>
 </root>
