@@ -31,10 +31,10 @@
 
     using Newtonsoft.Json.Serialization;
     using System.Collections.Generic;
-    using ViewComponents.ImageGallery.Resources;
     using ViewComponents.Common.Components.Social.Controllers;
     using Helpers.Middlewares;
     using Microsoft.AspNetCore.Mvc;
+    using NLog.Extensions.Logging;
 
     public class Startup
     {
@@ -77,8 +77,10 @@
                     });
 
             var helper = new PathHelper(env, userManager);
-            loggerFactory.AddConsole(this.Configuration.GetSection("Logging"));
-            loggerFactory.AddDebug();
+
+            //NLog
+            loggerFactory.AddNLog();
+            env.ConfigureNLog("nlog.config");
 
             scopeFactory.SeedData();
 

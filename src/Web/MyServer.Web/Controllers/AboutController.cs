@@ -9,7 +9,7 @@ namespace MyServer.Web.Controllers
     public class AboutController : Controller
     {
         public IActionResult AboutMe()
-        {
+        {            
             return this.View();
         }
 
