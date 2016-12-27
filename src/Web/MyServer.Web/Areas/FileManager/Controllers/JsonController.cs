@@ -26,44 +26,47 @@ namespace MyServer.Web.Areas.FileManager.Controllers
         public JsonController(IHostingEnvironment env, IUserService userService, UserManager<User> userManager, SignInManager<User> signInManager, MyServerDbContext dbContext) : base(userService, userManager, signInManager, dbContext)
         {
             this.env = env;
+            
         }
 
-        public JsonResult Read(string path)
+        public JsonResult Read(string id)
         {
-            list.Clear();
-            DirSearch(this.env.WebRootPath);
+            IEnumerable<KendoTreeViewViewModel> res = null;
+
+            if (id == null)
+            {
+                res = DirSearch(this.env.WebRootPath);
+            }
+            else
+            {
+                res = DirSearch(id);
+            }
             
-            return Json(list);            
+            return Json(res);        
         }
 
         private static List<KendoTreeViewViewModel> list = new List<KendoTreeViewViewModel>();
 
-        static void DirSearch(string sDir)
+        static List<KendoTreeViewViewModel> DirSearch(string sDir)
         {
-            foreach (string d in Directory.GetDirectories(sDir))
+            var dirs = new List<KendoTreeViewViewModel>();
+
+            foreach (string directory in Directory.GetDirectories(sDir))
             {
-                var files = new List<KendoTreeViewViewModel>();
-                foreach (string f in Directory.GetFiles(d))
-                {                    
-                    files.Add(new KendoTreeViewViewModel()
-                    {
-                        Id = f,
-                        Name = f,
-                        HasChildren = false
-                    });
-                }
+                var subDir = DirSearch(directory);
 
-                list.Add(new KendoTreeViewViewModel()
+                dirs.Add(new KendoTreeViewViewModel()
                 {
-                    Id = d,
-                    Name = d,
-                    HasChildren = true,
-                    Children = files
+                    id = directory,
+                    Name = directory.Split('\\').LastOrDefault(),
+                    hasChildren = subDir.Any(),
+                    Children = subDir
                 });
-                list.AddRange(files);
-
-                DirSearch(d);
             }
+
+            list.AddRange(dirs);
+
+            return dirs;
         }
     }
 }

@@ -174,7 +174,9 @@
 
             services.AddCloudscribeNavigation(Configuration.GetSection("NavigationOptions"));
 
-            services.AddMvc(options => options.Filters.Add(typeof(RequireHttpsAttribute)))
+            services.AddMvc(
+                options => options.Filters.Add(typeof(RequireHttpsAttribute))
+                )
                 .AddViewLocalization(x => x.ResourcesPath = "Resources")
                 .AddDataAnnotationsLocalization()
                 .AddJsonOptions(options => options.SerializerSettings.ContractResolver = new DefaultContractResolver());

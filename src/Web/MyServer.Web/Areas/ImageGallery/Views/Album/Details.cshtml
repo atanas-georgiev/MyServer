@@ -19,7 +19,7 @@
     {
         @Html.Partial("_AccessDenidedUser");
     }
-    else if (Model.Access == MyServer.Common.MyServerAccessType.Private)
+    else if (Model.Access == MyServer.Common.MyServerAccessType.Private && !User.IsInRole(MyServer.Common.MyServerRoles.Admin.ToString()))
     {
         @Html.Partial("_AccessDenidedAdmin");
     }

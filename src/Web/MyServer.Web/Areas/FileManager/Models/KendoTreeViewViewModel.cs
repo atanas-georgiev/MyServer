@@ -4,9 +4,9 @@ namespace MyServer.Web.Areas.FileManager.Models
 {
     public class KendoTreeViewViewModel
     {
-        public string Id { get; set; }
+        public string id { get; set; }
         public string Name { get; set; }
-        public bool HasChildren { get; set; }
+        public bool hasChildren { get; set; }
 
         public IEnumerable<KendoTreeViewViewModel> Children { get; set; }
     }

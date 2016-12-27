@@ -2,8 +2,6 @@
     ViewData["Title"] = SharedLocalizer["FileManager"];
 }
 
-@Html.Partial("_KendoScriptsPartial")
-
 <div class="well well-mobile">
 
     @(Html.Kendo().TreeView()
@@ -11,6 +9,5 @@
     .DataTextField("Name")
     .DataSource(dataSource => dataSource        
         .Read(read => read.Action("Read", "Json"))
-    )
-    )
+    ))
 </div>
