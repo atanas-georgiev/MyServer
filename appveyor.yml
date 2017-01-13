@@ -1,5 +1,8 @@
 image: Visual Studio 2017 RC
 
+sn -Vr NuGet.Build.Tasks.Pack,31bf3856ad364e35
+sn -Vr NuGet.Commands,31bf3856ad364e35
+
 version: 1.0.{build}
 configuration: Release
 before_build:
