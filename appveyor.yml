@@ -5,14 +5,14 @@ version: 1.0.{build}
 configuration: Release
 
 before_build:
-- nuget restore C:\projects\myserver\src\Web\MyServer.Web\MyServer.sln
+- nuget restore C:\projects\myserver\MyServer.sln
 - set PATH=C:\Program Files (x86)\MSBuild\15.0\Bin;%PATH%
 
 build:
   verbosity: minimal
   
 after_build:
-- dotnet publish C:\projects\myserver\src\Web\MyServer.Web\project.json -o C:\projects\myserver\AppOutput\DeployTest --configuration Release
+- dotnet publish -o C:\projects\myserver\AppOutput\DeployTest --configuration Release
 
 test: off
 
