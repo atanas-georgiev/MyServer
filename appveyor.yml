@@ -5,7 +5,8 @@ version: 1.0.{build}
 configuration: Release
 
 before_build:
-- msbuild /t:restore
+- nuget restore C:\projects\myserver\src\Web\MyServer.Web\MyServer.sln
+- set PATH=C:\Program Files (x86)\MSBuild\15.0\Bin;%PATH%
 
 build:
   verbosity: minimal
