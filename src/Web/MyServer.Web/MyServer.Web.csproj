@@ -3,6 +3,7 @@
   <PropertyGroup Label="Configuration">
     <PreBuildEvent>
     </PreBuildEvent>
+    <OutputPath>bin\</OutputPath>
   </PropertyGroup>
   <PropertyGroup>
     <OutputType>Exe</OutputType>
