@@ -5,9 +5,8 @@ configuration: Release
 before_build:
 - ps: >-
     dotnet --version
+    nuget restore
     dotnet restore
-    sn -Vr NuGet.Build.Tasks.Pack,31bf3856ad364e35
-    sn -Vr NuGet.Commands,31bf3856ad364e35
 build:
   verbosity: minimal
   
