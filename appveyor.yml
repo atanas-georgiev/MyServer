@@ -7,7 +7,7 @@ configuration: Release
 before_build:
 
 - set PATH=C:\Program Files (x86)\MSBuild\15.0\Bin;%PATH%
-- nuget restore C:\projects\myserver\MyServer.sln -MSBuildVersion 15.1.458.808
+- dotnet restore
 
 build:
   verbosity: minimal
