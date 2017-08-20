@@ -1,4 +1,5 @@
-﻿@using MyServer.Data.Models
+﻿@using System.Linq
+@using MyServer.Data.Models
 @model AccountLoginViewModel
 @inject SignInManager<User> SignInManager
 
@@ -44,8 +45,8 @@
             <section>
                 <h2>@LocString["ExternalProvider"]</h2>
                 @{
-                    var loginProviders = 0;//SignInManager.GetExternalAuthenticationSchemes().ToList();
-                    if (loginProviders == 0)
+                    var loginProviders = SignInManager.GetExternalAuthenticationSchemesAsync().Result;
+                    if (loginProviders.ToList().Count() == 0)
                     {
                         <div>
                             <p>
@@ -59,20 +60,20 @@
                         <form asp-area="Account" asp-controller="Login" asp-action="ExternalLogin" asp-route-returnurl="@ViewData["ReturnUrl"]" method="post" class="form-horizontal">
                             <div>
                                 <p>
-                                    @*@foreach (var provider in loginProviders)
+                                    @foreach (var provider in loginProviders)
                                     {
-                                        if (provider.AuthenticationScheme.ToLower() == "facebook")
+                                        if (provider.DisplayName.ToLower() == "facebook")
                                         {
-                                            <button type="submit" style="color: white" class="btn btn-social-icon btn-lg btn-facebook" name="provider" value="@provider.AuthenticationScheme" title="Log in using your @provider.DisplayName account">
+                                            <button type="submit" style="color: white" class="btn btn-social-icon btn-lg btn-facebook" name="provider" value="@provider.DisplayName" title="Log in using your @provider.DisplayName account">
                                                 <span class="fa fa-facebook"></span></button>
                                         }
 
-                                        if (provider.AuthenticationScheme.ToLower() == "google")
+                                        if (provider.DisplayName.ToLower() == "google")
                                         {
-                                            <button type="submit" style="color: white" class="btn btn-social-icon btn-lg btn-google" name="provider" value="@provider.AuthenticationScheme" title="Log in using your @provider.DisplayName account">
+                                            <button type="submit" style="color: white" class="btn btn-social-icon btn-lg btn-google" name="provider" value="@provider.DisplayName" title="Log in using your @provider.DisplayName account">
                                                 <span class="fa fa-google"></span></button>
                                         }
-                                    }*@
+                                    }
                                 </p>
                             </div>
                         </form>

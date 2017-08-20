@@ -9,6 +9,7 @@
     <Content Include="navigation.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Folder Include="Pages\Account\" />
     <Folder Include="wwwroot\" />
   </ItemGroup>
   <ItemGroup>
@@ -40,18 +41,6 @@
   <ItemGroup>
     <DotNetCliToolReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Tools" Version="2.0.0" />
   </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\..\Common\MyServer.Common.ImageGallery\MyServer.Common.ImageGallery.csproj" />
-    <ProjectReference Include="..\..\Common\MyServer.Common\MyServer.Common.csproj" />
-    <ProjectReference Include="..\..\Components\MyServer.ViewComponents.Common\MyServer.ViewComponents.Common.csproj" />
-    <ProjectReference Include="..\..\Components\MyServer.ViewComponents.ImageGallery\MyServer.ViewComponents.ImageGallery.csproj" />
-    <ProjectReference Include="..\..\Data\MyServer.Data.Common\MyServer.Data.Common.csproj" />
-    <ProjectReference Include="..\..\Data\MyServer.Data.Models\MyServer.Data.Models.csproj" />
-    <ProjectReference Include="..\..\Data\MyServer.Data\MyServer.Data.csproj" />
-    <ProjectReference Include="..\..\Services\MyServer.Services.ImageGallery\MyServer.Services.ImageGallery.csproj" />
-    <ProjectReference Include="..\..\Services\MyServer.Services.Mappings\MyServer.Services.Mappings.csproj" />
-    <ProjectReference Include="..\..\Services\MyServer.Services.Users\MyServer.Services.Users.csproj" />
-  </ItemGroup>
 
   <ItemGroup>
     <DotNetCliToolReference Include="BundlerMinifier.Core">
@@ -66,6 +55,18 @@
   </Target>
   <ItemGroup>
     <None Include="nlog.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\Common\MyServer.Common.ImageGallery\MyServer.Common.ImageGallery.csproj" />
+    <ProjectReference Include="..\..\Common\MyServer.Common\MyServer.Common.csproj" />
+    <ProjectReference Include="..\..\Components\MyServer.ViewComponents.Common\MyServer.ViewComponents.Common.csproj" />
+    <ProjectReference Include="..\..\Components\MyServer.ViewComponents.ImageGallery\MyServer.ViewComponents.ImageGallery.csproj" />
+    <ProjectReference Include="..\..\Data\MyServer.Data.Common\MyServer.Data.Common.csproj" />
+    <ProjectReference Include="..\..\Data\MyServer.Data.Models\MyServer.Data.Models.csproj" />
+    <ProjectReference Include="..\..\Data\MyServer.Data\MyServer.Data.csproj" />
+    <ProjectReference Include="..\..\Services\MyServer.Services.ImageGallery\MyServer.Services.ImageGallery.csproj" />
+    <ProjectReference Include="..\..\Services\MyServer.Services.Mappings\MyServer.Services.Mappings.csproj" />
+    <ProjectReference Include="..\..\Services\MyServer.Services.Users\MyServer.Services.Users.csproj" />
   </ItemGroup>
   <ItemGroup>
     <Content Update="appsettings.Development.json">

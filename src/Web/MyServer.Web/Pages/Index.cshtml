@@ -1,12 +1,17 @@
-﻿@{
+﻿@page
+@model MyServer.Web.Pages.IndexModel
+@{
+}
+
+@{
     ViewData["Title"] = SharedLocalizer["Title"];
 }
 
-<div class="col-md-9">    
+<div class="col-md-9">
     @await Component.InvokeAsync("LatestAddedAlbums", new { AllAlbumsRoute = "/ImageGallery/Album" })
     @await Component.InvokeAsync("LatestAddedImages", new { AllImagesRoute = "/ImageGallery/Image" })
 </div>
-<div class="col-md-3 text-center">   
-    @await Component.InvokeAsync("Social") 
+<div class="col-md-3 text-center">
+    @await Component.InvokeAsync("Social")
     @await Component.InvokeAsync("Statistics")
 </div>

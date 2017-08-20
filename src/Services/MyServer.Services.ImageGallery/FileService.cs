@@ -148,8 +148,15 @@
 
         private static decimal GetDirectorySize(string location)
         {
-            var files = new DirectoryInfo(location).GetFiles("*.jpg", SearchOption.AllDirectories);
-            return files.Sum(file => file.Length);
+            try
+            {
+                var files = new DirectoryInfo(location).GetFiles("*.jpg", SearchOption.AllDirectories);
+                return files.Sum(file => file.Length);
+            }
+            catch (DirectoryNotFoundException)
+            {
+                return 0;
+            }
         }
 
         private void RemoveFolder(string folder)

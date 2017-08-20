@@ -98,7 +98,7 @@ namespace MyServer.Web
                     }
                 });
 
-            if (env.IsDevelopment())
+            if (!env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
                 app.UseDatabaseErrorPage();
@@ -106,8 +106,8 @@ namespace MyServer.Web
             }
             else
             {
-                app.UseExceptionHandler("/Error/StatusCode/500");
-                app.UseStatusCodePagesWithReExecute("/Error/StatusCode/{0}");
+                app.UseExceptionHandler("/Error?statusCode=500");
+                app.UseStatusCodePagesWithReExecute("/Error?statusCode={0}");
             }            
 
             app.Map("/sitemap.xml", SitemapMiddleware.HandleSitemap);
@@ -126,16 +126,12 @@ namespace MyServer.Web
 
             // Add external authentication middleware below. To configure them please see http://go.microsoft.com/fwlink/?LinkID=532715
             app.UseSession();
-            app.UseMvc(
-                routes =>
-                    {
-                        // Areas support
-                        routes.MapRoute(
-                            name: "areaRoute",
-                            template: "{area:exists}/{controller=Home}/{action=Index}/{id?}");
-
-                        routes.MapRoute(name: "default", template: "{controller=Home}/{action=Index}/{id?}");
-                    });
+            app.UseMvc(routes =>
+            {
+                routes.MapRoute(
+                    name: "default",
+                    template: "{controller}/{action=Index}/{id?}");
+            });
 
             // Configure Kendo UI
             app.UseKendo(env);
@@ -172,18 +168,40 @@ namespace MyServer.Web
                         o.Password.RequiredLength = 6;
                     }).AddEntityFrameworkStores<MyServerDbContext>().AddDefaultTokenProviders();
 
+            services.AddAuthentication().AddFacebook(facebookOptions =>
+            {
+                facebookOptions.AppId = "521558431365642";
+                facebookOptions.AppSecret = "af05f969147e202f1e8c76c4cfd31a79";
+            });
+
+            services.AddAuthentication().AddGoogle(googleOptions =>
+            {
+                googleOptions.ClientId = "18361776506-dphsr6a6eamnjcb5b144j5offcn3tndq.apps.googleusercontent.com";
+                googleOptions.ClientSecret = "gul1QEzDbz2-bq3tXi4r8hLI";
+            });
+
             services.AddDistributedMemoryCache();
             services.AddSession();
             services.AddMemoryCache();
 
             services.AddCloudscribeNavigation(Configuration.GetSection("NavigationOptions"));
 
-            services.AddMvc(
-                options => options.Filters.Add(typeof(RequireHttpsAttribute))
-                )
-                .AddViewLocalization(x => x.ResourcesPath = "Resources")
-                .AddDataAnnotationsLocalization()
-                .AddJsonOptions(options => options.SerializerSettings.ContractResolver = new DefaultContractResolver());
+            //services.AddMvc(
+            //    //options => options.Filters.Add(typeof(RequireHttpsAttribute))
+            //    )
+            //    .AddViewLocalization(x => x.ResourcesPath = "Resources")
+            //    .AddDataAnnotationsLocalization()
+            //    .AddJsonOptions(options => options.SerializerSettings.ContractResolver = new DefaultContractResolver());
+
+            services.AddMvc()
+                .AddRazorPagesOptions(options =>
+                {
+                    options.Conventions.AuthorizeFolder("/Account/Manage");
+                    options.Conventions.AuthorizePage("/Account/Logout");
+                })
+                .AddViewLocalization(x => x.ResourcesPath = "Resources");
+                //.AddDataAnnotationsLocalization()
+                //.AddJsonOptions(options => options.SerializerSettings.ContractResolver = new DefaultContractResolver()); ;
 
             services.AddKendo();
 

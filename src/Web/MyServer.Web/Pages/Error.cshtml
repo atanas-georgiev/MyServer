@@ -1,0 +1,24 @@
+﻿@page
+@using MyServer.Web.Pages
+@model MyServer.Web.Pages.ErrorModel
+
+@{
+    ViewData["Title"] = SharedLocalizer["Error"];
+}
+
+<div class="well well-mobile">
+    <div class="text-center">
+        <img src="~/img/error.png" alt="@SharedLocalizer["Error"]" class="img-error"/>
+        <br />
+        @switch (Model.StatusCode)
+        {
+            case 404:
+                <span class="text-error">@SharedLocalizer["ErrorNotFound"]</span>
+                break;
+            default:
+                <span class="text-error">@SharedLocalizer["ErrorCritical"]</span>
+                break;
+        }
+    </div>  
+</div>
+

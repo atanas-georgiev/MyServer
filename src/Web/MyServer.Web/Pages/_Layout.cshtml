@@ -1,4 +1,8 @@
-﻿<!DOCTYPE html>
+﻿@using System
+@using cloudscribe.Web.Navigation
+@using Microsoft.Extensions.Caching.Memory
+@using MyServer.Web.Controllers
+<!DOCTYPE html>
 <html>
 <head>
     <meta charset="utf-8"/>
@@ -101,17 +105,17 @@
                         <span class="icon-bar"></span>
                     </button>
      
-                    @*<a asp-area="" asp-controller="Home" asp-action="@nameof(HomeController.Index)" class="navbar-brand">@LocString["Title"]</a>*@
-                    <a asp-area="" asp-controller="Home" asp-action="@nameof(HomeController.SetLanguage)" asp-route-culture="bg-BG" asp-route-returnUrl="@Context.Request.Path" class="navbar-brand">
+                    @*<a asp-area="" asp-controller="Language" asp-action="@nameof(HomeController.Index)" class="navbar-brand">@LocString["Title"]</a>*@
+                    <a asp-area="" asp-controller="Language" asp-action="@nameof(LanguageController.Set)" asp-route-culture="bg-BG" asp-route-returnUrl="@Context.Request.Path" class="navbar-brand">
                         <img src="~/img/bg-icon.png" alt="bg icon"/>
                     </a>
-                    <a asp-area="" asp-controller="Home" asp-action="@nameof(HomeController.SetLanguage)" asp-route-culture="en-US" asp-route-returnUrl="@Context.Request.Path" class="navbar-brand">
+                    <a asp-area="" asp-controller="Language" asp-action="@nameof(LanguageController.Set)" asp-route-culture="en-US" asp-route-returnUrl="@Context.Request.Path" class="navbar-brand">
                         <img src="~/img/us-icon.png" alt="en icon"/>
                     </a>
                 </div>
                 <div class="navbar-collapse navbar-inverse-collapse collapse">
                     @await Component.InvokeAsync("Navigation", new { viewName = "BootstrapTopNavWithDropdowns", filterName = NamedNavigationFilters.TopNav, startingNodeKey = "" })
-                    @await Html.PartialAsync("_LoginPartial")
+                 @*   @await Html.PartialAsync("_LoginPartial")*@
                 </div>
             </div>
         </div>
@@ -151,7 +155,7 @@
 
 <footer class="text-center">
     <p class="copyright small">
-        <a href="https://github.com/atanas-georgiev/MyServer" target="_blank">MyServer System @Microsoft.Extensions.PlatformAbstractions.PlatformServices.Default.Application.ApplicationVersion</a> &copy; @DateTime.Now.Year.ToString() - @LocString["Title"]
+        @*<a href="https://github.com/atanas-georgiev/MyServer" target="_blank">MyServer System @Microsoft.Extensions.PlatformAbstractions.PlatformServices.Default.Application.ApplicationVersion</a> &copy; @DateTime.Now.Year.ToString() - @LocString["Title"]*@
     </p>
 </footer>
 
