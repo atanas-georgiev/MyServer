@@ -1,4 +1,6 @@
-﻿namespace MyServer.Data.Models
+﻿using Microsoft.AspNetCore.Identity;
+
+namespace MyServer.Data.Models
 {
     using System;
     using System.Collections.Generic;

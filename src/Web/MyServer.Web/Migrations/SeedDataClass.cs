@@ -1,4 +1,6 @@
-﻿namespace MyServer.Web.Migrations
+﻿using Microsoft.AspNetCore.Identity;
+
+namespace MyServer.Web.Migrations
 {
     using System;
     using System.Linq;

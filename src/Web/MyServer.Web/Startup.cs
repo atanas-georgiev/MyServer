@@ -1,4 +1,8 @@
-﻿namespace MyServer.Web
+﻿using Microsoft.AspNetCore.Authentication.Facebook;
+using Microsoft.AspNetCore.Authentication.Google;
+using Microsoft.EntityFrameworkCore.Scaffolding.Internal;
+
+namespace MyServer.Web
 {
     using System;
     using System.Globalization;
@@ -110,15 +114,15 @@
 
             app.UseIdentity();
 
-            app.UseFacebookAuthentication(
-                new FacebookOptions() { AppId = "521558431365642", AppSecret = "af05f969147e202f1e8c76c4cfd31a79" });
+           // app.UseFacebookAuthentication(
+           //     new FacebookOptions() { AppId = "521558431365642", AppSecret = "af05f969147e202f1e8c76c4cfd31a79" });
 
-            app.UseGoogleAuthentication(
-                new GoogleOptions()
-                    {
-                        ClientId = "18361776506-dphsr6a6eamnjcb5b144j5offcn3tndq.apps.googleusercontent.com",
-                        ClientSecret = "gul1QEzDbz2-bq3tXi4r8hLI"
-                    });
+            //app.UseGoogleAuthentication(
+            //    new GoogleOptions()
+            //        {
+            //            ClientId = "18361776506-dphsr6a6eamnjcb5b144j5offcn3tndq.apps.googleusercontent.com",
+            //            ClientSecret = "gul1QEzDbz2-bq3tXi4r8hLI"
+            //        });
 
             // Add external authentication middleware below. To configure them please see http://go.microsoft.com/fwlink/?LinkID=532715
             app.UseSession();
