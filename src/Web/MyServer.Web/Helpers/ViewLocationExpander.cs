@@ -10,7 +10,7 @@ namespace MyServer.Web.Helpers
         {
             string[] locations = new string[]
             {
-                "~/Pages/{0}.cshtml",
+                //"~/Pages/{0}.cshtml",
             };
             return locations.Concat(viewLocations);
         }

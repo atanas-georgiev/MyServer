@@ -1,7 +1,9 @@
 ﻿@using cloudscribe.Web.Navigation
-@using Helpers
+@using Microsoft.Extensions.Localization
+@using MyServer.Web.Helpers
 @model NavigationViewModel
 @addTagHelper *, cloudscribe.Web.Navigation
+@inject IStringLocalizer<SharedResource> SharedLocalizer
 @if ((Model.TempNode != null) && (Model.HasVisibleChildren(Model.TempNode)))
 {
     <ul class="dropdown-menu" role="menu">

@@ -1,5 +1,8 @@
 ﻿@using cloudscribe.Web.Navigation
 @using System.Text
+@using Microsoft.Extensions.Localization
+@using MyServer.Web.Helpers
+@inject IStringLocalizer<SharedResource> SharedLocalizer
 @model NavigationViewModel
 @addTagHelper *, cloudscribe.Web.Navigation
 @if (Model.HasVisibleChildren(Model.RootNode))

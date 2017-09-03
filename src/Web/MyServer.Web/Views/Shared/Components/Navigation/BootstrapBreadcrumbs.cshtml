@@ -1,5 +1,8 @@
 ﻿@using cloudscribe.Web.Navigation
+@using Microsoft.Extensions.Localization
+@using MyServer.Web.Helpers
 @model NavigationViewModel
+@inject IStringLocalizer<SharedResource> SharedLocalizer
 @if (Model.CurrentNode != null && Model.ParentChain.Count > 1)
 {
         <ul class="breadcrumb well well-mobile">
