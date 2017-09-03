@@ -10,12 +10,12 @@
 {
     <ul class="nav navbar-nav navbar-right">
         <li>
-            <a asp-page="/Account/Manage" class="nav-link">
+            <a href="/Account/Manage" class="nav-link">
                 <i class="fa fa-user" aria-hidden="true"></i> @((object)UserManager.GetUserName(User))
             </a>
         </li>
         <li>
-            <a asp-controller="Account" asp-action="Logout" class="nav-link">
+            <a href="/Account/Logout" class="nav-link">
                 <i class="fa fa-sign-out" aria-hidden="true"></i> @SharedLocalizer["Exit"]
             </a>
         </li>
@@ -25,12 +25,12 @@ else
 {
     <ul class="nav navbar-nav navbar-right">
         <li>
-            <a asp-page="/Account/Register">
+            <a href="/Account/Register">
                 <i class="fa fa-user-plus" aria-hidden="true"></i> @SharedLocalizer["Register"]
             </a>
         </li>
         <li>
-            <a asp-page="/Account/Login">
+            <a href="/Account/Login">
                 <i class="fa fa-sign-in" aria-hidden="true"></i> @SharedLocalizer["Login"]
             </a>
         </li>
