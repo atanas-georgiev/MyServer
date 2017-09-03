@@ -1,12 +1,10 @@
-﻿using Microsoft.AspNetCore.Identity;
-
-namespace MyServer.Data.Models
+﻿namespace MyServer.Data.Models
 {
     using System;
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
 
-    using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+    using Microsoft.AspNetCore.Identity;
 
     using MyServer.Data.Common;
     using MyServer.Data.Common.Models;

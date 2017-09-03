@@ -9,7 +9,7 @@
     using MyServer.Common.ImageGallery;
     using MyServer.Data.Models;
     using MyServer.Services.Mappings;
-    using _Common.Models;
+    using MyServer.ViewComponents.ImageGallery._Common.Models;
 
     public class AllImagesViewModel : IMapFrom<Image>, IHaveCustomMappings
     {
@@ -86,25 +86,18 @@
                 .ForMember(m => m.GpsName, opt => opt.MapFrom(src => MappingFunctions.MapGpsName(src)))
                 .ForMember(
                     m => m.OriginalDownloadPath,
-                    opt =>
-                        opt.MapFrom(
-                            c =>
-                                Constants.MainContentFolder + "/" + c.AlbumId + "/" + Constants.ImageFolderOriginal
-                                + "/" + c.FileName))
+                    opt => opt.MapFrom(
+                        c => Constants.MainContentFolder + "/" + c.AlbumId + "/" + Constants.ImageFolderOriginal + "/"
+                             + c.FileName))
                 .ForMember(
                     m => m.MiddleImageSource,
-                    opt =>
-                        opt.MapFrom(
-                            c =>
-                                Constants.MainContentFolder + "/" + c.AlbumId + "/" + Constants.ImageFolderMiddle
-                                + "/" + c.FileName))
-                .ForMember(
+                    opt => opt.MapFrom(
+                        c => Constants.MainContentFolder + "/" + c.AlbumId + "/" + Constants.ImageFolderMiddle + "/"
+                             + c.FileName)).ForMember(
                     m => m.LowImageSource,
-                    opt =>
-                        opt.MapFrom(
-                            c =>
-                                Constants.MainContentFolder + "/" + c.AlbumId + "/" + Constants.ImageFolderLow + "/"
-                                + c.FileName));
+                    opt => opt.MapFrom(
+                        c => Constants.MainContentFolder + "/" + c.AlbumId + "/" + Constants.ImageFolderLow + "/"
+                             + c.FileName));
         }
     }
 }

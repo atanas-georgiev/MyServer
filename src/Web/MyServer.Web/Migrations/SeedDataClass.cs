@@ -1,17 +1,14 @@
-﻿using Microsoft.AspNetCore.Identity;
-
-namespace MyServer.Web.Migrations
+﻿namespace MyServer.Web.Migrations
 {
     using System;
     using System.Linq;
 
-    using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
-    using Microsoft.EntityFrameworkCore;
+    using Microsoft.AspNetCore.Identity;
     using Microsoft.Extensions.DependencyInjection;
-
-    using MyServer.Common;
     using MyServer.Data;
     using MyServer.Data.Models;
+    using Microsoft.EntityFrameworkCore;
+    using MyServer.Common;
     using MyServer.Web.Helpers;
 
     public static class SeedDataClass
@@ -72,7 +69,7 @@ namespace MyServer.Web.Migrations
             context.Albums.Add(album);
             context.SaveChanges();
 
-            var image = new Image(Common.ImageGallery.Constants.NoCoverId)
+            var image = new MyServer.Data.Models.Image(Common.ImageGallery.Constants.NoCoverId)
                             {
                                 CreatedOn = DateTime.Now,
                                 AddedById = user.Id,
@@ -85,8 +82,10 @@ namespace MyServer.Web.Migrations
                                 LowWidth = 400,
                                 MidHeight = 267,
                                 MidWidth = 400,
-                                FileName = Common.ImageGallery.Constants.NoCoverImage,
-                                OriginalFileName = Common.ImageGallery.Constants.NoCoverImage
+                                FileName = Common.ImageGallery.Constants
+                                    .NoCoverImage,
+                                OriginalFileName = Common.ImageGallery
+                                    .Constants.NoCoverImage
                             };
 
             context.Images.Add(image);
@@ -99,9 +98,7 @@ namespace MyServer.Web.Migrations
 
         private static void SeedRoles(MyServerDbContext context)
         {
-            context.Roles.AddRange(
-                new IdentityRole(MyServerRoles.Admin.ToString()),
-                new IdentityRole(MyServerRoles.User.ToString()));
+            context.Roles.Add(new IdentityRole(MyServerRoles.User.ToString()));
             context.SaveChanges();
         }
     }

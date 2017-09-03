@@ -1,18 +1,19 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Localization;
-using MyServer.Common;
-using MyServer.Data.Models;
-using MyServer.Services.ImageGallery;
-using MyServer.Services.Mappings;
-using MyServer.ViewComponents.ImageGallery._Common.Models;
-using MyServer.ViewComponents.ImageGallery.Components.AllAlbums.Models;
-using MyServer.ViewComponents.ImageGallery.Resources;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-
-namespace MyServer.ViewComponents.ImageGallery.Components.AllAlbums.Controllers
+﻿namespace MyServer.ViewComponents.ImageGallery.Components.AllAlbums.Controllers
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+
+    using Microsoft.AspNetCore.Mvc;
+    using Microsoft.Extensions.Localization;
+
+    using MyServer.Common;
+    using MyServer.Services.ImageGallery;
+    using MyServer.Services.Mappings;
+    using MyServer.ViewComponents.ImageGallery.Components.AllAlbums.Models;
+    using MyServer.ViewComponents.ImageGallery.Resources;
+    using MyServer.ViewComponents.ImageGallery._Common.Models;
+
     public class AllAlbumsViewComponent : ViewComponent
     {
         private readonly IAlbumService albumService;
@@ -26,7 +27,11 @@ namespace MyServer.ViewComponents.ImageGallery.Components.AllAlbums.Controllers
             MappingFunctions.LoadResource(this.localizer);
         }
 
-        public IViewComponentResult Invoke(string ViewDetailsUrl, string NewAlbumUrl = null, string Filter = null, MyServerSortType Sort = MyServerSortType.SortImagesDateDesc)
+        public IViewComponentResult Invoke(
+            string ViewDetailsUrl,
+            string NewAlbumUrl = null,
+            string Filter = null,
+            MyServerSortType Sort = MyServerSortType.SortImagesDateDesc)
         {
             var albums = this.albumService.GetAllReqursive();
 
@@ -45,20 +50,27 @@ namespace MyServer.ViewComponents.ImageGallery.Components.AllAlbums.Controllers
                     albums = albums.OrderByDescending(x => x.Images.Count);
                     break;
                 case MyServerSortType.SortImagesDateAsc:
-                    albums = albums.OrderBy(x => x.Images.OrderBy(d => d.DateTaken).LastOrDefault() != null ? x.Images.OrderBy(d => d.DateTaken).LastOrDefault().DateTaken : null);
+                    albums = albums.OrderBy(
+                        x => x.Images.OrderBy(d => d.DateTaken).LastOrDefault() != null
+                                 ? x.Images.OrderBy(d => d.DateTaken).LastOrDefault().DateTaken
+                                 : null);
                     break;
                 case MyServerSortType.SortImagesDateDesc:
-                    albums = albums.OrderByDescending(x => x.Images.OrderBy(d => d.DateTaken).LastOrDefault() != null ? x.Images.OrderBy(d => d.DateTaken).LastOrDefault().DateTaken : null);
+                    albums = albums.OrderByDescending(
+                        x => x.Images.OrderBy(d => d.DateTaken).LastOrDefault() != null
+                                 ? x.Images.OrderBy(d => d.DateTaken).LastOrDefault().DateTaken
+                                 : null);
                     break;
             }
 
             if (!string.IsNullOrEmpty(Filter))
             {
                 Filter = Filter.ToLower();
-                albums = albums.Where(x => (x.TitleBg != null && x.TitleBg.ToLower().Contains(Filter))
-                                        || (x.TitleEn != null && x.TitleEn.ToLower().Contains(Filter))
-                                        || (x.DescriptionBg != null && x.DescriptionBg.ToLower().Contains(Filter))
-                                        || (x.DescriptionEn != null && x.DescriptionEn.ToLower().Contains(Filter)));
+                albums = albums.Where(
+                    x => (x.TitleBg != null && x.TitleBg.ToLower().Contains(Filter))
+                         || (x.TitleEn != null && x.TitleEn.ToLower().Contains(Filter))
+                         || (x.DescriptionBg != null && x.DescriptionBg.ToLower().Contains(Filter))
+                         || (x.DescriptionEn != null && x.DescriptionEn.ToLower().Contains(Filter)));
             }
 
             this.ViewBag.StringLocalizer = this.localizer;
@@ -71,9 +83,8 @@ namespace MyServer.ViewComponents.ImageGallery.Components.AllAlbums.Controllers
             }
             catch (NullReferenceException)
             {
-                return View(new List<AllAlbumsViewModel>());
+                return this.View(new List<AllAlbumsViewModel>());
             }
-            
         }
     }
 }

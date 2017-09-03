@@ -1,0 +1,61 @@
+@page
+@using Microsoft.Extensions.Localization
+@using MyServer.Web.Helpers
+@model MyServer.Web.Pages.Account.RegisterModel
+@inject IStringLocalizer<SharedResource> SharedLocalizer
+@{
+    ViewData["Title"] = SharedLocalizer["Register"];
+}
+
+<div class="well">
+    <div class="text-center">
+        <h1>@SharedLocalizer["Register"]</h1>
+        <h2>@SharedLocalizer["CreateLocalAccount"]</h2>
+        <hr />
+    </div>
+    <div>
+        <form asp-route-returnurl="@Model.ReturnUrl" method="post" class="form-horizontal">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="Input.Email" class="col-md-2 control-label"></label>
+                <div class="col-md-10">
+                    <input asp-for="Input.Email" class="form-control" />
+                    <span asp-validation-for="Input.Email" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="form-group">
+                <label asp-for="Input.FirstName" class="col-md-2 control-label"></label>
+                <div class="col-md-10">
+                    <input asp-for="Input.FirstName" class="form-control" />
+                    <span asp-validation-for="Input.FirstName" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="form-group">
+                <label asp-for="Input.LastName" class="col-md-2 control-label"></label>
+                <div class="col-md-10">
+                    <input asp-for="Input.LastName" class="form-control" />
+                    <span asp-validation-for="Input.LastName" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="form-group">
+                <label asp-for="Input.Password" class="col-md-2 control-label"></label>
+                <div class="col-md-10">
+                    <input asp-for="Input.Password" class="form-control" />
+                    <span asp-validation-for="Input.Password" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="form-group">
+                <label asp-for="Input.ConfirmPassword" class="col-md-2 control-label"></label>
+                <div class="col-md-10">
+                    <input asp-for="Input.ConfirmPassword" class="form-control" />
+                    <span asp-validation-for="Input.ConfirmPassword" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-md-offset-2 col-md-10">
+                    <button type="submit" class="btn btn-default">@SharedLocalizer["Register"]</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>

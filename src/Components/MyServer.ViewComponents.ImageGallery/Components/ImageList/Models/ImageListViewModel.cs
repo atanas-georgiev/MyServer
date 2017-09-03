@@ -1,15 +1,16 @@
-﻿using AutoMapper;
-using MyServer.Common.ImageGallery;
-using MyServer.Data.Models;
-using MyServer.Services.Mappings;
-using MyServer.ViewComponents.ImageGallery._Common.Models;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Text;
-
-namespace MyServer.ViewComponents.ImageGallery.Components.ImageList.Models
+﻿namespace MyServer.ViewComponents.ImageGallery.Components.ImageList.Models
 {
+    using System;
+    using System.Collections.Generic;
+    using System.ComponentModel.DataAnnotations;
+
+    using AutoMapper;
+
+    using MyServer.Common.ImageGallery;
+    using MyServer.Data.Models;
+    using MyServer.Services.Mappings;
+    using MyServer.ViewComponents.ImageGallery._Common.Models;
+
     public class ImageListViewModel : IMapFrom<Image>, IHaveCustomMappings
     {
         public Guid? AlbumId { get; set; }
@@ -85,25 +86,18 @@ namespace MyServer.ViewComponents.ImageGallery.Components.ImageList.Models
                 .ForMember(m => m.GpsName, opt => opt.MapFrom(src => MappingFunctions.MapGpsName(src)))
                 .ForMember(
                     m => m.OriginalDownloadPath,
-                    opt =>
-                        opt.MapFrom(
-                            c =>
-                                Constants.MainContentFolder + "/" + c.AlbumId + "/" + Constants.ImageFolderOriginal
-                                + "/" + c.FileName))
+                    opt => opt.MapFrom(
+                        c => Constants.MainContentFolder + "/" + c.AlbumId + "/" + Constants.ImageFolderOriginal + "/"
+                             + c.FileName))
                 .ForMember(
                     m => m.MiddleImageSource,
-                    opt =>
-                        opt.MapFrom(
-                            c =>
-                                Constants.MainContentFolder + "/" + c.AlbumId + "/" + Constants.ImageFolderMiddle
-                                + "/" + c.FileName))
-                .ForMember(
+                    opt => opt.MapFrom(
+                        c => Constants.MainContentFolder + "/" + c.AlbumId + "/" + Constants.ImageFolderMiddle + "/"
+                             + c.FileName)).ForMember(
                     m => m.LowImageSource,
-                    opt =>
-                        opt.MapFrom(
-                            c =>
-                                Constants.MainContentFolder + "/" + c.AlbumId + "/" + Constants.ImageFolderLow + "/"
-                                + c.FileName));
+                    opt => opt.MapFrom(
+                        c => Constants.MainContentFolder + "/" + c.AlbumId + "/" + Constants.ImageFolderLow + "/"
+                             + c.FileName));
         }
     }
 }

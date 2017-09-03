@@ -4,13 +4,13 @@
 
     public enum MyServerAccessType
     {
-        [Display(Name = "Public", ResourceType = typeof(MyServer.Common.Resources.Common))]
+        [Display(Name = "Public", ResourceType = typeof(Resources.Common))]
         Public,
 
-        [Display(Name = "Registrated", ResourceType = typeof(MyServer.Common.Resources.Common))]
+        [Display(Name = "Registrated", ResourceType = typeof(Resources.Common))]
         Registrated,
 
-        [Display(Name = "Private", ResourceType = typeof(MyServer.Common.Resources.Common))]
+        [Display(Name = "Private", ResourceType = typeof(Resources.Common))]
         Private
     }
 }

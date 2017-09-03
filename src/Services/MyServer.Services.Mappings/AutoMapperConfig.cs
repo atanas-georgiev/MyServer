@@ -21,12 +21,12 @@
             }
 
             Configuration = new MapperConfiguration(
-                                cfg =>
-                                    {
-                                        var types = typesAssemblies.ToArray();
-                                        LoadStandardMappings(types, cfg);
-                                        LoadCustomMappings(types, cfg);
-                                    });
+                cfg =>
+                    {
+                        var types = typesAssemblies.ToArray();
+                        LoadStandardMappings(types, cfg);
+                        LoadCustomMappings(types, cfg);
+                    });
         }
 
         private static void LoadCustomMappings(

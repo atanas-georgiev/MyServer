@@ -1,15 +1,14 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Localization;
-using MyServer.Services.ImageGallery;
-using MyServer.ViewComponents.ImageGallery._Common.Models;
-using MyServer.ViewComponents.ImageGallery.Resources;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-
-namespace MyServer.ViewComponents.ImageGallery.Components.Statistics.Controllers
+﻿namespace MyServer.ViewComponents.ImageGallery.Components.Statistics.Controllers
 {
+    using System.Linq;
+
+    using Microsoft.AspNetCore.Mvc;
+    using Microsoft.Extensions.Localization;
+
+    using MyServer.Services.ImageGallery;
+    using MyServer.ViewComponents.ImageGallery.Resources;
+    using MyServer.ViewComponents.ImageGallery._Common.Models;
+
     public class StatisticsViewComponent : ViewComponent
     {
         private readonly IAlbumService albumService;
@@ -20,7 +19,11 @@ namespace MyServer.ViewComponents.ImageGallery.Components.Statistics.Controllers
 
         private readonly IStringLocalizer<ViewComponentResources> localizer;
 
-        public StatisticsViewComponent(IFileService fileService, IAlbumService albumService, IImageService imageService, IStringLocalizer<ViewComponentResources> localizer)
+        public StatisticsViewComponent(
+            IFileService fileService,
+            IAlbumService albumService,
+            IImageService imageService,
+            IStringLocalizer<ViewComponentResources> localizer)
         {
             this.fileService = fileService;
             this.albumService = albumService;
@@ -35,7 +38,7 @@ namespace MyServer.ViewComponents.ImageGallery.Components.Statistics.Controllers
             this.ViewBag.ImagesCount = this.imageService.GetAllReqursive().Count();
             this.ViewBag.AllSize = this.fileService.GetImageFolderSize();
             this.ViewBag.StringLocalizer = this.localizer;
-            
+
             return this.View();
         }
     }

@@ -4,13 +4,13 @@
 
     public enum ImageListType
     {
-        [Display(Name = "Date", ResourceType = typeof(MyServer.Common.Resources.Common))]
+        [Display(Name = "Date", ResourceType = typeof(Resources.Common))]
         Date,
 
-        [Display(Name = "Location", ResourceType = typeof(MyServer.Common.Resources.Common))]
+        [Display(Name = "Location", ResourceType = typeof(Resources.Common))]
         Location,
 
-        [Display(Name = "Album", ResourceType = typeof(MyServer.Common.Resources.Common))]
+        [Display(Name = "Album", ResourceType = typeof(Resources.Common))]
         Album
     }
 }

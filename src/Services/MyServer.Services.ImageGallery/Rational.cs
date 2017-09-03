@@ -27,6 +27,7 @@
 	THE SOFTWARE.
 
 \*---------------------------------------------------------------------------------*/
+
 #endregion License
 
 namespace MyServer.Services.ImageGallery
@@ -228,8 +229,8 @@ namespace MyServer.Services.ImageGallery
             }
 
             return new Rational<T>(
-                       (T)Convert.ChangeType(numerator, typeof(T)),
-                       (T)Convert.ChangeType(denominator, typeof(T)));
+                (T)Convert.ChangeType(numerator, typeof(T)),
+                (T)Convert.ChangeType(denominator, typeof(T)));
         }
 
         /// <summary>
@@ -323,26 +324,26 @@ namespace MyServer.Services.ImageGallery
             if (parse == null)
             {
                 throw new InvalidOperationException(
-                          "Underlying Rational type T must support Parse in order to parse Rational<T>.");
+                    "Underlying Rational type T must support Parse in order to parse Rational<T>.");
             }
 
             return new ParseDelegate(
-                       delegate(string value)
-                           {
-                               try
-                               {
-                                   return (T)parse.Invoke(null, new object[] { value });
-                               }
-                               catch (TargetInvocationException ex)
-                               {
-                                   if (ex.InnerException != null)
-                                   {
-                                       throw ex.InnerException;
-                                   }
+                delegate(string value)
+                    {
+                        try
+                        {
+                            return (T)parse.Invoke(null, new object[] { value });
+                        }
+                        catch (TargetInvocationException ex)
+                        {
+                            if (ex.InnerException != null)
+                            {
+                                throw ex.InnerException;
+                            }
 
-                                   throw;
-                               }
-                           });
+                            throw;
+                        }
+                    });
         }
 
         private static TryParseDelegate BuildTryParser()
@@ -360,29 +361,29 @@ namespace MyServer.Services.ImageGallery
             if (tryParse == null)
             {
                 throw new InvalidOperationException(
-                          "Underlying Rational type T must support TryParse in order to try-parse Rational<T>.");
+                    "Underlying Rational type T must support TryParse in order to try-parse Rational<T>.");
             }
 
             return new TryParseDelegate(
-                       delegate(string value, out T output)
-                           {
-                               object[] args = new object[] { value, default(T) };
-                               try
-                               {
-                                   bool success = (bool)tryParse.Invoke(null, args);
-                                   output = (T)args[1];
-                                   return success;
-                               }
-                               catch (TargetInvocationException ex)
-                               {
-                                   if (ex.InnerException != null)
-                                   {
-                                       throw ex.InnerException;
-                                   }
+                delegate(string value, out T output)
+                    {
+                        object[] args = new object[] { value, default(T) };
+                        try
+                        {
+                            bool success = (bool)tryParse.Invoke(null, args);
+                            output = (T)args[1];
+                            return success;
+                        }
+                        catch (TargetInvocationException ex)
+                        {
+                            if (ex.InnerException != null)
+                            {
+                                throw ex.InnerException;
+                            }
 
-                                   throw;
-                               }
-                           });
+                            throw;
+                        }
+                    });
         }
 
         #endregion Parse Methods
@@ -766,8 +767,8 @@ namespace MyServer.Services.ImageGallery
             decimal numerator = n1 + n2;
 
             return new Rational<T>(
-                       (T)Convert.ChangeType(numerator, typeof(T)),
-                       (T)Convert.ChangeType(denominator, typeof(T)));
+                (T)Convert.ChangeType(numerator, typeof(T)),
+                (T)Convert.ChangeType(denominator, typeof(T)));
         }
 
         /// <summary>
@@ -793,8 +794,8 @@ namespace MyServer.Services.ImageGallery
             decimal denominator = Convert.ToDecimal(r1.denominator) * Convert.ToDecimal(r2.denominator);
 
             return new Rational<T>(
-                       (T)Convert.ChangeType(numerator, typeof(T)),
-                       (T)Convert.ChangeType(denominator, typeof(T)));
+                (T)Convert.ChangeType(numerator, typeof(T)),
+                (T)Convert.ChangeType(denominator, typeof(T)));
         }
 
         /// <summary>

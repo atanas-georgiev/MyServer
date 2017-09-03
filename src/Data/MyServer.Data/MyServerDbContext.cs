@@ -46,8 +46,8 @@
         {
             foreach (var entry in this.ChangeTracker.Entries())
             {
-                if (entry.Entity is IAuditInfo
-                    && ((entry.State == EntityState.Added) || (entry.State == EntityState.Modified)))
+                if (entry.Entity is IAuditInfo && ((entry.State == EntityState.Added)
+                                                   || (entry.State == EntityState.Modified)))
                 {
                     var entity = entry.Entity as IAuditInfo;
                     if (entry.State == EntityState.Added && entity.CreatedOn == default(DateTime))

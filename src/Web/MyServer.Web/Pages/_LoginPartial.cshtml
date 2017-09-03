@@ -1,18 +1,22 @@
-﻿@using MyServer.Data.Models
+@using Helpers
+@using Microsoft.AspNetCore.Identity
+@using MyServer.Data.Models
+@inject IStringLocalizer<SharedResource> SharedLocalizer
 @inject SignInManager<User> SignInManager
 @inject UserManager<User> UserManager
-
+    
 @if (SignInManager.IsSignedIn(User))
 {
     <ul class="nav navbar-nav navbar-right">
         <li>
-            <a asp-area="Account" asp-controller="Manage" asp-action="Index" title="Manage" class="nav-link">
+            <a asp-page="/Account/Manage" class="nav-link">
                 <i class="fa fa-user" aria-hidden="true"></i> @((object)UserManager.GetUserName(User))
             </a>
         </li>
         <li>
-            <a asp-area="Account" asp-controller="Login" asp-action="Exit" title="Manage" class="nav-link">
-                <i class="fa fa-sign-out" aria-hidden="true"></i> @LocString["Exit"]</a>
+            <a asp-controller="Account" asp-action="Logout" class="nav-link">
+                <i class="fa fa-sign-out" aria-hidden="true"></i> @SharedLocalizer["Exit"]
+            </a>
         </li>
     </ul>
 }
@@ -20,12 +24,14 @@ else
 {
     <ul class="nav navbar-nav navbar-right">
         <li>
-            <a asp-area="Account" asp-controller="Register" asp-action="Index" class="nav-link">
-                <i class="fa fa-user-plus" aria-hidden="true"></i> @LocString["Register"]</a>
+            <a asp-page="/Account/Register">
+                <i class="fa fa-user-plus" aria-hidden="true"></i> @SharedLocalizer["Register"]
+            </a>
         </li>
         <li>
-            <a asp-area="Account" asp-controller="Login" asp-action="Index" class="nav-link">
-                <i class="fa fa-sign-in" aria-hidden="true"></i> @LocString["Login"]</a>
+            <a asp-page="/Account/Login">
+                <i class="fa fa-sign-in" aria-hidden="true"></i> @SharedLocalizer["Login"]
+            </a>
         </li>
     </ul>
 }

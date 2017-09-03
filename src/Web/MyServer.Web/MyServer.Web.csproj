@@ -1,60 +1,22 @@
-﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+<Project Sdk="Microsoft.NET.Sdk.Web">
   <PropertyGroup>
     <TargetFramework>netcoreapp2.0</TargetFramework>
-    <PreserveCompilationContext>true</PreserveCompilationContext>
-    <MvcRazorExcludeRefAssembliesFromPublish>false</MvcRazorExcludeRefAssembliesFromPublish>
+    <UserSecretsId>aspnet-MyServer-8DFD2BBF-6742-42D8-9164-DC96198DC44D</UserSecretsId>
+    <AssemblyName>MyServer.Web</AssemblyName>
+    <RootNamespace>MyServer.Web</RootNamespace>
   </PropertyGroup>
   <ItemGroup>
-    <EmbeddedResource Include="**\*.json" />
-    <Content Include="navigation.xml">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Folder Include="Pages\Account\" />
-    <Folder Include="wwwroot\" />
-  </ItemGroup>
-  <ItemGroup>
+    <PackageReference Include="cloudscribe.Web.Navigation" Version="2.0.0" />
     <PackageReference Include="Microsoft.AspNetCore.All" Version="2.0.0" />
-    <PackageReference Include="AutoMapper">
-      <Version>6.1.1</Version>
-    </PackageReference>
-    <PackageReference Include="BundlerMinifier.Core">
-      <Version>2.4.337</Version>
-    </PackageReference>
-    <PackageReference Include="cloudscribe.Web.Navigation">
-      <Version>1.2.7</Version>
-    </PackageReference>
-    <PackageReference Include="lib">
-      <Version>2016.2.714</Version>
-    </PackageReference>
-    <PackageReference Include="Microsoft.Win32.Registry" Version="4.4.0" />
-    <PackageReference Include="NLog.Extensions.Logging">
-      <Version>1.0.0-rtm-beta5</Version>
-    </PackageReference>
-    <PackageReference Include="NLog.Web.AspNetCore">
-      <Version>4.4.1</Version>
-    </PackageReference>
-    <PackageReference Include="SimpleMvcSitemap">
-      <Version>3.0.0</Version>
-    </PackageReference>
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="2.0.0" PrivateAssets="All" />
+    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.0.0" PrivateAssets="All" />
+    <PackageReference Include="SimpleMvcSitemap" Version="3.0.0" />
+    <PackageReference Include="Telerik.UI.for.AspNet.Core" Version="2017.2.621" />
   </ItemGroup>
-
   <ItemGroup>
+    <DotNetCliToolReference Include="Microsoft.EntityFrameworkCore.Tools.DotNet" Version="2.0.0" />
+    <DotNetCliToolReference Include="Microsoft.Extensions.SecretManager.Tools" Version="2.0.0" />
     <DotNetCliToolReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Tools" Version="2.0.0" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <DotNetCliToolReference Include="BundlerMinifier.Core">
-      <Version>2.2.301</Version>
-    </DotNetCliToolReference>
-  </ItemGroup>
-  <Target Name="BeforePublish">
-    <Exec Command="dotnet bundle" />
-  </Target>
-  <Target Name="BeforeBuild">
-    <Exec Command="dotnet bundle" />
-  </Target>
-  <ItemGroup>
-    <None Include="nlog.config" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\Common\MyServer.Common.ImageGallery\MyServer.Common.ImageGallery.csproj" />
@@ -67,16 +29,5 @@
     <ProjectReference Include="..\..\Services\MyServer.Services.ImageGallery\MyServer.Services.ImageGallery.csproj" />
     <ProjectReference Include="..\..\Services\MyServer.Services.Mappings\MyServer.Services.Mappings.csproj" />
     <ProjectReference Include="..\..\Services\MyServer.Services.Users\MyServer.Services.Users.csproj" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Update="appsettings.Development.json">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Update="appsettings.json">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Update="wwwroot\img\error.png">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
   </ItemGroup>
 </Project>

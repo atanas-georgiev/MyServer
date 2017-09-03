@@ -54,10 +54,9 @@
         {
             var number = 0;
             var album = this.GetById(id);
-            var files =
-                album.Images.OrderBy(x => x.OriginalFileName)
-                    .Select(x => new { id = number++, FileName = x.FileName, OriginalFileName = x.OriginalFileName })
-                    .ToList();
+            var files = album.Images.OrderBy(x => x.OriginalFileName)
+                .Select(x => new { id = number++, FileName = x.FileName, OriginalFileName = x.OriginalFileName })
+                .ToList();
             var duplicates = files.GroupBy(s => s.OriginalFileName).SelectMany(grp => grp.Skip(1)).ToList();
             string albumPath = string.Empty;
 
@@ -118,14 +117,9 @@
                 if (!this.memoryCache.TryGetValue(CacheKeys.AlbumsServiceCacheKey, out result))
                 {
                     // fetch the value from the source
-                    result =
-                        this.albums.All()
-                            .Include(x => x.Cover)
-                            .Include(x => x.Images)
-                            .ThenInclude(x => x.ImageGpsData)
-                            .Where(x => x.IsDeleted == false && x.Id != firstAlbumToExcludeGuid)
-                            .ToList()
-                            .AsQueryable();
+                    result = this.albums.All().Include(x => x.Cover).Include(x => x.Images)
+                        .ThenInclude(x => x.ImageGpsData)
+                        .Where(x => x.IsDeleted == false && x.Id != firstAlbumToExcludeGuid).ToList().AsQueryable();
 
                     // store in the cache
                     this.memoryCache.Set(
@@ -137,14 +131,8 @@
                 return result;
             }
 
-            return
-                this.albums.All()
-                    .Include(x => x.Cover)
-                    .Include(x => x.Images)
-                    .ThenInclude(x => x.ImageGpsData)
-                    .Where(x => x.IsDeleted == false && x.Id != firstAlbumToExcludeGuid)
-                    .ToList()
-                    .AsQueryable();
+            return this.albums.All().Include(x => x.Cover).Include(x => x.Images).ThenInclude(x => x.ImageGpsData)
+                .Where(x => x.IsDeleted == false && x.Id != firstAlbumToExcludeGuid).ToList().AsQueryable();
         }
 
         public Album GetById(Guid id, bool cache = true)

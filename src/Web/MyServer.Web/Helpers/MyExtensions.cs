@@ -21,13 +21,13 @@
         public static IEnumerable<SelectListItem> ToSelectList(this Enum enumValue)
         {
             var result = from Enum e in Enum.GetValues(enumValue.GetType())
-                         select
-                         new SelectListItem
-                             {
-                                 Selected = e.Equals(enumValue),
-                                 Text = e.ToString(),
-                                 Value = Array.IndexOf(Enum.GetValues(e.GetType()), e).ToString()
-                             };
+                select
+                    new SelectListItem
+                    {
+                        Selected = e.Equals(enumValue),
+                        Text = e.ToString(),
+                        Value = Array.IndexOf(Enum.GetValues(e.GetType()), e).ToString()
+                    };
             return result;
         }
     }

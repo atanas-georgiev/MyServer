@@ -144,7 +144,7 @@
                 using (var imageMagick = new MagickImage(lowFile))
                 {
                     var exif = imageMagick.GetExifProfile() ?? new ExifProfile();
-                    exif.Parts = ExifParts.All; 
+                    exif.Parts = ExifParts.All;
                     exif.SetValue(ExifTag.GPSLatitude, ExifDoubleToGps(gpsData.Latitude.Value));
                     exif.SetValue(ExifTag.GPSLongitude, ExifDoubleToGps(gpsData.Longitude.Value));
                     imageMagick.AddProfile(exif, true);
@@ -188,14 +188,9 @@
                 if (!this.memoryCache.TryGetValue(CacheKeys.ImageServiceCacheKey, out result))
                 {
                     // fetch the value from the source
-                    result =
-                        this.images.All()
-                            .Where(x => x.IsDeleted == false && x.Id != firstImageToBeExcludeGuid)
-                            .Include(x => x.Album)
-                            .Include(x => x.Comments)
-                            .Include(x => x.ImageGpsData)
-                            .ToList()
-                            .AsQueryable();
+                    result = this.images.All().Where(x => x.IsDeleted == false && x.Id != firstImageToBeExcludeGuid)
+                        .Include(x => x.Album).Include(x => x.Comments).Include(x => x.ImageGpsData).ToList()
+                        .AsQueryable();
 
                     // store in the cache
                     this.memoryCache.Set(
@@ -207,14 +202,8 @@
                 return result;
             }
 
-            return
-                this.images.All()
-                    .Where(x => x.IsDeleted == false && x.Id != firstImageToBeExcludeGuid)
-                    .Include(x => x.Album)
-                    .Include(x => x.Comments)
-                    .Include(x => x.ImageGpsData)
-                    .ToList()
-                    .AsQueryable();
+            return this.images.All().Where(x => x.IsDeleted == false && x.Id != firstImageToBeExcludeGuid)
+                .Include(x => x.Album).Include(x => x.Comments).Include(x => x.ImageGpsData).ToList().AsQueryable();
         }
 
         public Image GetById(Guid id, bool cache = true)
@@ -226,11 +215,8 @@
         {
             var rand = new Random();
             var skip = rand.Next(0, this.GetAllReqursive().Count(x => x.Album.Access != MyServerAccessType.Private));
-            var randomImage =
-                this.GetAllReqursive()
-                    .Where(x => x.Album.Access != MyServerAccessType.Private)
-                    .Skip(skip)
-                    .FirstOrDefault();
+            var randomImage = this.GetAllReqursive().Where(x => x.Album.Access != MyServerAccessType.Private).Skip(skip)
+                .FirstOrDefault();
             if (randomImage != null)
             {
                 var randomImagePath = Constants.MainContentFolder + "/" + randomImage.AlbumId + "/"
@@ -337,7 +323,8 @@
 
                 var oldFilename = image.FileName;
                 image.DateTaken = date;
-                image.FileName = date.ToString("yyyy-MM-dd-HH-mm-ss-") + Guid.NewGuid() + Path.GetExtension(oldFilename);
+                image.FileName = date.ToString("yyyy-MM-dd-HH-mm-ss-") + Guid.NewGuid()
+                                 + Path.GetExtension(oldFilename);
                 this.Update(image);
 
                 var format = "yyyy:MM:dd HH:mm:ss";
@@ -441,10 +428,9 @@
             var gpdLat = exif?.Values?.FirstOrDefault(x => x.Tag == ExifTag.GPSLatitude);
             if (gpdLong != null && gpdLat != null)
             {
-                inputImage.ImageGpsData =
-                    this.locationService.GetGpsDataNormalized(
-                        ExifGpsToDouble((Rational[])gpdLong.Value),
-                        ExifGpsToDouble((Rational[])gpdLat.Value)).Result;
+                inputImage.ImageGpsData = this.locationService.GetGpsDataNormalized(
+                    ExifGpsToDouble((Rational[])gpdLong.Value),
+                    ExifGpsToDouble((Rational[])gpdLat.Value)).Result;
             }
 
             var make = exif?.Values?.FirstOrDefault(x => x.Tag == ExifTag.Make);
@@ -475,8 +461,8 @@
             if (aperture != null)
             {
                 Rational<uint> val = new Rational<uint>(
-                                         ((Rational)aperture.Value).Numerator,
-                                         ((Rational)aperture.Value).Denominator);
+                    ((Rational)aperture.Value).Numerator,
+                    ((Rational)aperture.Value).Denominator);
                 double fstop = Math.Pow(2.0, Convert.ToDouble(val, CultureInfo.InvariantCulture) / 2.0);
                 inputImage.Aperture = string.Format(new CultureInfo("en-US"), "f/{0:#0.0}", fstop);
             }
@@ -485,8 +471,8 @@
             if (focuslen != null)
             {
                 Rational<uint> val = new Rational<uint>(
-                                         ((Rational)focuslen.Value).Numerator,
-                                         ((Rational)focuslen.Value).Denominator);
+                    ((Rational)focuslen.Value).Numerator,
+                    ((Rational)focuslen.Value).Denominator);
                 inputImage.FocusLen = string.Format(
                     new CultureInfo("en-US"),
                     "{0:#0.#}",
@@ -499,8 +485,8 @@
                 try
                 {
                     var val = new Rational<int>(
-                                  ((SignedRational)exposure.Value).Numerator,
-                                  ((SignedRational)exposure.Value).Denominator);
+                        ((SignedRational)exposure.Value).Numerator,
+                        ((SignedRational)exposure.Value).Denominator);
                     inputImage.ExposureBiasStep = val.Numerator != 0 ? val.ToString(CultureInfo.InvariantCulture) : "0";
                 }
                 catch (Exception)

@@ -1,7 +1,7 @@
-using Microsoft.AspNetCore.Mvc.RazorPages;
-
-namespace MyServer.Web.Pages
+﻿namespace MyServer.Web.Pages
 {
+    using Microsoft.AspNetCore.Mvc.RazorPages;
+
     public class IndexModel : PageModel
     {
         public void OnGet()

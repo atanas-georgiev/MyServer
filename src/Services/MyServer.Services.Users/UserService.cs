@@ -4,7 +4,6 @@
     using System.Linq;
 
     using Microsoft.AspNetCore.Identity;
-    using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 
     using MyServer.Data;
     using MyServer.Data.Common;

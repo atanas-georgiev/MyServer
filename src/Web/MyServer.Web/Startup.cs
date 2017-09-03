@@ -1,10 +1,18 @@
-﻿using Microsoft.AspNetCore.Authentication.Facebook;
-using Microsoft.AspNetCore.Authentication.Google;
-using Microsoft.EntityFrameworkCore.Scaffolding.Internal;
+using Microsoft.AspNetCore.Mvc.Razor;
+using Microsoft.Extensions.FileProviders;
+using Microsoft.Net.Http.Headers;
+using MyServer.Data;
+using MyServer.Data.Common;
+using MyServer.Services.ImageGallery;
+using MyServer.Services.Mappings;
+using MyServer.Services.Users;
+using MyServer.ViewComponents.Common.Components.Social.Controllers;
+using MyServer.ViewComponents.ImageGallery.Components.LatestAddedAlbums.Controllers;
 
 namespace MyServer.Web
 {
     using System;
+    using System.Collections.Generic;
     using System.Globalization;
     using System.Reflection;
 
@@ -12,51 +20,30 @@ namespace MyServer.Web
     using Microsoft.AspNetCore.Hosting;
     using Microsoft.AspNetCore.Http;
     using Microsoft.AspNetCore.Identity;
-    using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
     using Microsoft.AspNetCore.Localization;
-    using Microsoft.AspNetCore.Mvc.Razor;
     using Microsoft.EntityFrameworkCore;
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
-    using Microsoft.Extensions.FileProviders;
     using Microsoft.Extensions.Localization;
     using Microsoft.Extensions.Logging;
-    using Microsoft.Net.Http.Headers;
-
-    using MyServer.Data;
-    using MyServer.Data.Common;
     using MyServer.Data.Models;
-    using MyServer.Services.ImageGallery;
-    using MyServer.Services.Mappings;
-    using MyServer.Services.Users;
-    using MyServer.ViewComponents.ImageGallery.Components.LatestAddedAlbums.Controllers;
-    using MyServer.Web.Helpers;
+    using MyServer.Web.Data;
     using MyServer.Web.Migrations;
-
-    using Newtonsoft.Json.Serialization;
-    using System.Collections.Generic;
-    using ViewComponents.Common.Components.Social.Controllers;
-    using Helpers.Middlewares;
-    using Microsoft.AspNetCore.Mvc;
-    using NLog.Extensions.Logging;
+    using MyServer.Web.Resources;
+    using MyServer.Web.Services;
+    using MyServer.Web.Helpers;
 
     public class Startup
     {
-        public Startup(IHostingEnvironment env)
+        public Startup(IConfiguration configuration)
         {
-            var builder = new ConfigurationBuilder()
-                .SetBasePath(env.ContentRootPath)
-                .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
-                .AddJsonFile($"appsettings.{env.EnvironmentName}.json", optional: true)
-                .AddEnvironmentVariables();
-            Configuration = builder.Build();
+            this.Configuration = configuration;
         }
 
         public static IStringLocalizer<SharedResource> SharedLocalizer { get; private set; }
 
-        public IConfigurationRoot Configuration { get; }
+        public IConfiguration Configuration { get; }
 
-        // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(
             IApplicationBuilder app,
             IServiceScopeFactory scopeFactory,
@@ -82,40 +69,37 @@ namespace MyServer.Web
 
             var helper = new PathHelper(env, userManager);
 
-            //NLog
-            //loggerFactory.AddNLog();
-            //env.ConfigureNLog("nlog.config");
 
             scopeFactory.SeedData();
 
             app.UseStaticFiles(
                 new StaticFileOptions()
-                {
-                    OnPrepareResponse = (context) =>
                     {
-                        var headers = context.Context.Response.GetTypedHeaders();
-                        headers.CacheControl = new CacheControlHeaderValue() { MaxAge = TimeSpan.FromDays(100) };
-                    }
-                });
+                        OnPrepareResponse = (context) =>
+                            {
+                                var headers = context.Context.Response.GetTypedHeaders();
+                                headers.CacheControl = new CacheControlHeaderValue() { MaxAge = TimeSpan.FromDays(100) };
+                            }
+                    });
 
-            if (!env.IsDevelopment())
-            {
-                app.UseDeveloperExceptionPage();
-                app.UseDatabaseErrorPage();
-                app.UseBrowserLink();
-            }
-            else
-            {
-                app.UseExceptionHandler("/Error?statusCode=500");
-                app.UseStatusCodePagesWithReExecute("/Error?statusCode={0}");
-            }            
+            //if (!env.IsDevelopment())
+            //{
+            //    app.UseDeveloperExceptionPage();
+            //    app.UseDatabaseErrorPage();
+            //    app.UseBrowserLink();
+            //}
+            //else
+            //{
+            //    app.UseExceptionHandler("/Error?statusCode=500");
+            //    app.UseStatusCodePagesWithReExecute("/Error?statusCode={0}");
+            //}
 
-            app.Map("/sitemap.xml", SitemapMiddleware.HandleSitemap);
+            // app.Map("/sitemap.xml", SitemapMiddleware.HandleSitemap);
 
-            app.UseIdentity();
+            app.UseAuthentication();
 
-           // app.UseFacebookAuthentication(
-           //     new FacebookOptions() { AppId = "521558431365642", AppSecret = "af05f969147e202f1e8c76c4cfd31a79" });
+            // app.UseFacebookAuthentication(
+            //     new FacebookOptions() { AppId = "521558431365642", AppSecret = "af05f969147e202f1e8c76c4cfd31a79" });
 
             //app.UseGoogleAuthentication(
             //    new GoogleOptions()
@@ -127,20 +111,25 @@ namespace MyServer.Web
             // Add external authentication middleware below. To configure them please see http://go.microsoft.com/fwlink/?LinkID=532715
             app.UseSession();
             app.UseMvc(routes =>
-            {
-                routes.MapRoute(
-                    name: "default",
-                    template: "{controller}/{action=Index}/{id?}");
-            });
+                {
+                    // Areas support
+                    routes.MapRoute(
+                        name: "areaRoute",
+                        template: "{area:exists}/{controller}/{action=Index}/{id?}");
+
+                    routes.MapRoute(
+                        name: "default",
+                        template: "{controller}/{action=Index}/{id?}");
+                });
 
             // Configure Kendo UI
             app.UseKendo(env);
 
             var autoMapperConfig = new AutoMapperConfig();
             autoMapperConfig.Execute(new List<Assembly> {
-                Assembly.GetEntryAssembly(),
-                typeof(LatestAddedAlbumsViewComponent).GetTypeInfo().Assembly,
-                typeof(SocialViewComponent).GetTypeInfo().Assembly });       
+                                                            Assembly.GetEntryAssembly(),
+                                                            typeof(LatestAddedAlbumsViewComponent).GetTypeInfo().Assembly,
+                                                            typeof(SocialViewComponent).GetTypeInfo().Assembly });
         }
 
         // This method gets called by the runtime. Use this method to add services to the container.
@@ -153,11 +142,11 @@ namespace MyServer.Web
             services.Add(ServiceDescriptor.Scoped(typeof(IRepository<,>), typeof(Repository<,>)));
             services.Add(ServiceDescriptor.Scoped(typeof(IRepository<>), typeof(Repository<>)));
             services.AddScoped<IUserService, UserService>();
-            services.AddScoped<IFileService, FileService>();                                                                                                                                                                                                
+            services.AddScoped<IFileService, FileService>();
             services.AddScoped<IAlbumService, AlbumService>();
             services.AddScoped<IImageService, ImageService>();
             services.AddScoped<ILocationService, LocationService>();
-            
+
             services.AddIdentity<User, IdentityRole>(
                 o =>
                     {
@@ -169,16 +158,16 @@ namespace MyServer.Web
                     }).AddEntityFrameworkStores<MyServerDbContext>().AddDefaultTokenProviders();
 
             services.AddAuthentication().AddFacebook(facebookOptions =>
-            {
-                facebookOptions.AppId = "521558431365642";
-                facebookOptions.AppSecret = "af05f969147e202f1e8c76c4cfd31a79";
-            });
+                {
+                    facebookOptions.AppId = "521558431365642";
+                    facebookOptions.AppSecret = "af05f969147e202f1e8c76c4cfd31a79";
+                });
 
             services.AddAuthentication().AddGoogle(googleOptions =>
-            {
-                googleOptions.ClientId = "18361776506-dphsr6a6eamnjcb5b144j5offcn3tndq.apps.googleusercontent.com";
-                googleOptions.ClientSecret = "gul1QEzDbz2-bq3tXi4r8hLI";
-            });
+                {
+                    googleOptions.ClientId = "18361776506-dphsr6a6eamnjcb5b144j5offcn3tndq.apps.googleusercontent.com";
+                    googleOptions.ClientSecret = "gul1QEzDbz2-bq3tXi4r8hLI";
+                });
 
             services.AddDistributedMemoryCache();
             services.AddSession();
@@ -193,15 +182,19 @@ namespace MyServer.Web
             //    .AddDataAnnotationsLocalization()
             //    .AddJsonOptions(options => options.SerializerSettings.ContractResolver = new DefaultContractResolver());
 
+            services.Configure<RazorViewEngineOptions>(o => {
+                o.ViewLocationExpanders.Add(new ViewLocationExpander());
+            });
+
             services.AddMvc()
                 .AddRazorPagesOptions(options =>
-                {
-                    options.Conventions.AuthorizeFolder("/Account/Manage");
-                    options.Conventions.AuthorizePage("/Account/Logout");
-                })
+                    {
+                        options.Conventions.AuthorizeFolder("/Account/Manage");
+                        options.Conventions.AuthorizePage("/Account/Logout");
+                    })
                 .AddViewLocalization(x => x.ResourcesPath = "Resources");
-                //.AddDataAnnotationsLocalization()
-                //.AddJsonOptions(options => options.SerializerSettings.ContractResolver = new DefaultContractResolver()); ;
+            //.AddDataAnnotationsLocalization()
+            //.AddJsonOptions(options => options.SerializerSettings.ContractResolver = new DefaultContractResolver()); ;
 
             services.AddKendo();
 
@@ -221,12 +214,12 @@ namespace MyServer.Web
             ));
 
             services.Configure<RazorViewEngineOptions>(options =>
-            {
-                foreach (var embeddedFileProvider in embeddedFileProviders)
                 {
-                    options.FileProviders.Add(embeddedFileProvider);
-                }                
-            });
+                    foreach (var embeddedFileProvider in embeddedFileProviders)
+                    {
+                        options.FileProviders.Add(embeddedFileProvider);
+                    }
+                });
         }
     }
 }

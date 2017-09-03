@@ -78,8 +78,7 @@
 
             switch (type)
             {
-                case ImageType.Low:
-                    return contentFolder + "\\" + albumId + "\\" + Constants.ImageFolderLow + "\\";
+                case ImageType.Low: return contentFolder + "\\" + albumId + "\\" + Constants.ImageFolderLow + "\\";
                 case ImageType.Medium:
                     return contentFolder + "\\" + albumId + "\\" + Constants.ImageFolderMiddle + "\\";
                 case ImageType.Original:

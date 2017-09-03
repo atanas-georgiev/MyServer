@@ -9,7 +9,7 @@
     using MyServer.Common;
     using MyServer.Data.Models;
     using MyServer.Services.Mappings;
-    using _Common.Models;
+    using MyServer.ViewComponents.ImageGallery._Common.Models;
 
     public class AllAlbumsViewModel : IMapFrom<Album>, IHaveCustomMappings
     {
@@ -46,9 +46,11 @@
                 .ForMember(m => m.Description, opt => opt.MapFrom(c => MappingFunctions.MapDescription(c)))
                 .ForMember(m => m.ImagesCountCover, opt => opt.MapFrom(c => MappingFunctions.MapImagesCountCover(c)))
                 .ForMember(m => m.CoverImage, opt => opt.MapFrom(c => MappingFunctions.MapCoverImage(c)))
-                .ForMember(m => m.FbImage, opt => opt.MapFrom(c => MappingFunctions.MapFbImage(c)))
-                .ForMember(m => m.ImageCoordinates, opt => opt.MapFrom(c => MappingFunctions.MapImageCoordinates(c)))
-                .ForMember(m => m.Date, opt => opt.MapFrom(c => MappingFunctions.MapDate(c)));
+                .ForMember(m => m.FbImage, opt => opt.MapFrom(c => MappingFunctions.MapFbImage(c))).ForMember(
+                    m => m.ImageCoordinates,
+                    opt => opt.MapFrom(c => MappingFunctions.MapImageCoordinates(c))).ForMember(
+                    m => m.Date,
+                    opt => opt.MapFrom(c => MappingFunctions.MapDate(c)));
         }
     }
 }

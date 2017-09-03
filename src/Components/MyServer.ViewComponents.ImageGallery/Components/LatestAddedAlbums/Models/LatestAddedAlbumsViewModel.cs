@@ -26,9 +26,11 @@
         public void CreateMappings(IMapperConfigurationExpression configuration)
         {
             configuration.CreateMap<Album, LatestAddedAlbumsViewModel>()
-                .ForMember(m => m.Title, opt => opt.MapFrom(c => MappingFunctions.MapTitle(c)))
-                .ForMember(m => m.ImagesCountCover, opt => opt.MapFrom(c => MappingFunctions.MapImagesCountCover(c)))
-                .ForMember(m => m.Date, opt => opt.MapFrom(c => MappingFunctions.MapDate(c)));
+                .ForMember(m => m.Title, opt => opt.MapFrom(c => MappingFunctions.MapTitle(c))).ForMember(
+                    m => m.ImagesCountCover,
+                    opt => opt.MapFrom(c => MappingFunctions.MapImagesCountCover(c))).ForMember(
+                    m => m.Date,
+                    opt => opt.MapFrom(c => MappingFunctions.MapDate(c)));
         }
     }
 }
