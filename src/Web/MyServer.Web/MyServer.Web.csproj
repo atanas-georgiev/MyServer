@@ -4,7 +4,16 @@
     <UserSecretsId>aspnet-MyServer-8DFD2BBF-6742-42D8-9164-DC96198DC44D</UserSecretsId>
     <AssemblyName>MyServer.Web</AssemblyName>
     <RootNamespace>MyServer.Web</RootNamespace>
+    <MvcRazorCompileOnPublish>false</MvcRazorCompileOnPublish>
   </PropertyGroup>
+  <ItemGroup>
+    <None Remove="atanas.pfx" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="atanas.pfx">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
   <ItemGroup>
     <PackageReference Include="cloudscribe.Web.Navigation" Version="2.0.0" />
     <PackageReference Include="Microsoft.AspNetCore.All" Version="2.0.0" />

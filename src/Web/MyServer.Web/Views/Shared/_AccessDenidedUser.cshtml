@@ -1,0 +1,10 @@
+﻿@using Microsoft.Extensions.Localization
+@inject IStringLocalizer<MyServer.Web.Helpers.SharedResource> SharedLocalizer
+
+<div class="text-center">
+    <h2>@SharedLocalizer["AccessDeninedUserText"]</h2>
+</div>
+
+<div class="text-center">
+    <a asp-action="Index" asp-controller="Login" asp-route-area="Account" asp-route-returnUrl="@Context.Request.Path" class="btn btn-default">@SharedLocalizer["AccessDeninedUserBtn"]</a>
+</div>

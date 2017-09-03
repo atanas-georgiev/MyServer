@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Razor;
 using Microsoft.Extensions.FileProviders;
 using Microsoft.Net.Http.Headers;
@@ -186,7 +187,9 @@ namespace MyServer.Web
                 o.ViewLocationExpanders.Add(new ViewLocationExpander());
             });
 
-            services.AddMvc()
+            services.AddMvc(
+                    options => options.Filters.Add(typeof(RequireHttpsAttribute))
+                    )
                 .AddRazorPagesOptions(options =>
                     {
                         options.Conventions.AuthorizeFolder("/Account/Manage");
