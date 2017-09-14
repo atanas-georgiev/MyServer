@@ -1,16 +1,28 @@
-﻿namespace MyServer.Web.Areas.UsersAdmin.Models
+using System.ComponentModel.DataAnnotations;
+using AutoMapper;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
+using MyServer.Common;
+using MyServer.Data;
+using MyServer.Data.Models;
+using MyServer.Services.Mappings;
+using MyServer.Services.Users;
+using MyServer.Web.Areas.Shared.Models;
+using MyServer.Web.Pages.Base;
+using MyServer.Web.Resources;
+
+namespace MyServer.Web.Pages.UsersAdmin
 {
-    using System.ComponentModel.DataAnnotations;
+    public class IndexModel : BasePageModel
+    {
+        public IndexModel(IUserService userService, UserManager<User> userManager, SignInManager<User> signInManager, MyServerDbContext dbContext) : base(userService, userManager, signInManager, dbContext)
+        {
+        }
 
-    using AutoMapper;
-
-    using Microsoft.AspNetCore.Mvc;
-
-    using MyServer.Common;
-    using MyServer.Data.Models;
-    using MyServer.Services.Mappings;
-    using MyServer.Web.Areas.Shared.Models;
-    using MyServer.Web.Resources;
+        public void OnGet()
+        {
+        }
+    }
 
     public class UsersViewModel : IMapFrom<User>, IHaveCustomMappings
     {
@@ -24,7 +36,7 @@
         [Required(ErrorMessageResourceName = "ErrorRequired", ErrorMessageResourceType = typeof(Helpers_SharedResource))
         ]
         [StringLength(50, ErrorMessageResourceName = "ErrorLength",
-             ErrorMessageResourceType = typeof(Helpers_SharedResource), MinimumLength = 2)]
+            ErrorMessageResourceType = typeof(Helpers_SharedResource), MinimumLength = 2)]
         [Display(Name = "FirstName", ResourceType = typeof(Helpers_SharedResource))]
         [UIHint("KendoTextBox")]
         public string FirstName { get; set; }
@@ -36,7 +48,7 @@
         [Required(ErrorMessageResourceName = "ErrorRequired", ErrorMessageResourceType = typeof(Helpers_SharedResource))
         ]
         [StringLength(50, ErrorMessageResourceName = "ErrorLength",
-             ErrorMessageResourceType = typeof(Helpers_SharedResource), MinimumLength = 2)]
+            ErrorMessageResourceType = typeof(Helpers_SharedResource), MinimumLength = 2)]
         [Display(Name = "LastName", ResourceType = typeof(Helpers_SharedResource))]
         [UIHint("KendoTextBox")]
         public string LastName { get; set; }

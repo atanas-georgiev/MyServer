@@ -10,9 +10,6 @@
     <None Remove="navigation.xml" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="atanas.pfx">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
     <Content Include="navigation.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
@@ -41,5 +38,8 @@
     <ProjectReference Include="..\..\Services\MyServer.Services.ImageGallery\MyServer.Services.ImageGallery.csproj" />
     <ProjectReference Include="..\..\Services\MyServer.Services.Mappings\MyServer.Services.Mappings.csproj" />
     <ProjectReference Include="..\..\Services\MyServer.Services.Users\MyServer.Services.Users.csproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Pages\UsersAdmin\" />
   </ItemGroup>
 </Project>

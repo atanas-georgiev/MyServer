@@ -9,6 +9,7 @@ using MyServer.Services.Mappings;
 using MyServer.Services.Users;
 using MyServer.ViewComponents.Common.Components.Social.Controllers;
 using MyServer.ViewComponents.ImageGallery.Components.LatestAddedAlbums.Controllers;
+using Newtonsoft.Json.Serialization;
 
 namespace MyServer.Web
 {
@@ -190,6 +191,7 @@ namespace MyServer.Web
             services.AddMvc(
                     options => options.Filters.Add(typeof(RequireHttpsAttribute))
                     )
+                .AddJsonOptions(options => options.SerializerSettings.ContractResolver = new DefaultContractResolver())
                 .AddRazorPagesOptions(options =>
                     {
                         options.Conventions.AuthorizeFolder("/Account/Manage");

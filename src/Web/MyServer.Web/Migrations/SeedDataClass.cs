@@ -98,7 +98,7 @@
 
         private static void SeedRoles(MyServerDbContext context)
         {
-            context.Roles.Add(new IdentityRole(MyServerRoles.User.ToString()));
+            context.Roles.Add(new IdentityRole(MyServerRoles.Admin.ToString()));
             context.SaveChanges();
         }
     }

@@ -11,7 +11,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Common", "Common", "{4B29F1
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MyServer.Common", "src\Common\MyServer.Common\MyServer.Common.csproj", "{CA7541EF-4AC8-46ED-92C8-B84BB51E0CD1}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MyServer.Common.ImageGallery", "src\Common\MyServer.Common.ImageGallery\MyServer.Common.ImageGallery.csproj", "{31A164B1-2EFB-4D38-A2C1-7D5DDCA6E4EF}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MyServer.Common.ImageGallery", "src\Common\MyServer.Common.ImageGallery\MyServer.Common.ImageGallery.csproj", "{31A164B1-2EFB-4D38-A2C1-7D5DDCA6E4EF}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Data", "Data", "{58632038-1828-45F7-AC47-DC1D3791DCF2}"
 EndProject
@@ -23,17 +23,17 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MyServer.Data.Models", "src
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Services", "Services", "{F2CEEBA0-4B95-4660-9223-D377ED32A92A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MyServer.Services.Users", "src\Services\MyServer.Services.Users\MyServer.Services.Users.csproj", "{8D60ACD2-298F-46AE-A7C6-5AEB2B4A47BC}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MyServer.Services.Users", "src\Services\MyServer.Services.Users\MyServer.Services.Users.csproj", "{8D60ACD2-298F-46AE-A7C6-5AEB2B4A47BC}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MyServer.Services.Mappings", "src\Services\MyServer.Services.Mappings\MyServer.Services.Mappings.csproj", "{A9727746-0231-42B8-83DC-F2D1AA6E337F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MyServer.Services.Mappings", "src\Services\MyServer.Services.Mappings\MyServer.Services.Mappings.csproj", "{A9727746-0231-42B8-83DC-F2D1AA6E337F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MyServer.Services.ImageGallery", "src\Services\MyServer.Services.ImageGallery\MyServer.Services.ImageGallery.csproj", "{7BCB6015-CBDE-4990-B14F-4EBDAB7A10D3}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MyServer.Services.ImageGallery", "src\Services\MyServer.Services.ImageGallery\MyServer.Services.ImageGallery.csproj", "{7BCB6015-CBDE-4990-B14F-4EBDAB7A10D3}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Components", "Components", "{2558819B-7A16-4F76-81FA-015F555E76AD}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MyServer.ViewComponents.Common", "src\Components\MyServer.ViewComponents.Common\MyServer.ViewComponents.Common.csproj", "{3C936976-E243-43E3-B6F2-AB8BC29F3A40}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MyServer.ViewComponents.Common", "src\Components\MyServer.ViewComponents.Common\MyServer.ViewComponents.Common.csproj", "{3C936976-E243-43E3-B6F2-AB8BC29F3A40}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MyServer.ViewComponents.ImageGallery", "src\Components\MyServer.ViewComponents.ImageGallery\MyServer.ViewComponents.ImageGallery.csproj", "{5F62805B-3E17-4C5E-A51D-8A86D9152648}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MyServer.ViewComponents.ImageGallery", "src\Components\MyServer.ViewComponents.ImageGallery\MyServer.ViewComponents.ImageGallery.csproj", "{5F62805B-3E17-4C5E-A51D-8A86D9152648}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

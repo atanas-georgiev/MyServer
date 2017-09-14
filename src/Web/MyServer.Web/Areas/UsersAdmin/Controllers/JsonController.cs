@@ -1,4 +1,6 @@
-﻿namespace MyServer.Web.Areas.UsersAdmin.Controllers
+﻿using MyServer.Web.Pages.UsersAdmin;
+
+namespace MyServer.Web.Areas.UsersAdmin.Controllers
 {
     using Kendo.Mvc.Extensions;
     using Kendo.Mvc.UI;
@@ -12,7 +14,6 @@
     using MyServer.Services.Mappings;
     using MyServer.Services.Users;
     using MyServer.Web.Areas.Shared.Controllers;
-    using MyServer.Web.Areas.UsersAdmin.Models;
 
     [Authorize(Roles = "Admin")]
     [Area("UsersAdmin")]

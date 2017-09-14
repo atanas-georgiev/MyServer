@@ -9,26 +9,17 @@ namespace MyServer.Web.Pages.Account
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.AspNetCore.Mvc.RazorPages;
     using Microsoft.Extensions.Logging;
-
+    using MyServer.Data;
+    using MyServer.Data.Models;
+    using MyServer.Services.Users;
     using MyServer.Web.Data;
     using MyServer.Web.Extensions;
+    using MyServer.Web.Pages.Base;
 
-    public class ExternalLoginModel : PageModel
+    public class ExternalLoginModel : BasePageModel
     {
-        private readonly ILogger<ExternalLoginModel> _logger;
-
-        private readonly SignInManager<ApplicationUser> _signInManager;
-
-        private readonly UserManager<ApplicationUser> _userManager;
-
-        public ExternalLoginModel(
-            SignInManager<ApplicationUser> signInManager,
-            UserManager<ApplicationUser> userManager,
-            ILogger<ExternalLoginModel> logger)
+        public ExternalLoginModel(IUserService userService, UserManager<User> userManager, SignInManager<User> signInManager, MyServerDbContext dbContext) : base(userService, userManager, signInManager, dbContext)
         {
-            this._signInManager = signInManager;
-            this._userManager = userManager;
-            this._logger = logger;
         }
 
         [TempData]
@@ -54,24 +45,20 @@ namespace MyServer.Web.Pages.Account
                 return this.RedirectToPage("./Login");
             }
 
-            var info = await this._signInManager.GetExternalLoginInfoAsync();
+            var info = await this.signInManager.GetExternalLoginInfoAsync();
             if (info == null)
             {
                 return this.RedirectToPage("./Login");
             }
 
             // Sign in the user with this external login provider if the user already has a login.
-            var result = await this._signInManager.ExternalLoginSignInAsync(
+            var result = await this.signInManager.ExternalLoginSignInAsync(
                              info.LoginProvider,
                              info.ProviderKey,
                              isPersistent: false,
                              bypassTwoFactor: true);
             if (result.Succeeded)
             {
-                this._logger.LogInformation(
-                    "{Name} logged in with {LoginProvider} provider.",
-                    info.Principal.Identity.Name,
-                    info.LoginProvider);
                 return this.LocalRedirect(this.Url.GetLocalUrl(returnUrl));
             }
 
@@ -97,7 +84,7 @@ namespace MyServer.Web.Pages.Account
         {
             // Request a redirect to the external login provider.
             var redirectUrl = this.Url.Page("./ExternalLogin", pageHandler: "Callback", values: new { returnUrl });
-            var properties = this._signInManager.ConfigureExternalAuthenticationProperties(provider, redirectUrl);
+            var properties = this.signInManager.ConfigureExternalAuthenticationProperties(provider, redirectUrl);
             return new ChallengeResult(provider, properties);
         }
 
@@ -106,23 +93,20 @@ namespace MyServer.Web.Pages.Account
             if (this.ModelState.IsValid)
             {
                 // Get the information about the user from the external login provider
-                var info = await this._signInManager.GetExternalLoginInfoAsync();
+                var info = await this.signInManager.GetExternalLoginInfoAsync();
                 if (info == null)
                 {
                     throw new ApplicationException("Error loading external login information during confirmation.");
                 }
 
-                var user = new ApplicationUser { UserName = this.Input.Email, Email = this.Input.Email };
-                var result = await this._userManager.CreateAsync(user);
+                var user = new User { UserName = this.Input.Email, Email = this.Input.Email };
+                var result = await this.userManager.CreateAsync(user);
                 if (result.Succeeded)
                 {
-                    result = await this._userManager.AddLoginAsync(user, info);
+                    result = await this.userManager.AddLoginAsync(user, info);
                     if (result.Succeeded)
                     {
-                        await this._signInManager.SignInAsync(user, isPersistent: false);
-                        this._logger.LogInformation(
-                            "User created an account using {Name} provider.",
-                            info.LoginProvider);
+                        await this.signInManager.SignInAsync(user, isPersistent: false);
                         return this.LocalRedirect(this.Url.GetLocalUrl(returnUrl));
                     }
                 }
