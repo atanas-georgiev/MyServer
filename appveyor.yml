@@ -15,6 +15,11 @@ after_build:
 - dotnet publish -o C:\projects\myserver\AppOutput\DeployTest --configuration Release
  
 test: off
+
+artifacts:
+- path: AppOutput\DeployTest
+  name: DeployTest
+  type: WebDeployPackage
   
 deploy:
 - provider: WebDeploy
