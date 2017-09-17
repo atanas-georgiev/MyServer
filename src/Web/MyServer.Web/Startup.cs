@@ -46,7 +46,7 @@ namespace MyServer.Web
 
         public IConfiguration Configuration { get; }
 
-        public static UserManager<User> UserManager = null;
+        public static IServiceScopeFactory scopeFactory = null;
 
         public static string WwwPath = string.Empty;
 
@@ -76,7 +76,7 @@ namespace MyServer.Web
                     });
 
             var helper = new PathHelper(env, userManager);
-            Startup.UserManager = userManager;
+            Startup.scopeFactory = scopeFactory;
 
             scopeFactory.SeedData();
 

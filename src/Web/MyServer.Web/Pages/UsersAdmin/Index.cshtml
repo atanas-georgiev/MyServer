@@ -32,10 +32,10 @@
         .HtmlAttributes(new { style = "height:550px;" })
         .DataSource(dataSource => dataSource.Ajax().PageSize(20)
         .Events(events => events.Error("error_handler")).Model(model => model.Id(p => p.Id))
-        //.Create(update => update.Route("/UsersAdmin/Json/UsersCreate"))
+        .Create(update => update.Url("/UsersAdmin/Json/UsersCreate"))
         .Read(read => read.Url("/UsersAdmin/Json/UsersRead"))
-        //.Update(update => update.Route("/UsersAdmin/Json/UsersUpdate"))
-        //.Destroy(update => update.Route("/UsersAdmin/Json/UsersDestroy"))
+        .Update(update => update.Url("/UsersAdmin/Json/UsersUpdate"))
+        .Destroy(update => update.Url("/UsersAdmin/Json/UsersDestroy"))
         ))
     </div>
 </div>
