@@ -1,5 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 using AutoMapper;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using MyServer.Common;
@@ -15,11 +16,12 @@ namespace MyServer.Web.Pages.UsersAdmin
 {
     public class IndexModel : BasePageModel
     {
-        public IndexModel(IUserService userService, UserManager<User> userManager, SignInManager<User> signInManager, MyServerDbContext dbContext) : base(userService, userManager, signInManager, dbContext)
+        
+        public void OnGet()
         {
         }
 
-        public void OnGet()
+        public IndexModel(IUserService userService, UserManager<User> userManager, SignInManager<User> signInManager, MyServerDbContext dbContext, IHttpContextAccessor httpContextAccessor) : base(userService, userManager, signInManager, dbContext, httpContextAccessor)
         {
         }
     }

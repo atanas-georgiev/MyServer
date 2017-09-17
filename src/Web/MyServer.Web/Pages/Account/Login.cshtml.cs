@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Http;
 using MyServer.Web.Pages.Base;
 using MyServer.Web.Resources;
 
@@ -11,20 +12,14 @@ namespace MyServer.Web.Pages.Account
     using Microsoft.AspNetCore.Authentication;
     using Microsoft.AspNetCore.Identity;
     using Microsoft.AspNetCore.Mvc;
-    using Microsoft.AspNetCore.Mvc.RazorPages;
-    using Microsoft.Extensions.Logging;
     using MyServer.Data;
     using MyServer.Data.Models;
     using MyServer.Services.Users;
-    using MyServer.Web.Data;
     using MyServer.Web.Extensions;
 
     public class LoginModel : BasePageModel
     {
-        public LoginModel(IUserService userService, UserManager<User> userManager, SignInManager<User> signInManager, MyServerDbContext dbContext) : base(userService, userManager, signInManager, dbContext)
-        {
-        }
-
+        
         [TempData]
         public string ErrorMessage { get; set; }
 
@@ -90,6 +85,10 @@ namespace MyServer.Web.Pages.Account
 
             [Display(Name = "RememberMe", ResourceType = typeof(Helpers_SharedResource))]
             public bool RememberMe { get; set; }
+        }
+
+        public LoginModel(IUserService userService, UserManager<User> userManager, SignInManager<User> signInManager, MyServerDbContext dbContext, IHttpContextAccessor httpContextAccessor) : base(userService, userManager, signInManager, dbContext, httpContextAccessor)
+        {
         }
     }
 }

@@ -185,8 +185,8 @@
 
         public static MyServerRoles MapUserRole(User user)
         {
-            var role = PathHelper.UserManager.GetRolesAsync(user).Result;
-            return (MyServerRoles)Enum.Parse(typeof(MyServerRoles), role.First(), true);
+            // var role = Startup.UserManager.GetRolesAsync(user).Result;
+            return MyServerRoles.User; //(MyServerRoles)Enum.Parse(typeof(MyServerRoles), role.First(), true);
         }
 
         public static int MapWidth(Album source)

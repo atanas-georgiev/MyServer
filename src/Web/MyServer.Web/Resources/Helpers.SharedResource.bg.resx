@@ -258,6 +258,21 @@
   <data name="ImageListType" xml:space="preserve">
     <value>Групирай</value>
   </data>
+  <data name="ExternalProvider" xml:space="preserve">
+    <value>Или с външно приложение</value>
+  </data>
+  <data name="Login" xml:space="preserve">
+    <value>Вход</value>
+  </data>
+  <data name="LoginLocal" xml:space="preserve">
+    <value>С регистриран потребител</value>
+  </data>
+  <data name="NewUser" xml:space="preserve">
+    <value>Регистрирай нов потребител?</value>
+  </data>
+  <data name="CreateLocalAccount" xml:space="preserve">
+    <value>Създаване на потребителски акаунт</value>
+  </data>
   <data name="Group" xml:space="preserve">
     <value>Групирай</value>
   </data>
@@ -275,5 +290,20 @@
   </data>
   <data name="ErrorNotFound" xml:space="preserve">
     <value>Страницата не е намерена</value>
+  </data>
+  <data name="Register" xml:space="preserve">
+    <value>Регистрация</value>
+  </data>
+  <data name="ConfirmData" xml:space="preserve">
+    <value>Моля потвърдете данните</value>
+  </data>
+  <data name="Profile" xml:space="preserve">
+    <value>Профил</value>
+  </data>
+  <data name="Update" xml:space="preserve">
+    <value>Актуализирай</value>
+  </data>
+  <data name="Exit" xml:space="preserve">
+    <value>Изход</value>
   </data>
 </root>

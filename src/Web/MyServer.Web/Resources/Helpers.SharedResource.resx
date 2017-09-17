@@ -273,4 +273,37 @@
   <data name="ErrorNotFound" xml:space="preserve">
     <value>Not found</value>
   </data>
+  <data name="ImageListType" xml:space="preserve">
+    <value>Group</value>
+  </data>
+  <data name="ExternalProvider" xml:space="preserve">
+    <value>Or use another service to log in</value>
+  </data>
+  <data name="Login" xml:space="preserve">
+    <value>Log In</value>
+  </data>
+  <data name="LoginLocal" xml:space="preserve">
+    <value>Use a local account to log in</value>
+  </data>
+  <data name="NewUser" xml:space="preserve">
+    <value>Register as a new user?</value>
+  </data>
+  <data name="CreateLocalAccount" xml:space="preserve">
+    <value>Create a new local account</value>
+  </data>
+  <data name="Register" xml:space="preserve">
+    <value>Register</value>
+  </data>
+  <data name="ConfirmData" xml:space="preserve">
+    <value>Confirm data</value>
+  </data>
+  <data name="Profile" xml:space="preserve">
+    <value>Profile</value>
+  </data>
+  <data name="Update" xml:space="preserve">
+    <value>Update</value>
+  </data>
+  <data name="Exit" xml:space="preserve">
+    <value>Log out</value>
+  </data>
 </root>

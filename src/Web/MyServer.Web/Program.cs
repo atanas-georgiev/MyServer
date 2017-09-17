@@ -13,11 +13,11 @@ namespace MyServer.Web
             .UseStartup<Startup>()
                 .UseKestrel(options =>
                 {
-                    options.Listen(IPAddress.Loopback, 5000);
-                    //options.Listen(IPAddress.Any, 443, listenOptions =>
-                    //{
-                    //    listenOptions.UseHttps("atanas.pfx", "naseto");
-                    //});
+                    options.Listen(IPAddress.Any, 81);
+                    options.Listen(IPAddress.Any, 443, listenOptions =>
+                    {
+                        listenOptions.UseHttps("atanas.pfx", "naseto");
+                    });
                 })
             .Build();
 

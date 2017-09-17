@@ -50,7 +50,7 @@ namespace MyServer.Web.Areas.UsersAdmin.Controllers
 
             return this.Json(new[] { user }.ToDataSourceResult(request, this.ModelState));
         }
-
+        
         public ActionResult UsersRead([DataSourceRequest] DataSourceRequest request)
         {
             return this.Json(this.UserService.GetAll().To<UsersViewModel>().ToDataSourceResult(request));

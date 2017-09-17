@@ -4,59 +4,55 @@
 }
 
 @using System.Threading.Tasks
-@using Helpers
 @using Kendo.Mvc.UI
-@using UsersAdmin
+@using MyServer.Web.Helpers
+@using MyServer.Web.Pages.UsersAdmin
 @{
 // ViewData["Title"] = LocString["UserAdministration"];
 }
 
-    <div class="well">
-        <div class="text-center">
-            <h2>@SharedLocalizer["UserAdministration"]</h2>
-            <hr />
-        </div>
-        <div class="row">
-            @(Html.Kendo().Grid<string>()
-                  .Name("datepicker")
-                  )
-
-            @*@(Html.Kendo().Grid<UsersViewModel>().Name("grid")))
-            @;.Columns(columns =>
-            {
-                  columns.Bound(p => p.Email);//.EditorTemplateName("KendoTextBox");
-                  columns.Bound(p => p.FirstName);//.EditorTemplateName("KendoTextBox");
-                  columns.Bound(p => p.LastName);//.EditorTemplateName("KendoTextBox");
-                  columns.Bound(p => p.Role);//.EditorTemplateName("KendoDropDownRoles");
-                  columns.Command(command =>
-                      {
-                          command.Edit();
-                          command.Destroy();
-                      });
-              }).ToolBar(toolbar => toolbar.Create()).Editable(editable => editable.Mode(GridEditMode.PopUp)).Pageable().Sortable().Scrollable())
-
-    // .HtmlAttributes(new { style = "height:550px;" })
-    .DataSource(dataSource => dataSource.Ajax().PageSize(20).Events(events => events.Error("error_handler")).Model(model => model.Id(p => p.Id))
-    .Create(update => update.Route("/UsersAdmin/Json/UsersCreate"))
-    .Read(read => read.Route("/UsersAdmin/Json/UsersRead"))
-    .Update(update => update.Route("/UsersAdmin/Json/UsersUpdate"))
-    .Destroy(update => update.Route("/UsersAdmin/Json/UsersDestroy"))))*@
-        </div>
+<div class="well">
+    <div class="text-center">
+        <h2>@SharedLocalizer["UserAdministration"]</h2>
+        <hr />
     </div>
-    <script type="text/javascript">
-        function error_handler(e) {
-            if (e.errors) {
-                var message = "Errors:\n";
-                $.each(e.errors,
-                    function (key, value) {
-                        if ('errors' in value) {
-                            $.each(value.errors,
-                                function () {
-                                    message += this + "\n";
-                                });
-                        }
-                    });
-                alert(message);
-            }
+    <div class="row">
+        @(Html.Kendo().Grid<UsersViewModel>().Name("grid").Columns(columns =>
+        {
+        columns.Bound(p => p.Email).EditorTemplateName("KendoTextBox");
+        columns.Bound(p => p.FirstName).EditorTemplateName("KendoTextBox");
+        columns.Bound(p => p.LastName).EditorTemplateName("KendoTextBox");
+        columns.Bound(p => p.Role).EditorTemplateName("KendoDropDownRoles");
+        columns.Command(command =>
+        {
+        command.Edit();
+        command.Destroy();
+        });
+        }).ToolBar(toolbar => toolbar.Create()).Editable(editable => editable.Mode(GridEditMode.PopUp)).Pageable().Sortable().Scrollable()
+        .HtmlAttributes(new { style = "height:550px;" })
+        .DataSource(dataSource => dataSource.Ajax().PageSize(20)
+        .Events(events => events.Error("error_handler")).Model(model => model.Id(p => p.Id))
+        //.Create(update => update.Route("/UsersAdmin/Json/UsersCreate"))
+        .Read(read => read.Url("/UsersAdmin/Json/UsersRead"))
+        //.Update(update => update.Route("/UsersAdmin/Json/UsersUpdate"))
+        //.Destroy(update => update.Route("/UsersAdmin/Json/UsersDestroy"))
+        ))
+    </div>
+</div>
+<script type="text/javascript">
+    function error_handler(e) {
+        if (e.errors) {
+            var message = "Errors:\n";
+            $.each(e.errors,
+                function (key, value) {
+                    if ('errors' in value) {
+                        $.each(value.errors,
+                            function () {
+                                message += this + "\n";
+                            });
+                    }
+                });
+            alert(message);
         }
-    </script>
+    }
+</script>

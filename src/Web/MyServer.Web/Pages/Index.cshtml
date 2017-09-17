@@ -1,8 +1,10 @@
 ﻿@page
-@using Helpers
+@using MyServer.Web.Helpers
+
+@inject IStringLocalizer<SharedResource> SharedLocalizer
 @model MyServer.Web.Pages.IndexModel
 @{
-    ViewData["Title"] = "Home page";
+    ViewData["Title"] = SharedLocalizer["Title"];
 }
 
 <div class="col-md-9">

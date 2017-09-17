@@ -1,4 +1,6 @@
 ﻿using System.Linq;
+using System.Net.Cache;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using MyServer.Data;
@@ -19,15 +21,16 @@ namespace MyServer.Web.Pages.Base
             IUserService userService,
             UserManager<User> userManager,
             SignInManager<User> signInManager,
-            MyServerDbContext dbContext)
+            MyServerDbContext dbContext,
+            IHttpContextAccessor httpContextAccessor)
         {
             this.UserService = userService;
             this.userManager = userManager;
             this.signInManager = signInManager;
             this.dbContext = dbContext;
 
-            //this.UserProfile =
-            //    this.UserService.GetAll().FirstOrDefault(u => u.UserName == context.HttpContext.User.Identity.Name);
+            this.UserProfile =
+                this.UserService.GetAll().FirstOrDefault(u => u.UserName == httpContextAccessor.HttpContext.User.Identity.Name);
         }
 
         protected User UserProfile { get; private set; }

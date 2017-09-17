@@ -46,6 +46,12 @@ namespace MyServer.Web
 
         public IConfiguration Configuration { get; }
 
+        public static UserManager<User> UserManager = null;
+
+        public static string WwwPath = string.Empty;
+
+        public static string WwwRootPath = string.Empty;
+
         public void Configure(
             IApplicationBuilder app,
             IServiceScopeFactory scopeFactory,
@@ -70,7 +76,7 @@ namespace MyServer.Web
                     });
 
             var helper = new PathHelper(env, userManager);
-
+            Startup.UserManager = userManager;
 
             scopeFactory.SeedData();
 
@@ -217,6 +223,8 @@ namespace MyServer.Web
                 typeof(SocialViewComponent).GetTypeInfo().Assembly,
                 "MyServer.ViewComponents.Common"
             ));
+
+            services.AddSingleton<Microsoft.AspNetCore.Http.IHttpContextAccessor, Microsoft.AspNetCore.Http.HttpContextAccessor>();
 
             services.Configure<RazorViewEngineOptions>(options =>
                 {

@@ -1,3 +1,9 @@
+using System.ComponentModel.DataAnnotations;
+using System.Linq;
+using Microsoft.AspNetCore.Http;
+using MyServer.Common;
+using MyServer.Web.Resources;
+
 namespace MyServer.Web.Pages.Account
 {
     using System;
@@ -18,10 +24,7 @@ namespace MyServer.Web.Pages.Account
 
     public class ExternalLoginModel : BasePageModel
     {
-        public ExternalLoginModel(IUserService userService, UserManager<User> userManager, SignInManager<User> signInManager, MyServerDbContext dbContext) : base(userService, userManager, signInManager, dbContext)
-        {
-        }
-
+        
         [TempData]
         public string ErrorMessage { get; set; }
 
@@ -51,33 +54,35 @@ namespace MyServer.Web.Pages.Account
                 return this.RedirectToPage("./Login");
             }
 
-            // Sign in the user with this external login provider if the user already has a login.
-            var result = await this.signInManager.ExternalLoginSignInAsync(
-                             info.LoginProvider,
-                             info.ProviderKey,
-                             isPersistent: false,
-                             bypassTwoFactor: true);
+            var result =
+                await
+                    this.signInManager.ExternalLoginSignInAsync(
+                        info.LoginProvider,
+                        info.ProviderKey,
+                        isPersistent: false,
+                        bypassTwoFactor: true);
+
             if (result.Succeeded)
             {
                 return this.LocalRedirect(this.Url.GetLocalUrl(returnUrl));
             }
-
-            if (result.IsLockedOut)
-            {
-                return this.RedirectToPage("./Lockout");
-            }
             else
             {
-                // If the user does not have an account, then ask the user to create an account.
+                var email = info.Principal.Claims.FirstOrDefault(x => x.Type == ClaimTypes.Email);
+                var firstName = info.Principal.Claims.FirstOrDefault(x => x.Type == ClaimTypes.GivenName);
+                var lastName = info.Principal.Claims.FirstOrDefault(x => x.Type == ClaimTypes.Surname);
                 this.ReturnUrl = returnUrl;
                 this.LoginProvider = info.LoginProvider;
-                if (info.Principal.HasClaim(c => c.Type == ClaimTypes.Email))
-                {
-                    this.Input = new InputModel { Email = info.Principal.FindFirstValue(ClaimTypes.Email) };
-                }
 
-                return this.Page();
+                this.Input = new InputModel()
+                    {
+                        Email = email == null ? string.Empty : email.Value,
+                        FirstName = firstName == null ? string.Empty : firstName.Value,
+                        LastName = lastName == null ? string.Empty : lastName.Value
+                    };
             }
+
+            return this.Page();
         }
 
         public IActionResult OnPost(string provider, string returnUrl = null)
@@ -90,42 +95,74 @@ namespace MyServer.Web.Pages.Account
 
         public async Task<IActionResult> OnPostConfirmationAsync(string returnUrl = null)
         {
+            ExternalLoginInfo info = null;
+
             if (this.ModelState.IsValid)
             {
-                // Get the information about the user from the external login provider
-                var info = await this.signInManager.GetExternalLoginInfoAsync();
+                info = await this.signInManager.GetExternalLoginInfoAsync();
                 if (info == null)
                 {
-                    throw new ApplicationException("Error loading external login information during confirmation.");
-                }
-
-                var user = new User { UserName = this.Input.Email, Email = this.Input.Email };
-                var result = await this.userManager.CreateAsync(user);
-                if (result.Succeeded)
-                {
-                    result = await this.userManager.AddLoginAsync(user, info);
-                    if (result.Succeeded)
-                    {
-                        await this.signInManager.SignInAsync(user, isPersistent: false);
-                        return this.LocalRedirect(this.Url.GetLocalUrl(returnUrl));
-                    }
-                }
-
-                foreach (var error in result.Errors)
-                {
-                    this.ModelState.AddModelError(string.Empty, error.Description);
+                    return this.RedirectToPage("./ExternalLoginFailed");
                 }
             }
 
+            var user = new User
+            {
+                UserName = this.Input.Email,
+                Email = this.Input.Email,
+                CreatedOn = DateTime.Now,
+                FirstName = this.Input.FirstName,
+                LastName = this.Input.LastName
+            };
+
+            var result = await this.userManager.CreateAsync(user);
+            if (result.Succeeded)
+            {
+                result = await this.userManager.AddLoginAsync(user, info);
+                if (result.Succeeded)
+                {
+                    await this.signInManager.SignInAsync(user, isPersistent: false);
+
+                    var role = this.dbContext.Roles.First(x => x.Name == MyServerRoles.User.ToString());
+                    this.dbContext.UserRoles.Add(
+                        new IdentityUserRole<string>() { RoleId = role.Id, UserId = user.Id });
+                    this.dbContext.SaveChanges();
+
+                    return this.LocalRedirect(this.Url.GetLocalUrl(returnUrl));
+                }
+            }
+
+            this.ModelState.AddModelError("Input.Email", Startup.SharedLocalizer["UsernameExist"]);
             this.ReturnUrl = returnUrl;
             return this.Page();
         }
 
         public class InputModel
         {
-            [Required]
-            [EmailAddress]
+            [Required(ErrorMessageResourceName = "ErrorRequired", ErrorMessageResourceType = typeof(Helpers_SharedResource))
+            ]
+            [EmailAddress(ErrorMessageResourceName = "InvalidEmail",
+                ErrorMessageResourceType = typeof(Helpers_SharedResource))]
+            [Display(Name = "Email", ResourceType = typeof(Helpers_SharedResource))]
             public string Email { get; set; }
+
+            [Required(ErrorMessageResourceName = "ErrorRequired", ErrorMessageResourceType = typeof(Helpers_SharedResource))
+            ]
+            [StringLength(50, ErrorMessageResourceName = "ErrorLength",
+                ErrorMessageResourceType = typeof(Helpers_SharedResource), MinimumLength = 2)]
+            [Display(Name = "FirstName", ResourceType = typeof(Helpers_SharedResource))]
+            public string FirstName { get; set; }
+
+            [Required(ErrorMessageResourceName = "ErrorRequired", ErrorMessageResourceType = typeof(Helpers_SharedResource))
+            ]
+            [StringLength(50, ErrorMessageResourceName = "ErrorLength",
+                ErrorMessageResourceType = typeof(Helpers_SharedResource), MinimumLength = 2)]
+            [Display(Name = "LastName", ResourceType = typeof(Helpers_SharedResource))]
+            public string LastName { get; set; }
+        }
+
+        public ExternalLoginModel(IUserService userService, UserManager<User> userManager, SignInManager<User> signInManager, MyServerDbContext dbContext, IHttpContextAccessor httpContextAccessor) : base(userService, userManager, signInManager, dbContext, httpContextAccessor)
+        {
         }
     }
 }

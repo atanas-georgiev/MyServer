@@ -1,5 +1,6 @@
 using System;
 using System.Linq;
+using Microsoft.AspNetCore.Http;
 using MyServer.Common;
 using MyServer.Web.Pages.Base;
 using MyServer.Web.Resources;
@@ -21,10 +22,6 @@ namespace MyServer.Web.Pages.Account
 
     public class RegisterModel : BasePageModel
     {
-        public RegisterModel(IUserService userService, UserManager<User> userManager, SignInManager<User> signInManager, MyServerDbContext dbContext) : base(userService, userManager, signInManager, dbContext)
-        {
-        }
-
         [BindProperty]
         public InputModel Input { get; set; }
 
@@ -63,7 +60,7 @@ namespace MyServer.Web.Pages.Account
                 }
             }
 
-            this.ModelState.AddModelError("Email", Startup.SharedLocalizer["UsernameExist"]);
+            this.ModelState.AddModelError("Input.Email", Startup.SharedLocalizer["UsernameExist"]);
             return this.Page();
         }
 
@@ -104,6 +101,10 @@ namespace MyServer.Web.Pages.Account
             [Display(Name = "Password", ResourceType = typeof(Helpers_SharedResource))]
             public string Password { get; set; }
 
+        }
+
+        public RegisterModel(IUserService userService, UserManager<User> userManager, SignInManager<User> signInManager, MyServerDbContext dbContext, IHttpContextAccessor httpContextAccessor) : base(userService, userManager, signInManager, dbContext, httpContextAccessor)
+        {
         }
     }
 }

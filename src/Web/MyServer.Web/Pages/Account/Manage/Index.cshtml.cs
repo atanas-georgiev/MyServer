@@ -1,3 +1,11 @@
+using System.Linq;
+using Microsoft.AspNetCore.Http;
+using MyServer.Data;
+using MyServer.Data.Models;
+using MyServer.Services.Users;
+using MyServer.Web.Pages.Base;
+using MyServer.Web.Resources;
+
 namespace MyServer.Web.Pages.Account.Manage
 {
     using System;
@@ -12,24 +20,8 @@ namespace MyServer.Web.Pages.Account.Manage
     using MyServer.Web.Extensions;
     using MyServer.Web.Services;
 
-    public partial class IndexModel : PageModel
-    {
-        private readonly IEmailSender _emailSender;
-
-        private readonly SignInManager<ApplicationUser> _signInManager;
-
-        private readonly UserManager<ApplicationUser> _userManager;
-
-        public IndexModel(
-            UserManager<ApplicationUser> userManager,
-            SignInManager<ApplicationUser> signInManager,
-            IEmailSender emailSender)
-        {
-            this._userManager = userManager;
-            this._signInManager = signInManager;
-            this._emailSender = emailSender;
-        }
-
+    public partial class IndexModel : BasePageModel
+    { 
         [BindProperty]
         public InputModel Input { get; set; }
 
@@ -40,20 +32,14 @@ namespace MyServer.Web.Pages.Account.Manage
 
         public string Username { get; set; }
 
-        public async Task<IActionResult> OnGetAsync()
+        public IActionResult OnGet()
         {
-            var user = await this._userManager.GetUserAsync(this.User);
-            if (user == null)
+            this.Input = new InputModel()
             {
-                throw new ApplicationException(
-                    $"Unable to load user with ID '{this._userManager.GetUserId(this.User)}'.");
-            }
-
-            this.Username = user.UserName;
-
-            this.Input = new InputModel { Email = user.Email, PhoneNumber = user.PhoneNumber };
-
-            this.IsEmailConfirmed = await this._userManager.IsEmailConfirmedAsync(user);
+                Email = this.UserProfile.Email,
+                FirstName = this.UserProfile.FirstName,
+                LastName = this.UserProfile.LastName
+            };
 
             return this.Page();
         }
@@ -65,68 +51,52 @@ namespace MyServer.Web.Pages.Account.Manage
                 return this.Page();
             }
 
-            var user = await this._userManager.GetUserAsync(this.User);
-            if (user == null)
+            var user = this.UserService.GetAll().FirstOrDefault(x => x.UserName == this.Input.Email);
+
+            if (user != null && user.UserName != this.UserProfile.UserName)
             {
-                throw new ApplicationException(
-                    $"Unable to load user with ID '{this._userManager.GetUserId(this.User)}'.");
+                this.ModelState.AddModelError("Input.Email", Startup.SharedLocalizer["UsernameExist"]);
+            }
+            else if (this.ModelState.IsValid)
+            {
+                this.UserProfile.UserName = this.Input.Email;
+                this.UserProfile.Email = this.Input.Email;
+                this.UserProfile.FirstName = this.Input.FirstName;
+                this.UserProfile.LastName = this.Input.LastName;
+
+                this.UserService.Update(this.UserProfile);
             }
 
-            if (this.Input.Email != user.Email)
-            {
-                var setEmailResult = await this._userManager.SetEmailAsync(user, this.Input.Email);
-                if (!setEmailResult.Succeeded)
-                {
-                    throw new ApplicationException(
-                        $"Unexpected error occurred setting email for user with ID '{user.Id}'.");
-                }
-            }
-
-            if (this.Input.PhoneNumber != user.PhoneNumber)
-            {
-                var setPhoneResult = await this._userManager.SetPhoneNumberAsync(user, this.Input.PhoneNumber);
-                if (!setPhoneResult.Succeeded)
-                {
-                    throw new ApplicationException(
-                        $"Unexpected error occurred setting phone number for user with ID '{user.Id}'.");
-                }
-            }
-
-            this.StatusMessage = "Your profile has been updated";
-            return this.RedirectToPage();
-        }
-
-        public async Task<IActionResult> OnPostSendVerificationEmailAsync()
-        {
-            if (!this.ModelState.IsValid)
-            {
-                return this.Page();
-            }
-
-            var user = await this._userManager.GetUserAsync(this.User);
-            if (user == null)
-            {
-                throw new ApplicationException(
-                    $"Unable to load user with ID '{this._userManager.GetUserId(this.User)}'.");
-            }
-
-            var code = await this._userManager.GenerateEmailConfirmationTokenAsync(user);
-            var callbackUrl = this.Url.EmailConfirmationLink(user.Id, code, this.Request.Scheme);
-            await this._emailSender.SendEmailConfirmationAsync(user.Email, callbackUrl);
-
-            this.StatusMessage = "Verification email sent. Please check your email.";
             return this.RedirectToPage();
         }
 
         public class InputModel
         {
-            [Required]
-            [EmailAddress]
+            [Required(ErrorMessageResourceName = "ErrorRequired", ErrorMessageResourceType = typeof(Helpers_SharedResource))
+            ]
+            [EmailAddress(ErrorMessageResourceName = "InvalidEmail",
+                ErrorMessageResourceType = typeof(Helpers_SharedResource))]
+            [Display(Name = "Email", ResourceType = typeof(Helpers_SharedResource))]
             public string Email { get; set; }
 
-            [Phone]
-            [Display(Name = "Phone number")]
-            public string PhoneNumber { get; set; }
+            [Required(ErrorMessageResourceName = "ErrorRequired", ErrorMessageResourceType = typeof(Helpers_SharedResource))
+            ]
+            [StringLength(50, ErrorMessageResourceName = "ErrorLength",
+                ErrorMessageResourceType = typeof(Helpers_SharedResource), MinimumLength = 2)]
+            [Display(Name = "FirstName", ResourceType = typeof(Helpers_SharedResource))]
+            public string FirstName { get; set; }
+
+            [Required(ErrorMessageResourceName = "ErrorRequired", ErrorMessageResourceType = typeof(Helpers_SharedResource))
+            ]
+            [StringLength(50, ErrorMessageResourceName = "ErrorLength",
+                ErrorMessageResourceType = typeof(Helpers_SharedResource), MinimumLength = 2)]
+            [Display(Name = "LastName", ResourceType = typeof(Helpers_SharedResource))]
+            public string LastName { get; set; }
+        }
+
+
+        public IndexModel(IUserService userService, UserManager<User> userManager, SignInManager<User> signInManager, MyServerDbContext dbContext, IHttpContextAccessor httpContextAccessor) : base(userService, userManager, signInManager, dbContext, httpContextAccessor)
+        {
         }
     }
 }
