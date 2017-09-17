@@ -12,7 +12,8 @@ build:
   verbosity: minimal
   
 after_build:
-- dotnet publish /p:AssemblyVersion={version} -o C:\projects\myserver\AppOutput\DeployTest --configuration Release
+- dotnet build /p:AssemblyVersion={version}
+- dotnet publish -o C:\projects\myserver\AppOutput\DeployTest --configuration Release
  
 test: off
 
