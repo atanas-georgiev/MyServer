@@ -12,7 +12,7 @@ build:
   verbosity: minimal
   
 after_build:
-- dotnet publish --version-suffix %version% -o C:\projects\myserver\AppOutput\DeployTest --configuration Release
+- dotnet publish --version-suffix "{version}" -o C:\projects\myserver\AppOutput\DeployTest --configuration Release
  
 test: off
 
