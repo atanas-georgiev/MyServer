@@ -12,13 +12,13 @@ build:
   verbosity: minimal
   
 after_build:
- - dotnet publish -o C:\projects\myserver\AppOutput\DeployTest --configuration Release
+- dotnet publish -o C:\projects\myserver\AppOutput\DeployTest --configuration Release
  
 test: off
   
 artifacts:
 - path: AppOutput\DeployTest
--  name: DeployTest
--  type: WebDeployPackage 
+  name: DeployTest
+  type: WebDeployPackage 
 
   
