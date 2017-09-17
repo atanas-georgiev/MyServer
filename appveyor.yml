@@ -16,9 +16,18 @@ after_build:
  
 test: off
   
-artifacts:
-- path: AppOutput\DeployTest
-  name: DeployTest
-  type: WebDeployPackage 
+deploy:
+- provider: WebDeploy
+  server: atanas.it
+  website: MyServer
+  username: Administrator
+  password: 
+    secure: rE55/DZDA+/y1TX0DnrRSQ==
+  ntlm: true
+  do_not_use_checksum: true
+  artifact: DeployTest
+  aspnet_core: true
+  aspnet_core_force_restart: true
+  skip_files: appsettings.json
 
   
