@@ -31,6 +31,7 @@ deploy:
   ntlm: true
   do_not_use_checksum: true
   artifact: DeployTest
+  app_offline: false
   aspnet_core: true
   aspnet_core_force_restart: true
   skip_files: appsettings.json
