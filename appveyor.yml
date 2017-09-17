@@ -10,5 +10,15 @@ before_build:
 
 build:
   verbosity: minimal
+  
+after_build:
+ - dotnet publish -o C:\projects\myserver\AppOutput\DeployTest --configuration Release
+ 
+test: off
+  
+artifacts:
+- path: AppOutput\DeployTest
+-  name: DeployTest
+-  type: WebDeployPackage 
 
   
