@@ -10,27 +10,5 @@ before_build:
 
 build:
   verbosity: minimal
-  
-after_build:
-- dotnet publish -o C:\projects\myserver\AppOutput\DeployTest --configuration Release
 
-test: off
-
-artifacts:
-- path: AppOutput\DeployTest
-  name: DeployTest
-  type: WebDeployPackage
-  
-deploy:
-- provider: WebDeploy
-  server: atanas.it
-  website: MyServer
-  username: Administrator
-  password: 
-    secure: rE55/DZDA+/y1TX0DnrRSQ==
-  ntlm: true
-  do_not_use_checksum: true
-  artifact: DeployTest
-  app_offline: true
-  skip_files: appsettings.json
   
