@@ -32,5 +32,5 @@ deploy:
   do_not_use_checksum: true
   artifact: DeployTest
   app_offline: true
-  skip_files: application.json
+  skip_files: appsettings.json
   
