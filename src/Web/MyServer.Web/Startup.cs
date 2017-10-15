@@ -93,7 +93,7 @@ namespace MyServer.Web
 
             //if (!env.IsDevelopment())
             //{
-            //    app.UseDeveloperExceptionPage();
+            app.UseDeveloperExceptionPage();
             app.UseDatabaseErrorPage();
             //    app.UseBrowserLink();
             //}
