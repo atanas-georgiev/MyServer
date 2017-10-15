@@ -1,0 +1,22 @@
+﻿@page
+@using Microsoft.Extensions.Localization
+@using MyServer.Web.Helpers
+@using MyServer.Web.Pages.Account.Manage
+@model MyServer.Web.Pages.Account.Manage.IndexModel
+@inject IStringLocalizer<SharedResource> SharedLocalizer
+@{
+    ViewData["Title"] = SharedLocalizer["CV"];
+}
+
+<h2>Cv</h2>
+
+<div class="well">
+    <div class="text-center">
+        <h1>@SharedLocalizer["CV"]</h1>
+        <hr />
+    </div>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
