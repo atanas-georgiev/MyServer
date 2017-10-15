@@ -20,6 +20,8 @@
                 var context = serviceScope.ServiceProvider.GetService<MyServerDbContext>();
                 try
                 {
+                    context.Database.Migrate();
+
                     if (!Queryable.Any<User>(context.Users))
                     {
                         SeedRoles(context);
@@ -28,13 +30,7 @@
                 }
                 catch
                 {
-                    context.Database.Migrate();
-
-                    if (!Queryable.Any<User>(context.Users))
-                    {
-                        SeedRoles(context);
-                        SeedAdmin(context);
-                    }
+                    // N/A
                 }
             }
         }
