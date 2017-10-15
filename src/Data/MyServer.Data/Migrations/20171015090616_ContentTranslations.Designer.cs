@@ -12,9 +12,10 @@ using System;
 namespace MyServer.Data.Migrations
 {
     [DbContext(typeof(MyServerDbContext))]
-    partial class MyServerDbContextModelSnapshot : ModelSnapshot
+    [Migration("20171015090616_ContentTranslations")]
+    partial class ContentTranslations
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

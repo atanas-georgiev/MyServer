@@ -29,6 +29,7 @@ namespace MyServer.Web
     using Microsoft.Extensions.Localization;
     using Microsoft.Extensions.Logging;
     using MyServer.Data.Models;
+    using MyServer.Services.Content;
     using MyServer.Web.Data;
     using MyServer.Web.Migrations;
     using MyServer.Web.Resources;
@@ -154,6 +155,7 @@ namespace MyServer.Web
             services.AddScoped<IAlbumService, AlbumService>();
             services.AddScoped<IImageService, ImageService>();
             services.AddScoped<ILocationService, LocationService>();
+            services.AddScoped<IContentService, ContentService>();
 
             services.AddIdentity<User, IdentityRole>(
                 o =>

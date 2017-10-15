@@ -1,0 +1,14 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\Common\MyServer.Common\MyServer.Common.csproj" />
+    <ProjectReference Include="..\..\Data\MyServer.Data.Common\MyServer.Data.Common.csproj" />
+    <ProjectReference Include="..\..\Data\MyServer.Data.Models\MyServer.Data.Models.csproj" />
+    <ProjectReference Include="..\..\Data\MyServer.Data\MyServer.Data.csproj" />
+  </ItemGroup>
+
+</Project>

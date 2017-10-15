@@ -1,0 +1,26 @@
+@model Tuple<string, bool>
+
+@using System.IO
+@using Kendo.Mvc.UI
+@using Microsoft.AspNetCore.Mvc.Razor
+
+@if (Model.Item2)
+{
+    @(Html.Kendo().Editor()
+          .Name("editor")
+          .HtmlAttributes(new { style = "height:440px", aria_label = "editor" })
+          .Resizable(resizable => resizable.Content(true).Toolbar(true))
+          .ImageBrowser(imageBrowser => imageBrowser
+                                            .Image("~/Content/UserFiles/Images/{0}")
+                                            .Read("Read", "ImageBrowser")
+                                            .Create("Create", "ImageBrowser")
+                                            .Destroy("Destroy", "ImageBrowser")
+                                            .Upload("Upload", "ImageBrowser")
+                                            .Thumbnail("Thumbnail", "ImageBrowser")
+          )
+          .Value(Model.Item1))
+}
+else
+{
+    @Html.Raw(Model.Item1)    
+}

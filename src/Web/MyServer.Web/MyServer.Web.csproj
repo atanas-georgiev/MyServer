@@ -35,6 +35,7 @@
     <ProjectReference Include="..\..\Data\MyServer.Data.Common\MyServer.Data.Common.csproj" />
     <ProjectReference Include="..\..\Data\MyServer.Data.Models\MyServer.Data.Models.csproj" />
     <ProjectReference Include="..\..\Data\MyServer.Data\MyServer.Data.csproj" />
+    <ProjectReference Include="..\..\Services\MyServer.Services.Content\MyServer.Services.Content.csproj" />
     <ProjectReference Include="..\..\Services\MyServer.Services.ImageGallery\MyServer.Services.ImageGallery.csproj" />
     <ProjectReference Include="..\..\Services\MyServer.Services.Mappings\MyServer.Services.Mappings.csproj" />
     <ProjectReference Include="..\..\Services\MyServer.Services.Users\MyServer.Services.Users.csproj" />

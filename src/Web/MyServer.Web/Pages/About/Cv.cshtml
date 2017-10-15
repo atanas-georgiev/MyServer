@@ -8,12 +8,11 @@
     ViewData["Title"] = SharedLocalizer["CV"];
 }
 
-<h2>Cv</h2>
-
 <div class="well">
     <div class="text-center">
         <h1>@SharedLocalizer["CV"]</h1>
         <hr />
+        @await Component.InvokeAsync("Content")
     </div>
 </div>
 

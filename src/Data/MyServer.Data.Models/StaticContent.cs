@@ -1,10 +1,11 @@
-﻿using MyServer.Data.Common;
-using MyServer.Data.Common.Models;
-using System;
-using System.ComponentModel.DataAnnotations;
-
-namespace MyServer.Data.Models
+﻿namespace MyServer.Data.Models
 {
+    using System;
+    using System.ComponentModel.DataAnnotations;
+
+    using MyServer.Data.Common;
+    using MyServer.Data.Common.Models;
+
     public class StaticContent : BaseModel<Guid>, IHavePrimaryKey<Guid>
     {
         [Required]
@@ -13,6 +14,10 @@ namespace MyServer.Data.Models
 
         [Required]
         [MaxLength(30000)]
-        public string ContentValue { get; set; }
+        public string ContentValueBg { get; set; }
+
+        [Required]
+        [MaxLength(30000)]
+        public string ContentValueEn { get; set; }
     }
 }
