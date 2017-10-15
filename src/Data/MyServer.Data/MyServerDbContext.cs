@@ -23,6 +23,8 @@
 
         public virtual DbSet<Image> Images { get; set; }
 
+        public virtual DbSet<StaticContent> StaticContents { get; set; }
+
         public override int SaveChanges()
         {
             this.ApplyAuditInfoRules();

@@ -4,8 +4,6 @@
     <UserSecretsId>aspnet-MyServer-8DFD2BBF-6742-42D8-9164-DC96198DC44D</UserSecretsId>
     <AssemblyName>MyServer.Web</AssemblyName>
     <RootNamespace>MyServer.Web</RootNamespace>
-    <AssemblyVersion>2.0.0.0</AssemblyVersion>
-    <FileVersion>2.0.0.0</FileVersion>
   </PropertyGroup>
   <ItemGroup>
     <None Remove="atanas.pfx" />
