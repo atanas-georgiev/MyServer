@@ -1,24 +1,18 @@
-using System.Linq;
-using Microsoft.AspNetCore.Http;
-using MyServer.Data;
-using MyServer.Data.Models;
-using MyServer.Services.Users;
-using MyServer.Web.Pages.Base;
-using MyServer.Web.Resources;
-
 namespace MyServer.Web.Pages.Account.Manage
 {
-    using System;
     using System.ComponentModel.DataAnnotations;
+    using System.Linq;
     using System.Threading.Tasks;
 
+    using Microsoft.AspNetCore.Http;
     using Microsoft.AspNetCore.Identity;
     using Microsoft.AspNetCore.Mvc;
-    using Microsoft.AspNetCore.Mvc.RazorPages;
 
-    using MyServer.Web.Data;
-    using MyServer.Web.Extensions;
-    using MyServer.Web.Services;
+    using MyServer.Data;
+    using MyServer.Data.Models;
+    using MyServer.Services.Users;
+    using MyServer.Web.Pages.Base;
+    using MyServer.Web.Resources;
 
     public partial class IndexModel : BasePageModel
     { 
@@ -34,12 +28,20 @@ namespace MyServer.Web.Pages.Account.Manage
 
         public IActionResult OnGet()
         {
-            this.Input = new InputModel()
+            if (this.UserProfile != null)
             {
-                Email = this.UserProfile.Email,
-                FirstName = this.UserProfile.FirstName,
-                LastName = this.UserProfile.LastName
-            };
+                this.Input = new InputModel()
+                                 {
+                                     Email = this.UserProfile.Email,
+                                     FirstName = this.UserProfile.FirstName,
+                                     LastName = this.UserProfile.LastName
+                                 };
+            }
+            else
+            {
+                this.Input = new InputModel();
+            }
+
 
             return this.Page();
         }

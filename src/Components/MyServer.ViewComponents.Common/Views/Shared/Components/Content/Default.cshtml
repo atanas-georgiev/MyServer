@@ -1,26 +1,108 @@
-@model Tuple<string, bool>
-
-@using System.IO
+@model object
 @using Kendo.Mvc.UI
-@using Microsoft.AspNetCore.Mvc.Razor
+@using Microsoft.AspNetCore.Identity
+@using MyServer.Data.Models
+@inject SignInManager<User> SignInManager
+@inject UserManager<User> UserManager
 
-@if (Model.Item2)
+@{
+    var LocString = ViewBag.StringLocalizer;
+}
+
+@if (SignInManager.IsSignedIn(User) && SignInManager.Context.User.IsInRole("Admin"))
 {
-    @(Html.Kendo().Editor()
-          .Name("editor")
-          .HtmlAttributes(new { style = "height:440px", aria_label = "editor" })
-          .Resizable(resizable => resizable.Content(true).Toolbar(true))
-          .ImageBrowser(imageBrowser => imageBrowser
-                                            .Image("~/Content/UserFiles/Images/{0}")
-                                            .Read("Read", "ImageBrowser")
-                                            .Create("Create", "ImageBrowser")
-                                            .Destroy("Destroy", "ImageBrowser")
-                                            .Upload("Upload", "ImageBrowser")
-                                            .Thumbnail("Thumbnail", "ImageBrowser")
-          )
-          .Value(Model.Item1))
+    <div>
+        <div id="area-view-mode">
+            <a class="btn btn-default" id="edit-btn">@LocString["Edit"]</a>
+            <hr />
+            <div class="content-data reset-this"></div>
+        </div>
+
+        <div id="area-edit-mode">
+            <a class="btn btn-default" id="save-btn">@LocString["Save"]</a>
+            <hr />
+            @(Html.Kendo().Editor()
+              .Name("editor")
+              .Encoded(false)
+              .HtmlAttributes(new { style = "height:440px", aria_label = "editor" })
+              .Resizable(resizable => resizable.Content(true).Toolbar(true))
+              .ImageBrowser(imageBrowser => imageBrowser
+                                                .Image("/UserFiles/{0}")
+                                                .Read("Read", "ImageBrowser")
+                                                .Create("Create", "ImageBrowser")
+                                                .Destroy("Destroy", "ImageBrowser")
+                                                .Upload("Upload", "ImageBrowser")
+                                                // .Thumbnail("Thumbnail", "ImageBrowser")
+              ))
+        </div>
+    </div>
+
+    <script>
+        $('#area-view-mode').show();
+        $('#area-edit-mode').hide();
+
+        $("#edit-btn").click(function () {
+            $('#area-edit-mode').show();
+            $('#area-view-mode').hide();
+        });
+
+        $("#save-btn").click(function () {
+            $.ajax({
+                type: "POST",
+                url: "/api/content",
+                data: { key: '@Model.ToString()', value: $('#editor').val()},
+                success: function() {
+                    $('#area-edit-mode').hide();
+                    $('#area-view-mode').show();
+
+                    $.ajax({
+                        url: "/api/content",
+                        type: "get",
+                        data: {
+                            key: '@Model.ToString()'
+                        },
+                        success: function(response) {
+                            $(".content-data").html(response);
+                            var editor = $("#editor").data("kendoEditor");
+                            if (editor) {
+                                editor.value(response);
+                            }
+                        },
+                        error: function(xhr) {
+                            //Do Something to handle error
+                        }
+                    });
+                }
+            });
+        });
+
+    </script>
 }
 else
 {
-    @Html.Raw(Model.Item1)    
+    <div>
+        <div class="content-data reset-this"></div>
+    </div>
 }
+
+<script>
+    $(document).ready(function () {
+        $.ajax({
+            url: "/api/content",
+            type: "get",
+            data: {
+                key: '@Model.ToString()'
+            },
+            success: function(response) {
+                $(".content-data").html(response);
+                var editor = $("#editor").data("kendoEditor");
+                if (editor) {
+                    editor.value(response);
+                }
+            },
+            error: function(xhr) {
+                //Do Something to handle error
+            }
+        });
+    });
+</script>

@@ -4,34 +4,25 @@
     using System.Globalization;
 
     using Microsoft.AspNetCore.Mvc;
+    using Microsoft.Extensions.Localization;
 
     using MyServer.Common;
     using MyServer.Services.Content;
+    using MyServer.ViewComponents.Common.Resources;
 
     public class ContentViewComponent : ViewComponent
     {
-        private readonly IContentService contentService;
+        private readonly IStringLocalizer<ViewComponentResources> localizer;
 
-        public ContentViewComponent(IContentService contentService)
+        public ContentViewComponent(IStringLocalizer<ViewComponentResources> localizer)
         {
-            this.contentService = contentService;
+            this.localizer = localizer;
         }
 
-        public IViewComponentResult Invoke(string key, bool edit = true)
+        public IViewComponentResult Invoke(string key)
         {
-            var culture = CultureInfo.CurrentCulture.ToString();
-            var value = string.Empty;
-
-            if (culture == "bg-BG")
-            {
-                value = this.contentService.Get("mykey", LanguageEnum.Bg);
-            }
-            else if (culture == "en-US")
-            {
-                value = this.contentService.Get("mykey", LanguageEnum.En);
-            }
-
-            return this.View(new Tuple<string, bool>(value, edit));
+            this.ViewBag.StringLocalizer = this.localizer;
+            return this.View((object)key);
         }
     }
 }

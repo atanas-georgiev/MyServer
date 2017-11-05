@@ -197,7 +197,7 @@ namespace MyServer.Web
             });
 
             services.AddMvc(
-                    options => options.Filters.Add(typeof(RequireHttpsAttribute))
+                    //options => options.Filters.Add(typeof(RequireHttpsAttribute))
                     )
                 .AddJsonOptions(options => options.SerializerSettings.ContractResolver = new DefaultContractResolver())
                 .AddRazorPagesOptions(options =>

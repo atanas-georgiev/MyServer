@@ -12,7 +12,7 @@
     <div class="text-center">
         <h1>@SharedLocalizer["CV"]</h1>
         <hr />
-        @await Component.InvokeAsync("Content")
+        @await Component.InvokeAsync("Content", new { key = "cv" })
     </div>
 </div>
 

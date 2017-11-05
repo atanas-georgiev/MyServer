@@ -14,10 +14,10 @@ namespace MyServer.Web
                 .UseKestrel(options =>
                 {
                     options.Listen(IPAddress.Any, 81);
-                    options.Listen(IPAddress.Any, 443, listenOptions =>
-                    {
-                        listenOptions.UseHttps("atanas.pfx", "naseto");
-                    });
+                    //options.Listen(IPAddress.Any, 443, listenOptions =>
+                    //{
+                    //    listenOptions.UseHttps("atanas.pfx", "naseto");
+                    //});
                 })
             .Build();
 
