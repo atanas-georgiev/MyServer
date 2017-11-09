@@ -66,15 +66,15 @@ namespace MyServer.Web
 
             app.UseRequestLocalization(
                 new RequestLocalizationOptions
-                    {
-                        DefaultRequestCulture = new RequestCulture("en-US"),
+                {
+                    DefaultRequestCulture = new RequestCulture("en-US"),
 
-                        // Formatting numbers, dates, etc.
-                        SupportedCultures = supportedCultures,
+                    // Formatting numbers, dates, etc.
+                    SupportedCultures = supportedCultures,
 
-                        // UI strings that we have localized.
-                        SupportedUICultures = supportedCultures
-                    });
+                    // UI strings that we have localized.
+                    SupportedUICultures = supportedCultures
+                });
 
             var helper = new PathHelper(env, userManager);
             Startup.scopeFactory = scopeFactory;
@@ -83,25 +83,25 @@ namespace MyServer.Web
 
             app.UseStaticFiles(
                 new StaticFileOptions()
-                    {
-                        OnPrepareResponse = (context) =>
-                            {
-                                var headers = context.Context.Response.GetTypedHeaders();
-                                headers.CacheControl = new CacheControlHeaderValue() { MaxAge = TimeSpan.FromDays(100) };
-                            }
-                    });
+                {
+                    OnPrepareResponse = (context) =>
+                        {
+                            var headers = context.Context.Response.GetTypedHeaders();
+                            headers.CacheControl = new CacheControlHeaderValue() { MaxAge = TimeSpan.FromDays(100) };
+                        }
+                });
 
-            //if (!env.IsDevelopment())
-            //{
-            app.UseDeveloperExceptionPage();
-            app.UseDatabaseErrorPage();
-            //    app.UseBrowserLink();
-            //}
-            //else
-            //{
-            //    app.UseExceptionHandler("/Error?statusCode=500");
-            //    app.UseStatusCodePagesWithReExecute("/Error?statusCode={0}");
-            //}
+            if (!env.IsDevelopment())
+            {
+                app.UseDeveloperExceptionPage();
+                app.UseDatabaseErrorPage();
+                app.UseBrowserLink();
+            }
+            else
+            {
+                app.UseExceptionHandler("/Error?statusCode=500");
+                app.UseStatusCodePagesWithReExecute("/Error?statusCode={0}");
+            }
 
             // app.Map("/sitemap.xml", SitemapMiddleware.HandleSitemap);
 
@@ -192,12 +192,13 @@ namespace MyServer.Web
             //    .AddDataAnnotationsLocalization()
             //    .AddJsonOptions(options => options.SerializerSettings.ContractResolver = new DefaultContractResolver());
 
-            services.Configure<RazorViewEngineOptions>(o => {
+            services.Configure<RazorViewEngineOptions>(o =>
+            {
                 o.ViewLocationExpanders.Add(new ViewLocationExpander());
             });
 
             services.AddMvc(
-                    //options => options.Filters.Add(typeof(RequireHttpsAttribute))
+                    options => options.Filters.Add(typeof(RequireHttpsAttribute))
                     )
                 .AddJsonOptions(options => options.SerializerSettings.ContractResolver = new DefaultContractResolver())
                 .AddRazorPagesOptions(options =>
