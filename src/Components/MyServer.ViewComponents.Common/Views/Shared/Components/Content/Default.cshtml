@@ -25,7 +25,13 @@
                 <a class="btn btn-default" id="save-btn">@LocString["Save"]</a>
             </div>
             <hr />
-            @(Html.Kendo().Editor().Name("editor").Encoded(false).HtmlAttributes(new { style = "height:440px", aria_label = "editor" }).Resizable(resizable => resizable.Content(true).Toolbar(true)).ImageBrowser(imageBrowser => imageBrowser.Image("/UserFiles/{0}").Read("Read", "ImageBrowser").Create("Create", "ImageBrowser").Destroy("Destroy", "ImageBrowser").Upload("Upload", "ImageBrowser")
+            @(Html.Kendo().Editor().Name("editor").Encoded(false).HtmlAttributes(new { style = "height:440px", aria_label = "editor" })
+                .Resizable(resizable => resizable.Content(true).Toolbar(true))
+                .ImageBrowser(imageBrowser => imageBrowser.Image("/UserFiles/{0}")
+                .Read("Read", "ImageBrowser")
+                .Create("Create", "ImageBrowser")
+                .Destroy("Destroy", "ImageBrowser")
+                .Upload("Upload", "ImageBrowser")
                 // .Thumbnail("Thumbnail", "ImageBrowser")
                 ))
             </div>
