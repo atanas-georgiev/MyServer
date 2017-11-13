@@ -17,7 +17,11 @@
                 <a class="btn btn-default" id="edit-btn">@LocString["Edit"]</a>
             </div>
             <hr/>
-            <div class="content-data reset-this"></div>
+            <div id="content-data" class="reset-this"></div>
+            <hr />
+            <div class="text-center">
+                <a class="btn btn-default" id="pdf-btn">@LocString["SaveAsPdf"]</a>
+            </div>
         </div>
 
         <div id="area-edit-mode">
@@ -36,7 +40,7 @@
                 ))
             </div>
     </div>
-
+    
     <script>
         $('#area-view-mode').show();
         $('#area-edit-mode').hide();
@@ -62,7 +66,7 @@
                             key: '@Model.ToString()'
                         },
                         success: function(response) {
-                            $(".content-data").html(response);
+                            $("#content-data").html(response);
                             var editor = $("#editor").data("kendoEditor");
                             if (editor) {
                                 editor.value(response);
@@ -75,16 +79,20 @@
                 }
             });
         });
-
     </script>
 }
 else
 {
     <div>
-        <div class="content-data reset-this"></div>
+        <div id="content-data" class="reset-this"></div>
+    </div>
+    <hr />
+    <div class="text-center">
+        <a class="btn btn-default" id="pdf-btn">@LocString["SaveAsPdf"]</a>
     </div>
 }
 
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.3.5/jspdf.debug.js"></script>
 <script>
     $(document).ready(function () {
         $.ajax({
@@ -94,7 +102,7 @@ else
                 key: '@Model.ToString()'
             },
             success: function(response) {
-                $(".content-data").html(response);
+                $("#content-data").html(response);
                 var editor = $("#editor").data("kendoEditor");
                 if (editor) {
                     editor.value(response);
@@ -103,6 +111,30 @@ else
             error: function(xhr) {
                 //Do Something to handle error
             }
+        });
+
+        $("#pdf-btn").click(function() {
+            var doc = new jsPDF();          
+            var elementHandler = {
+                '#ignorePDF': function (element, renderer) {
+                    return true;
+                }
+            };
+
+            var source = $('#content-data').html();
+            doc.fromHTML(
+                source,
+                15,
+                15,
+                {
+                    'width': 180,'elementHandlers': elementHandler
+                });
+
+            doc.save("output.pdf");
+            window.open(
+                "output.pdf",
+                "_blank" // <- This is what makes it open in a new window.
+            );
         });
     });
 </script>

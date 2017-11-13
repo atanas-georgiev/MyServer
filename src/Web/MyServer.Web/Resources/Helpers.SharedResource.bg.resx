@@ -306,4 +306,7 @@
   <data name="Exit" xml:space="preserve">
     <value>Изход</value>
   </data>
+  <data name="SaveAsPdf" xml:space="preserve">
+    <value>Изтегли като PDF</value>
+  </data>
 </root>
