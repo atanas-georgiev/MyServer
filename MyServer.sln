@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.27004.2002
+VisualStudioVersion = 15.0.26730.16
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Web", "Web", "{47D9B337-395C-4622-8A95-BA82EB70CC12}"
 EndProject
@@ -35,7 +35,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MyServer.ViewComponents.Com
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MyServer.ViewComponents.ImageGallery", "src\Components\MyServer.ViewComponents.ImageGallery\MyServer.ViewComponents.ImageGallery.csproj", "{5F62805B-3E17-4C5E-A51D-8A86D9152648}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MyServer.Services.Content", "src\Services\MyServer.Services.Content\MyServer.Services.Content.csproj", "{F9DF9F75-7744-4639-B2A9-03CACB502D20}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MyServer.Services.Content", "src\Services\MyServer.Services.Content\MyServer.Services.Content.csproj", "{F9DF9F75-7744-4639-B2A9-03CACB502D20}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

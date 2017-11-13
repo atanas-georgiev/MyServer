@@ -13,28 +13,22 @@
 {
     <div>
         <div id="area-view-mode">
-            <a class="btn btn-default" id="edit-btn">@LocString["Edit"]</a>
-            <hr />
+            <div class="text-center">
+                <a class="btn btn-default" id="edit-btn">@LocString["Edit"]</a>
+            </div>
+            <hr/>
             <div class="content-data reset-this"></div>
         </div>
 
         <div id="area-edit-mode">
-            <a class="btn btn-default" id="save-btn">@LocString["Save"]</a>
+            <div class="text-center">
+                <a class="btn btn-default" id="save-btn">@LocString["Save"]</a>
+            </div>
             <hr />
-            @(Html.Kendo().Editor()
-              .Name("editor")
-              .Encoded(false)
-              .HtmlAttributes(new { style = "height:440px", aria_label = "editor" })
-              .Resizable(resizable => resizable.Content(true).Toolbar(true))
-              .ImageBrowser(imageBrowser => imageBrowser
-                                                .Image("/UserFiles/{0}")
-                                                .Read("Read", "ImageBrowser")
-                                                .Create("Create", "ImageBrowser")
-                                                .Destroy("Destroy", "ImageBrowser")
-                                                .Upload("Upload", "ImageBrowser")
-                                                // .Thumbnail("Thumbnail", "ImageBrowser")
-              ))
-        </div>
+            @(Html.Kendo().Editor().Name("editor").Encoded(false).HtmlAttributes(new { style = "height:440px", aria_label = "editor" }).Resizable(resizable => resizable.Content(true).Toolbar(true)).ImageBrowser(imageBrowser => imageBrowser.Image("/UserFiles/{0}").Read("Read", "ImageBrowser").Create("Create", "ImageBrowser").Destroy("Destroy", "ImageBrowser").Upload("Upload", "ImageBrowser")
+                // .Thumbnail("Thumbnail", "ImageBrowser")
+                ))
+            </div>
     </div>
 
     <script>

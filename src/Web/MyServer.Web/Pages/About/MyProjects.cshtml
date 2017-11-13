@@ -4,15 +4,15 @@
 
 @inject IStringLocalizer<SharedResource> SharedLocalizer
 @{
-    ViewData["Title"] = SharedLocalizer["CV"];
+    ViewData["Title"] = SharedLocalizer["MyProjects"];
 }
 
 <div class="well">
     <div class="text-center">
-        <h1>@SharedLocalizer["CV"]</h1>
+        <h1>@SharedLocalizer["MyProjects"]</h1>
         <hr />
     </div>
     <div>
-        @await Component.InvokeAsync("Content", new { key = "CV" })
+        @await Component.InvokeAsync("Content", new { key = "MyProjects" })
     </div>
 </div>
