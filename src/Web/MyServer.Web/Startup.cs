@@ -94,17 +94,17 @@ namespace MyServer.Web
                             }
                     });
 
-            if (!env.IsDevelopment())
-            {
-                app.UseDeveloperExceptionPage();
-                app.UseDatabaseErrorPage();
-                // app.UseBrowserLink();
-            }
-            else
-            {
+            //if (env.IsDevelopment())
+            //{
+            //    app.UseDeveloperExceptionPage();
+            //    app.UseDatabaseErrorPage();
+            //    app.UseBrowserLink();
+            //}
+            //else
+            //{
                 app.UseExceptionHandler("/Error?statusCode=500");
                 app.UseStatusCodePagesWithReExecute("/Error?statusCode={0}");
-            }
+            //}
 
             app.UseAuthentication();
 
