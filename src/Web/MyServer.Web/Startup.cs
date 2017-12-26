@@ -94,11 +94,11 @@ namespace MyServer.Web
                             }
                     });
 
-            if (env.IsDevelopment())
+            if (!env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
                 app.UseDatabaseErrorPage();
-                app.UseBrowserLink();
+                // app.UseBrowserLink();
             }
             else
             {
