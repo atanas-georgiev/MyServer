@@ -1,0 +1,24 @@
+@model object
+@using Kendo.Mvc.UI
+@using Microsoft.AspNetCore.Identity
+@using MyServer.Data.Models
+
+@{
+    var LocString = ViewBag.StringLocalizer;
+    var lang = System.Threading.Thread.CurrentThread.CurrentCulture.Name;
+}
+<div class="well well-mobile">
+    <div>
+        <h1>
+            @LocString["SmartHome"]
+        </h1>
+        <hr />
+        <h2>
+            @LocString["Temeratures"]
+        </h2>
+            @foreach (MyServer.Services.SmartHome.Models.Temperature temperature in ViewBag.Temeratures)
+            {
+                <p>@(lang == "bg-BG" ? temperature.NameBg : temperature.NameEn) @temperature.Temerature&#8451; @temperature.Humidity%</p>
+            }
+    </div>
+</div>

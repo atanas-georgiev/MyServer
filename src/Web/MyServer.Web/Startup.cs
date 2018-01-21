@@ -26,6 +26,8 @@ namespace MyServer.Web
     using MyServer.Services.Content;
     using MyServer.Services.ImageGallery;
     using MyServer.Services.Mappings;
+    using MyServer.Services.SmartHome;
+    using MyServer.Services.SmartHome.Config;
     using MyServer.Services.Users;
     using MyServer.ViewComponents.Common.Components.Social.Controllers;
     using MyServer.ViewComponents.ImageGallery.Components.LatestAddedAlbums.Controllers;
@@ -138,6 +140,7 @@ namespace MyServer.Web
             services.AddDbContext<MyServerDbContext>(
                 options => options.UseSqlServer(this.Configuration.GetConnectionString("MyServerDb")));
 
+            services.AddOptions();
             services.AddScoped<DbContext, MyServerDbContext>();
             services.Add(ServiceDescriptor.Scoped(typeof(IRepository<,>), typeof(Repository<,>)));
             services.Add(ServiceDescriptor.Scoped(typeof(IRepository<>), typeof(Repository<>)));
@@ -147,6 +150,11 @@ namespace MyServer.Web
             services.AddScoped<IImageService, ImageService>();
             services.AddScoped<ILocationService, LocationService>();
             services.AddScoped<IContentService, ContentService>();
+
+            var appSettings = Configuration.GetSection("SmartHome:Temperatures");
+            services.Configure<List<TemperatureConfig>>(appSettings);
+
+            services.AddScoped<IHomeTemparatures, HomeTemparatures>();
 
             services.AddIdentity<User, IdentityRole>(
                 o =>
@@ -219,6 +227,7 @@ namespace MyServer.Web
                             options.FileProviders.Add(embeddedFileProvider);
                         }
                     });
+            
         }
     }
 }

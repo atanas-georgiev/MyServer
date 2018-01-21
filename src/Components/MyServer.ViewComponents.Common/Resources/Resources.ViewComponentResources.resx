@@ -123,4 +123,10 @@
   <data name="Save" xml:space="preserve">
     <value>Save</value>
   </data>
+  <data name="SmartHome" xml:space="preserve">
+    <value>Smart Home</value>
+  </data>
+  <data name="Temeratures" xml:space="preserve">
+    <value>Temerature</value>
+  </data>
 </root>

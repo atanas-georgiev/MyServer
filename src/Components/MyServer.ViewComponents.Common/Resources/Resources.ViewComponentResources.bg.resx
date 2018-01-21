@@ -123,4 +123,10 @@
   <data name="Save" xml:space="preserve">
     <value>Актуализирай</value>
   </data>
+  <data name="SmartHome" xml:space="preserve">
+    <value>Умен Дом</value>
+  </data>
+  <data name="Temeratures" xml:space="preserve">
+    <value>Температура</value>
+  </data>
 </root>

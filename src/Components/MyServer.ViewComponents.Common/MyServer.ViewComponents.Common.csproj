@@ -7,6 +7,16 @@
   <ItemGroup>
     <EmbeddedResource Include="**\*.cshtml" />
   </ItemGroup>
+
+  <ItemGroup>
+    <Compile Remove="Components\Content\Models\**" />
+    <EmbeddedResource Remove="Components\Content\Models\**" />
+    <None Remove="Components\Content\Models\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Remove="Views\Shared\Components\SmartHome\Default.cshtml" />
+  </ItemGroup>
   <ItemGroup>
     <None Include="Views\Shared\Components\Social\Default.cshtml" />
   </ItemGroup>
@@ -25,10 +35,7 @@
     <ProjectReference Include="..\..\Services\MyServer.Services.Content\MyServer.Services.Content.csproj" />
     <ProjectReference Include="..\..\Services\MyServer.Services.ImageGallery\MyServer.Services.ImageGallery.csproj" />
     <ProjectReference Include="..\..\Services\MyServer.Services.Mappings\MyServer.Services.Mappings.csproj" />
+    <ProjectReference Include="..\..\Services\MyServer.Services.SmartHome\MyServer.Services.SmartHome.csproj" />
     <ProjectReference Include="..\..\Services\MyServer.Services.Users\MyServer.Services.Users.csproj" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Components\Content\Models\" />
-  </ItemGroup>
-
 </Project>
