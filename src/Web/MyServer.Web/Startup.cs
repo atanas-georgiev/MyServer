@@ -5,6 +5,9 @@ namespace MyServer.Web
     using System.Globalization;
     using System.Reflection;
 
+    using Hangfire;
+    using Hangfire.MemoryStorage;
+
     using Microsoft.AspNetCore.Builder;
     using Microsoft.AspNetCore.Hosting;
     using Microsoft.AspNetCore.Http;
@@ -59,7 +62,8 @@ namespace MyServer.Web
             IHostingEnvironment env,
             ILoggerFactory loggerFactory,
             UserManager<User> userManager,
-            IStringLocalizer<SharedResource> sharedLocalizer)
+            IStringLocalizer<SharedResource> sharedLocalizer,
+            IHomeTemparatures homeTemparatures)
         {
             var supportedCultures = new[] { new CultureInfo("en-US"), new CultureInfo("bg-BG") };
             SharedLocalizer = sharedLocalizer;
@@ -110,6 +114,9 @@ namespace MyServer.Web
 
             app.UseAuthentication();
 
+            app.UseHangfireDashboard();
+            app.UseHangfireServer();
+
             // Add external authentication middleware below. To configure them please see http://go.microsoft.com/fwlink/?LinkID=532715
             app.UseSession();
             app.UseMvc(
@@ -132,6 +139,10 @@ namespace MyServer.Web
                         typeof(LatestAddedAlbumsViewComponent).GetTypeInfo().Assembly,
                         typeof(SocialViewComponent).GetTypeInfo().Assembly
                     });
+
+            RecurringJob.AddOrUpdate(
+                () => homeTemparatures.Update(),
+                Cron.MinuteInterval(1));
         }
 
         // This method gets called by the runtime. Use this method to add services to the container.
@@ -150,6 +161,8 @@ namespace MyServer.Web
             services.AddScoped<IImageService, ImageService>();
             services.AddScoped<ILocationService, LocationService>();
             services.AddScoped<IContentService, ContentService>();
+
+            services.AddHangfire(c => c.UseMemoryStorage());
 
             var appSettings = Configuration.GetSection("SmartHome:Temperatures");
             services.Configure<List<TemperatureConfig>>(appSettings);
@@ -190,7 +203,8 @@ namespace MyServer.Web
             services.Configure<RazorViewEngineOptions>(
                 o => { o.ViewLocationExpanders.Add(new ViewLocationExpander()); });
 
-            services.AddMvc(options => options.Filters.Add(typeof(RequireHttpsAttribute)))
+            services.AddMvc(//options => options.Filters.Add(typeof(RequireHttpsAttribute))
+                )
                 .AddJsonOptions(options => options.SerializerSettings.ContractResolver = new DefaultContractResolver())
                 .AddRazorPagesOptions(
                     options =>

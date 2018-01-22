@@ -1,8 +1,9 @@
-﻿using MyServer.Services.SmartHome.Models;
-using System.Collections.Generic;
-
-namespace MyServer.Services.SmartHome
+﻿namespace MyServer.Services.SmartHome
 {
+    using System.Collections.Generic;
+
+    using MyServer.Services.SmartHome.Models;
+
     public interface IHomeTemparatures
     {
         IEnumerable<Temperature> GetTemeratures();

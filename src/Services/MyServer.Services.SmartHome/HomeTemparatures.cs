@@ -1,19 +1,21 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Threading.Tasks;
-using Microsoft.Extensions.Options;
-using MiHomeLib;
-using MiHomeLib.Devices;
-using MyServer.Services.SmartHome.Config;
-using MyServer.Services.SmartHome.Models;
-
-namespace MyServer.Services.SmartHome
+﻿namespace MyServer.Services.SmartHome
 {
+    using System.Collections.Generic;
+    using System.Threading.Tasks;
+
+    using Microsoft.Extensions.Options;
+
+    using MiHomeLib;
+    using MiHomeLib.Devices;
+
+    using MyServer.Services.SmartHome.Config;
+    using MyServer.Services.SmartHome.Models;
+
     public class HomeTemparatures : IHomeTemparatures
     {
-        private List<TemperatureConfig> temperatureConfigs;
-        private List<Temperature> temperatures;
+        private readonly List<TemperatureConfig> temperatureConfigs;
+
+        private readonly List<Temperature> temperatures;
 
         public HomeTemparatures(IOptions<List<TemperatureConfig>> config)
         {
@@ -25,24 +27,25 @@ namespace MyServer.Services.SmartHome
 
         public void Update()
         {
-            using (var miHome = new MiHome("1hupuqxy0hy7adv8", "34ce00fa5dc9"))
+            using (var mi = new MiHome())
             {
                 Task.Delay(5000).Wait();
                 this.temperatures.Clear();
 
-                foreach (var temperatureConfig in temperatureConfigs)
+                foreach (var temperatureConfig in this.temperatureConfigs)
                 {
-                    var sensor = miHome.GetDeviceBySid<ThSensor>(temperatureConfig.Sid);
+                    var sensor = mi.GetDeviceBySid<ThSensor>(temperatureConfig.Sid);
 
                     if (sensor != null)
                     {
-                        this.temperatures.Add(new Temperature()
-                        {
-                            NameBg = temperatureConfig.NameBg,
-                            NameEn = temperatureConfig.NameEn,
-                            Temerature = sensor.Temperature.Value,
-                            Humidity = sensor.Humidity.Value
-                        });
+                        this.temperatures.Add(
+                            new Temperature()
+                                {
+                                    NameBg = temperatureConfig.NameBg,
+                                    NameEn = temperatureConfig.NameEn,
+                                    Temerature = sensor.Temperature.Value,
+                                    Humidity = sensor.Humidity.Value
+                                });
                     }
                 }
             }
