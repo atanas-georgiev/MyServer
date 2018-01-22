@@ -164,10 +164,10 @@ namespace MyServer.Web
 
             services.AddHangfire(c => c.UseMemoryStorage());
 
-            var appSettings = Configuration.GetSection("SmartHome:Temperatures");
+            var appSettings = this.Configuration.GetSection("SmartHome:Temperatures");
             services.Configure<List<TemperatureConfig>>(appSettings);
 
-            services.AddScoped<IHomeTemparatures, HomeTemparatures>();
+            services.AddSingleton<IHomeTemparatures, HomeTemparatures>();
 
             services.AddIdentity<User, IdentityRole>(
                 o =>
@@ -203,8 +203,7 @@ namespace MyServer.Web
             services.Configure<RazorViewEngineOptions>(
                 o => { o.ViewLocationExpanders.Add(new ViewLocationExpander()); });
 
-            services.AddMvc(//options => options.Filters.Add(typeof(RequireHttpsAttribute))
-                )
+            services.AddMvc(options => options.Filters.Add(typeof(RequireHttpsAttribute)))
                 .AddJsonOptions(options => options.SerializerSettings.ContractResolver = new DefaultContractResolver())
                 .AddRazorPagesOptions(
                     options =>
