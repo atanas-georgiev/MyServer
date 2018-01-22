@@ -142,7 +142,7 @@ namespace MyServer.Web
 
             RecurringJob.AddOrUpdate(
                 () => homeTemparatures.Update(),
-                Cron.MinuteInterval(1));
+                Cron.MinuteInterval(5));
         }
 
         // This method gets called by the runtime. Use this method to add services to the container.
@@ -203,7 +203,8 @@ namespace MyServer.Web
             services.Configure<RazorViewEngineOptions>(
                 o => { o.ViewLocationExpanders.Add(new ViewLocationExpander()); });
 
-            services.AddMvc(options => options.Filters.Add(typeof(RequireHttpsAttribute)))
+            services.AddMvc(options => options.Filters.Add(typeof(RequireHttpsAttribute))
+                )
                 .AddJsonOptions(options => options.SerializerSettings.ContractResolver = new DefaultContractResolver())
                 .AddRazorPagesOptions(
                     options =>
