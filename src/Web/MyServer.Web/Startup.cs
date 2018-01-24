@@ -65,8 +65,8 @@ namespace MyServer.Web
             IHostingEnvironment env,
             ILoggerFactory loggerFactory,
             UserManager<User> userManager,
-            IStringLocalizer<SharedResource> sharedLocalizer,
-            IHomeTemparatures homeTemparatures)
+            IStringLocalizer<SharedResource> sharedLocalizer
+            /*IHomeTemparatures homeTemparatures*/)
         {
             var supportedCultures = new[] { new CultureInfo("en-US"), new CultureInfo("bg-BG") };
             SharedLocalizer = sharedLocalizer;
@@ -143,7 +143,7 @@ namespace MyServer.Web
                         typeof(SocialViewComponent).GetTypeInfo().Assembly
                     });
 
-            RecurringJob.AddOrUpdate(() => homeTemparatures.Update(), Cron.MinuteInterval(5));
+            // RecurringJob.AddOrUpdate(() => homeTemparatures.Update(), Cron.MinuteInterval(5));
         }
 
         // This method gets called by the runtime. Use this method to add services to the container.
@@ -168,7 +168,7 @@ namespace MyServer.Web
             var appSettings = this.Configuration.GetSection("SmartHome:Temperatures");
             services.Configure<List<TemperatureConfig>>(appSettings);
 
-            services.AddSingleton<IHomeTemparatures, HomeTemparatures>();
+            // services.AddSingleton<IHomeTemparatures, HomeTemparatures>();
 
             services.AddIdentity<User, IdentityRole>(
                 o =>
