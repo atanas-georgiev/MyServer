@@ -142,4 +142,7 @@
   <data name="Statistics" xml:space="preserve">
     <value>Statistics</value>
   </data>
+  <data name="AlbumsList" xml:space="preserve">
+    <value>albums</value>
+  </data>
 </root>

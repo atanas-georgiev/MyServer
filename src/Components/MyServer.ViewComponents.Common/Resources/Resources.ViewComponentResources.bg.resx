@@ -126,7 +126,10 @@
   <data name="SmartHome" xml:space="preserve">
     <value>Умен Дом</value>
   </data>
-  <data name="Temeratures" xml:space="preserve">
+  <data name="Temperatures" xml:space="preserve">
     <value>Температура</value>
+  </data>
+  <data name="SaveAsPdf" xml:space="preserve">
+    <value>Запази като PDF</value>
   </data>
 </root>

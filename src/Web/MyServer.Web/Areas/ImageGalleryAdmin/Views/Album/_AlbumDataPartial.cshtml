@@ -40,9 +40,9 @@
 
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="@LocString["Save"]" class="btn btn-default"/>
-                <a class="btn btn-default" data-href="/ImageGalleryAdmin/Album/Delete/@Model.Id" data-toggle="modal" data-target="#confirm-delete">@LocString["Delete"]</a>
-                <a class="btn btn-default" asp-action="Details" asp-controller="Album" asp-route-area="ImageGallery" asp-route-id="@Model.Id">@LocString["Preview"]</a>
+                <input type="submit" value="@SharedLocalizer["Save"]" class="btn btn-default"/>
+                <a class="btn btn-default" data-href="/ImageGalleryAdmin/Album/Delete/@Model.Id" data-toggle="modal" data-target="#confirm-delete">@SharedLocalizer["Delete"]</a>
+                <a class="btn btn-default" asp-action="Details" asp-controller="Album" asp-route-area="ImageGallery" asp-route-id="@Model.Id">@SharedLocalizer["Preview"]</a>
             </div>
         </div>
 
@@ -57,11 +57,11 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                @LocString["DeleteAlbum"]
+                @SharedLocalizer["DeleteAlbum"]
             </div>
             <div class="modal-body text-center">
-                <a class="btn btn-danger btn-ok">@LocString["Delete"]</a>
-                <button type="button" class="btn btn-default" data-dismiss="modal">@LocString["Cancel"]</button>
+                <a class="btn btn-danger btn-ok">@SharedLocalizer["Delete"]</a>
+                <button type="button" class="btn btn-default" data-dismiss="modal">@SharedLocalizer["Cancel"]</button>
             </div>
         </div>
     </div>

@@ -47,9 +47,12 @@ namespace MyServer.Web
 
         public static string WwwRootPath = string.Empty;
 
-        public Startup(IConfiguration configuration)
+        private readonly IHostingEnvironment hostingEnvironment;
+
+        public Startup(IConfiguration configuration, IHostingEnvironment env)
         {
             this.Configuration = configuration;
+            this.hostingEnvironment = env;
         }
 
         public static IStringLocalizer<SharedResource> SharedLocalizer { get; private set; }
@@ -58,7 +61,7 @@ namespace MyServer.Web
 
         public void Configure(
             IApplicationBuilder app,
-            IServiceScopeFactory scopeFactory,
+            IServiceScopeFactory scopeFactoryLocal,
             IHostingEnvironment env,
             ILoggerFactory loggerFactory,
             UserManager<User> userManager,
@@ -80,8 +83,8 @@ namespace MyServer.Web
                         SupportedUICultures = supportedCultures
                     });
 
-            var helper = new PathHelper(env, userManager);
-            Startup.scopeFactory = scopeFactory;
+            var pathHelper = new PathHelper(env, userManager);
+            scopeFactory = scopeFactoryLocal;
 
             scopeFactory.SeedData();
 
@@ -100,20 +103,19 @@ namespace MyServer.Web
                             }
                     });
 
-            //if (env.IsDevelopment())
-            //{
-            //    app.UseDeveloperExceptionPage();
-            //    app.UseDatabaseErrorPage();
-            //    app.UseBrowserLink();
-            //}
-            //else
-            //{
+            if (env.IsDevelopment())
+            {
+                app.UseDeveloperExceptionPage();
+                app.UseDatabaseErrorPage();
+                app.UseBrowserLink();
+            }
+            else
+            {
                 app.UseExceptionHandler("/Error?statusCode=500");
                 app.UseStatusCodePagesWithReExecute("/Error?statusCode={0}");
-            //}
+            }
 
             app.UseAuthentication();
-
             app.UseHangfireDashboard();
             app.UseHangfireServer();
 
@@ -140,9 +142,7 @@ namespace MyServer.Web
                         typeof(SocialViewComponent).GetTypeInfo().Assembly
                     });
 
-            RecurringJob.AddOrUpdate(
-                () => homeTemparatures.Update(),
-                Cron.MinuteInterval(5));
+            RecurringJob.AddOrUpdate(() => homeTemparatures.Update(), Cron.MinuteInterval(5));
         }
 
         // This method gets called by the runtime. Use this method to add services to the container.
@@ -203,33 +203,46 @@ namespace MyServer.Web
             services.Configure<RazorViewEngineOptions>(
                 o => { o.ViewLocationExpanders.Add(new ViewLocationExpander()); });
 
-            services.AddMvc(options => options.Filters.Add(typeof(RequireHttpsAttribute))
-                )
-                .AddJsonOptions(options => options.SerializerSettings.ContractResolver = new DefaultContractResolver())
-                .AddRazorPagesOptions(
-                    options =>
-                        {
-                            options.Conventions.AuthorizeFolder("/Account/Manage");
-                            options.Conventions.AuthorizePage("/Account/Logout");
-                        }).AddViewLocalization(x => x.ResourcesPath = "Resources");
+            if (this.hostingEnvironment.IsDevelopment())
+            {
+                services.AddMvc()
+                    .AddJsonOptions(
+                        options => options.SerializerSettings.ContractResolver = new DefaultContractResolver())
+                    .AddRazorPagesOptions(
+                        options =>
+                            {
+                                options.Conventions.AuthorizeFolder("/Account/Manage");
+                                options.Conventions.AuthorizePage("/Account/Logout");
+                            }).AddViewLocalization(x => x.ResourcesPath = "Resources");
+            }
+            else
+            {
+                services.AddMvc(options => options.Filters.Add(typeof(RequireHttpsAttribute)))
+                    .AddJsonOptions(
+                        options => options.SerializerSettings.ContractResolver = new DefaultContractResolver())
+                    .AddRazorPagesOptions(
+                        options =>
+                            {
+                                options.Conventions.AuthorizeFolder("/Account/Manage");
+                                options.Conventions.AuthorizePage("/Account/Logout");
+                            }).AddViewLocalization(x => x.ResourcesPath = "Resources");
+            }
 
             services.AddKendo();
 
             services.Configure<IISOptions>(options => { });
 
-            var embeddedFileProviders = new List<EmbeddedFileProvider>();
-
-            // ImageGalleryViewComponents
-            embeddedFileProviders.Add(
-                new EmbeddedFileProvider(
-                    typeof(LatestAddedAlbumsViewComponent).GetTypeInfo().Assembly,
-                    "MyServer.ViewComponents.ImageGallery"));
-
-            // CommonViewComponents
-            embeddedFileProviders.Add(
-                new EmbeddedFileProvider(
-                    typeof(SocialViewComponent).GetTypeInfo().Assembly,
-                    "MyServer.ViewComponents.Common"));
+            var embeddedFileProviders = new List<EmbeddedFileProvider>
+                                            {
+                                                new EmbeddedFileProvider(
+                                                    typeof(LatestAddedAlbumsViewComponent)
+                                                        .GetTypeInfo().Assembly,
+                                                    "MyServer.ViewComponents.ImageGallery"),
+                                                new EmbeddedFileProvider(
+                                                    typeof(SocialViewComponent).GetTypeInfo()
+                                                        .Assembly,
+                                                    "MyServer.ViewComponents.Common")
+                                            };
 
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 
@@ -241,7 +254,6 @@ namespace MyServer.Web
                             options.FileProviders.Add(embeddedFileProvider);
                         }
                     });
-            
         }
     }
 }

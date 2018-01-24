@@ -101,7 +101,7 @@
     <value>добавен на</value>
   </data>
   <data name="Albums" xml:space="preserve">
-    <value>албуми</value>
+    <value>албума</value>
   </data>
   <data name="AllImages" xml:space="preserve">
     <value>ВСИЧКИ СНИМКИ</value>
@@ -141,5 +141,8 @@
   </data>
   <data name="Statistics" xml:space="preserve">
     <value>Статистика</value>
+  </data>
+  <data name="AlbumsList" xml:space="preserve">
+    <value>aлбума</value>
   </data>
 </root>

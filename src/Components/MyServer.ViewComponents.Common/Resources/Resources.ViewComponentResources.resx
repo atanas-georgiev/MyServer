@@ -126,7 +126,10 @@
   <data name="SmartHome" xml:space="preserve">
     <value>Smart Home</value>
   </data>
-  <data name="Temeratures" xml:space="preserve">
-    <value>Temerature</value>
+  <data name="Temperatures" xml:space="preserve">
+    <value>Temperature</value>
+  </data>
+  <data name="SaveAsPdf" xml:space="preserve">
+    <value>Save as PDF</value>
   </data>
 </root>

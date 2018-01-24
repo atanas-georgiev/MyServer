@@ -3,12 +3,12 @@
 @model MyServer.Web.Areas.ImageGalleryAdmin.Models.Album.AlbumEditViewModel
 
 @{
-    ViewData["Title"] = LocString["Edit"];
+    ViewData["Title"] = SharedLocalizer["Edit"];
 }
 
 <div class="well well-mobile">
     <div>
-        <h2 class="text-center">@LocString["Edit"]</h2>
+        <h2 class="text-center">@SharedLocalizer["Edit"]</h2>
         <hr/>
     </div>
     @Html.Partial("_AlbumDataPartial", Model)
@@ -18,7 +18,7 @@
     <div class="well well-mobile" id="image-edit-box" style="display: none">
         @Html.Partial("_ImageUpdate", new ImageUpdateViewModel())
     </div>
-    <button class="btn select-all">@LocString["SelectAll"]</button>
+    <button class="btn select-all">@SharedLocalizer["SelectAll"]</button>
 </div>
 
 <div class="well well-mobile" id="image-list-box">

@@ -306,7 +306,37 @@
   <data name="Exit" xml:space="preserve">
     <value>Log out</value>
   </data>
-  <data name="SaveAsPdf" xml:space="preserve">
-    <value>Save as PDF</value>
+  <data name="Download" xml:space="preserve">
+    <value>Download</value>
+  </data>
+  <data name="LowQuality" xml:space="preserve">
+    <value>Low Quality</value>
+  </data>
+  <data name="MiddleQuality" xml:space="preserve">
+    <value>Middle Quality</value>
+  </data>
+  <data name="HighQuality" xml:space="preserve">
+    <value>High Quality</value>
+  </data>
+  <data name="Edit" xml:space="preserve">
+    <value>Edit</value>
+  </data>
+  <data name="Save" xml:space="preserve">
+    <value>Save</value>
+  </data>
+  <data name="Delete" xml:space="preserve">
+    <value>Delete</value>
+  </data>
+  <data name="Preview" xml:space="preserve">
+    <value>Preview</value>
+  </data>
+  <data name="SelectAll" xml:space="preserve">
+    <value>Select All</value>
+  </data>
+  <data name="Create" xml:space="preserve">
+    <value>Create</value>
+  </data>
+  <data name="NewAlbum" xml:space="preserve">
+    <value>New album</value>
   </data>
 </root>

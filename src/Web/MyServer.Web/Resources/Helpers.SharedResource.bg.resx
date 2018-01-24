@@ -127,7 +127,7 @@
     <value>Администрация</value>
   </data>
   <data name="Albums" xml:space="preserve">
-    <value>Албума</value>
+    <value>Албуми</value>
   </data>
   <data name="Blog" xml:space="preserve">
     <value>Блог</value>
@@ -306,7 +306,37 @@
   <data name="Exit" xml:space="preserve">
     <value>Изход</value>
   </data>
-  <data name="SaveAsPdf" xml:space="preserve">
-    <value>Изтегли като PDF</value>
+  <data name="Download" xml:space="preserve">
+    <value>Изтегли</value>
+  </data>
+  <data name="LowQuality" xml:space="preserve">
+    <value>Ниско качество</value>
+  </data>
+  <data name="MiddleQuality" xml:space="preserve">
+    <value>Средно качество</value>
+  </data>
+  <data name="HighQuality" xml:space="preserve">
+    <value>Високо качество</value>
+  </data>
+  <data name="Edit" xml:space="preserve">
+    <value>Редактирай</value>
+  </data>
+  <data name="Save" xml:space="preserve">
+    <value>Запази</value>
+  </data>
+  <data name="Delete" xml:space="preserve">
+    <value>Изтрий</value>
+  </data>
+  <data name="Preview" xml:space="preserve">
+    <value>Прегледай</value>
+  </data>
+  <data name="SelectAll" xml:space="preserve">
+    <value>Избери всички</value>
+  </data>
+  <data name="Create" xml:space="preserve">
+    <value>Създай</value>
+  </data>
+  <data name="NewAlbum" xml:space="preserve">
+    <value>Нов албум</value>
   </data>
 </root>
