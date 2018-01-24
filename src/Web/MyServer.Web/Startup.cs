@@ -116,8 +116,9 @@ namespace MyServer.Web
             }
 
             app.UseAuthentication();
-            app.UseHangfireDashboard();
-            app.UseHangfireServer();
+
+            // app.UseHangfireDashboard();
+            // app.UseHangfireServer();
 
             // Add external authentication middleware below. To configure them please see http://go.microsoft.com/fwlink/?LinkID=532715
             app.UseSession();
@@ -162,7 +163,7 @@ namespace MyServer.Web
             services.AddScoped<ILocationService, LocationService>();
             services.AddScoped<IContentService, ContentService>();
 
-            services.AddHangfire(c => c.UseMemoryStorage());
+            // services.AddHangfire(c => c.UseMemoryStorage());
 
             var appSettings = this.Configuration.GetSection("SmartHome:Temperatures");
             services.Configure<List<TemperatureConfig>>(appSettings);
